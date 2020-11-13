@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Basic Command Line</title>
+        
+    </head>
+    <body>
+        <a href="./index.html">Home</a>
+        <h2>Bash Scripting</h2>
+        <p><strong>Bash Script </strong>or shell script, file extension is .sh, executes within a Bash shell interpreter terminal, any command you can run in the terminal can be run in a Bash script, useful for frequently used sets fo commands</p>
+        <p><code>~/bin/ </code>good practice to store your commonly used scripts in this directory, make sure this directory is in your PATH environment variable by including PATH=~/bin:$PATH in your bash profile</p>
+        <p><strong>Executing a Script </strong></p>
+        <ul>
+            <li><p><code>chmod +x script.sh </code>run this command in your terminal first to give the example script.sh file execute permission</p></li>
+            <li><p><code>./script.sh </code>now execute the script with this command</p></li>
+        </ul>
+
+        <br>
+
+        <h2>Bash Script Basics</h2>
+        <p><code>#!/bin/bash </code>&lt-- always include in first line of script, specifies what interpreter to use for the script</p>
+        <p><code>echo "Hello World" </code>&lt-- will print Hello World in the terminal when you execute the script</p>
+        <p><code>greeting="Hello Again, World" </code>&lt-- declare a variable by setting the name equal to a value, no spaces around equal sign</p>
+        <p><code>echo $greeting </code>&lt-- access variables by prepending them with a dollar sign, put string variables in double quotes when comparing, e.g. "$foo" == "$bar"</p>
+        <p><code>numone=2</code></p>
+        <p><code>numtwo=3</code></p>
+        <p><code>numone=$((numone + numtwo)) </code>&lt-- syntax for arithmetic with variables</p>
+        <p><code>echo "when you add numone to numtwo, you get $numone"</code>&lt-- including a variable in a string</p>
+
+        <br>
+
+        <h2>Bash Script Conditionals</h2>
+        <p><code>index=3 </code></p>
+        <p><code>if [ $index -lt 5 ] </code></p>
+        <p><code>then </code></p>
+        <pre><code>   echo $index </code></pre>
+        <p><code>else </code></p>
+        <pre><code>   echo 5 </code></pre>
+        <p><code>fi </code></p>
+        <p><strong>Number comparison operators: </strong></p>
+        <ul>
+            <li><code>-eq </code>equal</li>
+            <li><code>-ne </code>not equal</li>
+            <li><code>-le </code>less than or equal</li>
+            <li><code>-lt </code>less than</li>
+            <li><code>-ge </code>greater than or equal</li>
+            <li><code>-gt </code>greater than</li>
+            <li><code>-z </code>is null</li>
+        </ul>
+        <p><strong>String comparison operators: </strong></p>
+        <ul>
+            <li><code>== </code>equal</li>
+            <li><code>!= </code>not equal</li>
+        </ul>
+        
+        <br>
+
+        <h2>Bash Script Loops</h2>
+        <p><strong>for loop: </strong>iterate through a list, e.g. $paragraph is list of words, word variable is declared in for statement</p>
+        <pre><code>
+            for word in $paragraph
+            do
+                echo $word
+            done
+        </code></pre>
+        <p><strong>while loop: </strong>iterate while a condition is true, </p>
+        <pre><code>
+            while [ $index -lt 5 ]
+            do
+                echo $index
+                index=$((index + 1))
+            done
+        </code></pre>
+        <p><strong>until loop: </strong>iterate until a condition is true</p>
+        <pre><code>
+            until [ $index -eq 5 ]
+            do
+                echo $index
+                index=$((index + 1))
+            done
+        </code></pre>
+
+        <br>
+
+        <h2>Bash Script Inputs</h2>
+        <p><strong>read: </strong>prompts for input and saves to a variable (e.g. number below)</p>
+        <pre><code>
+            echo "Guess a number"
+            read number
+            echo "you guessed $number"
+        </code></pre>
+        <p><strong>input arguments: </strong>user adds them when they run the script (see below), access them in the script with $1, $2, etc. where $1 is the first argument</p>
+        <code>./guessnumbers.sh 4 50</code>
+        <p>in your script if you need to accept an indefinite number of arguments, then you can iterate through them with the "$@" syntax</p>
+        <pre><code>
+            for number in "$@"
+            do
+                echo "you guessed $number"
+            done
+        </code></pre>
+        <p><strong>external files: </strong>you can assign a whole set of files to a variable using regex (e.g. below all files in a directory) and loop through the files (e.g. below we print the full path and filename of each file)</p>
+        <pre><code>
+            files=/some/directory/*
+            for file in $files
+            do
+                echo $file
+            done
+        </code></pre>
+    </body>
+</html>

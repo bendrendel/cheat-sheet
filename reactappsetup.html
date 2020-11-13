@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>React App Setup</title>
+    </head>
+    <body>
+        <a href='./index.html'>Home</a>
+        <h2>Starting a React App</h2>
+        <p><strong>Create React App CLI: </strong>create-react-app is a node package you can install globally that provides CLI commands to create a boilerplate react app</p>
+        <ul>
+            <li><code>npm install -g create-react-app </code>Run this command to install create-react-app on your computer globally (-g), this only needs to be done once, not for each project</li>
+            <li><code>create-react-app {app-name} </code>Run this command to create a new react project in the current working directory, the app name should be all lowercase, a new directory for the project will be made with the provided name and all the react boilerplate directories, files, and developer settings</li>
+        </ul>
+        <p><strong>React App Directory Structure: </strong>create-react-app will create the following structure </p>
+        <ul>
+            <li><code>.gitignore </code>create-react-app does not start a git repo for you, but it does create a .gitignore file with standard things to ignore when you do start a git repo</li>
+            <li><code>package.json </code>it will create the package.json file with dependencies, scripts, and basic metadata for you</li>
+            <li><code>/node_modules </code>it will create the node_modules directory with react, react-dom, and react-scripts installed and subdependencies</li>
+            <li><code>package-lock.json </code>this file contains the exact dependency tree in /node_modules along with all versions, helpful for teams to ensure they have same versions of everything, also contains history of changes to package.json to inspect dependency changes</li>
+            <li><code>/public </code>this directory is for assets to serve directly without additional processing by webpack, will include index.html (entry point for web app), a favicon (header icon), and manifest.json (specifies behavior if added to Android user's home screen)</li>
+            <li><code>/src </code>this directory is for javascript to be processed by webpack, it has the main app js, style, and test files (App.js, App.css, and App.test.js). it also has the index.js and associated index.css that provide an entry to the app and kick off the registerServiceWorker.js, which caches and updates files for end-users to allow offline viewing and faster loading</li>
+            <ul>
+                <li><code>/components </code>this directory actually is NOT created by create-react-app, but it is common to add it under src</li>
+                    <ul>
+                        <li><code>/ComponentName </code>each component its own folder with the capitalized name of the component, e.g. ./src/components/App/ or ./src/components/MyComponent/, </li>
+                        <ul>
+                            <li><code>/ComponentName.js </code>the component will have a .js, use <code>import './ComponentName.css </code> at the top of the file immediately after the react import to import the css file so the styles are applied</li>
+                            <li><code>/ComponentName.css </code>the css file styles the jsx returned by the component and simply refers to the elements, ids, classes etc in the jsx, looks like a regular css file, no special export statement or anything</li>
+                        </ul>
+                    </ul> 
+                <li><code>/views </code>this directory also is NOT created by create-react-app but is common to add it under src to organize views</li>                
+            </ul>
+        </ul>
+        <p><strong>Common Setup Tasks </strong></p>
+        <p><strong><code>npm start </code></strong>once set up, run this command in the react app's directory to begin serving a local development server at http://localhost:3000/, changes to the app's files will live-update at the served site</p>
+        <p><strong>favicon </strong>delete the default favicon found in the ./public/ directory and replace it with your own, file should be named <code>favicon.ico</code></p>
+        <p><strong>css reset </strong>add a css reset file to the ./public/ directory and link to it in ./public/index.html, to apply the reset across the entire app</p>
+        <p><strong>fonts </strong>add links to fonts like google fonts in the public/index.html file to use throughout app</p>
+        <p><strong>create components directory </strong>create the components directory and create the App component folder first, move the default App.js/App.css/App.test.js files into it (can delete App.test.js if not using), and then update the link to src/App/App.js in src/index.js (index.js and index.css should stay where they are directly under ./src/)</p>
+        
+        <h2>React Developer Tools</h2>
+        <p><strong>React Developer Tools </strong>Chrome extension developed by facebook to help inspect React components</p>
+        <ul>
+            <li><strong>Icon </strong>Icon of React Developer Tools is grayed out on pages that are not React, orange if site is a React App in development build, black if page is using production build of React</li>
+            <li><strong>Components tab </strong>Adds a new components tab to chrome dev tools, allows you to inspect components, check setting for components tab to make sure no filters are applied that is hiding components, click on a component to see detail and then you can directly edit props, state, and hooks and also access it in the console tab using $r, with react dev tools note you can't add a state to a component that doesn't have one, the component must be initialized with state in the actual code</li>
+            <li><strong>Profiler tab </strong>Also a new tab added to chrome dev tools for inspecting performance information about the react app</li>
+        </ul>
+    </body>
+</html>

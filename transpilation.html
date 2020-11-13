@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Transpilation</title>
+    </head>    
+    <body>
+        <a href="./index.html">Home</a>
+
+        <h2>Browser Compatibility</h2>
+        <p><strong>Browser compatibility: </strong>Browsers must be updated to support new HTML, CSS, and javascript syntax, and won't always support the latest syntax if the user hasn't updated their browser recently or if the browser hasn't added support yet, this has especially been a concern with the release of ES6 which was adopted by programmers quickly due to its features, but was slow to be supported by browsers</p>
+        <p><strong>Transpilation: </strong>Converting one programming language to another, common to transpile ES6 to ES5 so that older browsers can read the ES5 syntax</p>
+        <p><a href="caniuse.com">caniuse.com</a> a website to see check on what syntax is supported by which browsers</p>
+        
+
+        <h2>Babel</h2>
+        <p><strong></strong></p>
+        <ul>
+            <li><p>place javascript files in a directory called "src" in the root directory of your project, so /project/src/jsfile.js</p></li>
+            <li><p>run npm init in the project root to set up the project to use npm</p></li>
+            <li><p>now you can install the two required packages with npm install</p></li>
+            <ul>
+                <li><code>npm install babel-cli -D </code>this package has the command line babel tools</li>
+                <li><code>npm install babel-preset-env -D </code>this package is what maps ES6 and above features to ES5</li>
+            </ul>
+            <li>now create a .babelrc file and define the preset (what version of js you are transpiling from)</li>
+            <li>now add <code>"build": "babel src -d lib"</code> to the scripts property of your project's package.json file to provide a shorthand to run the transpiling command</li>
+            <ul>
+                <li><code>babel src -d lib</code> this is a command line method that will transpile the code, it transpiles all js code in the src directory, it writes the transpiled code to a directory with -d, and it writes it to the lib directory, run whenever you want to transpile everything in src to lib</li>
+            </ul>
+            <li><p>now run <code>npm run build</code> in the root directory of the project to transpile your code in src to a new directory called lib in the root directory, all transpiled js files will be named the same as the original file</p></li>
+        </ul>
+        <p><strong>.babelrc </strong>this is a file in the root directory of your project that specifies settings when you run babel. it contains an object and the presets property specifies the version of the initial JavaScript files, which babel checks when it runs. it should contain the code below to transpile from ES6+ to ES5</p>
+            <pre><code>
+                {
+                    "presets": ["env"]
+                }
+            </code></pre>
+    </body>    
+</html>

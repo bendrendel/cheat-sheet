@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Required meta tags for bootstrap -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Link to bootstrap -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">        
+        
+        <link rel="stylesheet" type="text/css" href="./bootstrap.css">
+    </head>
+    <body>
+
+        <!-- navbar class
+            give top level nav class of navbar and navbar-expand-xx, xx being xs, sm, md, lg, xl
+            if screen width is less than xx, then button will render and navbar-collapse div will not
+            if screen width is equal to or larger than xx, then button will not render, and navbar-collapse div will
+        -->
+        
+        <nav class="navbar navbar-expand-md navbar-light bg-light">
+            <a class="navbar-brand" href="#"><img src="https://s3.amazonaws.com/codecademy-content/courses/learn-bootstrap-components/logo.png" alt="Gloria's Gardening Logo" height="30"></a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Current Page<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Another Page</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <!--
+            jumbotron example - can contain text and/or images
+            
+            card example - div with class card
+                different children available e.g. card-header, an img with a styling class and a div with class card-body
+                children of card-body can use classes of card-title, card-text, etc. for default styling with padding
+                card takes up full width of parent by default
+            
+            nav example - create navigation components with nav classes.  multiple options...can use nav tag instead of ul/li for less markup.
+            create buttons with btn classes
+
+            button example
+
+            carousel example - one carousel-item needs to have the active class, or else no images are shown
+            img uses utility classes of d-block (display block) and w-100 (takes up 100% of width)
+        -->
+        <div class="container">
+
+            <div class="row">
+                <div class="col">
+                    <div class="jumbotron">
+                        <h2>Regular People</h2>
+                        <p>Doing Regular Things</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-4">
+                    <div class="card">
+                        <img class="card-img-top"
+                            src="https://s3.amazonaws.com/codecademy-content/courses/learn-bootstrap-components/logo.png"
+                            alt="card example image">
+                        <div class="card-body">
+                            <h5 class="card-title">Card Title</h5>
+                            <p class="card-text">Card description here.</p> 
+                            <a href="#" class="card-link">Link to somewhere</a> 
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">
+                            <p>Featured Content Yo</p>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Card Title</h5>
+                            <p class="card-text">Card description here.</p> 
+                            <a href="#" class="card-link">Link to somewhere</a> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">First Link</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Second Link</a> 
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <nav class="nav justify-content-center">
+                        <a class="nav-link" href="#">First Link</a>
+                        <a class="nav-link" href="#">Second Link</a>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <button type="button" class="btn">Button 1</button>
+                    <button type="button" class="btn btn-warning">Button 2</button>
+                    <button type="button" class="btn btn-link">Button 3</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div id="coolCarousel" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img class="d-block w-100"
+                                    src="https://s3.amazonaws.com/codecademy-content/courses/learn-bootstrap-components/garden-slide1.jpg"
+                                    alt="first slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100"
+                                    src="https://s3.amazonaws.com/codecademy-content/courses/learn-bootstrap-components/garden-slide2.jpg"
+                                    alt="second slide">
+                            </div>
+
+                            <a class="carousel-control-prev" href="#coolCarousel" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#coolCarousel" role="botton" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!--collapse, don't have to use div for collapsible component, could just be the p tag-->
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#cool-info"
+                            aria-expanded="false" aria-controls="cool-info">Ready for more?</button>
+                    <div class="collapse" id="cool-info">
+                        <p>Well here it is baby!</p>
+                    </div>                      
+                </div>
+            </div>
+        </div>
+
+        <!--containers have margins on the sides, rows take up full width of parent container, cols take up full width of parent row-->
+        <!--specify col width at different screen sizes using class name of col-minscreenwidth-width.  minscreenwidth can be xs, sm, md, lg, xl and width can be 1-12 or auto.
+            col will have given width for screens at or above minscreenwidth.  can add multiple class names to a col div to define width at different minscreenwidths. auto width fits content.
+            if width is left out, the col will evenly divide up row's remaining width with other col that don't have width defined.
+            if minscreenwidth is left out, it is assumed to be xs, meaning it will apply to all screen sizes-->
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h2>Containers have margins except on xs screens</h2>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-auto">
+                    <h2>Containers have margins except on xs screens</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-3">
+                    <h2>Containers have margins except on xs screens</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <p>so much great content in col 1 I can hardly believe it, I might totally flip out here, really truly incredible content</p>
+                </div>
+                <div class="col-4">
+                    <p>so much great content in col 2 I can hardly believe it, I might totally flip out here, really truly incredible content</p>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <!--container-fluid has no margins on side-->
+        <div class="container-fluid">
+            <h2>This is a fluid container, which has no margin on sides</h2>
+        </div>
+
+        <!--utility classes -->
+        <p class="text-success">Hi, I'm a paragraph.</p>
+        <div class=bg-warning>I'm what they call a div</div>
+        <h3 class="text-info bg-dark">I am H-3PO, header-cyborg relations.</h3>
+        <p class="font-italic text-right">Another p here.</p>
+        <p class="font-weight-bolder text-uppercase">Do not be alarmed by another p.</p>
+
+
+
+        <!--positioning utility classes e.g. fixed-top, sticky-top-->
+        <footer class="fixed-bottom">   
+            <p>Just some text in the footer.</p>
+        </footer>
+
+        <!-- Optional Javascript libraries to use with bootstrap.  jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    </body>
+</html>

@@ -1,0 +1,255 @@
+/*
+css grid
+
+grid containers are broken in to rows and columns, the column/block axis is top to bottom and row/inline axis left to right
+grid items are children of the grid container and are placed and sized based on the grid
+
+grid container properties
+- grid-template-columns: default only 1 col, define column widths one after the other either in pixels,
+percentage of container width, fraction unit fr, repeat function, or minmax function
+- grid-template-rows: default rows sized to fit evenly, define row widths one after the other
+either in pixels, percentage of container height, fraction unit fr, repeat function, or minmax function
+- grid-template, combines grid-template-rows and grid-template-columns, define rows, followed 
+by /, then define columns;
+- grid-template-areas: defines names of cells in the grid created with above properties, cells can have the same name to define a larger area,
+but each cell needs a name, defined one row at a time in quotes, e.g. for a 4 row, 2 col grid "head head" "nav nav" "about contact" "foot foot"
+- grid-row-gap, grid-column-gap, grid-gap, defines gap between rows and/or columns, no gap at beginning or end
+is added, only in between rows and columns, grid gap defines row gap then column gap or both at once if a single
+value is provided
+- justify-items: positions items along inline axis can be start, end, center, strech, etc. default is stretch if not defined - width stretches to fit column width
+- justify-content: if the combined widths of the grid's columns are less than the grid's total width, then this property defines how to space
+the columns from left to right, e.g. start, end, center, stretch, space-around, space-between, space-evenly, and more
+- align-items: positions items along block axis (top to bottom) can be start, end, center, stretch, etc. default is stretch if not defined, so items stretch to
+fit height of column or columns
+- align-content: spaces the rows in a grid, when the combine height of the rows is less than height of the container.  e.g. start, end, center, stretch,
+space-around, space-between, space-evenly, etc.
+- (think of justify-items and align-items as how elements position themselves within a column or row, respectively and
+justify-content and align-content as how columns or rows, respectively position themselves within the container)
+- grid-auto-flow: if there are more grid items than fit in the container, this specifies how to add the overflow items, can be row, column, or dense
+row adds new items to new rows on bottom, column adds new items to new column on right, dense tries to fill any holes in the grid, can combine with row or column
+e.g. row dense, default is row if not defined
+- grid-auto-rows: if there are more grid items than can fit in the grid container, this property defines the height of those rows, and can be px, %, fr, repeat().
+the default if not defined is rows are just tall enough to fit content
+- grid-auto-columns: if grid-auto-flow is set to column, or column dense, then this will specify width of any auto-generated new columns
+
+-fr unit when fr is mixed with other units, the fr calculation will be based on the remaining available space after the other units are
+accounted for. think of fr like percent but expressed in fractions instead of decimals
+-repeat function, first arg is number of repeats, second arg is the size, so
+repeat(3, 100px) = 100px 100px 100px.  You can have two or more measurement args to repeat that sequence of sizes
+the given number of times, so repeat(2, 20px 40px) = 20px 40px 20px 40px.
+-minmax function, only works when grid width is not fixed, first arg is min size of the row or column being defined, and second arg 
+is the max size of the row or column being defined, when mixed with other units, the minmax function will take up available remaining
+space in the grid but never get smaller than min or larger than max
+
+grid item properties
+-grid-row-start: for an item to span multiple rows, this defines the row "boundary" it starts at, the very top of the container is the first
+row boundary, then there are boundaries between each row and the last boundary is at the very bottom of the container boundaries = rows + 1.
+items will span across row gaps
+-grid-row-end: this defines the row the item ends at
+-grid-column-start:
+-grid-column-end
+-grid-row: defines grid-row-start / grid-row-end in one line, e.g. 4 / 6
+-grid-column: defines grid-column start / grid-column-end in one line
+-grid-area: defines grid-row-start / grid-column-start / grid-row-end / grid-column-end in one line
+-width: nothing special, but if undefined, items will stretch to fill the width of their space in the grid, unless justify-items
+has been defined on the grid container, in which case grid items will shrink to just fit their content
+-height: again if undefined, items will stretch to fill the height of the row or rows they are in, unless align-items has been set
+on the grid container, in which case grid items heights will shrink to just fit their content
+-justify-self: overides the justify-items property set on the container for the grid-item it is defined on, takes the same values as justify-items
+-align-self: overrides the align-items property set on the container for the grid-item it is defined on, takes the same values as align-items
+
+- gridline unit: integer by itself used in the above grid item properties references the gridline number
+- span unit: can be used in any above grid item properties, indicates number of rows or columns to span across, referencing from a start or
+end gridline.  e.g. grid-row-start: 2; grid-row-end: span 3; covers rows 2, 3, 4
+- named areas: if grid container uses grid-template areas property to name cells, then grid-items can use those
+names (without quotes) in their grid-area property to position the item in that area
+*/
+
+.grid {
+    display: grid;
+    width: 30%;
+    height: 500px;
+    border: 4px saddlebrown solid;
+}
+
+.box {
+    background-color: beige;
+    color: black;
+    border-radius: 15px;
+    border: 4px solid lightseagreen;
+}
+
+.grid.a {
+    grid-template-columns: 50% minmax(300px, 450px) 100px;
+    width: auto;
+    grid-row-gap: 10px;
+    grid-column-gap: 20px;
+}
+
+.grid.b {
+    grid-template: 10% 100px 200px / 50% 10% 100px;
+    grid-gap: 15px;
+}
+
+.grid.c {
+    grid-template-columns: 50% 10% 100px;
+    grid-template-rows: 10% 100px 200px;
+    justify-content: space-around;
+    align-content: space-between;
+}
+
+.grid.d {
+    grid-template-rows: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 50px 100px);
+}
+
+.grid.e {
+    grid-template: repeat(10, 1fr) / repeat(5, 1fr);
+}
+
+.grid.f {
+    grid-template-areas: "header header header"
+                         "nav nav nav"
+                         "banner banner banner"
+                         "left middle right"
+                         "footer footer footer";
+    grid-template-rows: 75px 25px 200px 100px 100px;
+    grid-template-columns: 50px 100px 50px;
+    width: 70%;
+    justify-content: center;
+}
+
+.grid.g {
+    grid-template: repeat(10, 1fr) / repeat(5, 1fr);
+}
+
+.grid.h {
+    grid-template: repeat(5, 1fr) / repeat(2, 1fr);
+    justify-items: center;
+    align-items: start;
+}
+
+.grid.i {
+    grid-template: repeat(4, 100px) / repeat(2, 50px);
+    width: 80%;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.grid.j {
+    grid-template: repeat(3, 100px) / repeat(2, 100px);
+    grid-auto-rows: 50px;
+    justify-content: space-around;
+}
+
+.grid.k {
+    grid-template: repeat(3, 100px) / repeat(2, 100px);
+    grid-auto-flow: column;
+    grid-auto-columns: 50px;
+    justify-content: space-around;
+}
+
+.grid.a .a {
+    grid-row: 1 / 3;
+}
+
+.grid.a .d {
+    margin-left: -10px;
+    margin-right: -10px;
+    grid-row-start: 2;
+    grid-row-end: 4;
+}
+
+.grid.b .g {
+    grid-column: span 3 / 4;
+}
+
+.grid.c .a {
+    grid-row: 1 / span 2;
+}
+
+.grid.d .b {
+    grid-row-start: 1;
+    grid-row-end: 3;
+}
+
+.grid.e .a {
+    grid-area: 1 / 1 / 3 / 3;
+}
+
+.grid.e .b {
+    grid-area: 1 / 3 / 3 / 4;
+}
+
+.grid.e .g {
+    grid-area: 4 / 1 / 6 / 6;
+}
+
+.grid.f .a {
+    grid-area: header;
+}
+
+.grid.f .b {
+    grid-area: nav;
+}
+
+.grid.f .c {
+    grid-area: banner;
+}
+
+.grid.f .d {
+    grid-area: left;
+}
+
+.grid.f .e {
+    grid-area: middle;
+}
+
+.grid.f .f {
+    grid-area: right;
+}
+
+.grid.f .g {
+    grid-area: footer;
+}
+
+.grid.g .a {
+    grid-area: 1 / 1 / 3 / 6;
+}
+
+.grid.g .b {
+    grid-area: 3 / 1 / 4 / 6;
+}
+
+.grid.g .c {
+    grid-area: 4 / 1 / 9 / 3;
+}
+
+.grid.g .d {
+    grid-area: 4 / 3 / 9 / 6;
+}
+
+.grid.g .e {
+    background-color: peachpuff;
+    grid-area: 5 / 2 / 8 / 4;
+}
+
+.grid.g .f {
+    grid-area: 9 / 1 / 10 / 6;
+}
+
+.grid.g .g {
+    grid-area: 10 / 1 / 11 / 6;
+}
+
+.grid.h .b {
+    width: 50px;
+}
+
+.grid.h .c {
+    align-self: end;
+}
+
+.grid.h .g {
+    justify-self: stretch;
+}

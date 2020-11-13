@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JSX</title>
+    </head>
+    <body>
+        <a href="./index.html">Home</a>
+        <h1>React</h1>
+        <p><strong>React: </strong>React is a very popular user interface framework? developed at Facebook, comprised of two libraries, makes for faster apps, more modular and maintainable JS code, more scalable to large apps, more flexible to use beyond web apps</p>
+        
+        <h2>React Library</h2>
+        <p><code>React library: </code>Javascript library containing methods for pure React purposes, mainly allowing you to write JSX with the React.createElement() method, and allowing you to make components with React.Component class</p>
+        
+        <h3>JSX</h3>
+        <p><strong>JSX: </strong>JSX is a syntax extension for Javascript designed for use with the react library, that represents HTML elements in javascript code that can be rendered in the browser. Browsers cannot read this syntax, so any js file using it must be translated to regular Javascript using a JSX Compiler before being sent to a browser</p>
+        <p><strong>JSX Expression: </strong>JSX is treated as an expression by Javascript and can go anywhere a normal expression could go (saved to variable, passed to function, etc.) Composed of a single JSX element that may contain nested JSX elements, but there is only one root element. must enclose in parentheses if more than one line.</p>
+        <ul>
+            <li>
+                <p><strong>Javascript injection: </strong>You can inject a regular javascript expression inside a JSX expression using curly braces {}, if the expression evaluates to an array of JSX elements, then the JSX elements will be rendered one after the other</p>
+                <ul>
+                    <li><p><strong>Conditional statements: </strong>if statements cannot be injected into a JSX expression due to compilation details.  Ternary operator does work inside jsx expression, as does utilizing short-circuit evaluation of && operator (if first expression is falsy then falsy is returned by the injection and ignored in the jsx element, but if truthy then the second expression is returned), or can use if statement outside of JSX expression</p></li>
+                </ul>                
+            </li>
+        </ul>
+        <p><strong>JSX Element: </strong>The building block of JSX syntax, is either HTML-like (if tag name isn't capitalized) or a Component Instance (if tag name is capitalized) HTML-like looks just like an html element with an opening/closing tag (or self-closing tag) and inner HTML content.  Component instances can use opening/closing tags or a self closing tag that is the name of the Component Class to make an instance of.  Self-closing tags must contain a closing forward-slash (unlike in normal HTML where they're optional).  </p>
+        <ul>
+            <li>Component Instances</li>
+            <ul>
+                <li><p><strong>Component Instances: </strong>Component instances will create an instance of the component and then run the render method (which often returns HTML-like JSX).  e.g. a component instance in the ReactDOM.render() method will run it's render method</p></li>    
+                <li><p><strong>Attributes: </strong>Attributes in a component instance effectively create an object of key-value pairs from the attribute-value pairs which is passed in as the props object, the value can be a string (like HTML-like JSX would have), or you can pass a non-string data type by using an injected javascript expression</p></li>
+            </ul>
+            <li>HTML-like</li>
+            <ul>
+                <li><p><strong>Attributes: </strong>JSX Elements can have attributes just like HTML elements, though with single quotes around the value instead of double quotes, or the value can be injected js. Some attribute names and/or values are a little different in JSX, particularly class in HTML is className in jsx due to class being a reserved word, className in JSX gets rendered as class. also event listener attributes are written in camelCase in JSX instead of all lowercase as in html (e.g. onMouseOver vs onmouseover) and their value should be a function (not an invoked function as in html). also the style attribute can be set equal to an injected object whose properties are css properties (some name differences in JSX) with whatever value you want to give them</p></li>
+                <li><p><strong>key attribute for list elements: </strong>list elements sometimes need the key attribute included for list items, each list item given a unique key value, never hurts to use them if unsure, but they are needed if the list-items order might be shuffled between renders (e.g search results) or if the list items have memory between renders, e.g. it must be remembered if an item is checked off or not on a to do list, </p></li>
+            </ul>
+            <li><code>React.createElement()</code> JSX elements are compiled to an invocation of the createElement() method of the React library, and you can use this method yourself to create elements</li></li>
+        </ul>
+
+        <h3>Components</h3>
+        <p><strong>Component: </strong>React applications are made out of objects called components, which are small reusable chunks of code responsible for one job, often to render HTML, all are instances of a component class, React applications can contain dozens or even hundreds of components</p>
+        <p><strong>Component Class: </strong>made by subclassing the React.Component class,  component class names must be capitalized for use in JSX (should be anyway like any class)</p>
+        <ul>
+            <li><strong>render method: </strong>for every component class, you must define a render() method that can contains logic, can access other methods and properties of the component class such as the props property using this.props.propertyname, can access variables outside the component class</li>
+            <ul>
+                <li><p>Render method must include a return statement, usually returns a jsx expression which can include component instances and/or HTML-like JSX.  As in the ReactDOM.render method, component instances run their render method, and can have attributes to set props</p></li>
+            </ul>
+            <li><p><strong>props property: </strong> this is a property of the React.Component class whose constructor takes a single argument (an object) that props gets set equal to.  The prop object's properties can then be accessed in the body of a Component Class (e.g. this.props.myProp), but a component should never change the value of its props, it should be given those values upon instantiation.  It's value is typically set using attributes in a Component Instance, used to pass information to component, values can be any data type including functions like event handlers, which should be named the same as the event listener attribute like onClick or onKeyPress. </p></li>
+            <ul>
+                <li><p><code>props.children </code> props always has a property called children which returns the innerHTML of the component instance.  If the component instance is self-closing, then it will be undefined.  If the innerHTML contains multiple child elements then they will be placed in an array in props.children, if only one or no children then just the single child or value is returned and not placed in an array.</p></li>
+            </ul>
+            
+            <li><p><strong>constructor method: </strong>you have to include a constructor method to add a property inside the component class body (by including this.propertyname = 'value' in the constructor, you can also add properties after the component class has been declared e.g. MyComponent.propName = 'value'), if you do have a constructor method, it must accept a props argument and call super(props) to ensure the constructor of the React.Component class is invoked with any provided props (this happens automatically via the default js constructor when a component class has no constructor) </p></li>
+            <li><p><code>defaultprops</code> this is a property that can be defined for a component class that has an object value and the properties are the names of the component class's props and the values are default values to use if a Component Instance does not set the prop</p></li>
+            <li><p><strong>state property: </strong> a property you can create, an object, usually created in the constructor of a component class and given an initial value, the state property can then be accessed in the body of the component class (e.g. inside body use this.state.someThing), and unlike with props, the state can be changed inside the component class body</p></li>
+            <li><p><strong>setState method: </strong>this is a method in the React.Component class, it takes two arguments, the first an object to update the components state with, and secondly a callback that is almost never needed.  after updating the state, it also calls the component's render method, thus it causes immediate changes on screen and cannot be called inside the render method to avoid an infinite loop. The first argument updates the component's current state by updating any of the currents state's properties to the values in the provided object if has that state property.  the provided argument doesn't have to include all of the state's properties.  the most common use of setState is calling it inside a method (especially an event handler) of the component class. </p></li>
+            <li><p><strong>event handler methods: </strong>commonly methods are used to define event handlers that are injected into the rendered html and by convention these should be named something like handleClick or handleKeyPress, depending on the name of the event they handle. If you use 'this' inside an event handler method, then you must include a constructor method in the component class that includes a line to bind the method to 'this'.  (e.g. this.myEventHandler = this.myEventHandler.bind(this)) this is because when the method is injected into jsx as an event handler, it will lose its this, so it needs to have the object name already in place of this</p></li>
+            <li><strong>other methods: </strong>the component can also have other methods</li>
+        </ul>        
+        <p><strong>Modularity: </strong>Common to place each component in its own file, and then used ES6 named import/export or ES6 import/export default to import component modules into other component modules e.g. to render one component with another</p>
+        <p><strong>Dynamic Information: </strong>information that can change, components get dynamic information through props (info from outside) and state (info decided by component itself), every other value used in a component should always stay exactly the same</p>
+        <br>
+    
+        <h2>ReactDOM Library</h2>
+        <p><code>ReactDOM library: </code>JavaScript library containing several React-specific methods for interacting with and rendering to the DOM such as ReactDOM.render()</p>
+
+        <h3>Rendering</h3>
+        <p><strong>Virtual DOM: </strong>In React, every DOM object gets a corresponding virtual DOM object.  When a JSX element is rendered, all virtual DOM objects are updated, then compared to a snapshot before updating (diffing), then only changed objects get updated in the real DOM. this is much faster than many frameworks that update the DOM inefficiently by updating more object than needed (e.g. updating a whole list instead of just the item that changed)</p>
+        <p><code>ReactDOM.render(jsx, appendtoelement)</code> this is a method of the ReactDOM library that will append the first argument jsx expression to the second argument expression that returns a DOM element, thus rendering the JSX in the browser, if the jsx expression is a Component Instance then its .render() method is automatically invoked which typically returns html-like jsx that will then be rendered</p>
+        
+    </body>
+</html>

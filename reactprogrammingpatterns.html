@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Programming Patterns</title>
+    </head>
+    <body>
+        <a href="./index.html">Home</a>
+        <p><strong>Stateful Component: </strong>Any component with a state property</p>
+        <p><strong>Stateless Component: </strong>Any component without a state property</p>
+
+        Common Pattern:
+        Parent components are stateful, and render child components that are stateless.
+        One child component updates the parent state, and another displays the state, promoting one task per component
+
+        Building to that pattern:
+
+        Pattern 1
+        A stateful (parent) component passes state info to a stateless (child) one as props
+        Example 1: A stateful parent component passes a state property as a prop to a stateless child component that it can then use in some way
+
+        Pattern 2 (builds on pattern 1)
+        A stateless (child) component updates the state of a stateful (parent) one
+        Examples 2 & 3: A stateful parent component passes a state-changing method as a prop to a stateless child component that it can then call to change the parent's state (usually or maybe always used as an event handler)
+        - Note: The state-changing method in the Parent component must use 'this' to call this.setState, thus it needs to use bind in the constructor just like any event-handling method that uses 'this' would.  In this case, the method is passed to a child component which then passes it to an event where it loses its this.
+        - Also note: In the more complex Example 3, it shows a common pattern when you need to use information from the event object to call the state-changing method with
+
+        Pattern 3 (builds on pattern 2)
+        A stateless (child) component updates the state of a stateful (parent) one, which re-renders a different stateless (child) component being passed state info from the stateful (parent) one as props
+        Example 4: A parent has two child components, one that can update the parent's state using a state-changing method from the parent, and the other is passed state info for display
+
+    </body>
+</html>

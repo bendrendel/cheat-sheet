@@ -1,0 +1,15 @@
+.container,
+.container-fluid {
+    background-color: yellow;
+    border: 4pt solid black;
+}
+
+.row {
+    background-color: green;
+    border: 4pt solid gray;
+}
+
+[class*="col"]{
+    background-color: lightgreen;
+    border: 4pt solid brown;
+}

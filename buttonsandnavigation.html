@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Buttons and Navigation</title>
+        <link type="text/css" rel="stylesheet" href="./buttonsandnavigation.css">
+    </head>
+    <body>
+        <a href="./index.html">Home</a>
+
+        <h2>Basic Concepts</h2>
+        <p>Affordances: are what something affords you the ability to do, whether or not it was intended by the designer</p>
+        <p>Signifiers: are what indicate the affordances of something, like a cup handle signifies it can be picked up</p>
+        <p>Skeuomoprhism: UI elements imitating real-life counterparts, offers familiar signifiers that may help lower learning curve for users</p>
+        <p>Flat design: UI elements relying on signifiers that don't imitate real-life, more prevelant as digital age continues, 
+            typically more simple and less cluttered than skeuomorphism</p>
+        <p>Primary navigation: Most important links/buttons to be displayed on every page</p>
+        <p>Secondary (breadcrumb) navigation: Links/buttons displaying the pages or attributes that led to the current page</p>
+
+        <hr>
+
+        <h2>Link States</h2>
+        <p>Links have four states with associated CSS pseudo-classes, :link, :hover, :active, :visited</p>
+        <p>CSS rules must be in order :link, :visited, :hover, :active for proper cascading
+            e.g. a link could be both visited and hovered over at the same time, so you want the hover to come second in your css so that it overrides the visited style</p>
+        <p>hover states are not accessible in mobile browsers</p>
+
+        <hr>
+
+        <h2>Link styling</h2>
+        <p>Traditionally link and hover states are blue and underlined (less common to underline more recently), active is red, visited is purple</p>
+        <p>Links in text passages traditionally underlined while navigational links are not</p>
+        <p>Also consider altering background-color, font-weight, and border</p>
+        <p>Link style, in every state, should be different than any other text on page</p>
+        <p>Content of anchor element, the anchor text, should be descriptive of link for usability, accessibility, and SEO</p>
+        <p><a href="./index.html" title="Go back home">Home</a> Title attribute creates tooltip, often helpful on links especially when link is an image or icon</p>
+        <p>Cursor property should be set to pointer on hover (default in most browser's user agent stylesheet)</p>
+        
+        <hr>
+        
+        <h2>Buttons</h2>
+        <p>Hover state at minimum should change pointer, active state should be obvious</p>
+        <p>Navigational buttons should always have text to remove any uncertainty about what it does</p>
+        <p>Basic skueomorphic design:</p>
+        <div class="sku-button">Click Me</div>
+        <br>
+        <p>Basic flat design:
+            ensure button text is specific and descriptive, and that button is visually distinct, since no skuemorphic signifiers</p>
+        <div class="flat-button">Submit form</div>
+
+        <h2>Secondary (breadcrumb) navigation</h2>
+        <p>Location-based: shows where you are within structure of website, e.g. Shopping > Fashion > Shoes</p>
+        <p>Attribute-based: shows selected attributes of the page you are on, order doesn't matter, often have an x to remove, e.g. > Flats > Brown</p>
+        <p>Path-based: uncommon, shows unique path user took to get to page, so breadcrumb trail can vary for each user</p>
+        <p>Provides context, understanding of scope of site, easy backward navigation, but it would be extraneous for a site that only has a few pages </p>
+        <p>Typically horizontal list, in header, left-aligned, below primary navigation, separated by ">" or "/", not underlined, when too long use elipses for beginning: ... > About > Register</p>
+        <p>Breadcrumbs should be consistent across pages, using same page names, style, etc, should behave as expected to expose a hierarchy and attributes of the page they are on, avoid deviating from the expected behavior</p>
+        <ul class="basic-breadcrumb">
+            <li>
+                <a href="./shopping.html">Shopping</a>
+            </li>
+            <li>
+                <a href="./fashion.html">Fashion</a>
+            </li>
+            <li>
+                <a href="./shoes.html">Shoes</a>
+            </li>
+            <li>
+                <a href="./flats.html">Flats</a>
+            </li>
+            <li>
+                <a href="#">Brown</a>
+            </li>
+        </ul>
+
+        <br>
+
+        <ul class="fancy-breadcrumb">
+            <li>
+                <a href="./shopping.html">Shopping</a>
+            </li>
+            <li>
+                <a href="./fashion.html">Fashion</a>
+            </li>
+            <li>
+                <a href="./shoes.html">Shoes</a>
+            </li>
+            <li>
+                <a href="./flats.html">Flats</a>
+            </li>
+            <li>
+                <a href="#">Brown</a>
+            </li>
+        </ul>
+
+        <br>
+
+        <ul class="attribute-breadcrumb">
+            <li class="location">
+              <a href="./shop.html">Shop</a>
+            </li>
+            <li class="location">
+              <a href="./grocery.html">Groceries</a>
+            </li>
+            <li class="location">
+              <a href="./blueberries.html">Blueberries</a>
+            </li>        
+            <li class="attribute">
+              <a href="#">Organic</a>
+            </li>
+          </ul>
+        
+    </body>
+</html>

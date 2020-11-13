@@ -1,0 +1,368 @@
+
+/* 
+css flex
+
+display: inline, block, inline-block, none, flex, inline-flex, grid, inline-grid
+
+parent element is the flex container, child elements are flex items
+
+flex positioning properties:
+
+Major Axis (default left to right)
+----------------------------------
+- justify-content: left-right spacing of items inside a flex container
+- flex-wrap: defaults to nowrap, preventing items from wrapping and instead following the shrink/grow behavior
+- flex-grow: default is 0 meaning no growth when parent container is wider than elements
+- flex-shrink: defuault is 1 meaning flex items automatically shrink when container width is smaller than items
+- flex-basis: defines the width of the flex item when the flex-container is exactly wide enough to fit the width of all its
+flex items without any shrinking or growing
+
+Cross Axis (default top to bottom)
+----------------------------------
+- align-items: cross axis top to bottom behavior of items inside a flex container. or aligning items vertically that are in a single row together -- when there is no wrapping, then everything
+is always in a single row, so align-items is the only property you need for vertical alignment
+- align-content: for aligning multiple rows vertically when wrap is turned on, so in this case align-items is vertical alignment
+within each row, and align-content is vertical alignment of the rows themselves. default is stretch
+
+
+flex-direction: determines axis orientation major axis can be horizontal from left to right or right to left, or vertical from top to bottom
+or bottom to top (row, row-reverse, column, column-reverse)
+
+flex-flow: defines flex-direction and flex-wrap
+flex: defines flex-grow, flex-shrink, and flex-basis
+
+with flex you can also leave off the
+flex-basis if you only want to declare flex-grow and flex-shrink.  Or you can leave out flex-shrink to define only
+flex-grow and flex-basis.  you can't leave out flex-grow to define only flex-shrink and flex-basis
+
+*/
+
+.flex-container {
+
+    border: 5px black solid;
+}
+
+.flex-grid-a {
+    display: flex;
+    height: 100px;
+    background-color: blanchedalmond;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 10px;
+}
+
+.flex-grid-b {
+    display: flex;
+    height: 100px;
+    background-color: blanchedalmond;
+    justify-content: flex-end;
+    align-items: flex-end;
+    margin: 10px;
+
+}
+
+.flex-grid-c {
+    display: flex;
+    height: 100px;
+    background-color: blanchedalmond;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
+.flex-grid-d {
+    display: flex;
+    height: 100px;
+    background-color: blanchedalmond;
+    justify-content: space-around;
+    align-items: baseline;
+    margin: 10px;
+}
+
+.flex-grid-e {
+    display: flex;
+    height: 100px;
+    background-color: blanchedalmond;
+    justify-content: space-between;
+    align-items: stretch;
+    margin: 10px;
+}
+
+.flex-grid-f {
+    display: flex;
+    height: 100px;
+    background-color: blanchedalmond;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
+.flex-grid-g {
+    display: flex;
+    height: 100px;
+    background-color: blanchedalmond;
+    justify-content: space-between;
+    align-items: stretch;
+    margin: 10px;
+}
+
+.flex-grid-h {
+    display: flex;
+    height: 200px;
+    background-color: blanchedalmond;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 10px;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.flex-grid-i {
+    display: flex;
+    height: 200px;
+    background-color: blanchedalmond;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 10px;
+    flex-wrap: wrap;
+    align-content: flex-end;
+}
+
+.flex-grid-j {
+    display: flex;
+    height: 200px;
+    background-color: blanchedalmond;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 10px;
+    flex-wrap: wrap;
+    align-content: center
+}
+
+.flex-grid-k {
+    display: flex;
+    height: 200px;
+    background-color: blanchedalmond;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 10px;
+    flex-wrap: wrap;
+    align-content: space-between;
+}
+
+.flex-grid-l {
+    display: flex;
+    height: 200px;
+    background-color: blanchedalmond;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 10px;
+    flex-wrap: wrap;
+    align-content: space-around;
+}
+
+.flex-grid-m {
+    display: flex;
+    height: 200px;
+    background-color: blanchedalmond;
+    justify-content: flex-start;
+    margin: 10px;
+    flex-wrap: wrap;
+    align-content: stretch;
+}
+
+.flex-grid-n {
+    display: flex;
+    height: 200px;
+    background-color: blanchedalmond;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 10px;
+    flex-wrap: wrap-reverse;
+    align-content: stretch;
+}
+
+.flex-grid-o {
+    display: flex;
+    height: 200px;
+    background-color: blanchedalmond;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 10px;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    flex-direction: row;
+}
+
+.flex-grid-p {
+    display: flex;
+    height: 200px;
+    background-color: blanchedalmond;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 10px;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    flex-direction: row-reverse;
+}
+
+.flex-grid-q {
+    display: flex;
+    height: 100px;
+    background-color: blanchedalmond;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 10px;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    flex-direction: column;
+}
+
+.flex-grid-r {
+    display: flex;
+    height: 170px;
+    background-color: blanchedalmond;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 10px;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    flex-direction: column-reverse;
+}
+
+.flex-grid-s {
+    display: flex;
+    background-color: blanchedalmond;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
+.flex-box {
+    background-color: blueviolet;
+    width: 50px;
+    height: 30px;
+    border: 2px solid darkgoldenrod;
+}
+
+.flex-grid-a .flex-box.a {
+    flex-grow: 6;
+}
+
+.flex-grid-a .flex-box.b {
+    flex-grow: 5;
+    max-width: 30px;
+}
+
+.flex-grid-a .flex-box.c {
+    flex-grow: 4;
+}
+
+.flex-grid-a .flex-box.d {
+    flex-grow: 3;
+}
+
+.flex-grid-a .flex-box.e {
+    flex-grow: 2;
+}
+
+.flex-grid-a .flex-box.f {
+    flex-grow: 1
+}
+
+/* margins unaffected by flex-shrink */
+
+.flex-grid-b .flex-box {
+    margin: 0 30px;
+}
+
+.flex-grid-b .flex-box.a {
+    width: 100px;
+    min-width: 50px;
+    flex-shrink: 40;
+}
+
+.flex-grid-b .flex-box.b {
+    flex-shrink: 20;
+    width: 100px;
+}
+
+.flex-grid-b .flex-box.c {
+    flex-shrink: 10;
+    width: 200px;
+}
+
+.flex-grid-b .flex-box.d {
+    flex-shrink: 5;
+    width: 100px;
+}
+
+.flex-grid-b .flex-box.e {
+    flex-shrink: 0;
+    width: 100px;
+}
+
+.flex-grid-b .flex-box.f {
+    flex-shrink: 1;
+    width: 100px;
+}
+
+.flex-grid-f .flex-box {
+    flex-basis: 30px;
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.flex-grid-g .flex-box.shrinker{
+    flex: 0 1 150px;
+}
+
+.flex-grid-g .flex-box.grower{
+    flex: 1 0 150px;
+}
+
+.flex-grid-h .flex-box,
+.flex-grid-i .flex-box,
+.flex-grid-j .flex-box,
+.flex-grid-k .flex-box,
+.flex-grid-l .flex-box,
+.flex-grid-m .flex-box,
+.flex-grid-n .flex-box {
+    flex-basis: 150px;
+}
+
+.flex-grid-m .flex-box {
+    height: auto;
+    margin: 0;
+}
+
+.flex-grid-s .flex-box.left {
+    background-color: orange;
+    height: 300px;
+    display: inline-flex;
+    flex: 2 1 200px;
+    flex-direction: column;
+}
+
+.flex-grid-s .flex-box.right {
+    background-color: orange;
+    height: 300px;
+    display: inline-flex;
+    flex: 1 2 400px;
+    align-items: center;
+}
+
+.flex-grid-s .flex-box.left .flex-box {
+    height: 200px;
+    width: auto;
+}
+
+.flex-grid-s .flex-box.right .flex-box {
+    height: 300px;
+    width: auto;
+    flex-grow: 1;
+}
+
+.flex-box.d {
+    height: 60px;
+}

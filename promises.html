@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Promises</title>
+        <script src="./promises.js" defer></script>
+    </head>
+    <body>
+        <a href="./index.html">Home</a>
+
+        <h1>Promises</h1>
+        <p><strong>Promises: </strong>native in ES6, objects that represent the eventual outcome of an asynchronous operation, create from the Promise class, has one of three states, initially pending but guaranteed to settle</p>
+            <ul>
+                <li><p><strong>Pending: </strong>operation not yet complete</p></li>
+                <li><p><strong>Settled - Fulfilled: </strong>Operation completed successfully and promise has a resolved value</p></li>
+                <li><p><strong>Settled - Rejected: </strong>Operation has failed and promise has a reason for the failure</p></li>
+            </ul>
+        <p><strong>executor function: </strong>argument provided to Promise constructor, is called automatically when constructor is called, has two function parameters typically called resolve and reject</p>
+        <p><strong>resolve function: </strong>first parameter of executor function, provided by the Promise constructor, accepts one argument that is the resolved value, when invoked it changes promise status to fulfilled and sets its resolved value to the argument passed to resolve() </p>
+        <p><strong>reject function: </strong>second parameter of executor function, provided by the Promise constructor, accepts one argument that is the rejection reason, when invoked it changes promise status to rejected and set rejection reason to the argument passed to reject()</p>
+        <p><strong>setTimeout: </strong>takes two arguments, first a callback function, and second a number that is the number of milliseconds to wait before adding callback function to event loop</p>
+        <p><strong>.then(onFulfilled, onRejected): </strong>a method called on promise objects, takes two callback functions that run once the promise settles, the onFulfilled success handler runs if fulfilled, the onRejected failure handler runs if rejected,
+            can use .then() with one, both or neither argument, .then always returns a promise with the same state and resolved value/rejection reason as the calling promise, unless the success or failure handler explicity includes a return statement
+            typically they're made to return a new promise, if the handler returns a non-promise value, then a resolved promise is returned by .then with a resolved value of what was returned by the handler, if the handler throws an error, an reject promise is returned with the error message as the reject reason</p>
+
+        <p><strong>.catch(onRejected): </strong>a method called on promise objects, works like .then but only takes one argument to run if the promise is in the rejected state, since .then returns a promise with same state as calling promise, you can use .then to handle success and .catch to handle failure</p>
+        <p><strong>promise composition: </strong>if only the onFulfilled argument of .then is used, and it returns a promise itself, then you can chain multiple .then calls, ending with a .catch to handle if any of the .then calls returns a rejected promise </p>
+        <p><strong>promise.all([prom1, prom2, prom3, etc.]): </strong>takes an array of promises, if all promises are resolved, it returns a single resolved promise with a resolved value that is an array of the resolved values of each promise,     if any promise is rejected, it returns a single promise with a single rejection reason equal to the rejection reason of the rejected promise.  it "fails fast" as in as soon as one of the promises is rejected, promise.all immediately settles and returns a rejected promise</p>
+
+        <h2>Set Timeout Example</h2>
+        <p id="setTimeout-example"></p>
+        <br>
+
+        <h2>then Example</h2>
+        <p id="then-example"></p>
+        <br>
+
+        <h2>catch Example</h2>
+        <p id="catch-example"></p>
+        <br>
+        
+    </body>
+</html>

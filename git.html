@@ -7,21 +7,65 @@
     </head>
     <body>
         <header>
-            <h1>Git</h1>
-            <ul class="breadcrumb">
-                <li><a href="./index.html">Home</a></li>
-                <li>Git</li>
-            </ul>
+            <a href="./index.html">Home</a>
         </header>
         <main>
-            <p>git init</p>
-            <p>git status</p>
-            <p>git add filename filename ... </p>
-            <p>git commit -m "message"</p>
-            <p>git diff filename</p>
-            <p>git checkout HEAD filename - discard changes in working directory</p>
-            <p>git reset HEAD filename - discard changes in/remove from staging area</p>
-            <p>git reset commit_SHA - sets HEAD to commit with given commit_SHA</p>
+            <h2>Git Terms</h2>
+            <p><strong>Git: </strong>a piece of software that allows for tracking of changes, industry-standard version control system for web development, must be installed on your computer</p>
+            <p><strong>Git project: </strong>consists of three parts listed below</p>
+            <ul>
+                <li><p><strong>Working Directory: </strong>make changes to files - additions, deletions, modifications</p></li>
+                <li><p><strong>Staging Area: </strong>list changes made to the working directory, files ready for commit</p></li>
+                <li><p><strong>Repository: </strong>where Git permanently stores changes as sequential versions (aka commits) of the project</p></li>
+            </ul>
+            <p><strong>Git workflow: </strong>edit files in working directory, add files to staging area, save changes (commit) to repository</p>
+            <p><strong>Git collobarative workflow: </strong>fetch and merge changes from remote, create new local branch to work on feature, develop feature on new branch making commits along way, when done fetch and merge from remote again, push project branch to remote for review</p>
+            <p><strong>Github: </strong>simply a cloud storage service popularly used for backing up Git repositories, you copy (push) your local repository to Github periodically to back it up, GitHub automatically displays contents of README.txt if in your repository</p>
+            <p><strong>HEAD: </strong>the commit you are currently on in the sequence of commits</p>
+            <p><strong>branch: </strong>essentially when a copy of the repository is made at a given commit, then creating two independent branches of future commits</p>
+            <p><strong>master branch: </strong>any any branching point, one branch is actually considered the master branch, so there is a continuous master branch back to the beginning</p>
+            <p><strong>remote: </strong>a git repository outside your git project that multiple collaborators can work on and merge changes to, could be on the web, a network, or just somewhere else on your computer</p>
+            
+            <h2>Git Project Standard Files</h2>
+            <p>For new repos, git will ask if you want to add these.  if you do, it will create an initial commit with these files added.  don't do this if you have a local repository that already has commits that you will be pushing to github, as this will cause merge problems</p>
+            <p><strong>readme </strong>documentation of project, good idea in general to document your projects</p>
+            <p><strong>.gitignore: </strong>this file can be included in a git project's working directory to list all files and directories in 
+                the working directory that git should ignore, simply list each file name or directory to ignore on its own line, start directory names 
+                with /, e.g. /ignorethisdirectory. comment a line with #</p>
+            <p><strong>license </strong></p>
+
+            <h2>Basic Workflow Commands</h2>
+            <p><strong>git init: </strong>turns the current working directory into a Git project</p>
+            <p><strong>git status: </strong>check status of changes in working directory</p>
+            <p><strong>git add filename: </strong>adds filename to the staging area, can list multiple filenames one after the other separated by a space or a single period adds all files in working directory (git add .)</p>
+            <p><strong>git diff filename: </strong>for given filename, checks differences between working directory and staging area</p>
+            <p><strong>git commit -m "message": </strong>permanently stores changes from staging area to repository, message should be in present tense and less than 50 characters, creates a "commit" wiht unique 40-character SHA</p>
+            <p><strong>git log: </strong>view chronological list of commits to repository</p>
+
+            <h2>Backtracking Commands</h2>
+            <p><strong>git show HEAD: </strong>shows log info and all committed changes for the HEAD commit</p>
+            <p><strong>git checkout HEAD filename: </strong>replace filename in working directory with version of filename in HEAD commit</p>
+            <p><strong>git reset HEAD filename: </strong>replace filename in staging area with version of filename in HEAD commit</p>
+            <p><strong>git reset commit_SHA: </strong>sets the HEAD to the commit with the given commit_SHA, the commit_SHA should be the first 7 characters of the SHA</p>
+            
+            <h2>Branching Commands</h2>
+            <p><strong>git branch: </strong>shows which branch you are on</p>
+            <p><strong>git branch new_branch: </strong>creates a new branch with name new_branch, name should describe purpose of branch in a word or two, no whitespace</p>
+            <p><strong>git checkout branch_name: </strong>switches you over to the branch with name branch_name</p>
+            <p><strong>git branch -d branch_name: </strong>deletes branch with branch_name, often done after a branch has been merged into master and served its purpose</p>
+            <p><strong>git merge branch_name: </strong>checkout the master branch, then run this command to merge branch_name (giver branch) into master (receiver branch)
+            <br>any line of a file with conflicting changes between the branches will show an error msg, and the file in the working directory will show the two conflicting alternatives for the line
+            <br>to resolve, delete all of the special markup added by Git and keep only the version of the line you want
+            <br>now you can make a commit again, and the message for the commit shoudl be "Resolve merge conflict" or similar</p>
+        
+            <h2>Remote Commands</h2>
+            <p>get started with a remote on github by creating an empty repository on github, which will provide instructions for adding it as a remote for a local project, the local project should have at least one commit so there is something to push</p>
+            <p><strong>git clone remote_location clone_name: </strong>good for branching, creates a copy of the git repository at remote_location (web address or filepath). the copy is named clone_name and placed in the current working directory, the remote will be aliased origin</p>
+            <p><strong>git remote add origin remote_location: </strong>good for initial set up, run from local project directory to add a remote repository at remote_location (e.g. a github repository web address), remote will have alias origin, so it can be referred to with origin in commands</p>
+            <p><strong>git remote rm origin: </strong>run from local project directory, removes remote repository named origin</p>
+            <p><strong>git remote -v: </strong>lists remotes for current working directory if directory is a git project, good to confirm remotes were added successfully</p>
+            <p><strong>git fetch: </strong>brings changes in from a remote, puts them in a remote branch called origin/master, which can then be merged to your local master branch with git merge origin/master</p>
+            <p><strong>git push origin your_branch_name: </strong>copies a local branch (like one you made to develop a feature) called your_branch_name to the remote repository named origin, then someone can review your branch and merge it to the origin master</p>
         </main>
     </body>
 </html>

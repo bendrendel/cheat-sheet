@@ -1,0 +1,44 @@
+@media only screen and (min-width: 0px) and (max-width: 700px) {
+    .container {
+        border-color: red;
+    }
+}
+
+@media only screen and (min-width: 700px) and (max-width: 1200px) {
+    .container {
+        border-color: green;
+    }
+}
+
+@media only screen and (min-width: 1200px) and (max-width: 1600px) {
+    .container {
+        border-color: blue;
+    }
+}
+
+/* the larger min-width rule overrides the smaller one when the screen gets large enough*/
+@media only screen and (min-width: 1000px) {
+    .container {
+        border-style: dotted;
+    }
+}
+
+@media only screen and (min-width: 1400px) {
+    .container {
+        border-style: double;
+    }
+}
+
+/*use screen resolution media queries to e.g. use higher-res images if screen res is high enough*/
+@media only screen and (min-resolution: 96dpi) {
+    .container {
+        border-radius: 100px;
+    }
+}
+
+/*landscape orientation when width>height, otherwise portrait*/
+@media only screen and (orientation: landscape), (max-width: 600px) {
+    p.random {
+        background-color: lightcoral;
+    }
+}

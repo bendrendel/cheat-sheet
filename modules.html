@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Modules</title>
+        <!--must use attribute type="module" for module syntax to work-->
+        <script type="module" src="./modules2.js" defer></script>
+        <script type="module" src="./modules4.js" defer></script>
+    </head>
+    <body>
+        <a href="./index.html">Home</a>
+        <h2>Modules</h2>
+        <p><strong>Modularity: </strong>Software design technique where distinct parts each providing a single piece of the overall functionality come together to build a cohesive program, makes it more scalable, manageable, ability to incorporate libraries and frameworks</p>
+        <p><strong>Module: </strong>A collection of code in a file, instead of a program being in a single file, it is organized into separate files and combined through requiring them where needed</p>
+        
+        <h2>Node Modules</h2>
+        <p><code>module.exports() </code>used to export things from a .js file in Node</p>
+        <ul>
+            <li><p>JavaScript files run in the Node environment have a local module object with an exports property that holds everything in that file, aka module, available to be required into a different .js file</p></li>
+            <li><p>This only works if running in Node, the module object and the require function are built into Node but not the browser</p></li>
+            <li><p>see modules1.js for Node.js module.exports example</p></li>
+        </ul> 
+        <p><code>require() </code>used to import in node</p>
+        <ul>
+            <li><p>In node.js, require loads module at provided file path, .js extension of file path is optional and assumed if ommitted</p></li>
+            <li><p>Node first checks if the argument provided is a core module of node, and if not then attempts to locate it at the path provided</p></li>
+            <li><p>see modules2.js for Node.js require() example, run this file in Node to see combined functionality of modules1.js and modules2.js</p></li>
+        </ul>  
+        
+        <br>
+        <p>For ES6 imports see:</p>
+        <p>modules3.js: ES6 export default & named exports</p>
+        <p>modules4.js: ES6 import & named imports</p>
+        
+        
+
+    </body>
+</html>

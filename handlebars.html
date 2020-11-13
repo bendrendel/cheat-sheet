@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Handlebars</title>
+        <link type="text/css" rel="stylesheet" link="./handlebars.css">
+        <!--handlebars is a library-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script> 
+        <script id="basic-source" type="text/x-handlebars-template">
+            <h3>Hello {{name}}!</h2>
+            <p>Your name is {{name}}.  Wow, {{name}} is such a great name.</p>   
+        </script>
+        <script id="if-source" type="text/x-handlebars-template">
+            {{#if argument}}
+            <p>argument is provided as another property of the context object</p>
+            {{else}}
+            <p>the else section is optional</p>
+            {{/if}}
+        </script>
+        <script id="each-source" type="text/x-handlebars-template">
+            {{#each someArray}}
+                <p>use {{this}} to access the current element in someArray</p>
+            {{/each}}
+        </script>
+        <script id="complex-source" type="text/x-handlebars-template">
+            {{#each languages}}
+                {{#if this.modern}}
+                <p>{{this.name}} is a modern programming language.</p>
+                {{else}}
+                <p>{{this.name}} is not a modern programming language.</p>
+                {{/if}}
+            {{/each}}
+        </script>
+        <script src="./handlebars.js" defer></script>
+    </head>
+    <body>
+        <a href="./index.html">Home</a>
+        <h2>Basic Handlebars</h2>
+        <div id="basic-container"></div>
+        
+        <br>
+
+        <h2>If block</h2>
+        <div id="if-container"></div>
+
+        <br>
+
+        <h2>Each block</h2>
+        <div id="each-container"></div>
+
+        <h2>Complex Handlebars</h2>
+        <div id="complex-container"></div>
+    </body>
+</html>

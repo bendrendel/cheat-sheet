@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Forms</title>
+    </head>
+    <body>
+        <a href="./index.html">Home</a>
+
+        <!--
+            collecting information from users it traditionally done through html forms
+            inormation is collected on the front-end and sent to the back-end for processing, usually stored in a database
+
+            forms consist of a form element with children of input, select, textarea
+            each input/select/textarea needs a name attribute
+            each will also have a value attribute but how that gets assigned varies, value is case-sensitive
+            upon submission, all values are converted to strings and "name=value" gets sent for each input/select/textarea, 
+
+            labels tie to input by setting for attribute equal to id of input
+            when user clicks on the label it selects the corresponding input
+
+        -->
+        <form action="/example.html" method="POST">
+
+            <!--
+                basic input elements
+            -->
+            <label for="first-input">This is the first input: </label>
+            <input type="text" name="first-text-field" id="first-input" value="optional pre-filled value">
+             
+            <br><br>
+
+            <label for="required-input">Required fields will give alert msg if empty upon submission: </label>
+            <input type="text" name="second-text-field" id="required-input" required>
+
+            <br><br>
+
+            <label for="lengthy-input">Min/Max length of text fields</label>
+            <input type="text" name="third-text-field" id="length-input" minlength="3" maxlength="10">
+            
+            <br><br>
+
+            <label for="credit-card">This regex requires 14 to 16 numbers, each between 0-9</label>
+            <input type="text" name="credit-card" id="credit-card" pattern="[0-9]{14,16}">
+
+            <br><br>
+
+            <label for="secret-input">What's your password?</label>
+            <input type="password" name="user-pwd" id="secret-input">
+            
+            <br><br>
+
+            <label for="years">Years of experience: </label>
+            <input type="number" name="years" id="years" step="1">
+
+            <br><br>
+
+            <label for="age">Example min and max: </label>
+            <input type="number" name="age" id="age" step="1" min="0" max="120">
+
+            <br><br>
+
+            <label for="volume">Volume Control </label>
+            <input type="range" name="volume" id="volume" min="0" max="100" step="5" value="70">
+
+            <br><br>
+
+            <!--
+                for checkbox and radio inputs, you need to give each checkbox or radio a value but it is not displayed,
+                its just what gets sent
+                give all checkboxes or radios in the same group the same name attribute
+                checkbox allows for multiple selections in same group, radio allows for only one
+            -->
+            <p>Choose your toppings: </p>
+            <label for="cheese">Extra cheese</label>
+            <input type="checkbox" id="cheese" name="topping" value="cheese">
+            <br>
+            <label for="pepperoni">Pepperoni</label>
+            <input type="checkbox" id="pepperoni" name="topping" value="pepperoni">
+            <br>
+            <label for="anchovy">Anchovy</label>
+            <input type="checkbox" id="anchovy" name="topping" value="anchovy">
+
+            <br><br>
+
+            <p>What is the sum of 1 and 1?</p>
+            <input type="radio" id="two" name="answer" value="2">
+            <label for="two">2</label>
+            <br>
+            <input type="radio" id="eleven" name="answer" value="11">
+            <label for="eleven">11</label>
+
+            <br><br>
+
+            <!--
+                datalist
+                provides a dropdown list and allows typing in text field to filter dropdown list
+                also allows you to type in a value not in the list
+                the datalist element can be used with input type text by giving the input a list attribute equal to the datalist id
+            -->
+            <label for="city">Ideal city to visit?</label>
+            <input type="text" list="cities" id="city" name="city">
+            <datalist id="cities">
+                <option value="New York City"></option>
+                <option value="Tokyo"></option>
+                <option value="Barcelona"></option>
+                <option value="Mexico City"></option>
+                <option value="Melbourne"></option>
+                <option value="Other"></option>
+            </datalist>
+
+            <br><br>
+
+            <!--
+                dropdown list
+                provides dropdown list, can only select one
+                can't type in field to filter list, can't enter a value not in list
+                need to give each option a value which is not displayed but is submitted
+            -->
+            <label for="lunch">What's for lunch?</label>
+            <select id="lunch" name="lunch">
+                <option value="pizza">Pizza</option>
+                <option value="curry">Curry</option>
+                <option value="salad">Salad</option>
+                <option value="ramen">Ramen</option>
+                <option value="tacos">Tacos</option>
+            </select>
+
+            <br><br>
+
+            <!--
+                textarea
+                multi-row text area (note that input of type text is single row)
+                area is expandable by user
+            -->
+            <label for="blog">New Blog Post: </label>
+            <br>
+            <textarea id="blog" name="blog" rows="5" cols="30">
+                Optional prefilled value goes here
+            </textarea>
+
+            <br><br>
+
+            <!--
+                submit button
+                value attribute is displayed on button
+                if no value attribute, "Submit" is displayed
+            -->
+            <input type="submit" value="Send">
+        </form>
+
+        <h2>Form Validation</h2>
+        <strong>Purpose of validation: </strong>
+        <ul>
+            <li>Ensure accuracy of data, e.g. valid email address</li>
+            <li>ensure non-duplicative data, e.g. existing username</li>
+            <li>ensure complete data, e.g. no missing fields</li>
+            <li>protection, e.g. secure password, no injected code through form</li>
+        </ul>
+        <p><strong>Regular Expressions: </strong>Regex or regexp, since data submitted through forms are stored as strings, can use regex for validation</p>
+        <p><strong>Client-side Validation: </strong>validation included in the client code, won't allow user to submit form if anything is invalid,
+            either prevents certain values from being entered at all or will display alert with reason, faster than communicating with back-end</p>
+        <ul>
+            <li>
+                <p><strong>HTML Validation</strong></p>
+                <ul>
+                    <li>required attribute</li>
+                    <li>min/max attributes for inputs of type number or type range</li>
+                    <li>minlength/maxlength attribute for inputs of type text, password, or textarea</li>
+                    <li>pattern attribute for inputs of type text,password, or textarea, which requires input to match a specified regex</li>
+                </ul>                
+            </li>
+            <li>
+                <p><strong>JavaScript Validation</strong></p>
+                <p>For custom or more complex validation, can write javascript or use a JavaScript library to validate</p>
+                <ul>
+                    <li><strong>just-validate.js</strong> a simple vanilla JS library for validation</li>
+                    <li><strong>parsley.js </strong> another JS library for validation</li>
+                    <li><strong>formik.js</strong> validation library to be used with React, should look for framework-specific validation libraries
+                        because they have to maniuplate the DOM and thus play well with the framework</li>
+                </ul>
+            </li>
+        </ul>
+        <p><strong>Server-side validation</strong></p>
+        <ul>
+            <li>Regardless of client-side validation, a server should never trust the data it receives and must always validate, also often sanitizes data for consistent formatting</li>
+            <li>Client side validation is easy to bypass (turn off javascript in the browser), or through middleman attacks that alter data after client validation and before it reaches the server</li>
+            <li>Server-side validation allows you to keep validation code hidden, more computing power, and can access data in the database like checking for unique username</li>
+            <li>Can be done as user is entering data input by input which can slow down user, or upon submission of the form after all data is entered</li>
+        </ul>
+            
+            
+            
+
+    </body>
+</html>

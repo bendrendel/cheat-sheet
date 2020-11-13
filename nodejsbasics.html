@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Basic Node.js</title>
+
+    </head>
+    <body>
+        <a href="./index.html">Home</a>
+
+        <h2>Node Basics</h2>
+        <p><strong>Node.js: </strong>a JavaScript runtime (compiles high-level code to low-level code) that allows Javascript to execute outside of the browser, originally designed for web servers and applications, but can also create command-line and desktop applications</p>
+        <ul>
+            <li>Download from Node website and install.  Recommended to download the LTS (long term support) version instead of the current feature, it doesn't contain the latest features/javascript syntax but is less likely to cause errors and is guaranteed support by node for at least 18months</li>
+        </ul>
+
+        <h2>Terminal commands </h2>
+        <p><code>node </code>Starts Node REPL to evaluate javascript input, type .editor while in REPL to type multiple lines of JS for evaluation, ctrl-d to exit editor, you can access variables/functions defined earlier in REPL session.  Read-Eval-Print Loop, a program that loops through a read state to accept input, an eval state to evaluate input, print state outputing results</p>
+        <p><code>node myProgram.js arg1 arg2</code>Executes the javascript code in myProgram.js with Node runtime, can optionally provide one or more arguments that can be accessed with the process.argv array, e.g. process.argv[2] = 'arg1'</p>
+        <p><code>node -v</code>displays node version installed</p>
+
+        <h2>Built-in objects</h2>
+        <p><strong>global object: </strong>an object called global created by Node when running javascript, that you can access for useful Node-specific properties and methods, </p>
+        <p><strong>process object: </strong>node provides a global process object with useful properties and methods about the current process</p>
+        <ul>
+            <li><p>A process is the instance of a program that is being executed, can see all processes running in Task Manager (win) or Activity Monitor (mac)</p></li>
+            <li><code>process.env </code>stores and controls info about environment in which the process is currently running</li>
+            <ul>
+                <li><code>process.env.PWD </code>returns a string with the directory in which the current process is located</li>
+                <li><code>process.memoryUsage() </code>returns an object with info on CPU demands of current process, one property of the object is .heapUsed and shows how many bytes of memory the current process is using</li>
+                <li><code>process.argv </code>conatins an array of command line values provided when current process was intitiated, first element is absolute path to Node (which ran the process), second is path to the file running, and remaining elements are any arguments provided upon intiation</li>
+                <li><code>process.env.NODE_ENV </code>one convention is to add a property called NODE_ENV to the process object in the .js file you're running, and set it equal to either 'production' or 'development', then you can use conditional logic later in the code if you want to only run certain code if it is 'production' or 'development'</li>
+            </ul>
+            <li><code>process.stdout.write() </code>In the node environment, console.log() is a thin wrapper on this method, which writes stdout to the console</li>
+            <li><code>process.stdin.on() </code>process.stdin is an event emitter, and when the user enters text into the terminal and hits enter it emits an event named 'data' with the user's input as data to pass to a callback, thus you can call the .on method for the 'data' event with some callback to run with the user's input</li>
+        </ul>
+
+        <h2>Core Modules</h2>
+        <p><strong>Core Modules: </strong>Modules defined in Node.js's source in the lib/ folder</p>
+        <p><strong>Importing core modules: </strong>import core modules using the require syntax, simply providing a string of then name of the module as the argument with no path, e.g. let events = require('events');</p>
+        <ul>
+            <li>
+                <h3>Event Core Module</h3>
+                <p><strong>events core module: </strong>events core module provides EventEmitter class</p>
+                <p><strong>Event Emitter: </strong>an object you can make from the EventEmitter class of the events core module, allows you to create named events and assign callback functions to them, and allows you to then trigger those events at will with data to pass to the callback function if desired</p>
+                <ul>
+                    <li>.on() method takes the name of an event as the first arg, and a listener callback function second (which can have one argument itself for data provided at the time of the event occurs)</li>
+                    <li>.emit() method takes the name of event as the first arg, and second is data to pass to the listener callback function</li>
+                </ul>
+                <p><strong>Event Loop: </strong>Just like javascript in the browser, node uses a task queue and event loop, so when an event is emitted, it adds the callback function to the task queue</p>
+            </li>
+            <li>
+                <h3>Filesystem Core Module</h3>
+                <p><strong>Sandboxing: </strong>js run in the node environment has less restricted access to the filesystem than js run in the browser.  sandboxing is the technique of isolating some applications from others to protect from malicious code</p>
+                <p><strong>fs: </strong>filesystem core module is an API for interacting with the file system, uses POSIX standard, each method available through fs has a synchronous version and an asynchronous version</p>
+                <ul>
+                    <li><p><code>fs.readFile(file, encoding, callback(err, data)) </code>used to get the contents of a file see example in nodejsbasics2.js</p></li>
+                    <li><p><code>fs.createWriteStream(fileName) </code>This allows you to write to a file one line at a time through an open writeable stream to the file.  provide the filename to write to, returns a file stream, can use the .write() method on the file stream to write a line, and .end() method to end the stream</p></li>
+                </ul>
+            </li>
+            <li>
+                <h3>Readline Core Module</h3>
+                <p><strong>Stream: </strong>some kind of thing where data is processed in sequential pieces, rather than all at once, often preferable since it doesn't require enough RAM to process all data at once, and you can begin processing data sooner as it arrives, readable streams with readline core module and writable streams with fs core module</p>
+                <p><code>readline.createInterface(stream) </code>for reading a file one line at a time from a stream, it returns an event emitter, and you set the event handler for the 'line' event which will fire for each line of the file and run the handler with that line.  seems like setting the handler also begins the emitting of events, like how setting stdin.on() also seems to start the input mode in the terminal. see example nodejsbasics3.js </p>
+            </li>
+            <li>
+                <h3>HTTP Core Module</h3>
+                <p>contains functions that simplify interacting with HTTP and streamline receiving and responding to requests</p>
+                <p><code>http.createServer(callback) </code>takes a callback function often named requestListener and returns an instance of an http.server, then when you run the .listen(port) method on the http.server, it will start listening for incoming requests on the given port and run the callback function when a request is received</p>
+                <ul>
+                    <li><p>the requestListener callback function should have two arguments, the request object and the response object; the received request is passed in as the request object so you can access things about the request in the function; the response object you use to set the response header and body in the function; the requestListener must call response.end() to signal the interaction is complete</p></li>
+                </ul>
+            </li>
+        </ul>
+        
+        <h2>Node Package Manager</h2>
+        <p><strong>Third-party modules: </strong>modules created by third-parties (as opposed to core modules or local modules you made), that provide functionality you can reuse</p>
+        <p><strong>NPM: </strong>Node Package Manager is an online registry of hundreds of thousands of software packages such as express, react, and nodemon, containing third-party modules you can download or upload your own to share, also set of command line commands to interact with the registry, which should be automatically installed along with node</p>
+            <ul>
+                <li><p><strong>Node Package: </strong>directories that contain JavaScript code, npm is used to access and manage these packages, if you want to use a package in a project then you will use npm to download and save it in the project's root directory</p></li>
+                <li><code>npm init </code>run this command in the root directory of a project to begin using node packages in the project, this will create a package.json file in the root directory and prompt you for metadata which you can skip to leave blank or at default values</li>
+                <li><code>npm install package-name -D </code>once npm is initialized for a project, you can run the install command for a given package-name to copy the package and all of its dependencies to the project's node_modules directory (automatically created if doesn't exist yet), the -D option adds the file to your package.json devDependencies, use -S instead to add it to package.json dependencies</li>
+                    <ul>
+                        <li><p><code>npm install </code>you can run this without a package name in the root directory of a project and it will install all the packages listed in the package.json devDependencies, this allows other developers to get a copy of just your code and quickly install all dependencies on their own</p></li>
+                    </ul>
+                <li><strong>package.json </strong>a file in the root directory of a project used in managing node packages, conatins a json object with info about the project including:</li>
+                <ul>
+                    <li>metadata: individual properties of the json object including project title, description, version, authors, etc.- you should at minimum specify a title and description, note the private property should be included and set to true to avoid accidental pulication of your project to npm as a package</li>
+                    <li>dependencies property: object that lists all node packages required at runtime as keys (e.g. react and react-dom) along with version as values, version can prepended with ^ to use most recent version of the specified major version, or ~ to use most recent version of the specified minor version, e.g. <code>"react": "^15.5.4"</code> matches most recent version of 15.x.x</li>
+                    <li>devDependencies property: similar to dependencies, an object that lists all node packages required in development environment (e.g. babel)</li>
+                    <li>scripts property: command line scripts, shorthand aliases for scripts to help quickly perform command line actions, run these scripts from within your project directory using the terminal command <code>npm run script-name</code>, the script names start, restart, stop, and test are so common that npm provides aliases to run them that omit the run keyword e.g. <code>npm start</code></li>
+                    <li>Example package.json contents:
+                        <pre><code>
+                            {
+                                "name": "myapp",
+                                "version": "0.1.0",
+                                "private": true,
+                                "dependencies": {
+                                    "react": "^15.5.4",
+                                    "react-dom": "^15.5.4"
+                                },
+                                "devDependencies": {
+                                    "react-scripts": "1.0.7"
+                                },
+                                "scripts": {
+                                    "start": "react-scripts start",
+                                    "build": "react-scripts build",
+                                    "test": "react-script test --env=jsdom"
+                                    "eject": "react-scripts eject"
+                                }
+                            }
+                            </code></pre>
+                    </li>
+                </ul>
+                <li><strong>/node_modules </strong>a directory in the root directory of a project that contains all of the node packages required in the project (dependencies) and all packages they're dependent on (sub-dependencies), (could also have packages you don't require anywhere for whatever reason)</li>
+            </ul>
+
+        <h2>Asynchronous Actions</h2>
+        <p><strong>Asynchronous Node APIs: </strong>node provides a number of APIs for performing asynchronous tasks that all use callback functions, such as setTimeout(callback, delayInMS), these APIs trigger subscribing to a completion event with the given callback function, and then emit the completion event perhaps with data upon completion thus adding the callback function to the task queue</p>
+        <p><strong>Error-first Callback: </strong>Many asynchronous node APIs accept a callback function with two arguments: first an error, and second the data.  If the action results in an error, then the error will get passed in as the the first argument, and if not then the first argument will be undefined</p>
+        <p><strong>Promises: </strong>Newer versions of Node v8.0.0+, provide the asynchronous APIs formatted for promises, found on util.promisify and is becoming favored over traditional callbacks</p>
+
+    </body>
+</html>

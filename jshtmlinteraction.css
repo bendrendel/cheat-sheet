@@ -1,0 +1,22 @@
+button {
+    display: block;
+    padding: 10px;
+    margin: 3px;
+    color: white;
+}
+
+#remove-me {
+    hidden: true;
+}
+
+#fill-me,
+#key-presser {
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 4em;
+    width: 20%;
+    padding: 5px;
+    text-align: center;
+    margin: 10px;
+}
+

@@ -1,0 +1,213 @@
+/*
+Non-User Fonts
+
+Can use content delivery network like Google Fonts to use fonts that aren't installed on the user's computer
+Put the link in the head section of the HTML document using the link element
+Or import the fonts in the CSS document by going to href link provided by google fonts and copy each of the CSS rules labelled as latin to your css file.  
+paste them at the top to ensure fonts load correctly
+
+Can also use local font files that you host with the site, .woff2 file type is way of future with small size and better performance, 
+but should include multiple formats for browsers that don't support it
+*/
+
+/* latin */
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: local('Roboto Medium'), local('Roboto-Medium'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmEU9fBBc4AMP6lQ.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* latin */
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: local('Roboto Bold'), local('Roboto-Bold'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmWUlfBBc4AMP6lQ.woff2) format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* locally hosted font */
+@font-face {
+    font-family: 'Mersella';
+    src: url(./fonts/Mersella.woff2) format('woff2'),
+        url(./fonts/Mersella.woff) format('woff'),
+        url(./fonts/Mersella.tff) format('truetype');
+}
+
+/*
+CSS Rule Sets
+
+A CSS Rule or Rule Set consists of a selector and one or more
+CSS Declarations, which consist of a property and a value
+
+Selectors
+The * selector selects all elements, select by id with #id-name, class with .class-name, element with element name
+chain selectors or separate by a space to get nested elements
+apply a style to multiple selectors at once by separating with comma
+
+Most to least specific: ID, class, tag. 
+Also specificity increases as more selectors are added through chaining/nesting
+Higher specificity style overrides lower specificity.
+Styles later in document override styles earlier in document if specifity is equal
+!important tag overrides all other styles
+Use the lowest specifity possible to achieve a solution, this keeps css shorter and more readable
+*/
+
+* {
+    margin: 0;
+    border: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 18px;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 1.4;
+}
+
+.green {
+    color: green;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+p.chained-selector {
+    color: purple;
+}
+
+.nested-list li {
+    color: darkgoldenrod;
+}
+
+#first-selector {
+    color: green;
+}
+
+#second-selector {
+    color: green !important;
+}
+
+#first-selector,
+#second-selector {
+    color: darkred;
+}
+
+/*
+Typography
+font-family: default is Times New Roman for all elements
+    can list any font but it must be installed on user's computer to load, must enclose fonts in quotes if they contain a space but otherwise optional
+    can list multiple fonts separated by comma (fallback fonts), in case font is not installed on user's computer, will try to use next font in list
+    can use keywords serif or sans-serif to let client's browser pick any serif or sans-serif font that is installed on the user's computer
+    can also use non-user fonts imported as above, by using the font family name of the imported font
+font-size: controls font size
+font-weight: normal, bold, multiples of 100 between 100 and 900.  400 is default of most text, 700 is bold, 300 is light.  Not all fonts can be assigned a numeric font weight.
+text-align: left, center, right, aligns text relative to parent element
+font-style: italic or normal
+word-spacing: spacing between words preferred to define in ems, usually default is 0.25em, not common to increase spacing except maybe for bold or large text, 
+letter-spacing: space between letters (aka tracking), preferred to define in ems, not common except maybe for uppercase text
+text-transform: uppercase, lowercase
+line-height: preferred to use unitless number multiple of font-size (e.g. 1.2 is 20% taller than font-size), can use unit like px, ems, etc; modifies the leading, which is the space above a line of text up to the bottom of the line of text above, often used to make paragraphs of large text more readable
+*/
+
+#typography-ex1 {
+    font-family: 'Roboto';
+}
+
+#typography-ex2 {
+    font-family: 'Mersella';
+}
+
+#typography-ex3 {
+    font-family: 'Fake-font-wont-load', sans-serif;
+}
+
+#typography-ex4 {
+    font-family: 'Space Mono';
+}
+
+/*
+Background Images
+background-image: use url("path") where path is to local file or web address e.g. url("https://wwww.example.com/image.jpg")
+background-repeat: no-repeat, repeat (default)
+background-position: center, centers image within element
+background-size: cover makes images cover entire element background while staying in proportion
+*/
+.background-img-1 {
+    background-image: url('./black-hole.jpg');
+    color: white;
+    border: 5px goldenrod solid;
+}
+
+.background-img-2 {
+    background-image: url('./black-hole.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 100px;
+    width: 500px;
+    border: 5px seagreen solid;
+}
+
+/*
+Common image and video scaling desing patterns
+shrink image if width of container gets smaller than image, otherwise image is not scaled 
+*/
+.img-container-1 {
+    width: 50%;
+    height: 200px;
+    overflow: hidden;
+    border: 5px solid mediumslateblue;
+}
+
+.img-container-1 img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border: 3px dotted rgb(56, 66, 70);
+}
+
+/*
+shrink image so it is as big as possible while staying inside container and keeps it proportions
+*/
+.img-container-2 {
+    width: 50%;
+    height: 200px;
+    overflow: hidden;
+    border: 5px solid mediumslateblue;
+}
+
+.img-container-2 img {
+    max-width: 100%;
+    height: auto;
+    max-height: 100%;
+    display: block;
+    border: 3px dotted rgb(56, 66, 70);
+}
+
+/*
+shrink image if height of container gets smaller than image, otherwise no scaling
+*/
+.img-container-3 {
+    width: 50%;
+    height: 600px;
+    overflow: hidden;
+    border: 5px solid mediumslateblue;
+}
+
+.img-container-3 img {
+    max-height: 100%;
+    width: auto;
+    display: block;
+    border: 3px dotted rgb(56, 66, 70);
+}
+

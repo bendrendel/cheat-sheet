@@ -1,0 +1,146 @@
+a:link {
+    background-color: lightgrey
+}
+
+a:visited{
+    background-color: lightskyblue
+}
+
+a:hover {
+    background-color: darkgray;
+}
+
+a:active {
+    background-color: lightcoral;
+}
+
+.sku-button {
+    display: inline-block;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    box-shadow: 0px 5px;
+}
+
+.sku-button:hover {
+    cursor: pointer;
+}
+
+.sku-button:active {
+    margin-top: 5px;
+    margin-bottom: -5px;
+    color: black;
+    box-shadow: 0px 0px;
+}
+
+.flat-button {
+    display: inline-block;
+    border: 1px solid black;
+    padding: 5px;
+    background-color: hsl(200, 50%, 70%);
+}
+
+.flat-button:hover {
+    cursor: pointer;
+    background-color: hsl(200, 50%, 80%);
+}
+
+.flat-button:active {
+    background-color: hsl(200, 50%, 50%);
+}
+
+/*breadcrumbs
++ is the adjacent sibling combinator, it selects any li that has an adjacent sibling li element before it
+::before creates a pseudo-element, that virtually exists as an adjacent sibling before the selected element
+*/
+.basic-breadcrumb li {
+    display: inline;
+}
+
+.basic-breadcrumb li+li::before {
+    padding: 10px;
+    content: ">";
+}
+
+.basic-breadcrumb a {
+    text-decoration: none;
+}
+
+/*the fancy breadcrumb
+    creates pseudo elements before and after each link
+    pseudo elements have no content, no height or width, but have thick border and are nothing but borders
+    since the borders will meet at 45 deg angles you can color some of the border transparent to create an arrow
+*/
+
+
+.fancy-breadcrumb li {
+    float: left;
+    list-style: none;
+}
+
+.fancy-breadcrumb a {
+    display: block;
+    color: #fff;
+    background: darkcyan;
+    text-decoration: none;
+    position: relative;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    margin-right: 15px;
+    padding: 0 5px;
+}
+
+.fancy-breadcrumb a::before,
+.fancy-breadcrumb a::after {
+    content: "";
+    position: absolute;
+    border-style: solid;
+    border-width: 15px 5px;
+}
+
+.fancy-breadcrumb a::before {
+    left: -10px;
+    border-color: darkcyan;
+    border-left-color: transparent;
+}
+
+.fancy-breadcrumb a::after {
+    left: 100%;
+    border-color: transparent;
+    border-left-color: darkcyan;
+}
+
+.fancy-breadcrumb a:hover {
+    background-color: blue;
+}
+
+.fancy-breadcrumb a:hover::before {
+    border-color: blue;
+    border-left-color: transparent;
+}
+
+.fancy-breadcrumb a:hover::after {
+    border-left-color: blue;
+}
+
+/* breadcrumb with attribute */
+
+.attribute-breadcrumb li {
+    display: inline;
+}
+  
+.attribute-breadcrumb li.location+li.location::before {
+    content: ">";
+}
+  
+.attribute-breadcrumb li.attribute {
+    background-color: lightgray;
+}
+  
+.attribute-breadcrumb li.attribute::after {
+    content: "x";
+    color: red;
+    font-size: 10px;
+    vertical-align: super;
+}

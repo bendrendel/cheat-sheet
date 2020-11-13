@@ -29,7 +29,7 @@
             <li><a href="./boxmodel.html">Box Model</a></li>
             <li><a href="./displayandposition.html">Display and Positioning</a></li>
             <li><a href="./responsive.html">Responsive Design</a></li>
-            <li><a href="./transitions.html">Transitions</a></li> 
+            <li><a href="./transitions.html">Transitions</a></li>
             <li><a href="./flex.html">Flex</a></li>
             <li><a href="./grid.html">Grid</a></li>
             <li><a href="./bootstrap.html">Bootstrap</a></li>
@@ -53,28 +53,17 @@
             <li><a href="./jsmanaginghttprequests.html">Managing HTTP Requests</a></li>
         </ul>
 
-        <h2>React</h2>
-        <ul>
-            <li><a href="./reactbasics.html">Basics</a></li>
-            <li><a href="./reactappsetup.html">App Setup</a></li>
-            <li><a href="./reactprogrammingpatterns.html">Programming Patterns</a></li>
-        </ul>
-
         <h2>Design</h2>
         <ul>
             <li><a href="./color.html">Color</a></li>
-            <li><a href="./gridlayouts.html">Grid Layouts</a></li>
-            <li><a href="./buttonsandnavigation.html">Buttons and Navigation</a></li>
-            <li><a href="./text.html">Text</a></li>
+            <li><a href="./navigation.html">Navigation</a></li>
             <li><a href="./accessibility.html">Accessibility</a></li>
             <li><a href="./icons.html">Icons and Image Assets</a></li>
-            <li><a href="./wireframesandprototypes.html">Wireframes and Prototypes</a></li>
-            <li><a href="./websitestyleguide.html">Example Website Style Guide</a></li>
         </ul>
 
         <h2>Node.js</h2>
         <ul>
-            <li><a href="./nodejsbasics.html">Basics</a></li>
+            <li><a href="./basicnode.html">Basic Node.js</a></li>
         </ul>
 
         <h2>PHP</h2>

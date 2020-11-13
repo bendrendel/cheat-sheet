@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Semantic HTML</title>
+        <link type="text/css" rel="stylesheet" href="./semantic.css">
+    </head>
+    <body>
+        <!--
+        Not semantic: div, span
+        Semantic: header, nav, main, footer, section, article, aside, figure, figcaption, audio, video
+        -->
+        <header>
+            <h1>Semantic HTML</h1>
+            <nav>
+                <ul>
+                    <li><a href="./index.html">Home</a></li>
+                    <li><a href="./bootstrap.html">Bootstrap</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section>
+                <h2>Sectioning elements</h2>
+                <p>Sectioning elements are a subset of semantic elements including section, article, nav, header, footer, aside, and figure and should be used in place of divs</p>
+                <p>Before semantic HTML was introduced in HTML5, developers used lots of divs with class names to section up website, semantic html standardizes that better to help machines read your site</p>
+                <h3>Document Outlines</h3>
+                <p>Every HTML document has a heirarchical outline that is defined by the heirarchy of heading tags h1-h6, this plays a significant role in search engines determining what's important on the page</p>
+                <h3>Sections</h3>
+                <p>The section element is a way of creating sections in a document, they are generic and not exactly clear how to leverage them properly</p>
+                <p>The section element will create a top-level spot in the document outline, interrupting the heirarchy of headings, but it shouldn't be used to manipulate the document outline like this, rather the headings should always define the document outline without relying on sections</p>
+                <p>Sections should always contain at least one heading element h1-h6, or else it will create an "Untitled Section" node in the document outline.  With a heading, the heading name will be used in the document outline instead.</p>
+                <p>Sections should not be used for self-contained content (article should be used), or for purely layout purposes (div should be used in that case)</p>
+                <h3>Navs</h3>
+                <p>Navs are great for search engines to identify all pages of your site, can have multiple navs per page if you have different sets of related links</p>
+                <h3>Headers</h3>
+                <p>The header element is for introductory content, best practice to use at top of website to contain name/logo/navigation. headers associated with nearest parent sectioning element, so can have a header inside an article for instance, meaning you can have multiple headers on a page</p>
+                <h3>Footers</h3>
+                <p>Footers can contain navs, copyright notices, author bios, etc. Like headers, you may have a main site footer, and could have footers within articles</p>
+                <h3>Asides</h3>
+                <p>Aside elements should be used within articles to separate the content from the rest of the article like advertisments, definitions, stats, or quotations.  They should also be used outside an article for the webpage as a whole for sidebars that might contain a nav or several navs with links</p>
+                <h3>Div</h3>
+                <p>Divs should still be used for pure layout purposes, often used with flexbox or when you need containers to center things, etc.  Don't use semantic sectioning elements in these cases as it will just be confusing</p>
+            </section>
+
+            <article>
+                <header>
+                    <h2>Articles</h2>
+                    <p>An article about Articles</p> 
+                </header>                
+                <p>Articles define content that makes sense on its own and could be plucked out of the page and distributed in a totally different context like aggregator sites or a search engine</p>
+                <p>Articles are essentially mini web pages within your HTML document and can have their own headers, sections, footers, etc separate from the rest of the site</p>
+                <p>A site might have only one article element, or could have many like multiple blog posts on a page, which is like merging multiple HTML files into a single document</p>
+                <footer>
+                    <p>Article footer</p>
+                </footer>
+            </article>
+
+            <figure>
+                <img src="hat.jpg">
+                <figcaption>
+                    figure is for media like a diagram, illustration, or code snippet referenced in the main flow of the document and
+                    figcaption is optional and for describing the media in the figure tag
+                    This is commonly used with the img element.  Note the alt attribute of the image serves as a text replacement for the image, whereas the figcaption is a supporting description displayed with the image
+                    The alt attribute can be omitted if you have a figcaption without hurting SEO.  Depending on circumstance it may be best to omit alt attribute and use figcaption, to avoid redundancy
+                </figcaption>
+            </figure>
+
+            <section>
+                <h2>Other semantic Elements (Not for sectioning)</h2>
+
+                <p>The time element allows you to wrap dates and times and include a datetime attribute that helps search engines, etc. interpret it, can just include date or can also include time (24hr) and offset from GMT (-008 represents pacific standard time)</p>
+                <time datetime='2017-1-3 15:00-0800'>January 3rd</time>
+
+                <p>Address element meant to contain contact info for author of an article or webpage, not meant for any arbitrary physical address</p>
+                <address>
+                    Please contact <a href='mailto:troymcclure@example.com'>Troy
+                    McClure</a> for questions about this article.
+                </address>
+                
+                <audio controls>
+                    <source src="https://codecademy-content.s3.amazonaws.com/courses/Semantic+HTML/dogBarking.mp3" type="audio/mp3">
+                </audio>
+
+                <video controls loop src="https://codecademy-content.s3.amazonaws.com/courses/Semantic+HTML/dog+video.mp4">Text here will be shown
+                if video is not supported</video>
+                <!--video can be given a direct height and width attribute, but probably deprecated for css-->
+            </section>
+
+            <section>
+                <h2>Semantic Classes</h2>
+                <p>Semantic classes describe the nature of an element's content rather than the desired styling or presentation of the content</p>
+                <ul>
+                    <li>This is in opposition to "atomic" css where you have many classes that each do one styling, and assign many classes to each element like "bold red pad-left-20"</li>
+                    <li>Semantic CSS is easier to make responsive, easier to identify html elements, less chance of regression, less maintenance, easier to debug, better hooks, smaller HTML footprint</li>
+                </ul>
+                <p>Use semantic html tags whenever possible in place of classes, and avoid classes like "link" that are redundant of a tag like "a"</p>
+                <p>CSS should specify regular styles so that most elements don't need a class,
+                    classes should be used when exceptions to regular stylings are needed</p>
+                <p>When possible, use good CSS selectors to style elements instead of classes, e.g. 
+                    use <code>article:p first-of-type</code> to style the first paragraph of an article
+                    instead of giving the first paragraph a class of "intro-para"
+                </p>
+                <p>Avoid specifing styles in class name like "largeText" or "blueBkg" or "left", because the style
+                    and positioning may change in the future, instead use "priority-1" or "standout" or "brandcolor"
+                </p>
+                <p>When a style is shared (like background color) between many elements, this presents a challenge to semantic css,
+                    sometimes it is best to make a big CSS selector with all the elements selected so you just apply that style once and avoid repetition in the css,
+                    sometimes its best to have separate selectors for each element and apply the style to each one so you can also include other styles for each element under one selector,
+                    and sometimes its best to use a more atomic approach and create a special class for that style, and add that class to each element.
+                </p>
+
+            </section>
+
+            <section>
+                <h2>CSS/Legacy Browser</h2>
+                <p>all modern browsers support HTML5 which introduced the semantic elements</p>
+                <p>But sometimes you will see the following css to set the semantic elements as block for legacy browsers</p>
+                <code>
+                    section, article, aside, footer, header, nav {
+                        display: block;
+                    }
+                </code>
+            </section>
+            
+        </main>
+
+        <footer>
+            <p>Page Footer</p>
+        </footer>
+
+    </body>
+</html>

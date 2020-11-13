@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JS Functions</title>
+        <script src="./jsfunctions.js"></script>
+    </head>
+    <body>
+        <a href="./index.html">Home</a>
+
+        <h2>Basic Terms</h2>
+        <p><strong>Functions: </strong>Functions are 'first-class objects' in javascript, they have properties and methods such as .length, .name, .toString(), can be assigned to variables and reassigned to new variables</p>
+        <p><strong>function declaration: </strong>binds a function to an identifier, consists of function keyword, identifier, parameters and function body in {}</p>
+        <p><strong>hoisting: </strong>can use a declared function before its been declared, not considered good practice</p>
+        <p><strong>function call: </strong>running the code in the function body</p>
+        <p><strong>parameters/arguments: </strong>parameters are part of declaration and treated like variables in the function, arguments are passed to the parameters when calling the function</p>
+        <p><strong>default: </strong>provide default param value by setting param equal to default in declaration, will use default if no argument is passed or if argument is undefined</p>
+        <p><strong>pass-by-reference: </strong>if you provide a variable as an argument to a function, then the parameter references the same location in memory that the variable references</p>
+        <p>if you reassign the parameter to a different value in the function body, then the new value is assigned it's own location in memory, and the parameter changes to reference the new location, leaving the original memory location and variable unchanged</p>
+        <p>however if you mutate (change) the value at the original memory location, then the original variable will now also change since it still references the memory location that was mutated.  This only comes up with arrays and objects, that can mutate with methods like .push for arrays</p>
+        <p><strong>return: </strong>execution of function stops once a return statement runs, undefined is returned if no return statement is included in function body</p>
+        <p><strong>Helper function: </strong>any function that gets called inside another function's body</p>
+        <p><strong>Function expression: </strong>defining a function inside an expression using function keyword, often anonymous, but can also be stored in a variable (convention to use const), not hoisted</p>
+        <p><strong>Arrow functions: </strong>alternative syntax for function expressions</p>
+        <p><strong>Concise arrow functions: </strong>more concise arrow function syntax in certain conditions</p>
+        <p><strong>Anonymous function: </strong>a function expression or arrow function with no identifier, i.e. never assigned to a variable name (like defining a callback function directly in the call of the higher-order function)</p>
+        <p><strong>Higher-order functions: </strong>Functions that accept other functions as arguments or return functions as output</p>
+        <p><strong>Callback functions: </strong>Functions that get passed in as parameters and invoked in another function</p>
+        <p><strong>Abstraction: </strong>The function name is an abstract (as in concise summary) of the function body, allowing for more readable and modular code</p>
+        
+    </body>
+</html>

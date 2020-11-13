@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Basic CSS</title>
+
+        <!--Linked font in HTML document, best to load before css files that use them so there is no sudden change once the font loads-->
+        <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+        
+        <!--Browsers have a user agent stylesheet that defines default styles
+            The HTML5 specification also defines default rendering rules
+            Can wipe out the user agent stylesheet with a good reset stylesheet
+        -->
+        <link rel="stylesheet" type="text/css" href="./reset.css"/>
+        <link href="./basiccss.css" type="text/css" rel="stylesheet">
+        
+        <!--Example use of style element-->
+        <style>
+            #style-element {
+                background-color: gray;
+                color: black;
+            }
+        </style>
+    </head>
+    <body>
+        <a href="./index.html">Home</a>
+
+        <br>
+
+        <h2>Inline styles and style element</h2>
+        <p style="color: red; font-size: 20px;">Example of inline styles</p>"
+        <p id="style-element">Styled by the style element</p>
+
+        <br>
+
+        <h2>Selectors</h2>
+        <p class="green bold">Multiple classes can be added to the class attribute by separating them with a space</p>
+        <p class="chained-selector">Styled by chaining selectors for greater specificity</p>
+        <ul class="nested-list">
+            <li>Styled by consecutive selectors separated by a space to select nested elements</li>
+        </ul>
+        <p id="first-selector">This paragraph shares a style block with</p>
+        <p id="second-selector">this paragraph.</p>
+
+        <br>
+
+        <h2>Typography</h2>
+        <p id="typography-ex1">Example of CSS linked font from CDN</p>
+        <p id="typography-ex2">Example of locally hosted font</p>
+        <p id="typography-ex3">Example of using a fallback font and sans-serif keyword</p>
+        <p id="typography-ex4">Example of linking to a font from the HTML document</p>
+
+        <br>
+
+        <h2>Images</h2>
+
+        <div class="background-img-1">
+            <p>Example of background image</p>
+            <p>notice div is not expanding for the background image, only for html content</p>
+            <p>third line</p>
+        </div>
+
+        <div class="background-img-2">
+        </div>
+
+        <div class="img-container-1">
+            <img src="./black-hole.jpg" />
+        </div>
+        
+        <div class="img-container-2">
+            <img src="./black-hole.jpg" />
+        </div>
+
+        <div class="img-container-3">
+            <img src="./black-hole.jpg" />
+        </div>
+
+
+    </body>
+</html>

@@ -1,0 +1,20 @@
+#ex-keyword {
+    background-color: yellowgreen;
+    color: white;
+}
+
+#ex-rgb {
+    background-color: rgb(50, 150, 200);
+    color: rgb(0, 0, 150);
+}
+
+#ex-hex {
+    background-color: #8FBC8F;
+    color: #000;
+    opacity: 0.7;
+}
+
+#ex-hsla {
+    background-color: hsla(200, 100%, 50%, 0.726);
+    color: hsla(200, 100, 15%, 0.726);
+}

@@ -1,0 +1,12 @@
+table, td {
+    border: 1px solid black;
+}
+
+thead {
+    background-color: lightblue;
+}
+
+tfoot {
+    background-color: lightslategray;
+    color: whitesmoke;
+}

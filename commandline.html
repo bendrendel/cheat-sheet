@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Basic Command Line</title>
+        
+    </head>
+    <body>
+        <a href="./index.html">Home</a>
+
+        <h2>Command Line Basics</h2>
+        <p><strong>Command: </strong>A directive to the computer to perform a specific task, can have arguments (e.g. cd Documents) and options that modify the command's behavior (e.g. ls -a)</p>
+        <p><strong>Command Line: </strong>Fully text-based interface for your computer that takes commands which it passes to the OS to run</p>
+        <p><strong>Terminal Emulator: </strong>Often just called the terminal, used to access the command line</p>
+        <p><strong>Shell Prompt: </strong>Usually $, it indicates the terminal is ready to accept a command</p>
+        <p><strong>Command Line Interface (CLI): </strong>Come in many forms, A shell is a specific kind of CLI, and most widely used is Bash (Bourne-Again Shell) which is default on Linux and Mac and open-source
+        <ul>
+            <li><p><strong>Command Prompt: </strong>the default CLI on windows, but you should install and use Git Bash or other CLI that acts like Bash</p></li>
+        </ul>
+        
+        <br>
+
+        <h2>Basic terminal commands</h2>
+        <p><strong>clear </strong>clears the terminal</p>
+        <p><strong>history </strong>outputs history of commands entered in current session</p>
+        <p><strong>env </strong>outputs a list of environment variables for the current user</p>
+        <p><strong>nano </strong>a simple command line text editor, type nano filename.txt to open the editor to a new file named filename.txt if it doesn't exist, or give it the name of an existing file to open it</p>
+        <ul>
+            <li><p><strong>ctrl + o </strong>saves the file</p></li>
+            <li><p><strong>ctrl + x </strong>exits nano</p></li>
+        </ul>
+        <p><strong>which </strong>returns the full path of the exectuable provided as stdin, e.g. <code>which node</code> returns location where node is installed</p>
+
+        <br>
+
+        <h2>Filesystem Basics</h2>
+        <p><strong>Filesystem: </strong>Organizes a computers files and directories into a tree structure, all of the data on a computer is organized and accessed through the filesystem</p>
+        <p><strong>Root Directory: </strong>The first directory in the filestystem, the parent of all other directories and files</p>
+        <p><strong>Directory: </strong>aka folders, a directory (parent directory) can contain files or other directories (child directories), always contains a current directory (.) and parent directory (..) link</p>
+        <p><strong>Home Directory: </strong>represented with ~, on windows the default home directory is C:\home\Users\username in Command Prompt (in Git Bash on windows this is represented as /c/Users/username)</p>
+        <p><strong>Hidden files: </strong>in the CLI hidden files always start with a period, e.g., .hiddenfile.txt</p>
+        
+        <br>
+
+        <h2>Basic Filesystem Commands</h2>
+        <p><strong>ls -alt </strong>list files and folders in current working directory, -a shows hidden files and directories (those starting with a dot), -l long detail format, -t order by modified date</p>
+            <ul>
+                <li><p>long format shows access rights, number of hard links (number of child directories and files including parent (..) and current (.) directory links), owner username, owner group, file size in bytes, modification date, name</p></li>
+            </ul>
+        <p><strong>pwd </strong>print working directory, outputs name of the directory you are currently in</p>
+        <p><strong>cd directory_name </strong>change directory to directory_name, e.g. cd jan/memory, changes to memory child directory of jan child directory of working directory, use .. to move up one directory, e.g. cd ../../feb moves up two directories and into the feb directory</p>
+        <p><strong>mkdir directory_name </strong>makes new directory with directory_name inside working directory</p>
+        <p><strong>touch file_name </strong>creates a new file with file_name, e.g. touch keyboard.txt</p>
+        <p><strong>cp </strong>copies files or directories</p>
+        <ul>
+            <li><p><strong>cp copyfrom.txt subfolder/copyto.txt</strong> overwrites copyto.txt with contents of copyfrom.txt</p></li>
+            <li><p><strong>cp subfolder/copyme.txt copymetoo.txt subfolder2/ </strong>copies 2 files into subfolder 2, can list only one file to copy or list three or more files</p></li>
+            <li><p><strong>cp m*.txt subfolder/ </strong>copies all .txt files starting with m into subfolder, could use cp * subfolder/ to copy all files into subfolder</p></li>
+        </ul>
+        <p><strong>mv </strong>moves files or directories</p>
+        <ul>
+            <li><p><strong>mv originalfilename.txt newfilename.txt </strong>renames originalfilename.txt to newfilename.txt</p></li>
+            <li><p><strong>mv moveme.txt movemetoo.txt subfolder/ </strong>moves 2 files into subfolder directory, can list only one file to copy or three or more</p></li>
+        </ul>
+        <p><strong>rm </strong>use rm filename.txt to delete file, or rm -r directoryname to delete a directory (recursive -r option deletes child directories), no undo!</p>
+
+        <br>
+
+        <h2>Input/Output Basic Terms</h2>
+        <p><strong>standard input (stdin): </strong>information inputted to the terminal through keyboard or input device</p>
+        <p><strong>standard output (stout): </strong>information outputted after a process is run</p>
+        <p><strong>standard error (sterr): </strong>an error message outputted by a failed process</p>
+        <p><strong>Redirection: </strong>rerouting standard input, output, and error to or from a different location</p>
+        
+        <br>
+
+        <h2>Commands to Redirect Input/Output</h2>
+        <p><strong>echo {stdin} (rtn stout) </strong>accepts standard input (e.g. a string) and returns it back as standard output, e.g. echo "Hello" takes stdin "Hello" and returns stdout "Hello"</p>
+        <p><strong>cat {stdin-file} (rtn stout) </strong>accepts standard input (usually a filename), outputs contents of file as stout, e.g. cat hello.txt</p>
+        <p><strong>{stout} > {stdin-file} </strong>redirects standard output of the command on the left to overwrite the contents of a file on the right, e.g. echo "new file contents" > myfile.txt</p>
+        <p><strong>{stout} >> {stdin-file} </strong>redirects standard output of command on left to append it to contents of file on right, e.g. cat appendMyContents.txt >> receivingFile.txt</p>
+        <p><strong>{cmd needing stdin} &lt {stdin-file} (rtn stout) </strong>redirects stdin on right to use as stdin for command on left, returns stdout from running command. e.g. cat &lt displayMyContents.txt</p>
+        <p><strong>{stout} | {cmd needing stdin} (rtn stout) </strong>redirects stdout of command on left to use as stdin for command on right, can pipe commands together this way, e.g. cat readThisFile.txt | wc | cat > overwriteThisFile.txt</p>
+        <p><strong>wc {stdin} (rtn stout) </strong>accepts stdin (usually a filename) and returns stout with number of lines, words and characters in the file</p>
+        <p><strong>sort {stdin} (rtn stout) </strong>accepts stdin (usually a filename) and returns stout with the lines sorted alphabetically, e.g. sort sortMe.txt > sortedFile.txt</p>        
+        <p><strong>uniq {stdin} (rtn stout) </strong>accepts stdin (usually a filename) and returns stout with adjacent duplicate lines removed, often used with sort first so that any duplicate lines are made adjacent, e.g. sort sortMe.txt | uniq > sortedAndUnique.txt</p>
+        <p><strong>grep {regex} {stdin} </strong>(global regular expression print) accepts stdin (e.g. a filename) and returns stout of all lines in the file that contain a match with regex, e.g. grep word file.txt</p>
+            <ul>
+                <li><p><strong>-i </strong>option to make regex case-insensitive, e.g. grep -i Capitalized lowercasewords.txt, will look for "Capitalized" or "capitalized"</p></li>
+                <li><p><strong>-R </strong>searches all files within a directory, outputs filenames and each line containing a match, e.g. grep -R Word /Users/username/documents</p></li>
+                <li><p><strong>-Rl </strong>same as -R, but only outputs filenames that have a line containing a match</p></li>
+            </ul>
+        <p><strong>sed 's/{text to find}/{replacement text}/' {stdin} </strong>(stream editor) takes stdin (e.g. filename), and replaces first instance of text to find in each line with replacement text, then outputs the results as stdout, e.g sed 's/old/new/' myfile.txt</p>
+            <ul>
+                <li><p><strong>/g </strong>(global) replaces all instances on the line instead of just the first, e.g. sed 's/old/new/g' myfile.txt</p></li>
+                <li><p><strong>-i.bak </strong>use this option to overwrite file with change, e.g., sed -i.bak 's/old/new/' myfile.html</p></li>
+            </ul>
+        
+        <br>
+        
+        <h2>Bash Profile</h2>
+        <p><strong>Bash Profile: </strong>When a session starts, it loads contents of bash profile which stores environment settings</p>
+            <ul>
+                <li><p><code>~/.bash_profile </code>the bash profile is stored in the home directory as .bash_profile on OSX (on linux it is ~/.bashrc)</p></li>
+                <li><p><code>source ~/.bash_profile </code>use the source command to reload the bash_profile within the current terminal session, useful if you've made changes</p></li>
+            </ul>
+        <p><strong>Configuring the bash profile: </strong>You add commands to the bash profile, one per line, some simple configurations are below</p>
+        <ul>
+            <li><p><code>echo "Welcome message" </code>This will print the string "Welcome message" in the command line when a terminal session begins</p></li>
+            <li><p><code>alias pd="pwd" </code>creates an alias pd for the pwd command that you can type in the terminal instead of pwd, other examples: alias ll="ls -la"</p></li>
+            <li><p><code>alias myscript='./myscript.sh "arg1" "arg2"' </code>alias the execution of a bash script to something shorter, you can optionally include arguments as shown</p></li>
+        </ul>
+
+        <br>
+
+        <h2>Environment</h2>
+        <p><strong>Environment: </strong>Every time you launch the terminal a new session is created that loads settings making up the command line environment</p>
+        <p><strong>Environment variables: </strong>variables that can be used across commands and programs that hold information about the environment</p>
+        <ul>
+            <li><p><strong>USER </strong>normally set to the name of the computer's owner</p></li>
+            <li><p><strong>PS1 </strong>defines what the shell prompt looks like</p></li>
+            <li><p><strong>HOME </strong>stores the path of the home directory, can be customized but in most cases that is not necessary</p></li>
+            <li><p><strong>PATH </strong>stores a list of directories separated by colons, which contain scripts for the command line to execute, e.g. many common ones are in the /bin directory like /bin/pwd, /bin/ls, can be customized to add your own scripts</p></li>
+        </ul>
+        <p><strong>Setting environment variables: </strong>Place on its own line in your bash profile: VARNAME="value", begin with export keyword so it is available to all child sessions of current session, allowing the variable to persist across programs, for example:</p>
+        <ul>
+            <li><p>export USER="Ben Drendel"</p></li>
+            <li><p>export PS1="(>'.')>"</p></li>
+            <li><p>PATH=~/bin:$PATH &lt--example of appending the ~/bin directory to your current PATH variable</p></li>
+        </ul>
+        <p><strong>Accessing environment variables: </strong>In the command line, type $VARNAME to access variable with VARNAME, e.g. echo $USER will output user name</p>
+    </body>
+</html>

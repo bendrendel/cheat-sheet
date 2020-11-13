@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Web Basics</title>
+    </head>
+    <body>
+        <a href="./index.html">Home</a>
+
+        <h2>Web Stack</h2>
+        <p><strong>Stack: </strong>The collection of technologies used on the front and back end of a website, e.g. MEAN is MongoDB, Express, Angular, Node, LAMP is the archetypal stack Linux, Apace, MySQL, PHP</p>
+        <ul>
+            <li><p><strong>Front-end: </strong>Composed of static assests such as JavaScript, CSS, HTML, images, and videos</p></li>
+            <li><p><strong>Back-end: </strong>Behind-the-scenes processes and data, much of it is CRUD operations on a database, many languages and frameworks like PHP/Laravel, JavaScript/Express, Ruby/Rails, Python/Django</p></li>
+            <ul>
+                <li><p><strong>Application: </strong>All the logic in the back-end required to deliver dynamic content, manage security, process payments, send an email confirmation, perform a search algorithm, etc. sometimes called the application server</p></li>
+                <li><p><strong>Database: </strong>Data storage in the back-end, two major types are relational (e.g. MySQL, PostgreSQL) and non-relational (e.g. MongoDB, Redis, stores data in key-value pairs or a document storage model instead of tables)</p></li>
+                <li><p><strong>Authentication: </strong>Process of validating the identity of a user, e.g. username and password, securely stored on back-end and checked upon visiting, or may use external resources like Google credentials</p></li>    
+                <li><p><strong>Authorization: </strong>Controls which users have access to which resources and actions</p></li>
+                <li><p><strong>Web API: </strong>Web Application Programming Interface often part of the back-end, predefined ways of interacting with an application's data (performing CRUD operations) through an HTTP request-response cycle, web APIs may be public or may be used only be the web application internally</p></li>        
+            </ul>
+        </ul>
+        <p><strong>Deploy: </strong>Making software or content accessible and available for use.  For web, software is made accessible of internet. Happens over and over during the course of a software project</p>
+        <p><strong>Hosting: </strong>Hosting Providers are companies that maintain lots of servers and you can rent out server space for your website files and make available and accessible to anyone on the internet, e.g. GitHub pages, NameCheap Stellar hosting service</p>
+        <ul>
+            <li>Website builders: Wix, squarespace, other content management systems, allow you to build websites without being a developer, maintain databases, networks, servers, email, etc.  Good for quick, or if you don't want to build it</li>
+            <li>Shared Web Hosting: You can rent a slice of a server for your website, shared with others, if someone else's site/app on the server consumes lots of resources, then yours will suffer</li>
+            <li>Dedicated Hosting: You can rent an entire dedicated server usually more expensive but don't have to share resources</li>
+            <li>Cloud Hosting: Vast network of data centers and computing resources, you can run different parts of your application on different types of machines/resources, e.g. one part of your app may be cpu hungry and another memory hungry</li>
+            <ul>
+                <li>Infrastructure as a service (IaaS): You get raw infrastructure resources - servers, storage, networks, and you must maintain them, provider ensures adequate servers, power, redundancy, security, etc, but you manage a lot else</li>
+                <li>Platform as a service (PaaS): You just provide your application and don't have to worry about configuring linux, etc like with IaaS</li>
+                <li>Functions as a service (Faas): AKA serverless.  provider manages tons, you don't provide an application, but specific functions, and the cloud provider runs your functions</li>
+            </ul>
+            <li>
+                <p>Github Pages: Good simple hosting, good for static files, simple html/css, or maybe compiled react, free easy to use, for Hosting service for webpages, well integrated with github, will auto-deploy whenever you push to a Github remote</p>
+                <p>you can have a repository named username.github.io and this will be the main hosted site at username.github.io, and can be set to host all of your repositories at username.github.io/repositoryname, repositories must have index.html file as home page</p>
+                <p>to use a custom domain name with Github pages, include a file name "CNAME" (no extension) in the repository with your custom domain on line 1 and nothing else (e.g. mycustomdomain.com)</p>
+            </li>
+            <li>
+                <p>Heroku: Cloud PaaS. Good for more complex full-stack apps, e.g. if you have a node.js backend and database.  not free.</p>
+            </li>
+            <li>
+                <p>Digital Ocean: Cloud provider providing full control over cloud resources, less complex than AWS or Google Cloud, but more control than a basic PaaS like Heroku</p>
+            </li>
+        </ul>        
+        <p><strong>Static Assets: </strong>Files that don't change, these are what get sent to the browser</p>
+        <p><strong>Dynamic Content: </strong>When the backend has logic deciding what assets to send based on the day or the user, etc</p>
+        <p><strong>Static Website: </strong>A website where the server sends the client the files needed to view the site, and they don't change or move.  Twitter for example is not static because it updates content as it changes</p>
+        <p><strong>Event-driven architecture: </strong>Traditional imperative programming executes a series of instructions in order, but for web applications, we need logic to handle things that could occur at different times (e.g. clickin a button), js and node.js use event-driven architecture</p>
+        <p><strong>Simple Web Project Directory Structure: </strong></p>
+        <pre class="code-pre ">
+            <code>project/
+            ├── css/
+            |   └── style.css
+            ├── js/
+            |   └── script.js
+            └── index.html
+            </code>
+        </pre>
+
+        <h2>REST</h2>
+        <p><strong>Representational State Transfer (REST): </strong>An architectural style for providing standards between computer systems on the web allwing easier communication between systems characterized by separation of client and server, and statelessness. systems following this are called REST-compliant or RESTful systems, communicate through a RESTful interface</p>
+        <ul>
+            <li><p><strong>Separation of Client and Server: </strong> needing only to know how to format message to each other, client and server can be implemented independently and code changed at any time without affecting the other, improves modularity, allows independent evolution, flexibility afforded by dedicated ui to work across different platforms, scalability by simplified server components, allows different clients to do the same actions to the same REST endpoints of a server and receive the same responses</p></li>
+            <li><p><strong>Statelessness: </strong>the client and server do not need to know what state the other is in, and can understand any message received without seeing previous messages.  enforced through, instead of commands, the use of resources through standardized operations that do not rely on implementation of interfaces, more reliable, faster, scalable, ability to componentize the system to allow for better management, updating, reusing, etc. </p></li>
+        </ul>
+        <p><strong>Client: </strong>In REST architecture, a client is the process interacting with the server, sending requests over the internet to retrieve or modify resources.  Could be a web browser requesting a website, could be another application, mobile device, smart appliance</p>
+        <p><strong>Web Server: </strong>A process running on a computer that listens for incoming requests from clients and sends back responses, a given machine could run multiple servers and each server should have a unique port that traffic is routed to, every website has at least one web server and could have many thousands for huge sites like Facebook</p>
+        <p><strong>Request/Response Cycle: </strong>REST requires clients to send requests to retrieve or modify resources and servers to send responses. Any command from the client, whether typing an address in the address bar, or something sent automatically from a website</p>
+        <ul>
+            <li><p>1. Client reads protocol of given URL</p></li>
+            <li><p>2. Client reads domain name of given URL and gets its IP address from DNS</p></li>
+            <li><p>3. Client opens TCP connection to the server at the IP address</p></li>
+            <li><p>4. Client sends HTTP request</p></li>
+            <li><p>5. Server receives request and sends response (+additional resources like images?)</p></li>
+            <li><p>6. TCP connection is closed</p></li>
+        </ul>        
+        <p><strong>Resource: </strong>Any entity on the web including HTML files, stylesheets, images, videos, and scripts, "nouns"/things of the web</p>
+        <p><strong>MIME Types: </strong>Multipurpose Internet Mail Extensions, consist of a type and subtype separated by a slash</p>
+        <ul>
+            <li><code>text/html, text/css</code> text file containing html or css</li>
+            <li><code>text/plain</code> generic text file, note this is not a super-type for text data, i.e. text/plain is a separate type and not interchangeable with other text subtypes like text/html</li>
+            <li><code>image/png, image/jpeg, image/gif</code> respective image types</li>
+            <li><code>audio/wav, audio/mpeg</code> respective audio types</li>
+            <li><code>video/mp4, video/ogg</code> respective video types</li>
+            <li><code>application/json, application/pdf, application/xml, application/octet-stream</code> respective application types</li>
+        </ul>
+        <p><strong>URL: </strong>Uniform Resource Locator</p>
+        <p><strong>Network Protocol: </strong>Format of a request from a client to a server and resulting response, e.g. HTTP</p>
+        <p><strong>TCP: </strong>Transmission Control Protocol, creates and manages the network channels between the client and server, used for many types of internet connections where one computer sends data to another</p>
+        <p><strong>HTTP: </strong>Hypertext Transfer Protocol, a specification for how to structure requests and responses sent over TCP channels, many methods but four most common are GET, POST, PUT, DELETE</p>
+        <p>HTTP/1.1 is a revision of the original HTTP/1.0 with less delay, it allows additional resources to be retrieved after getting the page like images and stylesheets in the same connection, HTTP/1.0 required a separate connection for each resource</p>
+        <p>HTTPS is HTTP Secure and encrypts the data sent and recieved, must be supported by the server and business must be certified</p>
+        
+
+        <h2>HTTP Requests</h2>
+        <p><strong>Requests: </strong>Generally consist of an HTTP verb, a header, a resource path, and an optional body with data</p>
+        <p><strong>HTTP Verbs: </strong>define the type of operation to perform</p>
+        <ul>
+            <li>GET - retrieve a specific resource or collection of resources</li>
+            <li>POST - create a new resource - requires sending data</li>
+            <li>PUT - update a specific resource</li>
+            <li>DELETE - remove a specific resource</li>
+        </ul>
+        <p><strong>Protocol: </strong>HTTP/1.1</p>
+        <p><strong>Header: </strong>contains information about the request</p>
+        <ul>
+            <li><strong>Accept field: </strong>The header's accept field specifies the type of data it can recieve from the server by MIME Type, can specify multiple types it is willing to accept</li>
+        </ul>
+        <p><strong>Resource Path: </strong>Specifies the resource upon which to perform the http verb, designed to generally be heirarchical and easy to interpret, using plurals for collections of resources, and id numbers for specific resources if needed.  e.g. /customers/57/orders/2, for perhaps getting or deleting the 2nd order of the 57th customer, or /customers/57/photos, for perhaps posting a new photo to the photos collection for customer 57</p>
+        <p><strong>Host: </strong>server address</p>
+        <p><strong>Example HTTP Request: </strong></p>
+        <p><code>GET /examplepage.html HTTP/1.1</code>  &lt-- Method, path to resource, protocol</p>
+        <p><code>Accept: text/html, application/xhtml</code>  &lt-- Accept header field</p>
+        <p><code>Host: www.example.com</code>  &lt-- Server address</p>
+        <p>Additional lines possibly, data payload</p>
+    
+
+        <h2>HTTP Responses</h2>
+        <p><strong>Responses: </strong></p>
+        <p><strong>Protocol: </strong>HTTP/1.1</p>
+        <p><strong>Header: </strong></p>
+        <ul>
+            <li><strong>Content-type field: </strong>If sending the client a data payload in the response body, this specifies the MIME type of the data and should match one of the types in the Accept field of the request</li>
+        </ul>
+        <p><strong>Response Code: </strong>status code indicating if the operation was successful or if there was an error of some kind, should return most specific error code posssible</p>
+        <ul>
+            <li>200 (0K) - standard response for successful GET and PUT requests</li>
+            <li>201 (CREATED) - standard response for successful POST requests</li>
+            <li>204 (NO CONTENT) - standarad respons for successful DELETE requests</li>
+            <li>400 (BAD REQUEST) - bad syntax, excessive size, or another client error</li>
+            <li>403 (FORBIDDEN) - client does not have permission to access the resource</li>
+            <li>404 (NOT FOUND) - resource wasn't found</li>
+            <li>500 (INTERNAL SERVER ERROR) - standard response for errors without more information</li>
+        </ul>
+        <p><strong>Body: </strong>contains data payload</p>
+        <strong>Example HTTP Response: </strong>
+        <p><code>HTTP/1.1 200 (OK)</code>  &lt-- Protocol (indicates protocol understood), HTTP status message</p>
+        <p><code>Content-Type: text/html</code>  &lt-- Type of content being sent</p>
+        <p>Followed by the content requested in the Response Body</p>
+        
+
+        <h2>Domain Names</h2>
+        <p>IP Address: This is what computers use to identify each other and communicate</p>
+        <p>Domain Name: A human-friendly name that serve as aliases for the IP address of web hosting servers, often called a web address, also enables an email account, consists of a top level domain and second level domain</p>
+        <ul>
+            <li><p>Second Level Domain: to the left of the period in a domain name, e.g. mydomain in the the domain mydomain.com, should be short, memorable, easy to spell (avoid easily misspelled or confused things like hyphens, abbreviations, numbers)</p></li>
+            <li><p>Top Level Domain (TLD): to the right of the period in the domain like .com, .org, .io, etc., all treated equally by google search</p></li>
+        </ul>
+        <p>Sub-domain: not part of the domain name but rather defined as a subdomain with a CNAME record, it is the "www" portion of the web address</p>
+        <p>Protocol: also not part of the domain name, it is the "https" part of the web address </p>
+        <p>Domain Name System (DNS): A global system that translates which domain names correspond to which servers IP address</p>
+        <p>when you type a domain name in your browser, it first checks it cache memory to see if it can pull the website from there,
+            if not then it goes to the Resolver which is the internet service provider to see if it can find it,
+            if not then it goes to the Root Server, there are only 13 in the world, and the root server instructs the resolver server on how to find the IP address
+            now the resolver sends the domain to the TLD (Top Level Domain) Server which stores the address information for the top level domains and sends it back to the resolver server
+            Now the resolver server sends it to the name server, which knows everything about the domain including the IP address, it sends it back to your computer which then stores it in its cache so it doesn't have to do this again when it wants the site
+        </p>
+        <p>Domain Name Registrar: Allows you to register domain names and create DNS records, e.g. Namecheap, Amazon Web Service's Route 53, creates unique name servers for the custom domain</p>
+        <p>Hosted Zone: A group of DNS records for a single domain, needs an NS record that matches the name servers of the domain name which links it to the domain name, an A record that links the domain name (e.g. mydomain.com, the root domain) to the IP address of the host servers, and a CNAME record for www subdomain (e.g. www.mydomain.com) that links to the canoncial name</p>        
+        <p>DNS Records: Globally accessible records that map domain names to servers</p>
+        <ul>
+            <li><p>A record (Address): A - IPv4 address, directs a domain name (e.g. mydomain.com) to an IP address of the servers hosting the site.  e.g. an A record for a GitHub hosted site should have two IP address values: 192.30.252.153 and 192.30.252.154</p></li>
+            <li><p>CNAME record (Canonical Name): specifies a domain name to use as an alias for the true (canonical) domain name, conventially create a CNAME record with name "www" and value is canonical domain name (e.g. username.github.io), this will make www.mydomain.com a subdomain of the root domain, mydomain.com</p></li>
+            <li>
+                <p>NS record (Name Server): associates domain names with the correct DNS records, form of verification, when typing an address your browser first retrieves the name servers, then those are responsible for getting necessary DNS records</p>
+                <p>e.g. in AWS Route 53, (handled automatically) the name servers have to be set on the registered domain name, and then that essentially links to a hosted zone with the same name servers, and the hosted zone has the additional necessary DNS records</p>
+            </li>
+        </ul>
+    </body>
+</html>

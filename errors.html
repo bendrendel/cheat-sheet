@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Errors in Javascript</title>
+        <script src="./errors.js" defer></script>
+    </head>
+    <body>
+        <a href="./index.html">Home</a>
+
+        <h2>Logical Errors</h2>
+        <p>Bad logic that doesn't stop execution like a runtime error does, but it produces incorrect output</p>
+        <ul>
+            <li>
+                <p>To find logical errors, starting at the top of your code, insert temporary console.log() after each piece of logic to print all relevant variables until you find a value you didn't expect</p>
+            </li>
+        </ul>
+
+        <br>
+
+        <h2>Runtime Errors</h2>
+        <p>A thrown error that haults execution of code unless error handling is used, and will display error information in console</p>
+        <h3>Built-in runtime errors</h3>
+        <p>javascript will automatically throw an error if the compiler cannot interpret your code</p>
+        <ul>
+            <li>SyntaxError: typos, etc that the compiler can't interpret</li>
+            <li>ReferenceError: trying to use a variable that hasn't been declared</li>
+            <li>TypeError: attempting to perform operations on values of the wrong type</li>
+            <li>+4 other built in JavaScript error types that are less frequently seen</li>
+        </ul>
+        <h3>Custom runtime errors</h3>
+        <p>In your code you can create a custom error object and throw it</p>
+        <ul>
+            <li>Create an error object: Error('Custom error message.') or new Error('Custom error message.')</li>
+            <li>Throw an error object: throw Error('Custom error message.')</li>
+        </ul>
+        <h3>Error Stack Trace</h3>
+        <p>Error information is logged a s an error stack trace, a message that includes the error location (file path/name:line number), type of error, and an error message</p>
+        <ul>
+            <li><img src="./errors.png"></li>
+        </ul>
+        <h3>Runtime Error Handling</h3>
+        <p>Point is to allow your program to continue running when a runtime error is thrown, instead of default behavior of stopping all execution when an error is thrown</p>
+        <ul>
+            <li>use a try...catch statement, as in try { ... } catch (e) { ... }</li>
+            <li>if an error is thrown in the try block (whether a built-in error or a custom thrown error), then the catch block will execute with the thrown error object e, then any code after the try...catch statement will run</li>
+        </ul>
+    </body>
+</html>

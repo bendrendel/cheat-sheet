@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Basic JS with HTML</title>
+        <link type="text/css" rel="stylesheet" href="./jshtmlinteraction.css">
+        <!--browser parses html files top to bottom. stops to load and execute js in script element-->
+        <!--script element can be put anywhere in document between the html tags, often in head-->
+        <!--ensure scripts are listed in order so scripts load first if later scripts depend on them-->
+        <!--defer will load script in background while continuing to parse HTML but defer execution
+            until rest of HTML file is parsed, use if interacting with DOM so that all elements will 
+            be loaded from HTML before the script attempts to execute. outdated way of doing this is 
+            to put script tag right before </body> or right after the body-->
+        <!--async will load script in background while continuing to parse HTML and execute immediately 
+            upon donwload, good if it doesn't matter when script executes -->
+        <script src="./jshtmlinteraction1.js"></script>
+        <script src="./jshtmlinteraction2.js" defer></script>
+        <script src="./jshtmlinteraction3.js" async></script>
+        <script>
+            function clickMsg() {
+                alert('Good click!');
+            }
+        </script>
+    </head>
+    <body>
+        <a href="./index.html">Home</a>
+    
+        <button id="click-me-btn" onclick="clickMsg()">Click Me</button>
+
+        <div id="first-div">This is the first child div of the body element</div>
+        <div id="page-title"></div>
+        
+        <div id="remove-me">This div will be removed by javascript</div>
+        <div id="hide-me">This div will be hidden by javascript</div>
+
+        <div id="parent-node">
+            <div id="child-node-1">
+            
+            </div>
+            <div id="child-node-2">
+
+            </div>
+            <div id="child-node-3">
+
+            </div>
+        </div>
+
+        <div id="fill-me">
+            Click here to see some event properties of your click
+        </div>
+
+        <div id="key-presser">
+            Press some keys on the keyboard
+        </div>
+    </body>
+</html>

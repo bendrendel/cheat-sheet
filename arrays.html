@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Arrays</title>
+        <script src="./arrays.js"></script>
+    </head>
+    <body>
+        <a href="./index.html">Home</a>
+        <h2>ARRAY BASICS</h2>
+        <p><strong>Array: </strong>a data type representing an ordered list of elements, can contain all the same data type or different types</p>
+        <p><strong>Element: </strong>each item in an array is called an element</p>
+        <p><strong>Index: </strong>the numbered position of each element in an array, starts at 0 (zero-indexed)</p>
+        <p><strong>Array Literal: </strong>Creates an array by wrapping items in square brackets, e.g. ['hi', 'me', 'yoyo']</p>
+        <p><strong>Access/update elements: </strong>use index and bracket notation, e.g myElement = myArray[2], or myArray[2] = 'hello there'</p>
+        <p>chain together to access nested elements in a nested array, e.g. myNestedArray[2][1]</p>
+        <p><strong>Nested Arrays: </strong>arrays that are elements in an array, e.g. [[1], [2, 3]]</p>
+        
+        <h2>BASIC ARRAY METHODS</h2>
+        <p><strong>mutative/destructive method: </strong>changes value of array it is called on</p>
+        <p><strong>.length: </strong>returns number of items in array, e.g. myArray.length returns 3 or however many elements it has</p>
+        <p><strong>.push('element1', 'element2'): </strong>mutative, adds one or more elements (provided as arguments) to end of array</p>
+        <p><strong>.pop(): </strong>mutative, no arguments, removes last element of an array, and returns that element (e.g. to store in a variable)</p>
+        <p><strong>.shift(): </strong>mutative, no arguments, removes first element of an array, and returns that element</p>
+        <p><strong>.unshift('element1', 'element2'): </strong>mutative, adds one or more elements to the beggining of the array</p>
+        <p><strong>.slice(startIndex, endIndex): </strong>non mutative, returns a portion of an array starting at startIndex and up to but not including endIndex, exclude end to go to end of array</p>
+        <p><strong>.indexOf('myelement'): </strong>returns the first index at which the provided element can be found in the array</p>
+
+        <h2>ARRAY ITERATION METHODS (ITERATORS)</h2>
+        <p>Special array methods that iterate through the array, passing each element to a callback function that can be defined anonymously with function expression/arrow function, or you can pass a named function</p>
+        <p><strong>.forEach(callback): </strong>Non mutative, Loops through each element of an array and executes the callback function with the current element passed to it as an argument, return value of forEach is always undefined</p>
+        <p><strong>.map(callback): </strong>Non mutative, Returns a new array whose elements are the return values of the callback function with the each element passed to it as an argument</p>
+        <p><strong>.filter(callback): </strong>Non mutative, returns a new array whose elements are those elements from the calling array that cause the callback function to return true when passed to it as an argument</p>
+        <p><strong>.findIndex(callback): </strong>Returns the index of the first element in the calling array that causes the callback function to return true when passed to it as an argument, returns -1 if no element does this</p>
+        <p><strong>.reduce(callback, initialVal): </strong>Returns a single value after iterating, callback takes two args - an accumulator and currentValue.  On first iteration, the first element is passed as the accumulator, and second element as the currentValue.</p>
+        <p>the callback iterates and whatever it returns is passed as the accumulator in the next iteration, with the third element now passed as the currentValue; the return value on the last iteration is returned by .reduce</p>
+        <p>the initialVal parameter is optional, if included it is used as the initial value of the accumulator on the first iteration, and the first element of the array is passed as the currentValue</p>
+    </body>
+</html>

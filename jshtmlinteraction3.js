@@ -1,0 +1,1 @@
+alert('3rd js file has been asynchronously loaded');
