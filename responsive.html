@@ -8,12 +8,19 @@
         <a href="./index.html">Home</a>
 
         <h1>Responsive Design</h1>
-        <p>Responsive Design is a website that resizes and reorganizes content based on the size of the screen 
-            and size of other content</p>
+        <p>Responsive Design is a website that resizes and reorganizes content based on screen size, screen orientation, 
+            platform considerations like if scripting is available, user settings like if they have a VPN the site
+            shouldn't be blocked, and also the size of other content.</p>
+        <p>It's not about a new design for every concievable device, but more like parameterized design, where
+            inherent in the design is how it changes with different environment parameters</p>
         
+        <hr>
+
         <h2>Relative measurements</h2>
         <h3>px</h3>
         <p>pixels are not relative</p>
+        
+        <br>
 
         <h3>em and rem</h3>
         <p>em and rem should be used for text and any dimension related to text (padding around text etc)</p>
@@ -22,12 +29,16 @@
         <p><strong>rem: </strong>sized as multiple of the font size of the html element (root element, whether defined or using default
             browser font size for html element). good for consistent sizing across entire website.</p>
         
+        <br>
+
         <h3>%</h3>
         <p>% for non-text HTML elements, often for box-model values like width, height, padding, border, and margins, and 
             positioning properties top, bottom, left, right</p>
         <p><strong>%: </strong>for height and width sizes relative to corresponding parent dimension (which must be set),
             for padding and margin all sizes relative to width dimension of parent element</p>
         
+        <hr>
+
         <h2>Media Queries</h2>
         <p>media query breakpoints should be set according to how the content for the page naturally breaks at 
             different screen sizes; they shouldn't be set trying to target different devices because devices vary so widely</p>
