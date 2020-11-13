@@ -23,7 +23,7 @@
             <p><strong>Github: </strong>simply a cloud storage service popularly used for backing up Git repositories, you copy (push) your local repository to Github periodically to back it up, GitHub automatically displays contents of README.txt if in your repository</p>
             <p><strong>HEAD: </strong>the commit you are currently on in the sequence of commits</p>
             <p><strong>branch: </strong>essentially when a copy of the repository is made at a given commit, then creating two independent branches of future commits</p>
-            <p><strong>master branch: </strong>any any branching point, one branch is actually considered the master branch, so there is a continuous master branch back to the beginning</p>
+            <p><strong>master branch: </strong>at any branching point, one branch is actually considered the master branch, so there is a continuous master branch back to the beginning</p>
             <p><strong>remote: </strong>a git repository outside your git project that multiple collaborators can work on and merge changes to, could be on the web, a network, or just somewhere else on your computer</p>
             
             <h2>Git Project Standard Files</h2>
@@ -50,7 +50,8 @@
             
             <h2>Branching Commands</h2>
             <p><strong>git branch: </strong>shows which branch you are on</p>
-            <p><strong>git branch new_branch: </strong>creates a new branch with name new_branch, name should describe purpose of branch in a word or two, no whitespace</p>
+            <p><strong>git branch new_branch: </strong>creates a new branch with name new_branch, name should describe purpose of branch in a word or two, no whitespace
+                e.g. refactor-authentication or user-content-cache-key</p>
             <p><strong>git checkout branch_name: </strong>switches you over to the branch with name branch_name</p>
             <p><strong>git branch -d branch_name: </strong>deletes branch with branch_name, often done after a branch has been merged into master and served its purpose</p>
             <p><strong>git merge branch_name: </strong>checkout the master branch, then run this command to merge branch_name (giver branch) into master (receiver branch)
@@ -66,6 +67,23 @@
             <p><strong>git remote -v: </strong>lists remotes for current working directory if directory is a git project, good to confirm remotes were added successfully</p>
             <p><strong>git fetch: </strong>brings changes in from a remote, puts them in a remote branch called origin/master, which can then be merged to your local master branch with git merge origin/master</p>
             <p><strong>git push origin your_branch_name: </strong>copies a local branch (like one you made to develop a feature) called your_branch_name to the remote repository named origin, then someone can review your branch and merge it to the origin master</p>
+        
+            <h2>Github Workflow</h2>
+            <ol>
+                <li><strong>Branch: </strong>Create a branch off the <code>main</code> branch to work on a feature or fix.
+                    Anything on the <code>main</code> branch should be deployable</li>
+                <li><strong>Commit: </strong>Work on the new branch and make commits as you go, commit often!</li>
+                <li><strong>Pull: </strong>Open a pull request to share what you have so far, get feedback or advice, or when you're ready for review
+                    Use @mention system in Github to request feedback from specific people or teams
+                    Good for contributing to open source projects or any project to allow review before merging to main branch</li>
+                <li><strong>Review: </strong>Review pull request comments (written in markdown) and push additional commits to your branch if needed
+                    to address comments.  Reviewers can see your additional commits and provide more comments</li>
+                <li><strong>Deploy: </strong>Depending on team, deploy your branch to testing environment or directly to production
+                    If there are problems, you can roll back by deploying the main branch</li>
+                <li><strong>Merge: </strong>Now you can merge your code to the main branch.  Pull requests preserve a record of changes to your code
+                    You can incorporate keywords into pull requests so that when it merges it closes an issue you fixed with the branch,
+                    e.g. "Closes #32" will close issue 32 when merged into main</li>
+            </ol>
         </main>
     </body>
 </html>
