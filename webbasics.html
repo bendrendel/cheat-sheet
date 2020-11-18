@@ -47,13 +47,17 @@
         <p><strong>Dynamic Content: </strong>When the backend has logic deciding what assets to send based on the day or the user, etc</p>
         <p><strong>Static Website: </strong>A website where the server sends the client the files needed to view the site, and they don't change or move.  Twitter for example is not static because it updates content as it changes</p>
         <p><strong>Event-driven architecture: </strong>Traditional imperative programming executes a series of instructions in order, but for web applications, we need logic to handle things that could occur at different times (e.g. clickin a button), js and node.js use event-driven architecture</p>
-        <p><strong>Simple Web Project Directory Structure: </strong></p>
+        <p><strong>Simple Web Project Directory Structure: </strong>use lowercase folder and filenames with words separated by hyphens
+            because casing and spaces will be interpreted differently in different situations, and google recognizes hyphens as a word separator</p>
         <pre class="code-pre ">
-            <code>project/
-            ├── css/
-            |   └── style.css
-            ├── js/
+            <code>
+            project/
+            ├── scripts/
             |   └── script.js
+            ├── styles/
+            |   └── style.css
+            ├── images/
+            |   └── image.jpg
             └── index.html
             </code>
         </pre>
