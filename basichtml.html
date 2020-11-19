@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
         <title>Basic HTML</title>
     </head>
     <body>
@@ -19,12 +20,12 @@
         <hr />
 
         <h2>Important structural elements</h2>
-        <p>HTML documents should always start with the !DOCTYPE html document type declaration to ensure browser interpret it correctly</p>
-        <p>They always need the html element, so the browser knows where the content is to interpret as html</p>
-        <p>Usually the head tag is the first child element of html and contains metadata that is not directly displayed on scree</p>
-        <p>The head contains the title element, which is displayed on the browser or tab title bar</p>
-        <p>Only content inside the body tag can be displayed on the screen</p>
-        <p>The div (division) element used for dividing page into blocks or sections</p>
+        <p><strong>DOCTYPE</strong> HTML documents should always start with the !DOCTYPE html document type declaration to ensure browser interpret it correctly</p>
+        <p><strong>html</strong> They always need the html element (aka root element) so the browser knows where the content is to interpret as html</p>
+        <p><strong>head</strong> Usually the head tag is the first child element of html and contains metadata that is not directly displayed on scree</p>
+        <p><strong>title</strong> The head contains the title element, which is displayed on the browser or tab title bar</p>
+        <p><strong>meta charset</strong> Sets the character set the document should use, UTF-8 includes most characters from most languages to ensure doc can handle any text content. helps avoid certain problems</p>
+        <p><strong>body</strong> Only content inside the body tag can be displayed on the screen</p>
 
         <hr>
 
@@ -40,6 +41,7 @@
         
         <h2>Other important elements</h2>
 
+        <p>The div (division) element used for dividing page into blocks or sections</p>
         <ul>
             <li>The ul (unordered list) element</li>
             <li>Must be used with the li (list item) element as children</li>
@@ -54,13 +56,13 @@
         <br>
 
         <p>The img (image) element used to display images and is self-closing, must have src attribute</p>
-        <p>Should usually have an alt attribute, which creates a tooltip if image doesn't load, is more accessible for screen-readers, and better SEO</p>
+        <p>Should usually have a descriptive alt attribute, which creates a tooltip if image doesn't load, is more accessible for screen-readers, and better SEO</p>
         <img src="hat.jpg" alt="Photo of my hat" />
 
         <br>
 
         <p>The a (anchor) used to create hyperlinks, must have href attribute</p>
-        <p>href can use "./" for relative paths, or reference an element id to jump somewhere on the same page, # alone will go to top of page</p>
+        <p>href (hypertext reference) can use "./" for relative paths, or reference an element id to jump somewhere on the same page, # alone will go to top of page</p>
         <p>Content of a element can be text, or an img, or nearly any other element, which will turn it into a link</p>
         <p>Can have a target attribute, when set to _blank will open link in new tab (new window on older browsers)</p>
         <a href="https://www.wikipedia.com" target="_blank">Go to Wikipedia</a>
