@@ -11,7 +11,9 @@
         </header>
         <main>
             <h2>Git Terms</h2>
-            <p><strong>Git: </strong>a piece of software that allows for tracking of changes, industry-standard version control system for web development, must be installed on your computer</p>
+            <p><strong>Git: </strong>a piece of software that allows for tracking of changes, 
+                industry-standard version control system for web development, must be installed on your computer,
+                can be used to track changes to any project that is composed of text files arranged in directories</p>
             <p><strong>Git project: </strong>consists of three parts listed below</p>
             <ul>
                 <li><p><strong>Working Directory: </strong>make changes to files - additions, deletions, modifications</p></li>
@@ -27,7 +29,6 @@
             <p><strong>remote: </strong>a git repository outside your git project that multiple collaborators can work on and merge changes to, could be on the web, a network, or just somewhere else on your computer</p>
             
             <h2>Git Project Standard Files</h2>
-            <p>For new repos, git will ask if you want to add these.  if you do, it will create an initial commit with these files added.  don't do this if you have a local repository that already has commits that you will be pushing to github, as this will cause merge problems</p>
             <p><strong>readme </strong>documentation of project, good idea in general to document your projects</p>
             <p><strong>.gitignore: </strong>this file can be included in a git project's working directory to list all files and directories in 
                 the working directory that git should ignore, simply list each file name or directory to ignore on its own line, start directory names 
@@ -36,10 +37,19 @@
 
             <h2>Basic Workflow Commands</h2>
             <p><strong>git init: </strong>turns the current working directory into a Git project</p>
+                <ul>
+                    <li>Can use git init in a local project directory that you've already worked on to start using version control</li>
+                    <li>For a brand new project, helpful to use git init projectname to create a git project directory named projectname in the current directory</li>
+                </ul>
             <p><strong>git status: </strong>check status of changes in working directory</p>
             <p><strong>git add filename: </strong>adds filename to the staging area, can list multiple filenames one after the other separated by a space or a single period adds all files in working directory (git add .)</p>
             <p><strong>git diff filename: </strong>for given filename, checks differences between working directory and staging area</p>
-            <p><strong>git commit -m "message": </strong>permanently stores changes from staging area to repository, message should be in present tense and less than 50 characters, creates a "commit" wiht unique 40-character SHA</p>
+            <p><strong>git commit -m "message": </strong>permanently stores changes in staging area to repository, creates a "commit" with unique 40-character SHA</p>
+            <ul>
+                <li>message should be in present tense and less than 50 characters, start with capitol letter</li>
+                <li>Often will group changes to multiple files under a single commit, should craft commits to tell an easy to understand story of changes</li>
+                <li>Can also make commits in a Github repo by editing a file directly in Github, when you save changes it creates a commit for the changes to that file</li>
+            </ul>
             <p><strong>git log: </strong>view chronological list of commits to repository</p>
 
             <h2>Backtracking Commands</h2>
@@ -60,7 +70,11 @@
             <br>now you can make a commit again, and the message for the commit shoudl be "Resolve merge conflict" or similar</p>
         
             <h2>Remote Commands</h2>
-            <p>get started with a remote on github by creating an empty repository on github, which will provide instructions for adding it as a remote for a local project, the local project should have at least one commit so there is something to push</p>
+            <p><strong>creating a github repository: </strong>get started with a remote on github by creating an empty repository on github, which will provide instructions for adding it as a remote for a local project, the local project should have at least one commit so there is something to push</p>
+                <ul>
+                    <li><p>Github will give you option to create a readme, .gitignore, etc.  if you do, it will create an initial commit with these files added.
+                        However, don't do this if you already have a local repository with commits to push to this github repository, as this will cause merge problems</p></li>
+                </ul>
             <p><strong>git clone remote_location clone_name: </strong>good for branching, creates a copy of the git repository at remote_location (web address or filepath). the copy is named clone_name and placed in the current working directory, the remote will be aliased origin</p>
             <p><strong>git remote add origin remote_location: </strong>good for initial set up, run from local project directory to add a remote repository at remote_location (e.g. a github repository web address), remote will have alias origin, so it can be referred to with origin in commands</p>
             <p><strong>git remote rm origin: </strong>run from local project directory, removes remote repository named origin</p>
