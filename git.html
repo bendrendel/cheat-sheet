@@ -16,7 +16,7 @@
                 can be used to track changes to any project that is composed of text files arranged in directories</p>
             <p><strong>Git project: </strong>consists of three parts listed below</p>
             <ul>
-                <li><p><strong>Working Directory: </strong>make changes to files - additions, deletions, modifications</p></li>
+                <li><p><strong>Working Directory: </strong>aka working tree, make changes to files - additions, deletions, modifications</p></li>
                 <li><p><strong>Staging Area: </strong>list changes made to the working directory, files ready for commit</p></li>
                 <li><p><strong>Repository: </strong>where Git permanently stores changes as sequential versions (aka commits) of the project</p></li>
             </ul>
@@ -44,6 +44,15 @@
             <p><strong>git status: </strong>check status of changes in working directory</p>
             <p><strong>git add filename: </strong>adds filename to the staging area, can list multiple filenames one after the other separated by a space or a single period adds all files in working directory (git add .)</p>
             <p><strong>git diff filename: </strong>for given filename, checks differences between working directory and staging area</p>
+                <ul>
+                    <li><strong>git diff </strong>leave off filename to see all differences for all files</li>
+                    <li><strong>git diff --staged </strong>will show differences between files in staging area and HEAD commit</li>
+                    <li><strong>git diff HEAD </strong>will show differences between working directory files and HEAD commit</li>
+                    <li><strong>git diff --color-words </strong>add the --color-words to any diff command to see individual word changes on edited lines.
+                        normally for an edited line git shows the original line being deleted and a new line being added</li>
+                    <li><strong>git diff --word-diff </strong>similar to --color-words just slightly different format</li>
+                    <li><strong>git diff --stat </strong>will only show filenames that have changes, won't show line by line changes</li>
+                </ul>
             <p><strong>git commit -m "message": </strong>permanently stores changes in staging area to repository, creates a "commit" with unique 40-character SHA</p>
             <ul>
                 <li>message should be in present tense and less than 50 characters, start with capitol letter</li>
