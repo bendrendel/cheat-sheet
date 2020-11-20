@@ -88,6 +88,11 @@
                     <li>dependencies property: object that lists all node packages required at runtime as keys (e.g. react and react-dom) along with version as values, version can prepended with ^ to use most recent version of the specified major version, or ~ to use most recent version of the specified minor version, e.g. <code>"react": "^15.5.4"</code> matches most recent version of 15.x.x</li>
                     <li>devDependencies property: similar to dependencies, an object that lists all node packages required in development environment (e.g. babel)</li>
                     <li>scripts property: command line scripts, shorthand aliases for scripts to help quickly perform command line actions, run these scripts from within your project directory using the terminal command <code>npm run script-name</code>, the script names start, restart, stop, and test are so common that npm provides aliases to run them that omit the run keyword e.g. <code>npm start</code></li>
+                    <li>typeAcquisition property: many libraries come with typing files that enable IntelliSense, method info in VS Code
+                        or have community-maintained typings files that VS Code will download through its Automatic Type Acquisition
+                        VS Code will do this for all the packages in your package.json, but alternatively you can list packages
+                        in the typeAcquisiton property that VS Code will get typings for
+                    </li>
                     <li>Example package.json contents:
                         <pre><code>
                             {
@@ -106,6 +111,9 @@
                                     "build": "react-scripts build",
                                     "test": "react-script test --env=jsdom"
                                     "eject": "react-scripts eject"
+                                },
+                                "typeAcquisition": {
+                                    "include": ["jquery"]
                                 }
                             }
                             </code></pre>
