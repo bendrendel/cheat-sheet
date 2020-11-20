@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Basic HTML</title>
     </head>
     <body>
@@ -22,9 +23,16 @@
         <h2>Important structural elements</h2>
         <p><strong>DOCTYPE</strong> HTML documents should always start with the !DOCTYPE html document type declaration to ensure browser interpret it correctly</p>
         <p><strong>html</strong> They always need the html element (aka root element) so the browser knows where the content is to interpret as html</p>
+        <ul>
+            <li><strong>lang attribute: </strong>lang attribute helps SEO, translation tools, browser dictionaries, TTS voice profile and character set, 
+                can set on html tag, or on specific tags if you change language inside that tag</li>
+        </ul>
         <p><strong>head</strong> Usually the head tag is the first child element of html and contains metadata that is not directly displayed on scree</p>
         <p><strong>title</strong> The head contains the title element, which is displayed on the browser or tab title bar</p>
         <p><strong>meta charset</strong> Sets the character set the document should use, UTF-8 includes most characters from most languages to ensure doc can handle any text content. helps avoid certain problems</p>
+        <p><strong>meta viewport</strong> mobile devices commonly default to having a wider viewport than the actual screen width, and then shrink the viewport down to the screen width.
+            This makes non-responsive websites better on mobile devices, but ruins responsive designs because the site won't be responding to the actual screen width but rather the wider viewport size
+            This tag instructs mobile devices to use the device width and not zoom in and should always be used on responsive designs</p>
         <p><strong>body</strong> Only content inside the body tag can be displayed on the screen</p>
 
         <hr>
