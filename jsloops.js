@@ -2,7 +2,8 @@
 For Loops
 */
 
-//initialization expression starts loop & can declare iterator, stopping condition stops loop when false, iteration statement alters iterator each time
+//initialization expression starts loop & can declare iterator, 
+//stopping condition stops loop when false, iteration statement alters iterator each time
 console.log('Example 1: ');
 for (let counter = 0; counter < 4; counter ++) {
     console.log(counter);
