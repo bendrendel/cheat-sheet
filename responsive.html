@@ -3,6 +3,7 @@
     <head>
         <title>Responsive Design</title>
         <link type="text/css" rel="stylesheet" href="./responsive.css">
+        <link rel="stylesheet" type="text/css" media="screen and (max-device-width: 480px)" href="#">
     </head>
     <body>
         <a href="./index.html">Home</a>
@@ -47,6 +48,10 @@
             use for print, handheld, etc</p>
         <p><strong>media features: </strong>e.g. and (max-width: 480px), conditions that must be met for rule to apply,
             combine with and for AND logic, and commas for OR logic</p>
+        <p><strong>HTML link with media query: </strong>You can include a media query attribute in the css link element
+            (see head above), that will only load the css sheet if the media query condition is met.  This could load styles
+            to override some of the styles in the main css sheet (always loaded).  This seems outdated, not as efficient as
+            including media queries all in a single css sheet to avoid multiple files needing to load</p>
 
         <div class="container">
             <p>A wee bit of content for this highly</p>
