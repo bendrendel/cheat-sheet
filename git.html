@@ -53,13 +53,22 @@
                     <li><strong>git diff --word-diff </strong>similar to --color-words just slightly different format</li>
                     <li><strong>git diff --stat </strong>will only show filenames that have changes, won't show line by line changes</li>
                 </ul>
-            <p><strong>git commit -m "message": </strong>permanently stores changes in staging area to repository, creates a "commit" with unique 40-character SHA</p>
+            <p><strong>git commit -m "message": </strong>permanently stores changes in staging area to repository, 
+                creates a "commit" with unique 40-character hexadecimal value SHA or git ref</p>
             <ul>
                 <li>message should be in present tense and less than 50 characters, start with capitol letter</li>
                 <li>Often will group changes to multiple files under a single commit, should craft commits to tell an easy to understand story of changes</li>
                 <li>Can also make commits in a Github repo by editing a file directly in Github, when you save changes it creates a commit for the changes to that file</li>
             </ul>
-            <p><strong>git log: </strong>view chronological list of commits to repository</p>
+            <p><strong>git log: </strong>view chronological list of commits to repository, options below
+                can be combined e.g. git log --patch --oneline</p>
+            <ul>
+                <li><strong>git log --oneline </strong>only shows shortened commit ref and message</li>
+                <li><strong>git log --stat </strong>shows files involved in each commit</li>
+                <li><strong>git log --patch </strong>shows the difference between each subsequent commit, like in diff command</li>
+                <li><strong>git log --graph --all --decorate --oneline </strong>--graph shows a graph of all your commits and different branches
+                    other options aren't necessary, just a recommended way to change how graph looks</li>
+            </ul>
 
             <h2>Backtracking Commands</h2>
             <p><strong>git show HEAD: </strong>shows log info and all committed changes for the HEAD commit</p>

@@ -5,27 +5,152 @@
     </head>
     <body>
         <a href="./index.html">Home</a>
-        <p>Markdown is a text-formatting language that is widely used in software/technical documentation, many communication applications like skype,
-            major websites like wordpress, write blogs posts for a website, to take notes, implemented in emails, designed for the web with PERL</p>
-        <p>It is designed to be lighter weight than HTML to be more accessible, but can't do nearly as much as HTML</p>
-        <p>Markdown processors or parsers are included in certain software that can read markdown, it converts markdown to HTML</p>
-        <p>File extension is .markdown or .md</p>
+        <h2>Overview</h2>
+        <ul>
+            <li>Markdown is a text-formatting language designed for the web with PERL</li>
+            <li>Widely used in software/technical documentation, 
+                many communication applications like skype, major websites like wordpress, 
+                writing blogs posts for a website, to take notes, implemented in emails, 
+                and multiple places in GitHub (Gists, comments in issues and pull requests,
+                and files with markdown extension)</li>
+            <li>It is designed to be lighter weight than HTML to be more accessible, 
+                but can't do nearly as much as HTML</li>
+            <li>Markdown processors or parsers are included in certain software that can read
+                markdown, it converts markdown to HTML</li>
+            <li>File extension is .markdown or .md</li>
+        </ul>
 
-        <pre>
-        #Heading Level 1
-        ##Heading Level 2
-        ##Heading Level 3
+        <h2>Markdown Syntax</h2>
+        <h3>Headers</h3>
+        <ul>
+            <li># This will make an h1 tag</li>
+            <li>###### You can go up to an h6 tag with multiple # signs</li>
+        </ul>
 
-        **Ordered List**
-        1. *One asterick italicizes
-        2. **Two asterick bolds
-        3. ~Tilde for strikethrough
+        <h3>Emphasis</h3>
+        <ul>
+            <li>*Italic text enclosed in one asterisk (or one underscore)*</li>
+            <li>**Bold text eclosed in two asterisks (or two underscores)**</li>
+            <li>_Example of combining italics with **bold** inside_</li>
+        </ul>
 
-        **Unordered list**
-        * Item 1
-        * Item 2
-        * Could also use + or - instead of *
-        </pre>
+        <h3>Lists</h3>
+        <ul>
+            <li>
+                <pre>* Bulleted lists begin each item with an asterisk (or a dash)</pre>
+                <pre>  * Create a sub-bullet with two spaces and then an asterisk (or a dash)</pre>
+            </li>
+            <li>
+                <pre>1. Create numbered lists by simply starting line with number and period</pre>
+                <pre>  1a. Here is sub-item for a numbered list</pre>
+            </li>
+        </ul>
+
+        <h3>Links</h3>
+        <ul>
+            <li>[Displayed link name](url)</li>
+            <li>url could be local or on the web like https://google.com</li>
+        </ul>
+
+        <h3>Images</h3>
+        <ul>
+            <li>![Alt text](url)</li>
+            <li>url could be local like ./images/logo.png or on the web</li>
+        </ul>
+
+        <h3>Blockquotes</h3>
+        <ul>
+            <li>> Start a line with an arrow bracket to create a formatted block quote</li>
+            <li>> Can include multiple lines in the blockquote</li>
+        </ul>
+
+        <h3>Inline Code</h3>
+        <ul>
+            <li>For code snippets (html, css, js, anything) use backticks `const myVar`
+                for special formatting
+            </li>
+        </ul>
+
+        <h2>Additional Github-only Syntax</h2>
+        <h3>Strikethrough</h3>
+        <ul>
+            <li>~~Enclose with two tildes for strikethrough text~~</li>
+        </ul>
+
+        <h3>Emojis</h3>
+        <ul>
+            <li>Use the codes found 
+                <a href="https://github.com/ikatyang/emoji-cheat-sheet/blob/master/README.md">here</a>
+                to insert emojis</li>
+        </ul>
+
+        <h3>Task Lists</h3>
+        <ul>
+            <li>In descriptions and comments of Issues and Pull Requests, and Gist coments
+                and Gist markdown files, you can include a task list</li>
+            <li>- [x] Task lists include a checkbox, this item is checked </li>
+            <li>- [ ] This item will be unchecked</li>
+            <li>- [ ] Can also use ordered lists</li>
+            <li>- [ ] If included in the first comment of an issue, github will show
+                a progress bar in the list of issues
+            </li>
+        </ul>
+
+        <h3>Tables</h3>
+        <ul>
+            <li>The below markup will be formatted as a table using | for col breaks, and -- for header break</li>
+            <li>First Header | Second Header</li>
+            <li>------------ | -------------</li>
+            <li>Content in row 1 col 1 | Content in row 1 col 2</li>
+            <li>Content in row 2 col 1 | Content in row 2 col 2</li>
+        </ul>
+
+        <h3>Links</h3>
+        <ul>
+            <li>Any URL in the text like http://www.github.com/ will automatically
+                be a clickable link</li>
+            <li>In description and comments of Issues and Pull Requests,
+                SHA references like below automatically become a link to the commit on Github</li>
+            <ul>
+                <li>16c999e8c71134401a78d4d46435517b2271d6ac</li>
+                <li>bendrendel@16c999e8c71134401a78d4d46435517b2271d6ac</li>
+                <li>bendrendel/repository-name@16c999e8c71134401a78d4d46435517b2271d6ac</li>
+            </ul>
+            <li>In description and comments of Issues and Pull Requests,
+                any number referring to an Issue or Pull Request like below becomes a link</li>
+            <ul>
+                <li>#1</li>
+                <li>bendrendel#1</li>
+                <li>bendrendel/repository-name#1</li>
+            </ul>
+        </ul>
+
+        <h3>Username @ mentions</h3>
+        <ul>
+            <li>In description and comments of Issues and Pull Requests,
+                Using @bendrendel or other username will notify the person or team to view the comment</li>
+        </ul>
+
+        <h3>Code formatting</h3>
+        <ul>
+            <li>You can indent code with four spaces to get code formatting</li>
+            <pre>
+                function myFunc() {
+                    return 'something';
+                }
+            </pre>
+            <li>Alternatively wrap with three backticks and you don't have to indent,
+                optionally include language for syntax highlighting
+            </li>
+            <pre>
+            ```javascript
+            function myFunc() {
+                return 'something';
+            }
+            ```
+            </pre>
+        </ul>
+
 
     </body>
 </html>
