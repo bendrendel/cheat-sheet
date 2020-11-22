@@ -43,6 +43,16 @@
                 </ul>
             <p><strong>git status: </strong>check status of changes in working directory</p>
             <p><strong>git add filename: </strong>adds filename to the staging area, can list multiple filenames one after the other separated by a space or a single period adds all files in working directory (git add .)</p>
+            <ul>
+                <li><strong>git add -u . </strong> The -u option will look for all deleted files (files in HEAD but not in working directory) and stage them for deletion</li>
+            </ul>
+            <p><strong>git rm filename: </strong>deletes filename from staging area.  If filename has already been deleted from working directory,
+                then this will delete it from staging area so the removal can then be committed.  If filename hasn't been deleted from working directory,
+                then this command will delete it from the working directory and staging area</p>
+                <ul>
+                    <li><strong>git rm --cached filename</strong>deletes filename from staging area to be deleted in next commit,
+                        but does not delete file from working directory (file in working directory will become untracked file)</li>
+                </ul>
             <p><strong>git diff filename: </strong>for given filename, checks differences between working directory and staging area</p>
                 <ul>
                     <li><strong>git diff </strong>leave off filename to see all differences for all files</li>
