@@ -45,6 +45,9 @@
             <p><strong>git add filename: </strong>adds filename to the staging area, can list multiple filenames one after the other separated by a space or a single period adds all files in working directory (git add .)</p>
             <ul>
                 <li><strong>git add -u . </strong> The -u option will look for all deleted files (files in HEAD but not in working directory) and stage them for deletion</li>
+                <li><strong>git add -A . </strong>The -A option is for after you move files around in your working directory.  It will notice files that seem to have been deleted and new files
+                    and recognize that the files are the same and were moved (this is true even if you made changes to the files as long as they are 50% similar judged by git's similarity index).
+                    It will add these moves to the staging area.</li>
             </ul>
             <p><strong>git rm filename: </strong>deletes filename from staging area.  If filename has already been deleted from working directory,
                 then this will delete it from staging area so the removal can then be committed.  If filename hasn't been deleted from working directory,
@@ -52,6 +55,14 @@
                 <ul>
                     <li><strong>git rm --cached filename</strong>deletes filename from staging area to be deleted in next commit,
                         but does not delete file from working directory (file in working directory will become untracked file)</li>
+                </ul>
+            <p><strong>git mv currentfile newfile </strong>moves file at currentfile (name of file with extension, may include a path) to newfile 
+                (new path including name of file and extension) e.g. git mv myfile.jpg images/myfile.jpg, doesn't have to have same name of file</p>
+                <ul>
+                    <li>This moves file in the working directory and staging area, to be committed</li>
+                    <li>If you move a file in your working directory on your own without the mv command, 
+                        then to make things right in your staging area, use git rm oldfile to remove the old file from the staging area
+                        and git add newfile to add the new file to the staging area, which will cause git to recognize it as a moved file</li>
                 </ul>
             <p><strong>git diff filename: </strong>for given filename, checks differences between working directory and staging area</p>
                 <ul>
@@ -78,6 +89,13 @@
                 <li><strong>git log --patch </strong>shows the difference between each subsequent commit, like in diff command</li>
                 <li><strong>git log --graph --all --decorate --oneline </strong>--graph shows a graph of all your commits and different branches
                     other options aren't necessary, just a recommended way to change how graph looks</li>
+                <li><strong>git log --stat -- filename </strong>shows all commits that contain changes to the given filename, which should include extension
+                    and may contain a filepath e.g. git log --stat -- images/myimg.jpg</li>
+                    <ul>
+                        <li><strong>git log --stat -M --follow -- filename </strong>use this version to follow the given filename across moves,
+                            showing commits for earlier file location, defaults to a 50% similarity index to follow files, can include different
+                            threshold after the -M if desired</li>
+                    </ul>
             </ul>
 
             <h2>Backtracking Commands</h2>
