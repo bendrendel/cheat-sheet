@@ -136,15 +136,32 @@
                 <ul>
                     <li>This updates your working directory with that branch's files, and future commits will be to that branch</li>
                 </ul>
-            <p><strong>git branch -d branch_name: </strong>deletes branch with branch_name, often done after a branch has been merged into master and served its purpose,
-                can't delete the branch you're on, so switch to a different branch first</p>
+            <p><strong>git branch -d branch_name: </strong>deletes branch with branch_name, should be done once a branch has been merged into a receiver branch like master
+                because the receiver will have all the commits from the branch in it after merging, can't delete the branch you're on, so switch to a different branch first</p>
             <ul>
                 <li><strong>git branch -D branchname: </strong>If a branch is not fully merged onto master, then -d won't let you delete it, use -D to do so</li>
             </ul>
-            <p><strong>git merge branch_name: </strong>checkout the master branch, then run this command to merge branch_name (giver branch) into master (receiver branch)
-            <br>any line of a file with conflicting changes between the branches will show an error msg, and the file in the working directory will show the two conflicting alternatives for the line
-            <br>to resolve, delete all of the special markup added by Git and keep only the version of the line you want
-            <br>now you can make a commit again, and the message for the commit shoudl be "Resolve merge conflict" or similar</p>
+
+            <h2>Merging Commands</h2>
+            <p><strong>git merge branch_name: </strong>brings all commits from branch_name (giver branch) into the current branch (receiver branch)</p>
+            <ul>
+                <li>typically you checkout the master branch, then run this command to merge branch_name into master</li>
+            </ul>
+            <p><strong>Resolving merge conflicts: </strong></p>
+            <ul>
+                <li>any line of a file with conflicting changes between the branches will show an error msg, and the file will not be committed
+                    and a special version of the file in the working directory will show the two conflicting alternatives for the line</li>
+                <li>The receiver branch version of the line(s) will be between &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD and ======= 
+                    while the giver branch version will be between the ======= and &gt;&gt;&gt;&gt;&gt;&gt;&gt; branchname</li>
+                <li>to resolve, delete all of the special markup added by Git and keep only the version of the line you want or otherwise edit</li>
+                <li>now you should stage the file, fix and stage any other conflicting files, and finally make a commit 
+                    with the message "Resolve merge conflict" or similar</li>
+            </ul>
+            <p><strong>git merge --abort: </strong>After merging, if there are merge conflicts you don't want to deal with right now,
+                then you can run this command to abort the merge, and it will return the working directory and staging area back to
+                the last commit of the receiver branch</p>
+            <p><strong>git merge --squash branchname: </strong>The --squash option will show the merge as a single commit on the receiver branch
+                instead of adding all of the commits from the giver branch</p>
         
             <h2>Remote Commands</h2>
             <p><strong>creating a github repository: </strong>get started with a remote on github by creating an empty repository on github, which will provide instructions for adding it as a remote for a local project, the local project should have at least one commit so there is something to push</p>
