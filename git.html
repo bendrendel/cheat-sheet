@@ -30,11 +30,22 @@
             
             <h2>Git Project Standard Files</h2>
             <p><strong>readme </strong>documentation of project, good idea in general to document your projects</p>
-            <p><strong>.gitignore: </strong>this file can be included in a git project's working directory root to list all files and directories in 
-                the working directory that git should ignore, simply list each file name or directory to ignore on its own line, start directory names 
-                with /, e.g. /ignorethisdirectory. comment a line with #</p>
+            <p><strong>.gitignore: </strong>this file can be included in the root folder of a git project's working directory to list all files and directories in 
+                the working directory that git should ignore, simply list each file name or directory to ignore on its own line.
+                All files and subdirectories in an ignored directory are ignored</p>
                 <ul>
-                    <li> </li>
+                    <li><stong>comments: </stong>comment a line by starting it with #</li>
+                    <li><strong>.gitignore not in root: </strong>can create additional gitignore files in subdirectories,
+                        which will take precedence over the .gitignore in the root directory</li>
+                    <li><strong>directories: </strong>start directory names with / to only get directories in root folder, otherwise it will match
+                        all directories with that name in subdirectories, e.g. /ignorethisdirectory</li>
+                    <li>end directory names with / to only match directories, otherwise will match files that happen to
+                        have the same name as the directory</li>
+                    <li><strong>Wildcard: </strong>Use the * symbol as a wildcard, e.g. *.log will ignore all .log files</li>
+                    <li><strong>Negation: </strong>Use the ! to negate patterns.  e.g. !audit.log in a subdirectory's .gitignore
+                        file, will override the *.log in the root .gitignore file and make it so audit.log is not ignored</li>
+                    <li><strong>git ls-files --others --ignored --exclude-standard </strong>run this in the root of a project to
+                        get a list of all the files git is ignoring based on your .gitignore file(s)</li>
                 </ul>
             <p><strong>license </strong></p>
 
@@ -110,11 +121,15 @@
             <p><strong>git reset commit_SHA: </strong>sets the HEAD to the commit with the given commit_SHA, the commit_SHA should be the first 7 characters of the SHA</p>
             
             <h2>Branching Commands</h2>
-            <p><strong>git branch: </strong>shows which branch you are on</p>
+            <p><strong>git branch: </strong>shows which branch you are on, the master branch should always be production-ready, so always do work on a separate branch</p>
             <p><strong>git branch new_branch: </strong>creates a new branch with name new_branch, name should describe purpose of branch in a word or two, no whitespace
                 e.g. refactor-authentication or user-content-cache-key</p>
             <p><strong>git checkout branch_name: </strong>switches you over to the branch with name branch_name</p>
-            <p><strong>git branch -d branch_name: </strong>deletes branch with branch_name, often done after a branch has been merged into master and served its purpose</p>
+            <p><strong>git branch -d branch_name: </strong>deletes branch with branch_name, often done after a branch has been merged into master and served its purpose,
+                can't delete the branch you're on, so switch to a different branch first</p>
+            <ul>
+                <li><strong>git branch -D branchname: </strong>If a branch is not fully merged onto master, then -d won't let you delete it, use -D to do so</li>
+            </ul>
             <p><strong>git merge branch_name: </strong>checkout the master branch, then run this command to merge branch_name (giver branch) into master (receiver branch)
             <br>any line of a file with conflicting changes between the branches will show an error msg, and the file in the working directory will show the two conflicting alternatives for the line
             <br>to resolve, delete all of the special markup added by Git and keep only the version of the line you want
@@ -135,8 +150,8 @@
         
             <h2>Github Workflow</h2>
             <ol>
-                <li><strong>Branch: </strong>Create a branch off the <code>main</code> branch to work on a feature or fix.
-                    Anything on the <code>main</code> branch should be deployable</li>
+                <li><strong>Branch: </strong>Create a branch off the <code>master</code> branch to work on a feature or fix.
+                    Anything on the <code>master</code> branch should be deployable</li>
                 <li><strong>Commit: </strong>Work on the new branch and make commits as you go, commit often!</li>
                 <li><strong>Pull: </strong>Open a pull request to share what you have so far, get feedback or advice, or when you're ready for review
                     Use @mention system in Github to request feedback from specific people or teams
