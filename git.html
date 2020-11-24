@@ -116,15 +116,26 @@
 
             <h2>Backtracking Commands</h2>
             <p><strong>git show HEAD: </strong>shows log info and all committed changes for the HEAD commit</p>
-            <p><strong>git checkout HEAD filename: </strong>replace filename in working directory with version of filename in HEAD commit</p>
+            <p><strong>git checkout HEAD filename: </strong>replace filename in working directory with version of filename in HEAD commit, can use . to replace all files</p>
+            <p><strong>git checkout -- filename: </strong>replaces filename in working directory with version of file in most recent commit (seems to be same as above)</p>
             <p><strong>git reset HEAD filename: </strong>replace filename in staging area with version of filename in HEAD commit</p>
+            <p><strong>git checkout commit_SHA: </strong>sets your working tree to the given commit_SHA (full SHA or first 7 chars),
+                this is intended to explore files/folders at the given commit and you shoudln't make commits while here</p>
             <p><strong>git reset commit_SHA: </strong>sets the HEAD to the commit with the given commit_SHA, the commit_SHA should be the first 7 characters of the SHA</p>
             
+
             <h2>Branching Commands</h2>
-            <p><strong>git branch: </strong>shows which branch you are on, the master branch should always be production-ready, so always do work on a separate branch</p>
+            <p><strong>git branch: </strong>shows all branches with a * next to the branch you are on, 
+                the master branch should always be production-ready, so always do your work on a separate branch</p>
             <p><strong>git branch new_branch: </strong>creates a new branch with name new_branch, name should describe purpose of branch in a word or two, no whitespace
                 e.g. refactor-authentication or user-content-cache-key</p>
+                <ul>
+                    <li><strong>git checkout -b newbranch </strong>this will create a new branch and also checkout to it right away</li>
+                </ul>
             <p><strong>git checkout branch_name: </strong>switches you over to the branch with name branch_name</p>
+                <ul>
+                    <li>This updates your working directory with that branch's files, and future commits will be to that branch</li>
+                </ul>
             <p><strong>git branch -d branch_name: </strong>deletes branch with branch_name, often done after a branch has been merged into master and served its purpose,
                 can't delete the branch you're on, so switch to a different branch first</p>
             <ul>
