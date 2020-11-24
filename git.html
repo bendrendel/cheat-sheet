@@ -30,9 +30,12 @@
             
             <h2>Git Project Standard Files</h2>
             <p><strong>readme </strong>documentation of project, good idea in general to document your projects</p>
-            <p><strong>.gitignore: </strong>this file can be included in a git project's working directory to list all files and directories in 
+            <p><strong>.gitignore: </strong>this file can be included in a git project's working directory root to list all files and directories in 
                 the working directory that git should ignore, simply list each file name or directory to ignore on its own line, start directory names 
                 with /, e.g. /ignorethisdirectory. comment a line with #</p>
+                <ul>
+                    <li> </li>
+                </ul>
             <p><strong>license </strong></p>
 
             <h2>Basic Workflow Commands</h2>
@@ -57,7 +60,9 @@
                         but does not delete file from working directory (file in working directory will become untracked file)</li>
                 </ul>
             <p><strong>git mv currentfile newfile </strong>moves file at currentfile (name of file with extension, may include a path) to newfile 
-                (new path including name of file and extension) e.g. git mv myfile.jpg images/myfile.jpg, doesn't have to have same name of file</p>
+                (new path including name of file and extension) e.g. git mv myfile.jpg images/myfile.jpg, doesn't have to have same name of file.
+                Technically this is a deletion and addition, and there is no behind the scenes tracking of the file as moved,
+                instead this is detected after the fact when needed using a similarity index</p>
                 <ul>
                     <li>This moves file in the working directory and staging area, to be committed</li>
                     <li>If you move a file in your working directory on your own without the mv command, 
@@ -94,7 +99,7 @@
                     <ul>
                         <li><strong>git log --stat -M --follow -- filename </strong>use this version to follow the given filename across moves,
                             showing commits for earlier file location, defaults to a 50% similarity index to follow files, can include different
-                            threshold after the -M if desired</li>
+                            threshold after the -M if desired, e.g. -M75</li>
                     </ul>
             </ul>
 
