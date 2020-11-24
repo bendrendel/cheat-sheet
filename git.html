@@ -170,11 +170,19 @@
                         However, don't do this if you already have a local repository with commits to push to this github repository, as this will cause merge problems</p></li>
                 </ul>
             <p><strong>git clone remote_location clone_name: </strong>good for branching, creates a copy of the git repository at remote_location (web address or filepath). the copy is named clone_name and placed in the current working directory, the remote will be aliased origin</p>
-            <p><strong>git remote add origin remote_location: </strong>good for initial set up, run from local project directory to add a remote repository at remote_location (e.g. a github repository web address), remote will have alias origin, so it can be referred to with origin in commands</p>
+            <p><strong>git remote add origin remote_location: </strong>good for initial set up, run from local project directory to add a remote repository at remote_location (e.g. a github repository web url),
+                remote will have alias origin in this example (common) but could be named something else</p>
+            <p><strong>git remote set-url origin remote_location: </strong>allows you to change the url of a remote (origin in this example) to a different remote_location</p>
             <p><strong>git remote rm origin: </strong>run from local project directory, removes remote repository named origin</p>
             <p><strong>git remote -v: </strong>lists remotes for current working directory if directory is a git project, good to confirm remotes were added successfully</p>
-            <p><strong>git fetch: </strong>brings changes in from a remote, puts them in a remote branch called origin/master, which can then be merged to your local master branch with git merge origin/master</p>
-            <p><strong>git push origin your_branch_name: </strong>copies a local branch (like one you made to develop a feature) called your_branch_name to the remote repository named origin, then someone can review your branch and merge it to the origin master</p>
+            <p><strong>git branch -r: </strong>lists remote branches, remote branches named the same as local branches except start with the remote name, e.g. origin/master, origin/feature</p>
+            <p><strong>git fetch origin: </strong>brings changes in from a remote, and puts them in your remote branches like origin/master, origin/feature, etc.
+                the remote branches can then be merged to your local branch by checking out the local branch and then using git merge origin/master or git merge origin/feature,
+                or whatever the name of the branch is you are merging</p>
+            <p><strong>git pull origin: </strong>same as fetch but also will merge the corresponding remote branch into whatever local branch you have checked out</p>
+            <p><strong>git push origin your_branch_name: </strong>copies the local your_branch_name branch to the corresponding remote origin branch,
+                can leave off your_branch_name to simply copy the branch you have checked out.  Also updates your remote tracking branch.
+                Often used to copy a local feature branch to the remote repository named origin, so someone can review your branch and merge it to origin/master</p>
         
             <h2>Github Workflow</h2>
             <ol>
