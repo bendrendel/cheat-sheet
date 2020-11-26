@@ -117,8 +117,16 @@
             <h2>Backtracking Commands</h2>
             <p><strong>git show HEAD: </strong>shows log info and all committed changes for the HEAD commit</p>
             <p><strong>git checkout HEAD filename: </strong>replace filename in working directory with version of filename in HEAD commit, can use . to replace all files</p>
+                <ul>
+                    <li><strong>git checkout SHA filename: </strong>can also use a SHA (or first 7 characters of one) to replace the given filename in the working directory
+                        with the version of that file from the given SHA</li>
+                </ul>
             <p><strong>git checkout -- filename: </strong>replaces filename in working directory with version of file in most recent commit (seems to be same as above)</p>
-            <p><strong>git reset HEAD filename: </strong>replace filename in staging area with version of filename in HEAD commit</p>
+            <p><strong>git reset HEAD filename: </strong>replace filename in staging area with version of filename in HEAD commit, leave out filename to reset all staged files</p>
+            <p><strong>git reset --soft HEAD~5: </strong>removes your previous 5 commits (in this example, can be any number) but leaves changes from those commits
+                in the staging area.  You can then make a commit with the changes in the staging area, essentially this squashes the 5 commits into one commit</p>
+            <p><strong>git reset --hard HEAD~3: </strong>removes previous 3 commits (in this example, can be any number) and does not leave their changes in
+                the staging area or working directory, effectively resets your whole project back 3 commits</p>
             <p><strong>git checkout commit_SHA: </strong>sets your working tree to the given commit_SHA (full SHA or first 7 chars),
                 this is intended to explore files/folders at the given commit and you shoudln't make commits while here</p>
             <p><strong>git reset commit_SHA: </strong>sets the HEAD to the commit with the given commit_SHA, the commit_SHA should be the first 7 characters of the SHA</p>
@@ -186,6 +194,11 @@
             <p><strong>Forking: </strong>To contribute to an open project on Github, you should use the fork feature in that project's repository
                 to create a copy of the repository in your own Github account.  This allows you to safely work on the project on your own.
                 Typically you should create a new branch after forking to do your work, and then you would submit a pull request when finished</p>
+            <p><strong>Pull request: </strong>Within Github, when you are working on a branch of a repository, whether you're a core contributor
+                with ability to push to the repository or you forked the project and worked on a branch on your own, you should make a pull request
+                for the branch when its ready for review.  With a fork this is requesting from the owner to review your branch.  Pull requests
+                have feedback functionality built in and code testing abilities built in. Once accepted, it can be merged into the master branch
+                and you should delete your branch, as your commits and the pull request discussion become part of the destination branch</p>
 
             <h2>Github Workflow</h2>
             <ol>
