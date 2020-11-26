@@ -130,7 +130,14 @@
             <p><strong>git checkout commit_SHA: </strong>sets your working tree to the given commit_SHA (full SHA or first 7 chars),
                 this is intended to explore files/folders at the given commit and you shoudln't make commits while here</p>
             <p><strong>git reset commit_SHA: </strong>sets the HEAD to the commit with the given commit_SHA, the commit_SHA should be the first 7 characters of the SHA</p>
-            
+            <p><strong>git reflog: </strong>the reflog provides 30 days of all history on a branch, both forward commits and backward
+                resets, deletions of branches, and rebases</p>
+                <ul>
+                    <li><strong>git reset --hard SHA: </strong>Can take one of the 7 char SHAs appearing in the reflog and force the branch
+                        back to that point using this command</li>
+                    <li><strong>gitk --all `git reflog | cut -c1-7`& </strong>use this comman to open a GUI showing the reflog so you can more
+                        better see the organization of the reflog, which branches are out on their own, what commits are no longer part of it</li>
+                </ul>
 
             <h2>Branching Commands</h2>
             <p><strong>git branch: </strong>shows all branches with a * next to the branch you are on, 
@@ -146,9 +153,20 @@
                 </ul>
             <p><strong>git branch -d branch_name: </strong>deletes branch with branch_name, should be done once a branch has been merged into a receiver branch like master
                 because the receiver will have all the commits from the branch in it after merging, can't delete the branch you're on, so switch to a different branch first</p>
-            <ul>
-                <li><strong>git branch -D branchname: </strong>If a branch is not fully merged onto master, then -d won't let you delete it, use -D to do so</li>
-            </ul>
+                <ul>
+                    <li><strong>git branch -D branchname: </strong>If a branch is not fully merged onto master, then -d won't let you delete it, use -D to do so</li>
+                </ul>
+            <p><strong>git rebase branchname: </strong>Adds new commits from branchname to the current checked out branch, where branchname is the branch that the currently
+                checked out branch was branched off of.  This pulls in any new commits since you branched off of branchname, to make it look like you started your branch from
+                the current version of branchname</p>
+                <ul>
+                    <li>This takes the current version of branchname, and "replays" the commits in your checked out branch starting from the latest commit of branchname</li>
+                    <li>This changes the SHAs on all of the commits you've made in your checked out branch, so be careful if others are working on this branch as well
+                        as it could mess them up</li>
+                    <li>Rebase is good if clarity of history on the master branch is desired, because it creates an easy to follow linear history on the master
+                        branch.  However, for projects where speed of delivery is more important, rebase may not be preferred, and instead merge will be used
+                    </li>
+                </ul>
 
             <h2>Merging Commands</h2>
             <p><strong>git merge branch_name: </strong>brings all commits from branch_name (giver branch) into the current branch (receiver branch)</p>
