@@ -1,0 +1,157 @@
+nav {
+    display: flex;
+    border: 2px chocolate solid;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: -170px;
+    background-color: lightgray;
+    z-index: 10;
+    padding: 10px;
+    height: 100%;
+    transition: left 500ms ease-in 20ms;
+}
+
+nav .hover-content {
+    width: 150px;
+    margin-right: 20px
+}
+
+nav:hover {
+    left: 0;
+}
+
+/*
+transition-timing-function is ease (short slow period- fast -long slow down) by default if not defined
+can be ease-in (start slow end fast), ease-out (opposite), ease or ease-in-out (even slow fast slow periods), 
+linear (constant)
+
+can also define your own timing function using the cubic-bezier function
+
+transition-duration and -delay can be defined in ms or s,
+
+a negative delay value will start the transition immediately, already part-way through the 
+transition process
+*/
+
+a {
+    background-color: orange;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 150%;
+    text-align: center;
+    display: block;
+    margin: 20px 100px;
+    padding: 20px 0;
+    width: 200px;
+    border-radius: 5px;
+}
+
+a:hover {
+    background-color: green;
+}
+
+#c:hover,
+#d:hover {
+    width: 400px;
+    padding: 40px 0;
+}
+
+#a {
+    transition-property: background-color;
+    transition-duration: 800ms;
+    transition-delay: 300ms;
+    transition-timing-function: ease-in;
+}
+
+/*
+transition combines transition-property, -duration, -timing-function, and -delay in one line, 
+defaults used if any value left out, must include duration to include delay
+*/
+
+#b {
+    transition: background-color 800ms ease-in -400ms;
+}
+
+#c {
+    transition: background-color 2s ease-in-out 300ms,
+    width 2s ease-in-out 300ms,
+    padding 2s ease-in-out 300ms;
+}
+
+/*
+all can be used with transition, or with transition-property to define all changing values at once
+*/
+
+#d {
+    transition: all 800ms ease-in-out 300ms;
+}
+
+/*
+Transform property
+
+scale: can use scaleX(#), scaleY(#) to scale horiz and vert width independently,
+    or can use scale(#) for both at once, or scale(X#, Y#) to scale separately
+rotate: use positive val for clockwise, negative val for counter-clockwise, can be
+    more or less than 360 degrees
+translate: x value first, y value second.  pos x moves right, neg x moves left
+    pos y moves down, neg y moves up
+scew: can use scewX(deg), scewY(deg), or scew(Xdeg, Ydeg), pos x scews left,
+    neg x scews right, pos y scews down, neg y scews up
+
+can combine as many of these as you want in a single transform property
+
+transform-origin: can be used with any of the transform properties to define the origin
+    of the transformation, can use 0% 0% for upper left, 100% 100% for bottom right or
+    anywhere inbetween
+*/
+
+#e:hover {
+    transform: scale(2, 0.5);
+}
+
+#e {
+    transition: all 1s;
+}
+
+#f:hover {
+    transform: rotate(720deg);
+}
+
+#f {
+    transition: all 2s;
+}
+
+#g:hover {
+    transform: translate(20px, 20px);
+}
+
+#g {
+    transition: all 500ms;
+}
+
+#h:hover {
+    transform: skewX(20deg);
+}
+
+#h {
+    transition: all 500ms;
+}
+
+#i:hover {
+    transform: rotate(90deg) scale(2) translateX(50%);
+}
+
+#i {
+    transition: all 2s;
+}
+
+#j:hover {
+    transform: rotate(360deg);
+}
+
+#j {
+    transform-origin: 50% 0%;
+    transition: all 2s;
+}
