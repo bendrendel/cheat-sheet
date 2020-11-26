@@ -87,3 +87,71 @@ all can be used with transition, or with transition-property to define all chang
 #d {
     transition: all 800ms ease-in-out 300ms;
 }
+
+/*
+Transform property
+
+scale: can use scaleX(#), scaleY(#) to scale horiz and vert width independently,
+    or can use scale(#) for both at once, or scale(X#, Y#) to scale separately
+rotate: use positive val for clockwise, negative val for counter-clockwise, can be
+    more or less than 360 degrees
+translate: x value first, y value second.  pos x moves right, neg x moves left
+    pos y moves down, neg y moves up
+scew: can use scewX(deg), scewY(deg), or scew(Xdeg, Ydeg), pos x scews left,
+    neg x scews right, pos y scews down, neg y scews up
+
+can combine as many of these as you want in a single transform property
+
+transform-origin: can be used with any of the transform properties to define the origin
+    of the transformation, can use 0% 0% for upper left, 100% 100% for bottom right or
+    anywhere inbetween
+*/
+
+#e:hover {
+    transform: scale(2, 0.5);
+}
+
+#e {
+    transition: all 1s;
+}
+
+#f:hover {
+    transform: rotate(720deg);
+}
+
+#f {
+    transition: all 2s;
+}
+
+#g:hover {
+    transform: translate(20px, 20px);
+}
+
+#g {
+    transition: all 500ms;
+}
+
+#h:hover {
+    transform: skewX(20deg);
+}
+
+#h {
+    transition: all 500ms;
+}
+
+#i:hover {
+    transform: rotate(90deg) scale(2) translateX(50%);
+}
+
+#i {
+    transition: all 2s;
+}
+
+#j:hover {
+    transform: rotate(360deg);
+}
+
+#j {
+    transform-origin: 50% 0%;
+    transition: all 2s;
+}
