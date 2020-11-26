@@ -22,8 +22,16 @@ nav:hover {
 }
 
 /*
-transition-timing-function is ease by default if not defined
-can be ease-in (start slow end fast), ease-out (opposite), ease or ease-in-out (slow fast slow), linear (constant)
+transition-timing-function is ease (short slow period- fast -long slow down) by default if not defined
+can be ease-in (start slow end fast), ease-out (opposite), ease or ease-in-out (even slow fast slow periods), 
+linear (constant)
+
+can also define your own timing function using the cubic-bezier function
+
+transition-duration and -delay can be defined in ms or s,
+
+a negative delay value will start the transition immediately, already part-way through the 
+transition process
 */
 
 a {
@@ -58,18 +66,18 @@ a:hover {
 }
 
 /*
-transition combines transition-property, -duration, -timing-function, and -delay in one line, defaults used if any
-value left out, must include duration to include delay
+transition combines transition-property, -duration, -timing-function, and -delay in one line, 
+defaults used if any value left out, must include duration to include delay
 */
 
 #b {
-    transition: background-color 800ms ease-in 300ms;
+    transition: background-color 800ms ease-in -400ms;
 }
 
 #c {
-    transition: background-color 800ms ease-in-out 300ms,
-    width 800ms ease-in-out 300ms,
-    padding 800ms ease-in-out 300ms;
+    transition: background-color 2s ease-in-out 300ms,
+    width 2s ease-in-out 300ms,
+    padding 2s ease-in-out 300ms;
 }
 
 /*
