@@ -48,10 +48,27 @@
             use for print, handheld, etc</p>
         <p><strong>media features: </strong>e.g. and (max-width: 480px), conditions that must be met for rule to apply,
             combine with and for AND logic, and commas for OR logic</p>
+            <ul>
+                <li><strong>min-width: </strong>browser or screen width must be at least this width for style to apply</li>
+                <li><strong>max-width: </strong>browser or screen width must be no more than this width for style to apply;
+                    combine min-width and max-width values to select a range of width for which the style should apply</li>
+                <li><strong>min-device-width: </strong>actual device width must be at least this width for style to apply;
+                    doesn't matter if browser or viewing area is minimized less than device width</li>
+                <li><strong>max-device-width: </strong>actual device width must be no more than this width for style to apply;
+                    doesn't matter if browser or viewing area is minimized less than device width;
+                    min/max device width is good for targeting specific devices but not when you make the browser smaller on
+                    a large screen</li>
+                <li><strong>orientation: </strong>can be either portrait (height > width) or landscape (width > height)</li>
+
+            </ul>
         <p><strong>HTML link with media query: </strong>You can include a media query attribute in the css link element
             (see head above), that will only load the css sheet if the media query condition is met.  This could load styles
-            to override some of the styles in the main css sheet (always loaded).  This seems outdated, not as efficient as
-            including media queries all in a single css sheet to avoid multiple files needing to load</p>
+            to override some of the styles in the main css sheet (always loaded).  However, this is not as efficient as
+            including media queries all in a single css sheet which avoids multiple files needing to load, and should only
+            be used if the organizational benefit outweighs the efficiency loss</p>
+        <p><strong>Support for older browsers: </strong>If you must support older browsers that don't support CSS3 media
+            queries, there are javascript files you can include in your project that will make the media queries work for
+            old browsers without modification to the CSS</p>
 
         <div class="container">
             <p>A wee bit of content for this highly</p>
