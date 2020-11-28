@@ -1,8 +1,13 @@
 /*
 css grid
 
-grid containers are broken in to rows and columns, the column/block axis is top to bottom and row/inline axis left to right
-grid items are children of the grid container and are placed and sized based on the grid
+Supported by all major browsers, if old IE support is needed then you have to use special syntax for it
+
+grid container: the parent element which you apply display: grid to
+    broken in to rows and columns, the column/block axis is top to bottom and 
+    row/inline axis left to right
+grid items: the direct-descendant children elements of the grid container
+    are placed and sized based on the grid
 
 grid container properties
 - grid-template-columns: default only 1 col, define column widths one after the other either in pixels,
@@ -37,6 +42,8 @@ accounted for. think of fr like percent but expressed in fractions instead of de
 -repeat function, first arg is number of repeats, second arg is the size, so
 repeat(3, 100px) = 100px 100px 100px.  You can have two or more measurement args to repeat that sequence of sizes
 the given number of times, so repeat(2, 20px 40px) = 20px 40px 20px 40px.
+    Additionally, you can use auto-fill for the first argument to create as many columns or rows of the specified size
+    that will fit in the container.  Useful to use this option with minmax used for the sizing
 -minmax function, only works when grid width is not fixed, first arg is min size of the row or column being defined, and second arg 
 is the max size of the row or column being defined, when mixed with other units, the minmax function will take up available remaining
 space in the grid but never get smaller than min or larger than max
@@ -147,6 +154,12 @@ names (without quotes) in their grid-area property to position the item in that 
     grid-auto-flow: column;
     grid-auto-columns: 50px;
     justify-content: space-around;
+}
+
+.grid.l {
+    width: 80%;
+    grid-gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
 }
 
 .grid.a .a {
