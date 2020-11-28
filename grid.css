@@ -3,7 +3,7 @@ css grid
 
 Supported by all major browsers, if old IE support is needed then you have to use special syntax for it
 
-grid container: the parent element which you apply display: grid to
+grid container: the parent element which you apply display: grid or inline-grid to
     broken in to rows and columns, the column/block axis is top to bottom and 
     row/inline axis left to right
 grid items: the direct-descendant children elements of the grid container
@@ -16,11 +16,20 @@ percentage of container width, fraction unit fr, repeat function, or minmax func
 either in pixels, percentage of container height, fraction unit fr, repeat function, or minmax function
 - grid-template, combines grid-template-rows and grid-template-columns, define rows, followed 
 by /, then define columns;
-- grid-template-areas: defines names of cells in the grid created with above properties, cells can have the same name to define a larger area,
-but each cell needs a name, defined one row at a time in quotes, e.g. for a 4 row, 2 col grid "head head" "nav nav" "about contact" "foot foot"
+    - can include line names in grid-template-columns/rows, e.g. grid-template-rows: [row1-start] 10px [row1-end row2-start] 10px [row2-end]
+    lines can be given more than one name, and lines can have same name, e.g. repeat(3, 10px [col-start]),
+    which can be reference by the name and count, e.g. col-start 1 or col-start 2
+
+- grid-template-areas: defines names of cells in the grid created with above properties, 
+cells can have the same name to define a larger area, use . to denote empty cells, or none for undefined cells
+but each cell needs a name, defined one row at a time in quotes,
+e.g. for a 4 row, 2 col grid "head head" "nav nav" "about contact" "foot foot"
+this automatically names the lines around each area with areaname-start and areaname-end
+
 - grid-row-gap, grid-column-gap, grid-gap, defines gap between rows and/or columns, no gap at beginning or end
 is added, only in between rows and columns, grid gap defines row gap then column gap or both at once if a single
 value is provided
+
 - justify-items: positions items along inline axis can be start, end, center, strech, etc. default is stretch if not defined - width stretches to fit column width
 - justify-content: if the combined widths of the grid's columns are less than the grid's total width, then this property defines how to space
 the columns from left to right, e.g. start, end, center, stretch, space-around, space-between, space-evenly, and more
@@ -28,8 +37,9 @@ the columns from left to right, e.g. start, end, center, stretch, space-around, 
 fit height of column or columns
 - align-content: spaces the rows in a grid, when the combine height of the rows is less than height of the container.  e.g. start, end, center, stretch,
 space-around, space-between, space-evenly, etc.
-- (think of justify-items and align-items as how elements position themselves within a column or row, respectively and
-justify-content and align-content as how columns or rows, respectively position themselves within the container)
+    - (think of justify-items and align-items as how elements position themselves within a column or row, respectively and
+    justify-content and align-content as how columns or rows, respectively position themselves within the container)
+
 - grid-auto-flow: if there are more grid items than fit in the container, this specifies how to add the overflow items, can be row, column, or dense
 row adds new items to new rows on bottom, column adds new items to new column on right, dense tries to fill any holes in the grid, can combine with row or column
 e.g. row dense, default is row if not defined
@@ -54,7 +64,7 @@ row boundary, then there are boundaries between each row and the last boundary i
 items will span across row gaps
 -grid-row-end: this defines the row the item ends at
 -grid-column-start:
--grid-column-end
+-grid-column-end: 
 -grid-row: defines grid-row-start / grid-row-end in one line, e.g. 4 / 6
 -grid-column: defines grid-column start / grid-column-end in one line
 -grid-area: defines grid-row-start / grid-column-start / grid-row-end / grid-column-end in one line
