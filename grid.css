@@ -67,39 +67,49 @@ e.g. [row1-start] "header header header" 1fr [row1-end]
      [row2-start] "footer footer footer" 25px [row2-end]
      / auto 50px auto;
 gives you three columns (auto 50px auto) and two rows (1fr and 25px), and also names the row grid lines and all areas
--fr unit when fr is mixed with other units, the fr calculation will be based on the remaining available space after the other units are
-accounted for. think of fr like percent but expressed in fractions instead of decimals
+
+-fr unit when fr is mixed with other units, the fr calculation will be based on the remaining available space after 
+the other units are accounted for. think of fr like percent but expressed in fractions instead of decimals
+-auto can always be used to define some rows and columns for default sizing based on content
 -repeat function, first arg is number of repeats, second arg is the size, so
 repeat(3, 100px) = 100px 100px 100px.  You can have two or more measurement args to repeat that sequence of sizes
 the given number of times, so repeat(2, 20px 40px) = 20px 40px 20px 40px.
     Additionally, you can use auto-fill for the first argument to create as many columns or rows of the specified size
-    that will fit in the container.  Useful to use this option with minmax used for the sizing
--minmax function, only works when grid width is not fixed, first arg is min size of the row or column being defined, and second arg 
-is the max size of the row or column being defined, when mixed with other units, the minmax function will take up available remaining
-space in the grid but never get smaller than min or larger than max
+    that will fit in the container.  very powerful to use this option with minmax used for the sizing,
+    e.g. repeat(auto-fill, minmax(200px, 1fr);
+-minmax function, only works when grid width is not fixed, first arg is min size of the row or column being defined, 
+and second arg is the max size of the row or column being defined, when mixed with other units, the minmax function 
+will take up available remaining space in the grid but never get smaller than min or larger than max
 
 grid item properties
--grid-row-start: for an item to span multiple rows, this defines the row "boundary" it starts at, the very top of the container is the first
-row boundary, then there are boundaries between each row and the last boundary is at the very bottom of the container boundaries = rows + 1.
-items will span across row gaps
--grid-row-end: this defines the row the item ends at
--grid-column-start:
--grid-column-end: 
+-grid-row-start: for an item to span multiple rows, this defines the row "boundary" it starts at, the very top of 
+the container is the first row boundary, then there are boundaries between each row and the last boundary is at the 
+very bottom of the container boundaries = rows + 1. items will span across row gaps.
+-grid-row-end: this defines the row the item ends at, if not specified items span 1 row by default
+-grid-column-start: similar to grid-row-start but for columns
+-grid-column-end: similar to grid-row-end but for columns, if not specified items span 1 column by default
 -grid-row: defines grid-row-start / grid-row-end in one line, e.g. 4 / 6
 -grid-column: defines grid-column start / grid-column-end in one line
--grid-area: defines grid-row-start / grid-column-start / grid-row-end / grid-column-end in one line
+-grid-area: defines grid-row-start / grid-column-start / grid-row-end / grid-column-end in one line,
+also can be used to simply name the item the same as a defined grid-template-area to fill that whole area,
+e.g. grid-area: header; will fill the whole header area defined with grid-template-area
 -width: nothing special, but if undefined, items will stretch to fill the width of their space in the grid, unless justify-items
 has been defined on the grid container, in which case grid items will shrink to just fit their content
 -height: again if undefined, items will stretch to fill the height of the row or rows they are in, unless align-items has been set
 on the grid container, in which case grid items heights will shrink to just fit their content
--justify-self: overides the justify-items property set on the container for the grid-item it is defined on, 
-takes the same values as justify-items
 -align-self: overrides the align-items property set on the container for the grid-item it is defined on, 
 takes the same values as align-items
+-justify-self: overides the justify-items property set on the container for the grid-item it is defined on, 
+takes the same values as justify-items
+-place-self: set align-self followed by a space followed by justify-self, if second value is omitted then
+both will be set to the first value
 
 - gridline unit: integer by itself used in the above grid item properties references the gridline number
-- span unit: can be used in any above grid item properties, indicates number of rows or columns to span across, referencing from a start or
-end gridline.  e.g. grid-row-start: 2; grid-row-end: span 3; covers rows 2, 3, 4
+- span unit: can be used in any above grid item properties, indicates number of rows or columns to span across, 
+referencing from a start or end gridline.  e.g. grid-row-start: 2; grid-row-end: span 3; covers rows 2, 3, 4
+- gridline name: can be used in above grid item properties, e.g. grid-row-start: row1-start; grid-row-end row3-end;
+also can be used with span which spans to the next line with that name, e.g. grid-row-end: span row3-end;
+using span seems to do the same thing as not using span so not sure why this would be useful
 - named areas: if grid container uses grid-template areas property to name cells, then grid-items can use those
 names (without quotes) in their grid-area property to position the item in that area
 */
