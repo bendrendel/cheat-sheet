@@ -2,7 +2,6 @@
 css grid
 
 Supported by all major browsers, if old IE support is needed then you have to use special syntax for it
-
 grid container: the parent element which you apply display: grid or inline-grid to
     broken in to rows and columns, the column/block axis is top to bottom and 
     row/inline axis left to right
@@ -16,37 +15,58 @@ percentage of container width, fraction unit fr, repeat function, or minmax func
 either in pixels, percentage of container height, fraction unit fr, repeat function, or minmax function
 - grid-template, combines grid-template-rows and grid-template-columns, define rows, followed 
 by /, then define columns;
-    - can include line names in grid-template-columns/rows, e.g. grid-template-rows: [row1-start] 10px [row1-end row2-start] 10px [row2-end]
+    - can include line names in grid-template-columns/rows, 
+    e.g. grid-template-rows: [row1-start] 10px [row1-end row2-start] 10px [row2-end]
     lines can be given more than one name, and lines can have same name, e.g. repeat(3, 10px [col-start]),
     which can be reference by the name and count, e.g. col-start 1 or col-start 2
-
 - grid-template-areas: defines names of cells in the grid created with above properties, 
 cells can have the same name to define a larger area, use . to denote empty cells, or none for undefined cells
 but each cell needs a name, defined one row at a time in quotes,
 e.g. for a 4 row, 2 col grid "head head" "nav nav" "about contact" "foot foot"
 this automatically names the lines around each area with areaname-start and areaname-end
-
 - grid-row-gap, grid-column-gap, grid-gap, defines gap between rows and/or columns, no gap at beginning or end
 is added, only in between rows and columns, grid gap defines row gap then column gap or both at once if a single
-value is provided
-
-- justify-items: positions items along inline axis can be start, end, center, strech, etc. default is stretch if not defined - width stretches to fit column width
-- justify-content: if the combined widths of the grid's columns are less than the grid's total width, then this property defines how to space
-the columns from left to right, e.g. start, end, center, stretch, space-around, space-between, space-evenly, and more
-- align-items: positions items along block axis (top to bottom) can be start, end, center, stretch, etc. default is stretch if not defined, so items stretch to
-fit height of column or columns
-- align-content: spaces the rows in a grid, when the combine height of the rows is less than height of the container.  e.g. start, end, center, stretch,
-space-around, space-between, space-evenly, etc.
-    - (think of justify-items and align-items as how elements position themselves within a column or row, respectively and
-    justify-content and align-content as how columns or rows, respectively position themselves within the container)
-
-- grid-auto-flow: if there are more grid items than fit in the container, this specifies how to add the overflow items, can be row, column, or dense
-row adds new items to new rows on bottom, column adds new items to new column on right, dense tries to fill any holes in the grid, can combine with row or column
-e.g. row dense, default is row if not defined
-- grid-auto-rows: if there are more grid items than can fit in the grid container, this property defines the height of those rows, and can be px, %, fr, repeat().
+value is provided. if no row-gap is specified it will be set to same as column-gap.  Newer syntax for this removes
+grid prefix, so row-gap, column-gap, and gap
+- align-items: positions items along block axis (top to bottom) can be start, end, center, stretch, 
+default is stretch if not defined, so items stretch to fit height of column or columns
+- justify-items: positions items along inline axis (left to right) can be start, end, center, strech 
+default is stretch if not defined - width stretches to fit column width
+- place-items: sets align-items followed by justify-items in one property, separated by a space
+if second value is omitted then they are both assigned the same value
+- align-content: spaces the rows in a grid, when the combined height of the rows is less than height of the container.
+e.g. start, end, center, stretch, space-around, space-between, space-evenly
+- justify-content: if the combined widths of the grid's columns are less than the grid's total width, 
+then this property defines how to space the columns from left to right, 
+e.g. start, end, center, stretch, space-around, space-between, space-evenly
+- place-content: sets align-content followed by justify-content in one property, separated by a space
+if second value is omitted then both are assigned the same value
+    - think of justify-items and align-items as how elements position themselves within a column or row, respectively and
+    justify-content and align-content as how columns or rows, respectively position themselves within the container
+- grid-auto-flow: if there are more grid items than fit in the container, this specifies how to add the overflow items, 
+can be row, column, or dense.  row adds new items to new rows on bottom, column adds new items to new column on right,
+dense tries to fill any holes in the grid, can combine with row or column e.g. row dense, default is row if not defined
+This also defines how to place any items that are not explicitly placed, even when container is large enough,
+so row will fill items in left to right and then down (fill open rows first), whereas column will fill items down first
+and then over (fill up open columns first)
+- grid-auto-rows: if there are more grid items than can fit in the grid container, 
+this property defines the height of those rows, and can be px, %, fr, repeat().
 the default if not defined is rows are just tall enough to fit content
-- grid-auto-columns: if grid-auto-flow is set to column, or column dense, then this will specify width of any auto-generated new columns
-
+- grid-auto-columns: if grid-auto-flow is set to column, or column dense, 
+then this will specify width of any auto-generated new columns
+- grid: sets grid-template-rows, grid-template-columns, grid-template-areas, grid-auto-rows, grid-auto-columns, and
+grid-auto-flow.  either define grid-template-rows / auto-flow grid-auto-columns, e.g. 100px 100px / auto-flow 200px
+for two 100px rows, with auto-flow set to column and new columns being 200px wide.
+Or define auto-flow grid-auto-rows / grid-template-columns, e.g. auto-flow 100px / 200px 200px, for two 200px columns
+and auto-flow set to rows with new rows being 100px tall.
+Can include 'dense' after 'auto-flow' keyword for dense packing.  Also can omit the grid-auto-rows or grid-auto-columns
+to set them to auto.  e.g. 100px 100px / auto-flow will have new columns of auto width
+can also be used differently, similar to grid-template with both grid-template-rows and grid-template-column defined,
+but allows you to include the grid-template-area names as well,
+e.g. [row1-start] "header header header" 1fr [row1-end]
+     [row2-start] "footer footer footer" 25px [row2-end]
+     / auto 50px auto;
+gives you three columns (auto 50px auto) and two rows (1fr and 25px), and also names the row grid lines and all areas
 -fr unit when fr is mixed with other units, the fr calculation will be based on the remaining available space after the other units are
 accounted for. think of fr like percent but expressed in fractions instead of decimals
 -repeat function, first arg is number of repeats, second arg is the size, so
@@ -72,8 +92,10 @@ items will span across row gaps
 has been defined on the grid container, in which case grid items will shrink to just fit their content
 -height: again if undefined, items will stretch to fill the height of the row or rows they are in, unless align-items has been set
 on the grid container, in which case grid items heights will shrink to just fit their content
--justify-self: overides the justify-items property set on the container for the grid-item it is defined on, takes the same values as justify-items
--align-self: overrides the align-items property set on the container for the grid-item it is defined on, takes the same values as align-items
+-justify-self: overides the justify-items property set on the container for the grid-item it is defined on, 
+takes the same values as justify-items
+-align-self: overrides the align-items property set on the container for the grid-item it is defined on, 
+takes the same values as align-items
 
 - gridline unit: integer by itself used in the above grid item properties references the gridline number
 - span unit: can be used in any above grid item properties, indicates number of rows or columns to span across, referencing from a start or
