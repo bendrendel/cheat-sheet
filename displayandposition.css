@@ -1,27 +1,44 @@
 
 /*
 Display and Positioning
-Flow of HTML: by default a browser renders HTML elements with no CSS from left to right, top to bottom in order they exist in the document
+Flow of HTML: by default a browser renders HTML elements with no CSS from left to right,
+the top to bottom in order they exist in the document
+
 position:
-    static: default value, block level elements default as far left as they can and as far to top as they can inside their parent element, given element that will be in their way that rendered first
-    relative: position relative to the static position, use offset properties top, bottom, left, right to position.  Other elements ignore new position and position themselves relative to the original static position
-    absolute: position relative to closest positioned parent element (i.e. parent that isn't static) using offset properties, all other elements ignore the element, do not postion themselves around it, 
-    fixed: position relative to viewport using positioning porperties, element will not scroll with page but stay fixed in position.
+    - static: default value, block level elements default as far left as they can 
+    and as far to top as they can inside their parent element, 
+    given elements that will be in their way that rendered first
+    - relative: position relative to the static position, 
+    use offset properties top, bottom, left, right to position.  
+    Other elements ignore new position and position themselves relative to the original static position
+    - absolute: position relative to closest positioned parent element (i.e. parent that isn't static) 
+    using offset properties, all other elements ignore the element, do not postion themselves around it
+    - fixed: position relative to viewport using positioning porperties, 
+    element will not scroll with page but stay fixed in position.
 top: works with relative/absolute/fixed, move element down, px ems %
 bottom: works with relative/absolute/fixed, move element up, px ems %
 left: works with relative/absolute/fixed, move element right, px ems %
 right: works with relative/absolute/fixed, move element left, px ems %
 z-index: integer, larger integers displayed on top of lower integers, does not work with static elements
+
 display: dictates if element can share horizontal space with other elements
-    inline: height and width cannot be specified, box takes up only as much space as needed to display content, shares horizontal space, default for em, strong, a
-    block: width and height can be set, width by default is full width of parent, height by default is whatever is necessary to fit content, doesn't share horizontal space, default for h1-6, p, div, footer, more
-    inline-block: width and height can be set, shares horizontal space, by default img
-    none: completely removes element from web page with no empty space left where it would have been
-float: left, right, works only with static or relative positioned elements, element must have specified width - no visibe effect if width of element is full width of parent
+    - inline: height and width cannot be specified, box takes up only as much space 
+    as needed to display content, shares horizontal space, default for em, strong, a
+    - block: width and height can be set, width by default is full width of parent, 
+    height by default is whatever is necessary to fit content, doesn't share horizontal space, 
+    default for h1-6, p, div, footer, more
+    - inline-block: width and height can be set, shares horizontal space, by default img
+    - none: completely removes element from web page with no empty space left where it would have been,
+    other elements do not position themselves around it, useful for responsive designs
+    where things only appear for certain screen sizes
+    - grid/inline-grid: used to create grid containers that are either block level or inline
+    - flex/inline-flex: used to create flex containers that are either block level or inline
+float: left, right, works only with static or relative positioned elements, 
+element must have specified width - no visibe effect if width of element is full width of parent
 clear: used with float when floated elements bump into each other
-    left/right: left/right side of element will not touch any other element within the same parent
-    both: neither side will touch any other element with the same parent
-    none: element can touch on either side
+    - left/right: left/right side of element will not touch any other element within the same parent
+    - both: neither side will touch any other element with the same parent
+    - none: element can touch on either side
 */
 
 #block-container,
