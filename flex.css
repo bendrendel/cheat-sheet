@@ -2,36 +2,46 @@
 /* 
 css flex
 
-parent element is the flex container, child elements are flex items
+-parent element is the flex container for which display should be set to flex or inline-flex
+-child elements are flex items
+-Primarily used for positioning items in a single direction (whether vertical or horizontal)
+although wrapping is also used
 
-flex positioning properties:
+Flex Containers
+- flex-direction: determines major axis orientation, row (default), row-reverse, column, or column-reverse
+row is horizontal from left to right, row-reverse is from right to left, 
+column is vertical from top to bottom, column-reverse is from bottom to top
+- flex-wrap: nowrap, wrap, or wrap-reverse, wrap will wrap rows below current row - top to bottom,
+wrap-reverse will wrap rows above current row - from bottom to top
+default is nowrap, preventing items from wrapping and instead following the shrink/grow behavior
+- flex-flow: defines flex-direction and flex-wrap, e.g. flex-flow: column wrap;
+- justify-content: spacing of items along the major axis (default left-right) inside a flex container,
+can be flex-start, flex-end, center, space-between, space-around, or space-evenly
+can use additional safe or unsafe keyword to prevent pushing element out of the container in such
+a way they can't be scrolled to
+- align-items: cross axis (default top to bottom) spacing of items inside a flex container.
+flex-start, flex-end, center, stretch, or baseline (aligns text baselines in each item)
+aligns items vertically that are within the same row, can also use safe or unsafe keyword
+- align-content: for aligning multiple rows vertically and only applies if flex-wrap is wrap or wrap-reverse
+flex-start, flex-end, center, stretch, space-between, space-around, can also combine with safe/unsafe keywords
+align-items is vertical alignment within each row, and align-content is vertical alignment of the rows themselves
 
-Major Axis (default left to right)
-----------------------------------
-- justify-content: left-right spacing of items inside a flex container
-- flex-wrap: defaults to nowrap, preventing items from wrapping and instead following the shrink/grow behavior
-- flex-grow: default is 0 meaning no growth when parent container is wider than elements
+Flex Items
+Note that float, clear, and vertical-align have no effect on flex items
+- order: By default flex items layout in the order in the HTML document, but can define the order explicitly
+with this, e.g. order: 5; accepts negative numbers too
+- flex-grow: default is 0 meaning no growth when parent container is wider than elements,
+if all flex items are 1, then they will fill the full container and each take the same fraction of space
+can use higher numbers for some elements to take up more of the space than others
 - flex-shrink: defuault is 1 meaning flex items automatically shrink when container width is smaller than items
-- flex-basis: defines the width of the flex item when the flex-container is exactly wide enough to fit the width of all its
-flex items without any shrinking or growing
-
-Cross Axis (default top to bottom)
-----------------------------------
-- align-items: cross axis top to bottom behavior of items inside a flex container. or aligning items vertically that are in a single row together -- when there is no wrapping, then everything
-is always in a single row, so align-items is the only property you need for vertical alignment
-- align-content: for aligning multiple rows vertically when wrap is turned on, so in this case align-items is vertical alignment
-within each row, and align-content is vertical alignment of the rows themselves. default is stretch
-
-
-flex-direction: determines axis orientation major axis can be horizontal from left to right or right to left, or vertical from top to bottom
-or bottom to top (row, row-reverse, column, column-reverse)
-
-flex-flow: defines flex-direction and flex-wrap
-flex: defines flex-grow, flex-shrink, and flex-basis
-
-with flex you can also leave off the
-flex-basis if you only want to declare flex-grow and flex-shrink.  Or you can leave out flex-shrink to define only
-flex-grow and flex-basis.  you can't leave out flex-grow to define only flex-shrink and flex-basis
+- flex-basis: defines the default width of the flex item when the flex-container is exactly wide enough 
+to fit the width of all its flex items without any shrinking or growing, can be px, %, rem, em, etc
+or use auto to use the element's defined width or height property.
+- flex: defines flex-grow, flex-shrink, and flex-basis
+you can also leave off the flex-basis if you only want to declare flex-grow and flex-shrink. 
+Or you can leave out flex-shrink to define only flex-grow and flex-basis. 
+you can't leave out flex-grow to define only flex-shrink and flex-basis
+- align-self: allows you to override the default align-items value, same values as align-items
 
 */
 
