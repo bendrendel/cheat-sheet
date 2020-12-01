@@ -42,7 +42,7 @@
             <li>
                 <p>Digital Ocean: Cloud provider providing full control over cloud resources, less complex than AWS or Google Cloud, but more control than a basic PaaS like Heroku</p>
             </li>
-        </ul>        
+        </ul>
         <p><strong>Static Assets: </strong>Files that don't change, these are what get sent to the browser</p>
         <p><strong>Dynamic Content: </strong>When the backend has logic deciding what assets to send based on the day or the user, etc</p>
         <p><strong>Static Website: </strong>A website where the server sends the client the files needed to view the site, and they don't change or move.  Twitter for example is not static because it updates content as it changes</p>
@@ -94,23 +94,32 @@
         </ul>
         <p><strong>Client: </strong>In REST architecture, a client is the process interacting with the server, 
             sending requests over the internet to retrieve or modify resources.  Could be a web browser requesting 
-            a website, could be another application, mobile device, smart appliance</p>
+            a website, could be another application, mobile device, smart appliance. AKA user-agent, any tool
+            that acts on behalf of the user.</p>
         <p><strong>Web Server: </strong>A process running on a computer that listens for incoming requests from 
             clients and sends back responses, a given machine could run multiple servers and each server should 
-            have a unique port that traffic is routed to, every website has at least one web server and could 
-            have many thousands for huge sites like Facebook</p>
+            have a unique port that traffic is routed to, but they all share the same IP address. 
+            every website has at least one web server and could have many thousands for huge sites like Facebook.
+            Servers appear virtually as a single machine but in reality could be a collection of machines 
+            sharing the load, could be piecing together info from multiple other computers</p>
+        <p><strong>Proxies: </strong>Between client and server there are numerous entities called proxies that
+            perform different operations and act as gateways or caches. Could be filtering like antivirus,
+            load balancing allowing multiple servers to serve the requests, authentication, logging.
+            There are also many computers like routers, modems, and more</p>
         <p><strong>Request/Response Cycle: </strong>Communication between clients and servers in REST works one
             message at a time (instead of a stream of data) and requires clients to send a <em>request</em> to 
             retrieve or modify resources and servers to then send a <em>response</em>. A single webpage may make 
             the client send many requests to many servers, e.g. an image from one server, an ad from another, etc.
-            THis works as below:</p>
+            This works as below:</p>
         <ul>
             <li><p>1. Client reads protocol of given URL</p></li>
             <li><p>2. Client reads domain name of given URL and gets its IP address from DNS</p></li>
             <li><p>3. Client opens TCP connection to the server at the IP address</p></li>
             <li><p>4. Client sends HTTP request</p></li>
-            <li><p>5. Server receives request and sends response (+additional resources like images?)</p></li>
-            <li><p>6. TCP connection is closed</p></li>
+            <li><p>5. Server receives request and sends response</p></li>
+            <li><p>6. The response may prompt the client to make additional requests
+                    to the same or other servers to get stylesheets, scripts, images, etc.</p></li>
+            <li><p>7. TCP connection is closed</p></li>
         </ul>        
         <p><strong>Resource: </strong>Any entity on the web including HTML files, stylesheets, images, videos, 
             and scripts, "nouns"/things of the web</p>
