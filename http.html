@@ -5,6 +5,62 @@
     </head>
     <body>
         <a href="./index.html">Home</a>
-        
+
+        <p><strong>HTTP: </strong>Hypertext Transfer Protocol, a client-server protocol for how to 
+            structure requests and responses sent over TCP channels.  
+            The foundation of any data exchange on the web.</p>
+        <p>HTTP/1.1 is a revision of the original HTTP/1.0 with less delay, it allows additional resources to be 
+            retrieved after getting the page like images and stylesheets in the same connection, 
+            HTTP/1.0 required a separate connection for each resource</p>
+        <p>HTTPS is HTTP Secure and encrypts the data sent and recieved, must be supported by the server and 
+            business must be certified</p>
+
+        <h2>HTTP Requests</h2>
+        <p><strong>Requests: </strong>Generally consist of an HTTP verb, a header, a resource path, 
+            and an optional body with data</p>
+        <p><strong>HTTP Method: </strong>define the type of operation to perform, 
+            many types but four most common are:</p>
+        <ul>
+            <li>GET - retrieve a specific resource or collection of resources</li>
+            <li>POST - create a new resource - requires sending data</li>
+            <li>PUT - update a specific resource</li>
+            <li>DELETE - remove a specific resource</li>
+        </ul>
+        <p><strong>Protocol: </strong>HTTP/1.1</p>
+        <p><strong>Header: </strong>contains information about the request</p>
+        <ul>
+            <li><strong>Accept field: </strong>The header's accept field specifies the type of data it can recieve from the server by MIME Type, can specify multiple types it is willing to accept</li>
+        </ul>
+        <p><strong>Resource Path: </strong>Specifies the resource upon which to perform the http verb, designed to generally be heirarchical and easy to interpret, using plurals for collections of resources, and id numbers for specific resources if needed.  e.g. /customers/57/orders/2, for perhaps getting or deleting the 2nd order of the 57th customer, or /customers/57/photos, for perhaps posting a new photo to the photos collection for customer 57</p>
+        <p><strong>Host: </strong>server address</p>
+        <p><strong>Example HTTP Request: </strong></p>
+        <p><code>GET /examplepage.html HTTP/1.1</code>  &lt-- Method, path to resource, protocol</p>
+        <p><code>Accept: text/html, application/xhtml</code>  &lt-- Accept header field</p>
+        <p><code>Host: www.example.com</code>  &lt-- Server address</p>
+        <p>Additional lines possibly, data payload</p>
+    
+
+        <h2>HTTP Responses</h2>
+        <p><strong>Responses: </strong></p>
+        <p><strong>Protocol: </strong>HTTP/1.1</p>
+        <p><strong>Header: </strong></p>
+        <ul>
+            <li><strong>Content-type field: </strong>If sending the client a data payload in the response body, this specifies the MIME type of the data and should match one of the types in the Accept field of the request</li>
+        </ul>
+        <p><strong>Response Code: </strong>status code indicating if the operation was successful or if there was an error of some kind, should return most specific error code posssible</p>
+        <ul>
+            <li>200 (0K) - standard response for successful GET and PUT requests</li>
+            <li>201 (CREATED) - standard response for successful POST requests</li>
+            <li>204 (NO CONTENT) - standarad respons for successful DELETE requests</li>
+            <li>400 (BAD REQUEST) - bad syntax, excessive size, or another client error</li>
+            <li>403 (FORBIDDEN) - client does not have permission to access the resource</li>
+            <li>404 (NOT FOUND) - resource wasn't found</li>
+            <li>500 (INTERNAL SERVER ERROR) - standard response for errors without more information</li>
+        </ul>
+        <p><strong>Body: </strong>contains data payload</p>
+        <strong>Example HTTP Response: </strong>
+        <p><code>HTTP/1.1 200 (OK)</code>  &lt-- Protocol (indicates protocol understood), HTTP status message</p>
+        <p><code>Content-Type: text/html</code>  &lt-- Type of content being sent</p>
+        <p>Followed by the content requested in the Response Body</p>
     </body>
 </html>
