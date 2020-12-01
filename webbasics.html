@@ -87,7 +87,7 @@
                 simplified server components, allows different clients to do the same actions to the same 
                 REST endpoints of a server and receive the same responses</p></li>
             <li><p><strong>Statelessness: </strong>the client and server do not need to know what state the 
-                other is in, and can understand any message received without seeing previous messages.  
+                other is in, and can understand any message independently without knowing previous messages.  
                 enforced through, instead of commands, the use of resources through standardized operations 
                 that do not rely on implementation of interfaces, more reliable, faster, scalable, ability 
                 to componentize the system to allow for better management, updating, reusing, etc. </p></li>
@@ -114,7 +114,8 @@
         <ul>
             <li><p>1. Client reads protocol of given URL</p></li>
             <li><p>2. Client reads domain name of given URL and gets its IP address from DNS</p></li>
-            <li><p>3. Client opens TCP connection to the server at the IP address</p></li>
+            <li><p>3. Client opens TCP connection to the server at the IP address,
+                    may reuse an existing connection or open several connections</p></li>
             <li><p>4. Client sends HTTP request</p></li>
             <li><p>5. Server receives request and sends response</p></li>
             <li><p>6. The response may prompt the client to make additional requests
