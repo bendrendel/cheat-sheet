@@ -80,14 +80,30 @@
             separation of client and server, and statelessness. systems following this are called REST-compliant 
             or RESTful systems, communicate through a RESTful interface</p>
         <ul>
-            <li><p><strong>Separation of Client and Server: </strong> needing only to know how to format message to each other, client and server can be implemented independently and code changed at any time without affecting the other, improves modularity, allows independent evolution, flexibility afforded by dedicated ui to work across different platforms, scalability by simplified server components, allows different clients to do the same actions to the same REST endpoints of a server and receive the same responses</p></li>
-            <li><p><strong>Statelessness: </strong>the client and server do not need to know what state the other is in, and can understand any message received without seeing previous messages.  enforced through, instead of commands, the use of resources through standardized operations that do not rely on implementation of interfaces, more reliable, faster, scalable, ability to componentize the system to allow for better management, updating, reusing, etc. </p></li>
+            <li><p><strong>Separation of Client and Server: </strong> needing only to know how to format message 
+                to each other, client and server can be implemented independently and code changed at any 
+                time without affecting the other, improves modularity, allows independent evolution, 
+                flexibility afforded by dedicated ui to work across different platforms, scalability by 
+                simplified server components, allows different clients to do the same actions to the same 
+                REST endpoints of a server and receive the same responses</p></li>
+            <li><p><strong>Statelessness: </strong>the client and server do not need to know what state the 
+                other is in, and can understand any message received without seeing previous messages.  
+                enforced through, instead of commands, the use of resources through standardized operations 
+                that do not rely on implementation of interfaces, more reliable, faster, scalable, ability 
+                to componentize the system to allow for better management, updating, reusing, etc. </p></li>
         </ul>
-        <p><strong>Client: </strong>In REST architecture, a client is the process interacting with the server, sending requests over the internet to retrieve or modify resources.  Could be a web browser requesting a website, could be another application, mobile device, smart appliance</p>
-        <p><strong>Web Server: </strong>A process running on a computer that listens for incoming requests from clients and sends back responses, a given machine could run multiple servers and each server should have a unique port that traffic is routed to, every website has at least one web server and could have many thousands for huge sites like Facebook</p>
-        <p><strong>Request/Response Cycle: </strong>REST requires clients to send requests to retrieve or modify 
-            resources and servers to send responses. Any command from the client, whether typing an address in the 
-            address bar, or something sent automatically from a website</p>
+        <p><strong>Client: </strong>In REST architecture, a client is the process interacting with the server, 
+            sending requests over the internet to retrieve or modify resources.  Could be a web browser requesting 
+            a website, could be another application, mobile device, smart appliance</p>
+        <p><strong>Web Server: </strong>A process running on a computer that listens for incoming requests from 
+            clients and sends back responses, a given machine could run multiple servers and each server should 
+            have a unique port that traffic is routed to, every website has at least one web server and could 
+            have many thousands for huge sites like Facebook</p>
+        <p><strong>Request/Response Cycle: </strong>Communication between clients and servers in REST works one
+            message at a time (instead of a stream of data) and requires clients to send a <em>request</em> to 
+            retrieve or modify resources and servers to then send a <em>response</em>. A single webpage may make 
+            the client send many requests to many servers, e.g. an image from one server, an ad from another, etc.
+            THis works as below:</p>
         <ul>
             <li><p>1. Client reads protocol of given URL</p></li>
             <li><p>2. Client reads domain name of given URL and gets its IP address from DNS</p></li>
@@ -98,19 +114,24 @@
         </ul>        
         <p><strong>Resource: </strong>Any entity on the web including HTML files, stylesheets, images, videos, 
             and scripts, "nouns"/things of the web</p>
-        <p><strong>MIME Types: </strong>Multipurpose Internet Mail Extensions, consist of a type and subtype separated by a slash</p>
+        <p><strong>MIME Types: </strong>Multipurpose Internet Mail Extensions, consist of a type and subtype 
+            separated by a slash</p>
         <ul>
             <li><code>text/html, text/css</code> text file containing html or css</li>
-            <li><code>text/plain</code> generic text file, note this is not a super-type for text data, i.e. text/plain is a separate type and not interchangeable with other text subtypes like text/html</li>
+            <li><code>text/plain</code> generic text file, note this is not a super-type for text data, 
+                i.e. text/plain is a separate type and not interchangeable with other text subtypes like text/html</li>
             <li><code>image/png, image/jpeg, image/gif</code> respective image types</li>
             <li><code>audio/wav, audio/mpeg</code> respective audio types</li>
             <li><code>video/mp4, video/ogg</code> respective video types</li>
-            <li><code>application/json, application/pdf, application/xml, application/octet-stream</code> respective application types</li>
+            <li><code>application/json, application/pdf, application/xml, application/octet-stream</code> 
+                respective application types</li>
         </ul>
         <p><strong>URL: </strong>Uniform Resource Locator</p>
-        <p><strong>Network Protocol: </strong>Format of a request from a client to a server and resulting response, e.g. HTTP</p>
-        <p><strong>TCP: </strong>Transmission Control Protocol, creates and manages the network channels between the client and server, 
-            used for many types of internet connections where one computer sends data to another</p>
+        <p><strong>Network Protocol: </strong>Format of a request from a client to a server and resulting response, 
+            e.g. HTTP</p>
+        <p><strong>TCP: </strong>Transmission Control Protocol, creates and manages the network channels between 
+            the client and server, used for many types of internet connections where one computer sends data 
+            to another</p>
 
         <h2>Domain Names</h2>
         <p>IP Address: This is what computers use to identify each other and communicate</p>
