@@ -18,8 +18,17 @@
             like compression and multiplexing, not human-readable though same concept</p>
         <p><strong>HTTPS</strong> is HTTP Secure and encrypts the data sent and recieved, must be supported by the 
             server and business must be certified</p>
-        <p><strong>Sessions: </strong>Through the use of cookies and the HTTP header, can create a stateful session 
-            allowing multiple requests to share the same context or state, working around REST statelessness</p>
+        <p><strong>Various Features: </strong></p>
+        <ul>
+            <li><strong>Sessions: </strong>Through the use of cookies and the HTTP header, can create a stateful session 
+            allowing multiple requests to share the same context or state, working around REST statelessness</li>
+            <li><strong>Caching: </strong>Can be controlled by HTTP with server instructing proxies and clients about
+            what to cache and for how long</li>
+            <li><strong>Origin Constraint: </strong>Can be relaxed with HTTP headers</li>
+            <li><strong>Authentication: </strong>Basic authentication provided through headers or cookies</li>
+            <li><strong>Proxy and tunneling: </strong>Allow going through server or client intranets that hide
+            IP addresses from outside computers</li>
+        </ul>
 
         <h2>HTTP Requests</h2>
         <p><strong>Requests: </strong>Consists of a Method, a resource path, the protocol version, and
