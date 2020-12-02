@@ -22,15 +22,19 @@ nav:hover {
 }
 
 /*
-transition-timing-function is ease (short slow period- fast -long slow down) by default if not defined
-can be ease-in (start slow end fast), ease-out (opposite), ease or ease-in-out (even slow fast slow periods), 
+transition-property
+- defines which changing property the transition applies to, can use keyword all for all changing properties
+- avoid transitioning a property to/from a value of auto, as it may cause unpredictable results
+
+transition-timing-function
+- ease (short slow period- fast -long slow down) by default if not defined
+- can be ease-in (start slow end fast), ease-out (opposite), ease or ease-in-out (even slow fast slow periods), 
 linear (constant)
+- can also define your own timing function using the cubic-bezier function
 
-can also define your own timing function using the cubic-bezier function
-
-transition-duration and -delay can be defined in ms or s,
-
-a negative delay value will start the transition immediately, already part-way through the 
+transition-duration and transition-delay
+- can be defined in ms or s,
+- a negative delay value will start the transition immediately, already part-way through the 
 transition process
 */
 
@@ -66,8 +70,9 @@ a:hover {
 }
 
 /*
-transition combines transition-property, -duration, -timing-function, and -delay in one line, 
-defaults used if any value left out, must include duration to include delay
+transition
+- combines transition-property, -duration, -timing-function, and -delay in one line, 
+- defaults used if any value left out, must include duration to include delay
 */
 
 #b {
