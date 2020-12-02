@@ -31,6 +31,8 @@ transition-timing-function
 - can be ease-in (start slow end fast), ease-out (opposite), ease or ease-in-out (even slow fast slow periods), 
 linear (constant)
 - can also define your own timing function using the cubic-bezier function
+- can also use step-end for transition to be instaneous, but after given delay and duration
+- can also use steps(4, end) to transition in 4 discrete stepped transitions (or some other number)
 
 transition-duration and transition-delay
 - can be defined in ms or s,
