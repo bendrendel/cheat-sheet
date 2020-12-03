@@ -20,6 +20,28 @@
             <li>File extension is .markdown or .md</li>
         </ul>
 
+        <h2>Readme Files</h2>
+        <p>Every programming project should include a README.md file that contains the following:</p>
+        <ul>
+            <li>Title (h1) usually the project name and possibly brief description 
+                and good section titles (h2), possibly subsections (h3-h6)</li>
+            <li>Introduction in a few sentences explaining the point of the project,
+                what problems it solves or incentive for creating it</li>
+            <li>The technologies used in the project, including libraries and versions</li>
+            <li>How to run the project, if there are minimum hardware requirements, how to
+                run in local environment, for web projects it may jsut be a link to the deployed project</li>
+        </ul>
+        <p>Optionally, include:</p>
+        <ul>
+            <li>Table of contents - for extensive documents, linked to headings</li>
+            <li>Illustrations - logo, diagrams, screenshots, etc</li>
+            <li>Scope of functionalities/features - if not obvious</li>
+            <li>Examples of use</li>
+            <li>Project status - especially if currently being developed, explaining planned changes</li>
+            <li>Sources - e.g. if following a tutorial, or inspired by another project</li>
+            <li>Other information - author, contact info, license, how to contribute</li>
+        </ul>
+
         <h2>Markdown Syntax</h2>
         <h3>Headers</h3>
         <ul>
@@ -58,13 +80,16 @@
             <li>[Displayed link name](url "optional tool tip")</li>
             <li>url could be relative reference to repository file like ../blob/master/LICENSE
                 or on the web like https://google.com</li>
+            <li>url could be link to a heading in the document, where the heading is all lowercase
+                and spaces replaced with dashes, and preceded by a single # sign,
+                e.g. [Section A](#section-a)</li>
             <li>Instead of url, can use a reference text, often a single number like 1, 2, 3,
                 defined later in document like so:</li>
-            <ul>
-                <li>[Optional displayed link name][reference text]</li>
-                <li><em>later in document:</em></li>
-                <li>[reference text]: https://google.com</li>
-            </ul>
+                <ul>
+                    <li>[Optional displayed link name][reference text]</li>
+                    <li><em>later in document:</em></li>
+                    <li>[reference text]: https://google.com</li>
+                </ul>
         </ul>
 
         <h3>Images</h3>
@@ -173,7 +198,5 @@
             ```
             </pre>
         </ul>
-
-
     </body>
 </html>
