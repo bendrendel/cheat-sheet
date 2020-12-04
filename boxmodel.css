@@ -1,20 +1,40 @@
 /*
 Box Model
-box-sizing: generally set on all elements, default is content-box where height and width properties define content height and width, or use border-box so width and height properties include content, border thickness and padding
-height/width: dimensions of contents, if width is undefined will default to fill width of parent, if height is undefined will default to shrink to fit content
-border: width (can use keywords thin medium thick), style (none, dotted, solid, etc), color. can include all three or exclude any, defaults are medium none element-color, c
+box-sizing: generally set on all elements, default is content-box where height and width properties define 
+    content height and width, or use border-box so width and height properties include content, 
+    border thickness and padding
+height/width: dimensions of contents, if width is undefined will default to fill width of parent, 
+    if height is undefined will default to shrink to fit content
+border: width (can use keywords thin medium thick), style (none, dotted, solid, etc), color. can include 
+    all three or exclude any, defaults are medium none element-color, c
 border-radius: if set to 100% will create oval
 padding-top/padding-right/padding-bottom/padding-left: specify each padding separately
-padding: if given four values sets padding-top/right/bottom/left.  if given two values sets top and bottom/left and right, if given a single value sets all to that value, 
-margin-top/margin-right/margin-bottom/margin-left: specify each margin property, left-right margins simply add together between two elements, however top-bottom margins collapse meaning the larger margin determines the margin and the smaller margin collapses
-margin: can be used same as padding but for margin, when used with two values, can use auto for left-right to center within parent element (element must have defined width so it isn't filling entire width of parent element already)
-min-width/max-width: use px (not relative units), limit width of element as it changes due to differing screen sizes
-min-height/max-height: use px (not relative units), limit height of element as it changes due to different screen sizes
-overflow: hidden, visible (default), scroll; determines what happens if the size of an element is too small to contain its contents
-visibility: can be set to hidden or visible, empty space is still left where the element would be (i.e. not removed from layout)
+padding: if given four values sets padding-top/right/bottom/left.  if given two values sets top and 
+    bottom/left and right, if given a single value sets all to that value, 
+margin-top/margin-right/margin-bottom/margin-left: specify each margin property, left-right margins 
+    simply add together between two elements, however top-bottom margins collapse meaning the larger 
+    margin determines the margin and the smaller margin collapses
+margin: can be used same as padding but for margin, when used with two values, can use auto for 
+    left-right to center within parent element (element must have defined width so it isn't filling 
+    entire width of parent element already)
+min-width/max-width: use px (not relative units), limit width of element as it changes due to differing 
+    screen sizes
+min-height/max-height: use px (not relative units), limit height of element as it changes due to 
+    different screen sizes
+overflow: hidden, visible (default), scroll; determines what happens if the size of an element is too 
+    small to contain its contents
+visibility: can be set to hidden or visible, empty space is still left where the element would be 
+    (i.e. not removed from layout)
 */
-* {
+
+/*Set everything to use border-box, instead of simply selecting all with * and setting to border-box,
+this slightly more complicated version helps in the case you want to set a component back to
+content-box, this allows all elements in the component to inherit the content-box property*/
+html {
     box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
 }
 
 #box-model-1 {

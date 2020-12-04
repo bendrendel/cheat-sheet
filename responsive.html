@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Responsive Design</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link type="text/css" rel="stylesheet" href="./responsive.css">
         <link rel="stylesheet" type="text/css" media="screen and (max-device-width: 480px)" href="#">
     </head>
@@ -14,6 +15,24 @@
             shouldn't be blocked, and also the size of other content.</p>
         <p>It's not about a new design for every concievable device, but more like parameterized design, where
             inherent in the design is how it changes with different environment parameters</p>
+
+        <h2>Foundations to a Responsive Site</h2>
+        <p><strong>meta viewport</strong> mobile devices commonly default to having a wider viewport than the 
+            actual screen width, and then shrink the viewport down to the screen width. This makes 
+            non-responsive websites better on mobile devices, but ruins responsive designs because 
+            the site won't be responding to the actual screen width but rather the wider viewport size
+            This tag instructs mobile devices to use the device width and not zoom in and should always 
+            be used on responsive designs</p>
+        <p><strong>Browser Reset: </strong>Include a css reset, the two most common are 
+            <a href="https://meyerweb.com/eric/tools/css/reset/">Reset</a> and 
+            <a href="http://necolas.github.io/normalize.css/">Normalize</a>. Reset completely
+            eradicates all styles, while normalize attempts to add consistency across browsers,
+            maintaining a default style</p>
+        <p><strong>Border Box: </strong>Set all elements to border-box (see boxmodel.css)</p>
+        <p><strong>jquery: </strong>optionally link to jquery if you'd like</p>
+
+        
+    
         
         <h2>Common Mobile vs Desktop Changes</h2>
         <p><strong>display: none </strong>Use the display: none property/value to show and hide things that should
