@@ -16,7 +16,11 @@
         <p>It's not about a new design for every concievable device, but more like parameterized design, where
             inherent in the design is how it changes with different environment parameters</p>
 
-        <h2>Foundations to a Responsive Site</h2>
+        <hr>
+        
+        <h2>Fundamentals of a Responsive Site</h2>
+
+        <h3>Foundations</h3>
         <p><strong>meta viewport</strong> mobile devices commonly default to having a wider viewport than the 
             actual screen width, and then shrink the viewport down to the screen width. This makes 
             non-responsive websites better on mobile devices, but ruins responsive designs because 
@@ -31,8 +35,20 @@
         <p><strong>Border Box: </strong>Set all elements to border-box (see boxmodel.css)</p>
         <p><strong>jquery: </strong>optionally link to jquery if you'd like</p>
 
+        <h3>Breakpoints</h3>
+        <p><strong>Setting Breakpoints: </strong>media query breakpoints should be set according to how the 
+            content for the page naturally breaks at different screen sizes; they shouldn't be set trying to
+            target different devices because devices vary so widely. Often its best to keep it simple with
+            one breakpoint at ~800px, dividing between phones/tablets and laptops/desktops.  You can add
+            another breakpoint for more specific designs.</p>
+        <p><strong>Mobile First: </strong>A good strategy is to make content look great for mobile first,
+            and scale up from there.  In your css, this results in your main styles being for mobile, and 
+            media queries using min-width will alter styles for larger screens.</p>
         
-    
+        <h3>Structure</h3>
+        <p><strong></strong></p>
+
+        <hr>
         
         <h2>Common Mobile vs Desktop Changes</h2>
         <p><strong>display: none </strong>Use the display: none property/value to show and hide things that should
@@ -72,8 +88,6 @@
         <hr>
 
         <h2>Media Queries</h2>
-        <p>media query breakpoints should be set according to how the content for the page naturally breaks at 
-            different screen sizes; they shouldn't be set trying to target different devices because devices vary so widely</p>
         <p><strong>@media: </strong>media query ruleset keyword</p>
         <p><strong>only screen: </strong>dictates what device type the rule set, it should always be only screen, outdated to 
             use for print, handheld, etc</p>
@@ -90,8 +104,10 @@
                     min/max device width is good for targeting specific devices but not when you make the browser smaller on
                     a large screen</li>
                 <li><strong>orientation: </strong>can be either portrait (height > width) or landscape (width > height)</li>
-
             </ul>
+        <p><strong>CSS Organization: </strong>Its best to put media queries right after their equivalent normal
+            style, pairing the normal style and media query style, as opposed to all normal styles in one section,
+            and all media queries in a separate section</p>
         <p><strong>HTML link with media query: </strong>You can include a media query attribute in the css link element
             (see head above), that will only load the css sheet if the media query condition is met.  This could load styles
             to override some of the styles in the main css sheet (always loaded).  However, this is not as efficient as
