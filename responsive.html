@@ -35,6 +35,8 @@
         <p><strong>Border Box: </strong>Set all elements to border-box (see boxmodel.css)</p>
         <p><strong>jquery: </strong>optionally link to jquery if you'd like</p>
 
+        <br>
+
         <h3>Breakpoints</h3>
         <p><strong>Setting Breakpoints: </strong>media query breakpoints should be set according to how the 
             content for the page naturally breaks at different screen sizes; they shouldn't be set trying to
@@ -44,9 +46,12 @@
         <p><strong>Mobile First: </strong>A good strategy is to make content look great for mobile first,
             and scale up from there.  In your css, this results in your main styles being for mobile, and 
             media queries using min-width will alter styles for larger screens.</p>
+
+        <br>
         
         <h3>Structure</h3>
-        <p><strong></strong></p>
+        <p><strong>Float-based layout: </strong>The traditional way to create a column layout is modelled
+            below and relies on floating the block-level column divs, and using the clearfix hack on rows</p>
 
         <div class="container">
             <div class="row">
@@ -56,10 +61,21 @@
             </div>
             <div class="row">
                 <div class="one-half column">
-                    Half column
+                    One half column
                 </div>
                 <div class="one-half column">
-                    Half column
+                    One half column
+                </div>
+            </div>
+            <div class="row">
+                <div class="one-third column">
+                    One third column
+                </div>
+                <div class="one-third column">
+                    One third column
+                </div>
+                <div class="one-third column">
+                    One third column
                 </div>
             </div>
         </div>

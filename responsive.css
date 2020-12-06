@@ -3,27 +3,43 @@
 }
 
 .container {
-    width: 100%;
+    margin: 0 auto;
+    max-width: 1200px;
     border: 3px black solid;
 }
 
 .row {
-    width: 80%;
-    max-width: 1600px;
     border: 3px goldenrod solid;
 }
 
-.column {
-    display: inline-block;
-    border: 3px brown solid;
+.row::before,
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
 }
 
-.whole {
+.column {
+    border: 3px brown solid;
     width: 100%;
 }
 
-.one-half {
-    width: 50%;
+@media only screen and (min-width: 800px) {
+    .column {
+        float: left;
+    }
+
+    .whole {
+        width: calc(100% / 1);
+    }
+
+    .one-half {
+        width: calc(100% / 2);
+    }
+
+    .one-third {
+        width: calc(100% / 3)
+    }
 }
 
 @media only screen and (min-width: 0px) and (max-width: 700px) {

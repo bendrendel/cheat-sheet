@@ -34,7 +34,7 @@ display: dictates if element can share horizontal space with other elements
     - grid/inline-grid: used to create grid containers that are either block level or inline
     - flex/inline-flex: used to create flex containers that are either block level or inline
 float: left, right, works only with static or relative positioned elements, 
-element must have specified width - no visibe effect if width of element is full width of parent
+    element must have specified width - no visibe effect if width of element is full width of parent
 clear: used with float when floated elements bump into each other
     - left/right: left/right side of element will not touch any other element within the same parent
     - both: neither side will touch any other element with the same parent
