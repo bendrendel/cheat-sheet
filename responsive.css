@@ -1,37 +1,58 @@
+.container {
+    width: 100%;
+}
+
+.row {
+    width: 80%;
+    max-width: 1600px;
+}
+
+.column {
+    display: inline-block;
+}
+
+.whole {
+    width: 100%;
+}
+
+.one-half {
+    width: 50%;
+}
+
 @media only screen and (min-width: 0px) and (max-width: 700px) {
-    .container {
+    .responsive-example {
         border-color: red;
     }
 }
 
 @media only screen and (min-width: 700px) and (max-width: 1200px) {
-    .container {
+    .responsive-example {
         border-color: green;
     }
 }
 
 @media only screen and (min-width: 1200px) and (max-width: 1600px) {
-    .container {
+    .responsive-example {
         border-color: blue;
     }
 }
 
 /* the larger min-width rule overrides the smaller one when the screen gets large enough*/
 @media only screen and (min-width: 1000px) {
-    .container {
+    .responsive-example {
         border-style: dotted;
     }
 }
 
 @media only screen and (min-width: 1400px) {
-    .container {
+    .responsive-example {
         border-style: double;
     }
 }
 
 /*use screen resolution media queries to e.g. use higher-res images if screen res is high enough*/
 @media only screen and (min-resolution: 96dpi) {
-    .container {
+    .responsive-example {
         border-radius: 100px;
     }
 }
