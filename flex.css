@@ -40,7 +40,10 @@ or use auto to use the element's defined width or height property.
 - flex: defines flex-grow, flex-shrink, and flex-basis
 you can also leave off the flex-basis if you only want to declare flex-grow and flex-shrink. 
 Or you can leave out flex-shrink to define only flex-grow and flex-basis. 
-you can't leave out flex-grow to define only flex-shrink and flex-basis
+you can't leave out flex-grow to define only flex-shrink and flex-basis.
+flex: 1 (or some other positive interger) means flex: 1 1 0, which basically eliminates consideration of the
+width of the flex item and simply grows/shrinks it within the flex container to fit whatever fraction is
+specified (1 in this case)
 - align-self: allows you to override the default align-items value, same values as align-items
 
 */
