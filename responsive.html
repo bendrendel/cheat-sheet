@@ -49,11 +49,11 @@
 
         <br>
         
-        <h3>Structure</h3>
-        <p><strong>Float-based layout: </strong>The traditional way to create a column layout is modelled
+        <h3>Grid Structure</h3>
+        <p><strong>Float-based grid: </strong>The traditional way to create a column layout is modelled
             below and relies on floating the block-level column divs, and using the clearfix hack on rows</p>
 
-        <div class="container">
+        <div class="float-container">
             <div class="row">
                 <div class="whole column">
                     Column
@@ -76,6 +76,38 @@
                 </div>
                 <div class="one-third column">
                     One third column
+                </div>
+            </div>
+        </div>
+
+        <p><strong>Flexbox-based grid: </strong>This replaces the traditional way with a better method</p>
+
+        <div class="flex-container">
+            <div class="row">
+                <div class="column">
+                    Whole-width column
+                </div>
+            </div>
+            <div class="row">
+                <div class="column">
+                    Evenly-divided columns, use flex: 1 regardless of # of cols
+                </div>
+                <div class="column">
+                    Evenly-divided columns
+                </div>
+                <div class="column">
+                    Evenly-divided columns
+                </div>
+            </div>
+            <div class="row">
+                <div class="column _25">
+                    25% Left Sidebar, use different flex props for different width cols
+                </div>
+                <div class="column _55">
+                    55% Main Content
+                </div>
+                <div class="column _20">
+                    20% Right Sidebar
                 </div>
             </div>
         </div>

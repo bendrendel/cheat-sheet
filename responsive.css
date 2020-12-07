@@ -2,45 +2,85 @@
     box-sizing: border-box;
 }
 
-.container {
+/*Float-based grid example*/
+
+.float-container {
     margin: 0 auto;
     max-width: 1200px;
     border: 3px black solid;
 }
 
-.row {
+.float-container .row {
     border: 3px goldenrod solid;
 }
 
-.row::before,
-.row::after {
+.float-container .row::before,
+.float-container .row::after {
     content: "";
     clear: both;
     display: table;
 }
 
-.column {
+.float-container .column {
     border: 3px brown solid;
     width: 100%;
 }
 
 @media only screen and (min-width: 800px) {
-    .column {
+    .float-container .column {
         float: left;
     }
 
-    .whole {
+    .float-container .whole {
         width: calc(100% / 1);
     }
 
-    .one-half {
+    .float-container .one-half {
         width: calc(100% / 2);
     }
 
-    .one-third {
+    .float-container .one-third {
         width: calc(100% / 3)
     }
 }
+
+/*Flex-based grid example*/
+
+.flex-container {
+    margin: 0 auto;
+    max-width: 1200px;
+    border: 3px black solid;
+}
+
+.flex-container .row {
+    display: flex;
+    flex-wrap: wrap;
+    border: 3px goldenrod solid;
+}
+
+.flex-container .column {
+    border: 3px brown solid;
+    width: 100%;
+}
+
+@media only screen and (min-width: 800px) {
+    .flex-container .column {
+        flex: 1;
+    }
+
+    .flex-container .column._25 {
+        flex: 2.5;
+    }
+    
+    .flex-container .column._55 {
+        flex: 5.5;
+    }
+
+    .flex-container .column._20 {
+        flex: 2;
+    }
+}
+
 
 @media only screen and (min-width: 0px) and (max-width: 700px) {
     .responsive-example {
