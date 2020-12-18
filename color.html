@@ -13,8 +13,10 @@
         <p>Warm colors: Reds, oranges, yellows, browns, tans, evoke warmth, aggression, boldness</p>
         <p>Cool colors: Blues, purples, greens, most grays, evoke calmness, soothing, winter, water</p>
         <p>Neutral colors: Colors with low lightness and/or saturation</p>
-        <p>Tint/Shade: Tint means increasing the lightness of a given hue, shade means decreasing the lightness of a given hue</p>
-        <p>Contrast: hue is most contrasting on opposite side of color wheel, lightness contrast is highest with 100% difference</p>
+        <p>Tint/Shade: Tint means increasing the lightness of a given hue, shade means decreasing the 
+            lightness of a given hue</p>
+        <p>Contrast: hue is most contrasting on opposite side of color wheel, lightness contrast is 
+            highest with 100% difference</p>
         
         <hr>
 
@@ -23,8 +25,11 @@
         <a href="https://color.adobe.com/create/color-wheel">Adobe Color</a>
         <a href="https://cloudflare.design/color">Cloudflare Design</a>
         <p>Monochromatic: Uses shades and tints of a single hue, evokes organized, harmonic feeling</p>
-        <p>Complementary: Uses two hues 180deg apart, common for logos, dramatic display of color, can clash if large areas of the two hues are adjacent</p>
-        <p>Analogous: Uses multiple hues close to each other, often one dominate hue, a second support hue, and third accent hue, pleasing, calming, low-contrast, good for backgrounds, not good to draw attention</p>
+        <p>Complementary: Uses two hues 180deg apart, common for logos, dramatic display of color, 
+            can clash if large areas of the two hues are adjacent</p>
+        <p>Analogous: Uses multiple hues close to each other, often one dominate hue, a second support 
+            hue, and third accent hue, pleasing, calming, low-contrast, good for backgrounds, not good to 
+            draw attention</p>
         <p>Triadic: Uses three hues 120deg apart, evoke equality, vibrancy, security</p>
 
         <hr>
@@ -32,17 +37,24 @@
         <h2>Best Practices</h2>
         <p>Neon colors: Use sparingly as they can be hard on the eyes</p>
         <p>Vibrating effect: Created by adjacent colors with complementary hues and high saturation, avoid</p>
-        <p>Use Contrast Selectively: Limit overall contrast on page and use it selectively to highlight important things like actions the user should take</p>
-        <p>Foreground/Background Contrast: <a href="https://webaim.org/resources/contrastchecker/">Contract Checker</a> ensure text or foreground content is sufficiently contrasting with background,
+        <p>Use Contrast Selectively: Limit overall contrast on page and use it selectively to highlight 
+            important things like actions the user should take</p>
+        <p>Foreground/Background Contrast: <a href="https://webaim.org/resources/contrastchecker/">Contract Checker</a> 
+            ensure text or foreground content is sufficiently contrasting with background,
             but extreme conftrast can also be hard to read like pure black on white</p>
-        <p>Background colors: Neutral allows you to easily add high contrast where needed, dark for light text or assets, medium difficult to create enough contrast with text or foreground content</p>    
+        <p>Background colors: Neutral allows you to easily add high contrast where needed, dark for light 
+            text or assets, medium difficult to create enough contrast with text or foreground content</p>    
         <p>Brand colors: Good brands have a brand color, and this should take up 60% of the color on the site</p>
         <p>Accent colors: Use to draw the users attention, such as in calls-to-action</p>
-        <p>Buttons: Good to use accent color for buttons, should have different states like hover, disabled; hover typically a shade or tint of button color</p>
-        <p>Input field: Should have states like selected and disabled, can have success and failure, selected typically uses a border color or box shadow effect</p>
+        <p>Buttons: Good to use accent color for buttons, should have different states like hover, disabled; hover 
+            typically a shade or tint of button color</p>
+        <p>Input field: Should have states like selected and disabled, can have success and failure, selected 
+            typically uses a border color or box shadow effect</p>
         <p>Semantic Colors: Red for errors, etc. see below </p>
-        <p>Whitespace: empty areas between elements, be sure to use it to help focus content, but not so much to cause issues trying to navigate seamlessly through content</p>
-        <p>Color blindness: <a href="http://colorsafe.co/">Accessible Color Palettes</a> some users cannot distinguish red-green well, also blue-yellow where blues appear green, and total color blindness,
+        <p>Whitespace: empty areas between elements, be sure to use it to help focus content, but not so much to 
+            cause issues trying to navigate seamlessly through content</p>
+        <p>Color blindness: <a href="http://colorsafe.co/">Accessible Color Palettes</a> some users cannot distinguish 
+            red-green well, also blue-yellow where blues appear green, and total color blindness,
             pair color indicators with symbols to help, like an x symbol with a red error message</p>
         <p>Err on the side of usability over aesthetics if they are in conflict</p>
         
@@ -63,10 +75,16 @@
 
         <h2>Setting color with CSS</h2>
         <p>Foreground color set with color property, background color set with background-color property</p>
-        <p>Opacity or Alpha can be set with opacity property or in hsla or rgba between 0 (transparent) and 1 (opaque), amount of background to blend with each pixel</p>
-        <p id="ex-keyword">Color keywords provide limited options, 147 colors, including transparent which is equivalent to rgba(0,0,0,0)</p>
-        <p id="ex-rgb">rgb or rgba takes three values defining intensity of red, green, blue, each between 0-255, or 0-100%, 256*256*256=16,777,216 colors; rgba takes fourth value for alph from 0 to 1</p>
-        <p id="ex-hex">Hex is exactly the same color spectrum as rgb but defined with three consecutive hexadecimal numbers (16 digit number system 0-9 A-F) for hexadecimal numbers that repeat two characters, you can represent them with one</p>
-        <p id="ex-hsla">hsl or hsla is most intuitive and semantic, hue is 0-360 (degrees), saturation 0%-100%, lightness is 0%-100%, alpha (for HSLA only) is 0 to 1</p>
+        <p>Opacity or Alpha can be set with opacity property or in hsla or rgba between 0 (transparent) and 1 
+            (opaque), amount of background to blend with each pixel</p>
+        <p id="ex-keyword">Color keywords provide limited options, 147 colors, including transparent which is 
+            equivalent to rgba(0,0,0,0)</p>
+        <p id="ex-rgb">rgb or rgba takes three values defining intensity of red, green, blue, each between 
+            0-255, or 0-100%, 256*256*256=16,777,216 colors; rgba takes fourth value for alph from 0 to 1</p>
+        <p id="ex-hex">Hex is exactly the same color spectrum as rgb but defined with three consecutive hexadecimal 
+            numbers (16 digit number system 0-9 A-F) for hexadecimal numbers that repeat two characters, you can 
+            represent them with one</p>
+        <p id="ex-hsla">hsl or hsla is most intuitive and semantic, hue is 0-360 (degrees), saturation 0%-100%, 
+            lightness is 0%-100%, alpha (for HSLA only) is 0 to 1</p>
     </body>
 </html>
