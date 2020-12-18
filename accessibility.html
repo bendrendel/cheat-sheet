@@ -8,22 +8,39 @@
         <a href="./index.html">Home</a>
         
         <h2>Terms</h2>
-        <p><strong>Accessibility:</strong> Making digital media usable for people with disabilities or impairments; e.g. images with alt text and screen readers for visually impaired, closed-caption videos for hearing impaired, navigable by keyboard if can't use mouse</p>
-        <p><strong>Screen reader:</strong> for visually impaired, provides text-to-speech (TTS) reads website content aloud, reads HTML tags, attributes when appropriate, can be OS-based or browser-based</p>
-        <p><strong>WCAG:</strong> Official World Wide Web Consortium (W3C) guidelines <a href="https://www.w3.org/TR/WCAG20/">Web Content Accessibility Guidlines (WCAG) 2.0</a></p>
+        <p><strong>Accessibility:</strong> Making digital media usable for people with disabilities or 
+            impairments; e.g. images with alt text and screen readers for visually impaired, 
+            closed-caption videos for hearing impaired, navigable by keyboard if can't use mouse</p>
+        <p><strong>Screen reader:</strong> for visually impaired, provides text-to-speech (TTS) reads 
+            website content aloud, reads HTML tags, attributes when appropriate, can be OS-based or 
+            browser-based</p>
+        <p><strong>WCAG:</strong> Official World Wide Web Consortium (W3C) guidelines 
+            <a href="https://www.w3.org/TR/WCAG20/">Web Content Accessibility Guidlines (WCAG) 2.0</a></p>
         <p><strong>WAI-ARIA:</strong> Web Accessiblity Initiative's Accessible Rich Internet Applications</p>
-        <p><strong>a11y: </strong>general term referring to movement to make web content and all computer hardware and software more accessible, sometimes used to refer to a scoring matrix for how accessible UX of a site is, comes from abbreviating "accessibility" - IT convention to replace middle of a long word with number of letters</p>    
+        <p><strong>a11y: </strong>general term referring to movement to make web content and all computer 
+            hardware and software more accessible, sometimes used to refer to a scoring matrix for how 
+            accessible UX of a site is, comes from abbreviating "accessibility" - IT convention to replace 
+            middle of a long word with number of letters</p>    
     
         <h2>Native HTML</h2>
-        <p><strong>Semantic HTML:</strong> Quickest way to help screen readers is to use semantic elements instead of generic divs with descriptive id's/classes, allows screen readers to jump from section to section (landmarks)</p>
-        <p><strong>Headings: </strong>Create sound document outlines with h1-h6 to help assistive technology navigate and jump between headings</p>
-        <p><strong>alt attribute:</strong> some elements like img have an alt attribute which is read aloud by screen readers, and should generally be used when available over aria-label because alt has added benefit of creating a visual tooltip</p>
+        <p><strong>Semantic HTML:</strong> Quickest way to help screen readers is to use semantic elements 
+            instead of generic divs with descriptive id's/classes, allows screen readers to jump from section 
+            to section (landmarks)</p>
+        <p><strong>Headings: </strong>Create sound document outlines with h1-h6 to help assistive technology 
+            navigate and jump between headings</p>
+        <p><strong>alt attribute:</strong> some elements like img have an alt attribute which is read aloud 
+            by screen readers, and should generally be used when available over aria-label because alt has 
+            added benefit of creating a visual tooltip</p>
         <ul>
-            <li><p>alt should concisely describe image, or describe the target if img used as link, and no more than 150 characters</p></li>
-            <li><p>alt should never be omitted because screen readers will think it is a key part of the content with no textual equivalent,
-                instead should be left empty for images that convey no information like a decorative border, and when image is described by visible text near the image</p></li>
+            <li><p>alt should concisely describe image, or describe the target if img used as link, and no 
+                more than 150 characters</p></li>
+            <li><p>alt should never be omitted because screen readers will think it is a key part of the 
+                content with no textual equivalent,
+                instead should be left empty for images that convey no information like a decorative border, 
+                and when image is described by visible text near the image</p></li>
         </ul>
-        <p><strong>hidden attribute: </strong>use to hide content visually and from screen readers, older browsers may not support this attribute so can use CSS fallback of: </p>
+        <p><strong>hidden attribute: </strong>use to hide content visually and from screen readers, older 
+            browsers may not support this attribute so can use CSS fallback of: </p>
         <pre>
             <code>
                 [hidden] {
@@ -31,7 +48,8 @@
                 }
             </code>
         </pre>
-        <p><strong>fieldset element: </strong>for form elements that form a group, like radio buttons or checkboxes, and you have some label for the whole group, use the fieldset and legend element,
+        <p><strong>fieldset element: </strong>for form elements that form a group, like radio buttons or 
+            checkboxes, and you have some label for the whole group, use the fieldset and legend element,
             this will make screen readers read the legend value whenever an item is selected in the group</p>
         <form>
             <fieldset>
@@ -46,19 +64,29 @@
         </form>
 
         <h2>ARIA Properties</h2>
-        <p><strong>ARIA properties: </strong>ARIA provides ARIA properties meant to help screen reader users perceive information that is otherwise only being communicated visually, added as attributes to HTML elements</p>
+        <p><strong>ARIA properties: </strong>ARIA provides ARIA properties meant to help screen reader users 
+            perceive information that is otherwise only being communicated visually, added as attributes to 
+            HTML elements</p>
         <ul>
-            <li><p>e.g. aria-label attribute: for example an img of a painting with a p containing the artist name at bottom, you can give the artist name aria-label="Artist" so screen readers know what the p is for</p></li>
+            <li><p>e.g. aria-label attribute: for example an img of a painting with a p containing the artist 
+                name at bottom, you can give the artist name aria-label="Artist" so screen readers know what 
+                the p is for</p></li>
         </ul>
             
         <h2>ARIA Roles</h2>
-        <p><strong>ARIA roles: </strong>ARIA includes the role attibute, to help screen readers identify role of different HTML elements, dozens of possible values</p>
+        <p><strong>ARIA roles: </strong>ARIA includes the role attibute, to help screen readers identify role 
+            of different HTML elements, dozens of possible values</p>
         <ul>
-            <li><p><code>role="complementary"</code> for content that makes sense on its own but is complementary to main content</p></li>
+            <li><p><code>role="complementary"</code> for content that makes sense on its own but is complementary 
+                to main content</p></li>
             <li><p><code>role="note"</code> for parenthetic or ancillary content</p></li>
-            <li><p><code>role="presentation"</code> for elements that only serve to organize information, this will cause the screen reader to not read the element name aloud, nor any required children aloud (e.g. the li elements are skipped when an ol is set to presentation) </p></li>
-            <li><p><code>role="banner"</code> can be used to support older browsers by putting this role in the site header tag, turning the header into a landmark in older browsers for screen readers</p></li>
-            <li><p><code>role="contentinfo"</code> can be used to support older browser by putting this role in the site footer tag, making it a landmark in older browsers for screen readers</p></li>
+            <li><p><code>role="presentation"</code> for elements that only serve to organize information, this will 
+                cause the screen reader to not read the element name aloud, nor any required children aloud 
+                (e.g. the li elements are skipped when an ol is set to presentation) </p></li>
+            <li><p><code>role="banner"</code> can be used to support older browsers by putting this role in the 
+                site header tag, turning the header into a landmark in older browsers for screen readers</p></li>
+            <li><p><code>role="contentinfo"</code> can be used to support older browser by putting this role in 
+                the site footer tag, making it a landmark in older browsers for screen readers</p></li>
         </ul>
     </body>
 </html>
