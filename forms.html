@@ -8,12 +8,14 @@
 
         <!--
             collecting information from users it traditionally done through html forms
-            inormation is collected on the front-end and sent to the back-end for processing, usually stored in a database
+            inormation is collected on the front-end and sent to the back-end for processing, usually stored 
+            in a database
 
             forms consist of a form element with children of input, select, textarea
             each input/select/textarea needs a name attribute
             each will also have a value attribute but how that gets assigned varies, value is case-sensitive
-            upon submission, all values are converted to strings and "name=value" gets sent for each input/select/textarea, 
+            upon submission, all values are converted to strings and "name=value" gets sent for each 
+            input/select/textarea, 
 
             labels tie to input by setting for attribute equal to id of input
             when user clicks on the label it selects the corresponding input
@@ -66,8 +68,8 @@
             <br><br>
 
             <!--
-                for checkbox and radio inputs, you need to give each checkbox or radio a value but it is not displayed,
-                its just what gets sent
+                for checkbox and radio inputs, you need to give each checkbox or radio a value but it is not 
+                displayed, its just what gets sent
                 give all checkboxes or radios in the same group the same name attribute
                 checkbox allows for multiple selections in same group, radio allows for only one
             -->
@@ -96,7 +98,8 @@
                 datalist
                 provides a dropdown list and allows typing in text field to filter dropdown list
                 also allows you to type in a value not in the list
-                the datalist element can be used with input type text by giving the input a list attribute equal to the datalist id
+                the datalist element can be used with input type text by giving the input a list attribute equal 
+                to the datalist id
             -->
             <label for="city">Ideal city to visit?</label>
             <input type="text" list="cities" id="city" name="city">
@@ -157,9 +160,12 @@
             <li>ensure complete data, e.g. no missing fields</li>
             <li>protection, e.g. secure password, no injected code through form</li>
         </ul>
-        <p><strong>Regular Expressions: </strong>Regex or regexp, since data submitted through forms are stored as strings, can use regex for validation</p>
-        <p><strong>Client-side Validation: </strong>validation included in the client code, won't allow user to submit form if anything is invalid,
-            either prevents certain values from being entered at all or will display alert with reason, faster than communicating with back-end</p>
+        <p><strong>Regular Expressions: </strong>Regex or regexp, since data submitted through forms are stored 
+            as strings, can use regex for validation</p>
+        <p><strong>Client-side Validation: </strong>validation included in the client code, won't allow user 
+            to submit form if anything is invalid,
+            either prevents certain values from being entered at all or will display alert with reason, faster 
+            than communicating with back-end</p>
         <ul>
             <li>
                 <p><strong>HTML Validation</strong></p>
@@ -167,26 +173,33 @@
                     <li>required attribute</li>
                     <li>min/max attributes for inputs of type number or type range</li>
                     <li>minlength/maxlength attribute for inputs of type text, password, or textarea</li>
-                    <li>pattern attribute for inputs of type text,password, or textarea, which requires input to match a specified regex</li>
+                    <li>pattern attribute for inputs of type text,password, or textarea, which requires input to 
+                        match a specified regex</li>
                 </ul>                
             </li>
             <li>
                 <p><strong>JavaScript Validation</strong></p>
-                <p>For custom or more complex validation, can write javascript or use a JavaScript library to validate</p>
+                <p>For custom or more complex validation, can write javascript or use a JavaScript library to 
+                    validate</p>
                 <ul>
                     <li><strong>just-validate.js</strong> a simple vanilla JS library for validation</li>
                     <li><strong>parsley.js </strong> another JS library for validation</li>
-                    <li><strong>formik.js</strong> validation library to be used with React, should look for framework-specific validation libraries
+                    <li><strong>formik.js</strong> validation library to be used with React, should look for 
+                        framework-specific validation libraries
                         because they have to maniuplate the DOM and thus play well with the framework</li>
                 </ul>
             </li>
         </ul>
         <p><strong>Server-side validation</strong></p>
         <ul>
-            <li>Regardless of client-side validation, a server should never trust the data it receives and must always validate, also often sanitizes data for consistent formatting</li>
-            <li>Client side validation is easy to bypass (turn off javascript in the browser), or through middleman attacks that alter data after client validation and before it reaches the server</li>
-            <li>Server-side validation allows you to keep validation code hidden, more computing power, and can access data in the database like checking for unique username</li>
-            <li>Can be done as user is entering data input by input which can slow down user, or upon submission of the form after all data is entered</li>
+            <li>Regardless of client-side validation, a server should never trust the data it receives and must 
+                always validate, also often sanitizes data for consistent formatting</li>
+            <li>Client side validation is easy to bypass (turn off javascript in the browser), or through middleman 
+                attacks that alter data after client validation and before it reaches the server</li>
+            <li>Server-side validation allows you to keep validation code hidden, more computing power, and can 
+                access data in the database like checking for unique username</li>
+            <li>Can be done as user is entering data input by input which can slow down user, or upon submission 
+                of the form after all data is entered</li>
         </ul>
             
             
