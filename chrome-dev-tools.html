@@ -65,5 +65,18 @@
                 in DevTools, select More Tools > Sensors, to pick specific orientations like portrait
                 upside-down, device up, etc.</li>
         </ul>
+
+        <h2>Console</h2>
+        <ul>
+            <li><strong>Logging: </strong>The console is for viewing logged messages in the
+                page's javascript.  There are multiple logging methods that display data in different
+                ways, such as console.log(), console.table(), console.assert()</li>
+            <li><strong>REPL: </strong>The console is also a REPL, and you can simply write javascript
+                in the console and hit enter to run it.  It has access to the page's window, so you can 
+                e.g. select elements in the document with document.querySelector, etc.  There are also 
+                a number of convenience functions built in, for example if the page's javascript has a 
+                function called exampleFunc, you can run debug(exampleFunc) to pause execution when 
+                exampleFunc is called</li>
+        </ul>
     </body>
 </html>
