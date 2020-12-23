@@ -163,16 +163,19 @@
         <p><strong>Regular Expressions: </strong>Regex or regexp, since data submitted through forms are stored 
             as strings, can use regex for validation</p>
         <p><strong>Client-side Validation: </strong>validation included in the client code, won't allow user 
-            to submit form if anything is invalid,
-            either prevents certain values from being entered at all or will display alert with reason, faster 
-            than communicating with back-end</p>
+            to submit form if anything is invalid, either prevents certain values from being entered at all or 
+            will display alert with reason, faster than communicating with back-end</p>
         <ul>
             <li>
                 <p><strong>HTML Validation</strong></p>
+                <p>When an element is valid it will match the :valid CSS pseudo-class, allowing for styling</p>
+                <p>When invalid, it will match the :invalid CSS psuedo-class and sometimes others like
+                    :out-of-range</p>
                 <ul>
                     <li>required attribute</li>
                     <li>min/max attributes for inputs of type number or type range</li>
                     <li>minlength/maxlength attribute for inputs of type text, password, or textarea</li>
+                    <li>type attribute can specify number, email address, or other preset types</li>
                     <li>pattern attribute for inputs of type text,password, or textarea, which requires input to 
                         match a specified regex</li>
                 </ul>                
@@ -193,7 +196,7 @@
         <p><strong>Server-side validation</strong></p>
         <ul>
             <li>Regardless of client-side validation, a server should never trust the data it receives and must 
-                always validate, also often sanitizes data for consistent formatting</li>
+                always validate for security purposes, also often sanitizes data for consistent formatting</li>
             <li>Client side validation is easy to bypass (turn off javascript in the browser), or through middleman 
                 attacks that alter data after client validation and before it reaches the server</li>
             <li>Server-side validation allows you to keep validation code hidden, more computing power, and can 
