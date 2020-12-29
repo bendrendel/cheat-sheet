@@ -7,38 +7,91 @@
     <body>
         <a href="./index.html">Home</a>
         <h2>Object structure</h2>
-        <p><strong>Object literal: </strong>denoted by curly braces {} containing key-value pairs separated by commas, where the key and value are separated by a colon. if declared with const, can still add/delete/edit key-value pairs</p>
+        <p><strong>Object literal: </strong>denoted by curly braces {} 
+            containing key-value pairs separated by commas, where the key and 
+            value are separated by a colon. if declared with const, can still 
+            add/delete/edit key-value pairs</p>
         <ul>
-            <li><p><strong>Keys: </strong>Key Names are strings but you can omit the quotation mark if there are no spaces in the key, they act like variable names that point to a location in memory holding a value</p></li>
-            <li><p><strong>Values: </strong>If value is a function then the key/value pair is called a method.  Otherwise it is called a property.</p></li>
+            <li><p><strong>Keys: </strong>Key Names are strings but you can 
+                omit the quotation mark if there are no spaces in the key, they
+                act like variable names that point to a location in memory 
+                holding a value</p></li>
+            <li><p><strong>Values: </strong>If value is a function then the 
+                key/value pair is called a method.  Otherwise it is called a 
+                property.</p></li>
         </ul>
 
         <h2>Methods</h2>
-        <p><strong>Methods: </strong>created by providing an anonymous function expression as the value in a key-value pair. ES6 syntax allows you to omit the colon and function keyword</p>
-        <p>Could also use an anonymous arrow function, but inside the body of an arrow functions, the this keyword will not bind to the calling object, so should be avoided (arrow functions bind this to the global object</p>
-        <p><strong>Getters: </strong>methods that return internal properties of an object, put get infront of method, must be called without parentheses () to resemble accessing a property.  don't have to return just a single internal property, could return some expression based on internal properties or that's not even based on any internal properties</p>
-        <p><strong>Setters: </strong>methods used to set the value of internal properties of an object, put set infront of method, must be called without parentheses () and instead with = to resemble assignment</p>
+        <p><strong>Methods: </strong>created by providing an anonymous function
+            expression as the value in a key-value pair. ES6 syntax allows you 
+            to omit the colon and function keyword</p>
+        <p>Could also use an anonymous arrow function, but inside the body of 
+            an arrow functions, the this keyword will not bind to the calling 
+            object, so should be avoided (arrow functions bind this to the 
+            global object</p>
+        <p><strong>Getters: </strong>methods that return internal properties of
+            an object, put get infront of method, must be called without 
+            parentheses () to resemble accessing a property.  don't have to 
+            return just a single internal property, could return some expression
+             based on internal properties or that's not even based on any 
+             internal properties</p>
+        <p><strong>Setters: </strong>methods used to set the value of internal 
+            properties of an object, put set infront of method, must be called 
+            without parentheses () and instead with = to resemble assignment</p>
 
         <h2>Accessing properties and methods</h2>
-        <p><strong>Dot Notation: </strong>One way of accessing the value of an object key, objectName.keyName, returns undefined if the key doesn't exist for the object.  Cannot use if key name contains numbers, spaces, or special characters. Use with parantheses to invoke a method, e.g. myObj.myMethod(); chain together for nested objects</p>
-        <p><strong>Bracket Notation: </strong>Access the value of a key with the syntax objectName['keyName'], where keyName is written as a string in quotes, unlike dot notation you can use a variable in the brackets whose value is a key name string. chain together for nested objects.</p></li>
-        <p><strong>Privacy: </strong>internal properties that aren't supposed to be accessed except for inside the object itself, property names start with _ by convention, but js doesn't actually restrict access to these properties</p>
-        <p><strong>this keyword: </strong>inside an object key's value, the this keyword references whatever object called the key.  this allows you to then access other properties and methods in the object, e.g. this.someOtherPropertyIntheSameObject</p>
+        <p><strong>Dot Notation: </strong>One way of accessing the value of an 
+            object key, objectName.keyName, returns undefined if the key doesn't
+             exist for the object.  Cannot use if key name contains numbers, 
+             spaces, or special characters. Use with parantheses to invoke a 
+             method, e.g. myObj.myMethod(); chain together for nested objects
+            </p>
+        <p><strong>Bracket Notation: </strong>Access the value of a key with the
+             syntax objectName['keyName'], where keyName is written as a string
+             in quotes, unlike dot notation you can use a variable in the 
+             brackets whose value is a key name string. chain together for 
+             nested objects.</p></li>
+        <p><strong>Privacy: </strong>internal properties that aren't supposed to
+             be accessed except for inside the object itself, property names 
+             start with _ by convention, but js doesn't actually restrict access
+            to these properties</p>
+        <p><strong>this keyword: </strong>inside an object key's value, the this
+            keyword references whatever object called the key.  this allows you
+            to then access other properties and methods in the object, e.g. 
+            this.someOtherPropertyIntheSameObject</p>
 
         <h2>ES6 Destructuring Techniques</h2>
         <p>ES6 shortcuts for assigning object properties to variables</p>
-        <p><strong>Property Value Shorthand: </strong>in defining an object literal, if setting a property value equal to a variable with the same name as the property, then you can leave out the colon and variable.</p>
-        <p><strong>Destructured Assignment: </strong>if assigning an object property value to some variable with the same name as the property, then you can wrap the variable name in {} and leave off the property name.</p>
+        <p><strong>Property Value Shorthand: </strong>in defining an object 
+            literal, if setting a property value equal to a variable with the 
+            same name as the property, then you can leave out the colon and 
+            variable.</p>
+        <p><strong>Destructured Assignment: </strong>if assigning an object 
+            property value to some variable with the same name as the property,
+            then you can wrap the variable name in {} and leave off the property
+            name.</p>
         
-        <h2>Built-in object data type methods and Object class static methods</h2>
-        <p><strong>Object.keys(objectName): </strong>Object class method takes any object as argument, returns array of keys</p>
-        <p><strong>Object.entries(objectName): </strong>takes any object as argument, returns an array containing 2-element arrays of the object's key-value pairs</p>
-        <p><strong>someObject.hasOwnProperty(propName): </strong>returns true false if object has property named propName</p>
+        <h2>Built-in object data type methods and Object class static methods
+            </h2>
+        <p><strong>Object.keys(objectName): </strong>Object class method 
+            takes any object as argument, returns array of keys</p>
+        <p><strong>Object.entries(objectName): </strong>takes any object as 
+            argument, returns an array containing 2-element arrays of the 
+            object's key-value pairs</p>
+        <p><strong>someObject.hasOwnProperty(propName): </strong>returns true 
+            false if object has property named propName</p>
         
         <h2>Miscellaneous</h2>
-        <p><strong>Key assignment: </strong>Reassign a key's value with either dot or bracket notation using syntax object.keyName = 'new value' or object['keyName'] = 'new value', if key doesn't exist it will be created</p>
-        <p><strong>Remove key: </strong>Remove a key from an object using the syntax: delete objectName.propName</p>
-        <p><strong>Iteration: </strong>use the for...in syntax to iterate through each item of an array, e.g. for (let key in object) { }</p>
-        <p><strong>Factory Functions: </strong>Functions that return an object and used to create instances of the object, may have parameters used to set object properties.  Seems like a class basically.</p>
+        <p><strong>Key assignment: </strong>Reassign a key's value with either 
+            dot or bracket notation using syntax object.keyName = 'new value' 
+            or object['keyName'] = 'new value', if key doesn't exist it will be
+            created</p>
+        <p><strong>Remove key: </strong>Remove a key from an object using the 
+            syntax: delete objectName.propName</p>
+        <p><strong>Iteration: </strong>use the for...in syntax to iterate 
+            through each item of an array, e.g. for (let key in object) { }</p>
+        <p><strong>Factory Functions: </strong>Functions that return an object 
+            and used to create instances of the object, may have parameters used
+            to set object properties.  Seems like a class basically.</p>
     </body>
 </html>
