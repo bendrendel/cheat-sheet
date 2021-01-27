@@ -1,180 +1,324 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>CSS Flex</title>
-        <link href="./flex.css" type="text/css" rel="stylesheet">
-    </head>
-    <body>
-        <a href="./index.html">Home</a>
+  <head>
+    <meta charset="utf-8" />
+    <title>CSS Flex</title>
+    <link href="./flex.css" type="text/css" rel="stylesheet" />
+  </head>
+  <body>
+    <a href="./index.html">Home</a>
+    <h1>CSS Flexbox</h1>
 
-        <div class="flex-container">
+    <h2>Basics</h2>
+    <p>
+      Primarily used for positioning items in a single direction (whether
+      vertical or horizontal) whereas grid is used for two dimensional layout,
+      although wrapping is used with flex
+    </p>
+    <p>
+      <strong>Flex container: </strong>parent element for which display should
+      be set to flex or inline-flex
+    </p>
+    <p><strong>Flex items: </strong>child elements of the flex container</p>
 
-            <h2>flex positioning and shrink/grow</h2>
-            <div class="flex-grid-a">
-                <div class="flex-box a">A</div>
-                <div class="flex-box b">B</div>
-                <div class="flex-box c">C</div>
-                <div class="flex-box d">D</div>
-                <div class="flex-box e">E</div>
-                <div class="flex-box f">F</div>
-            </div>
-            <div class="flex-grid-b">
-                <div class="flex-box a">A</div>
-                <div class="flex-box b">B</div>
-                <div class="flex-box c">C</div>
-                <div class="flex-box d">D</div>
-                <div class="flex-box e">E</div>
-                <div class="flex-box f">F</div>
-            </div>
-            <div class="flex-grid-c">
-                <div class="flex-box a">A</div>
-                <div class="flex-box b">B</div>
-                <div class="flex-box c">C</div>
-                <div class="flex-box d">D</div>
-                <div class="flex-box e">E</div>
-                <div class="flex-box f">F</div>
-            </div>
-            <div class="flex-grid-d">
-                <div class="flex-box a"></div>
-                <div class="flex-box b"></div>
-                <div class="flex-box c"></div>
-                <div class="flex-box d"></div>
-                <div class="flex-box e"></div>
-                <div class="flex-box f"></div>
-            </div>
-            <div class="flex-grid-e">
-                <div class="flex-box a">A</div>
-                <div class="flex-box b">B</div>
-                <div class="flex-box c">C</div>
-                <div class="flex-box d">D</div>
-                <div class="flex-box e">E</div>
-                <div class="flex-box f">F</div>
-            </div>
-            <div class="flex-grid-f">
-                <div class="flex-box a">A</div>
-                <div class="flex-box b">B</div>
-                <div class="flex-box c">C</div>
-                <div class="flex-box d">D</div>
-                <div class="flex-box e">E</div>
-                <div class="flex-box f">F</div>
-            </div>
-            <div class="flex-grid-g">
-                <div class="flex-box shrinker">A</div>
-                <div class="flex-box grower">B</div>
-                <div class="flex-box shrinker">C</div>
-                <div class="flex-box grower">D</div>
-                <div class="flex-box shrinker">E</div>
-                <div class="flex-box grower">F</div>
-            </div>
+    <h2>Flex Container Properties</h2>
+    <p><strong>flex-direction: </strong>determines major axis orientation</p>
+    <ul>
+      <li>row (default) horizontal from left to right</li>
+      <li>row-reverse is from right to left</li>
+      <li>column is vertical from top to bottom</li>
+      <li>column-reverse row is from bottom to top</li>
+    </ul>
+    <p><strong>flex-wrap: </strong></p>
+    <ul>
+      <li>
+        nowrap (default prevents items from wrapping and instead following the
+        shrink/grow behavior
+      </li>
+      <li>wrap will wrap rows below current for from top to bottom</li>
+      <li>
+        wrap-reverse will wrap rows above current row - from bottom to top
+      </li>
+    </ul>
+    <p>
+      <strong>flex-flow: </strong>defines flex-direction and flex-wrap in one
+      property, e.g. <code>flex-flow: column wrap</code>
+    </p>
+    <p>
+      <strong>justify-content: </strong>spacing of items along the major axis
+      (default left-right) inside a flex container
+    </p>
+    <ul>
+      <li>flex-start</li>
+      <li>flex-end</li>
+      <li>center</li>
+      <li>space-between</li>
+      <li>space-around</li>
+      <li>space-evenly</li>
+      <li>
+        safe/unsafe can use additional safe or unsafe keyword to prevent pushing
+        element out of the container in such a way they can't be scrolled to
+      </li>
+    </ul>
+    <p>
+      <strong>align-items: </strong>cross axis (default top to bottom) spacing
+      of items inside a flex container, aligns items vertically that are within
+      the same row
+    </p>
+    <ul>
+      <li>flex-start</li>
+      <li>flex-end</li>
+      <li>center</li>
+      <li>stretch</li>
+      <li>baseline aligns text baselines in each item</li>
+      <li>
+        safe/unsafe can also use safe or unsafe keyword as with justify-content
+      </li>
+    </ul>
+    <p>
+      <strong>align-content: </strong>for aligning multiple rows vertically and
+      only applies if flex-wrap is wrap or wrap-reverse, align-items is vertical
+      alignment within each row, and align-content is vertical alignment of the
+      rows themselves
+    </p>
+    <ul>
+      <li>flex-start</li>
+      <li>flex-end</li>
+      <li>center</li>
+      <li>stretch</li>
+      <li>space-between</li>
+      <li>space-around</li>
+      <li>
+        safe/unsafe can also use safe or unsafe keyword as with justify-content
+      </li>
+    </ul>
 
-            <hr>
+    <h2>Flex Item Properties</h2>
+    <p>
+      <strong>Invalid properties: </strong>float, clear, and vertical-align have
+      no effect on flex items
+    </p>
+    <p>
+      <strong>order: </strong>By default flex items layout in the order in the
+      HTML document, but can define the order explicitly with this, e.g.
+      <code>order: 5</code> accepts negative numbers too
+    </p>
+    <p><strong>flex-grow: </strong></p>
+    <ul>
+      <li>
+        default is 0 meaning flex items will not grow when parent container is
+        wider than elements
+      </li>
+      <li>
+        if all flex items are 1, then they will fill the full container and each
+        take the same fraction of space
+      </li>
+      <li>
+        can use higher numbers for some elements to take up more of the space
+        than others
+      </li>
+    </ul>
+    <p><strong>flex-shrink: </strong></p>
+    <ul>
+      <li>
+        default is 1 meaning flex items automatically shrink when container
+        width is smaller than items
+      </li>
+    </ul>
+    <p>
+      <strong>flex-basis: </strong>defines the default width of the flex item
+      when the flex-container is exactly wide enough to fit the width of all its
+      flex items without any shrinking or growing, can be px, %, rem, em, etc or
+      use auto to use the element's defined width or height property.
+    </p>
+    <p><strong>flex: </strong>defines flex-grow, flex-shrink, and flex-basis</p>
+    <ul>
+      <li>
+        you can also leave off the flex-basis if you only want to declare
+        flex-grow and flex-shrink
+      </li>
+      <li>
+        or you can leave out flex-shrink to define only flex-grow and flex-basis
+      </li>
+      <li>
+        you can't leave out flex-grow to define only flex-shrink and flex-basis
+      </li>
+      <li>
+        flex: 1 (or some other positive interger) means flex: 1 1 0, which
+        basically eliminates consideration of the width of the flex item and
+        simply grows/shrinks it within the flex container to fit whatever
+        fraction is specified (1 in this case)
+      </li>
+    </ul>
+    <p>
+      <strong>align-self: </strong>allows you to override the default
+      align-items value, same values as align-items
+    </p>
 
-            <h2>flex-wrap</h2>
-            <div class="flex-grid-h">
-                <div class="flex-box shrinker">A</div>
-                <div class="flex-box grower">B</div>
-                <div class="flex-box shrinker">C</div>
-                <div class="flex-box grower">D</div>
-                <div class="flex-box shrinker">E</div>
-                <div class="flex-box grower">F</div>
-            </div>
-            <div class="flex-grid-i">
-                <div class="flex-box shrinker">A</div>
-                <div class="flex-box grower">B</div>
-                <div class="flex-box shrinker">C</div>
-                <div class="flex-box grower">D</div>
-                <div class="flex-box shrinker">E</div>
-                <div class="flex-box grower">F</div>
-            </div>
-            <div class="flex-grid-j">
-                <div class="flex-box shrinker">A</div>
-                <div class="flex-box grower">B</div>
-                <div class="flex-box shrinker">C</div>
-                <div class="flex-box grower">D</div>
-                <div class="flex-box shrinker">E</div>
-                <div class="flex-box grower">F</div>
-            </div>
-            <div class="flex-grid-k">
-                <div class="flex-box shrinker">A</div>
-                <div class="flex-box grower">B</div>
-                <div class="flex-box shrinker">C</div>
-                <div class="flex-box grower">D</div>
-                <div class="flex-box shrinker">E</div>
-                <div class="flex-box grower">F</div>
-            </div>
-            <div class="flex-grid-l">
-                <div class="flex-box shrinker">A</div>
-                <div class="flex-box grower">B</div>
-                <div class="flex-box shrinker">C</div>
-                <div class="flex-box grower">D</div>
-                <div class="flex-box shrinker">E</div>
-                <div class="flex-box grower">F</div>
-            </div>
-            <div class="flex-grid-m">
-                <div class="flex-box shrinker">A</div>
-                <div class="flex-box grower">B</div>
-                <div class="flex-box shrinker">C</div>
-                <div class="flex-box grower">D</div>
-                <div class="flex-box shrinker">E</div>
-                <div class="flex-box grower">F</div>
-            </div>
-            <div class="flex-grid-n">
-                <div class="flex-box shrinker">A</div>
-                <div class="flex-box grower">B</div>
-                <div class="flex-box shrinker">C</div>
-                <div class="flex-box grower">D</div>
-                <div class="flex-box shrinker">E</div>
-                <div class="flex-box grower">F</div>
-            </div>
+    <h2>Examples</h2>
 
-            <hr>
+    <h3>flex positioning and shrink/grow</h3>
+    <div class="flex-container-a">
+      <div class="flex-item a">A</div>
+      <div class="flex-item b">B</div>
+      <div class="flex-item c">C</div>
+      <div class="flex-item d">D</div>
+      <div class="flex-item e">E</div>
+      <div class="flex-item f">F</div>
+    </div>
+    <div class="flex-container-b">
+      <div class="flex-item a">A</div>
+      <div class="flex-item b">B</div>
+      <div class="flex-item c">C</div>
+      <div class="flex-item d">D</div>
+      <div class="flex-item e">E</div>
+      <div class="flex-item f">F</div>
+    </div>
+    <div class="flex-container-c">
+      <div class="flex-item a">A</div>
+      <div class="flex-item b">B</div>
+      <div class="flex-item c">C</div>
+      <div class="flex-item d">D</div>
+      <div class="flex-item e">E</div>
+      <div class="flex-item f">F</div>
+    </div>
+    <div class="flex-container-d">
+      <div class="flex-item a"></div>
+      <div class="flex-item b"></div>
+      <div class="flex-item c"></div>
+      <div class="flex-item d"></div>
+      <div class="flex-item e"></div>
+      <div class="flex-item f"></div>
+    </div>
+    <div class="flex-container-e">
+      <div class="flex-item a">A</div>
+      <div class="flex-item b">B</div>
+      <div class="flex-item c">C</div>
+      <div class="flex-item d">D</div>
+      <div class="flex-item e">E</div>
+      <div class="flex-item f">F</div>
+    </div>
+    <div class="flex-container-f">
+      <div class="flex-item a">A</div>
+      <div class="flex-item b">B</div>
+      <div class="flex-item c">C</div>
+      <div class="flex-item d">D</div>
+      <div class="flex-item e">E</div>
+      <div class="flex-item f">F</div>
+    </div>
+    <div class="flex-container-g">
+      <div class="flex-item shrinker">A</div>
+      <div class="flex-item grower">B</div>
+      <div class="flex-item shrinker">C</div>
+      <div class="flex-item grower">D</div>
+      <div class="flex-item shrinker">E</div>
+      <div class="flex-item grower">F</div>
+    </div>
 
-            <h2>flex-direction</h2>
-            <div class="flex-grid-o">
-                <div class="flex-box shrinker">A</div>
-                <div class="flex-box grower">B</div>
-                <div class="flex-box shrinker">C</div>
-                <div class="flex-box grower">D</div>
-                <div class="flex-box shrinker">E</div>
-                <div class="flex-box grower">F</div>
-            </div>
-            <div class="flex-grid-p">
-                <div class="flex-box shrinker">A</div>
-                <div class="flex-box grower">B</div>
-                <div class="flex-box shrinker">C</div>
-                <div class="flex-box grower">D</div>
-                <div class="flex-box shrinker">E</div>
-                <div class="flex-box grower">F</div>
-            </div>
-            <div class="flex-grid-q">
-                <div class="flex-box shrinker">A</div>
-                <div class="flex-box grower">B</div>
-                <div class="flex-box shrinker">C</div>
-                <div class="flex-box grower">D</div>
-                <div class="flex-box shrinker">E</div>
-                <div class="flex-box grower">F</div>
-            </div>
-            <div class="flex-grid-r">
-                <div class="flex-box shrinker">A</div>
-                <div class="flex-box grower">B</div>
-                <div class="flex-box shrinker">C</div>
-                <div class="flex-box grower">D</div>
-                <div class="flex-box shrinker">E</div>
-                <div class="flex-box grower">F</div>
-            </div>
-            <div class="flex-grid-s">
-                <div class="flex-box left">
-                    <div class="flex-box small">A</div>
-                    <div class="flex-box small">B</div>
-                    <div class="flex-box small">C</div>
-                </div>
-                <div class="flex-box right">
-                    <div class="flex-box big">D</div>
-                </div>
-            </div>
+    <hr />
 
-        </div>
+    <h2>flex-wrap</h2>
+    <div class="flex-container-h">
+      <div class="flex-item shrinker">A</div>
+      <div class="flex-item grower">B</div>
+      <div class="flex-item shrinker">C</div>
+      <div class="flex-item grower">D</div>
+      <div class="flex-item shrinker">E</div>
+      <div class="flex-item grower">F</div>
+    </div>
+    <div class="flex-container-i">
+      <div class="flex-item shrinker">A</div>
+      <div class="flex-item grower">B</div>
+      <div class="flex-item shrinker">C</div>
+      <div class="flex-item grower">D</div>
+      <div class="flex-item shrinker">E</div>
+      <div class="flex-item grower">F</div>
+    </div>
+    <div class="flex-container-j">
+      <div class="flex-item shrinker">A</div>
+      <div class="flex-item grower">B</div>
+      <div class="flex-item shrinker">C</div>
+      <div class="flex-item grower">D</div>
+      <div class="flex-item shrinker">E</div>
+      <div class="flex-item grower">F</div>
+    </div>
+    <div class="flex-container-k">
+      <div class="flex-item shrinker">A</div>
+      <div class="flex-item grower">B</div>
+      <div class="flex-item shrinker">C</div>
+      <div class="flex-item grower">D</div>
+      <div class="flex-item shrinker">E</div>
+      <div class="flex-item grower">F</div>
+    </div>
+    <div class="flex-container-l">
+      <div class="flex-item shrinker">A</div>
+      <div class="flex-item grower">B</div>
+      <div class="flex-item shrinker">C</div>
+      <div class="flex-item grower">D</div>
+      <div class="flex-item shrinker">E</div>
+      <div class="flex-item grower">F</div>
+    </div>
+    <div class="flex-container-m">
+      <div class="flex-item shrinker">A</div>
+      <div class="flex-item grower">B</div>
+      <div class="flex-item shrinker">C</div>
+      <div class="flex-item grower">D</div>
+      <div class="flex-item shrinker">E</div>
+      <div class="flex-item grower">F</div>
+    </div>
+    <div class="flex-container-n">
+      <div class="flex-item shrinker">A</div>
+      <div class="flex-item grower">B</div>
+      <div class="flex-item shrinker">C</div>
+      <div class="flex-item grower">D</div>
+      <div class="flex-item shrinker">E</div>
+      <div class="flex-item grower">F</div>
+    </div>
 
-    </body>
+    <hr />
+
+    <h2>flex-direction</h2>
+    <div class="flex-container-o">
+      <div class="flex-item shrinker">A</div>
+      <div class="flex-item grower">B</div>
+      <div class="flex-item shrinker">C</div>
+      <div class="flex-item grower">D</div>
+      <div class="flex-item shrinker">E</div>
+      <div class="flex-item grower">F</div>
+    </div>
+    <div class="flex-container-p">
+      <div class="flex-item shrinker">A</div>
+      <div class="flex-item grower">B</div>
+      <div class="flex-item shrinker">C</div>
+      <div class="flex-item grower">D</div>
+      <div class="flex-item shrinker">E</div>
+      <div class="flex-item grower">F</div>
+    </div>
+    <div class="flex-container-q">
+      <div class="flex-item shrinker">A</div>
+      <div class="flex-item grower">B</div>
+      <div class="flex-item shrinker">C</div>
+      <div class="flex-item grower">D</div>
+      <div class="flex-item shrinker">E</div>
+      <div class="flex-item grower">F</div>
+    </div>
+    <div class="flex-container-r">
+      <div class="flex-item shrinker">A</div>
+      <div class="flex-item grower">B</div>
+      <div class="flex-item shrinker">C</div>
+      <div class="flex-item grower">D</div>
+      <div class="flex-item shrinker">E</div>
+      <div class="flex-item grower">F</div>
+    </div>
+    <div class="flex-container-s">
+      <div class="flex-item left">
+        <div class="flex-item small">A</div>
+        <div class="flex-item small">B</div>
+        <div class="flex-item small">C</div>
+      </div>
+      <div class="flex-item right">
+        <div class="flex-item big">D</div>
+      </div>
+    </div>
+  </body>
 </html>
