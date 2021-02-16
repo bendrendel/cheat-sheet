@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CSS Animation</title>
+    <link rel="stylesheet" href="./animation.css" type="text/css" />
+  </head>
+  <body>
+    <a href="../index.html">Home</a> <br>
+    <a href="https://animate.style/">Example animations</a>
+    <h1>Animation</h1>
+    <h2>Keyframes</h2>
+    <p>A special element in your CSS that defines the animation</p>
+    <h3>Components</h3>
+    <ul>
+      <li><strong>Name of the animation</strong></li>
+      <li>
+        <strong>Stages of the animation: </strong>Animations are broken into
+        stages, where each stage has defined css property values that are
+        reached at a defined percentage of the total animation time
+      </li>
+      <li>
+        <strong>CSS Properties: </strong>The property values at each stage
+      </li>
+    </ul>
+
+    <h3>Example</h3>
+    <code>
+      <pre>
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0.1);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        </pre
+      >
+    </code>
+
+    <h2>Animation Properties</h2>
+    <p>Properties assigned to the element to animate</p>
+    <h3>Components</h3>
+    <ul>
+      <li><strong>animation-name</strong></li>
+      <li>
+        <strong>animation-duration: </strong>seconds (s) or milliseconds (ms)
+      </li>
+      <li>
+        <strong>animation-timing-function: </strong>defines how css property
+        values are interpolated between animation stages, e.g., ease (default),
+        linear, ease-in, ease-out, ease-in-out, initial, inherit, custom
+        cubic-bezier curve
+      </li>
+      <li>
+        <strong>animation-delay: </strong> defined in seconds or milliseconds,
+        specifies a delay before animation begins, or can be a negative value to
+        start instantly start in the middle of the animation
+      </li>
+      <li>
+        <strong>animation-iteration-count: </strong> specifies number of repeats
+        of the animation, can be a number, or keywords infinite, initial, or
+        inherit
+      </li>
+      <li>
+        <strong>animation-direction: </strong> can be normal (default), reverse,
+        alternate (normal-reverse-normal-reverse, etc), or alternate-reverse
+        (reverse-normal-reverse-normal etc)
+      </li>
+      <li>
+        <strong>animation-fill-mode: </strong> defines if the initial and end
+        states of the animation are in effect before/after the animation, as
+        opposed to the element's normal styles, can be normal (default -
+        animation doesn't apply), backwards (initial animation state applied
+        beforehand), forwards (final animation state applied afterwards), both
+        (applies rules of both forwards and backwards)
+      </li>
+      <li>
+        <strong>animation-play-state: </strong> can be playing or paused, to
+        define if animation should run or stay paused
+      </li>
+      <li>
+        <strong>animation: </strong>recommended shorthand that combines all of
+        the above properties separated by a space, the first two properties are
+        required, and can combine multiple animations separated by a comma:
+        [animation-name] [animation-duration] [animation-timing-function]
+        [animation-delay] [animation-iteration-count] [animation-direction]
+        [animation-fill-mode] [animation-play-state], [animation-name]
+        [animation-duration] etc.
+      </li>
+    </ul>
+
+    <h3>Example</h3>
+    <code>
+      <pre>
+        div {
+            animation-duration: 2s;
+            animation-name: bounceIn;
+        }
+        </pre
+      >
+    </code>
+
+    <em>OR</em>
+
+    <code>
+      <pre>
+        div {
+            animation: bounceIn 2s;
+        }
+        </pre
+      >
+    </code>
+
+    <h3>Prefixes</h3>
+    <p>
+      Probably all outdated but in the past, in addition to unprefixed versions,
+      you needed to include the -webkit- prefixed version for keyframes,
+      animation properties, and transitions for certain browsers. There are
+      libraries that can automate this.
+    </p>
+    <h2>Example</h2>
+    <code>
+      <pre>
+        div {
+            -webkit-animation-duration: 2s;
+            animation-duration: 2s;
+            -webkit-animation-name: bounceIn;
+            animation-name: bounceIn;
+        }
+
+        @-webkit-keyframes bounceIn { /* styles */ }
+        @keyframes bounceIn { /* styles */ }
+        </pre
+      >
+    </code>
+  </body>
+</html>
