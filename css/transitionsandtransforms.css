@@ -118,3 +118,51 @@ a:hover {
     transform-origin: 50% 0%;
     transition: all 2s;
 }
+
+.cube {
+    perspective: 400px;
+    margin: 100px;
+    height: 300px;
+    width: 300px;
+    perspective-origin: 100% 100%;
+    transform-style: preserve-3d;
+}
+
+.side {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.front {
+    transform: translateZ(50px);
+    background-color: rgba(255, 0, 0, 0.5)
+}
+
+.back {
+    transform: rotateY(180deg) translateZ(50px);
+    background-color: rgba(0, 255, 0, 0.5);
+}
+
+.right {
+    transform: rotateY(90deg) translateZ(50px);
+    background-color: rgba(0, 0, 255, 0.5);
+}
+
+.left {
+    transform: rotateY(-90deg) translateZ(50px);
+    background-color: rgba(255, 255, 0, 0.5);
+}
+
+.top {
+    transform: rotateX(90deg) translateZ(50px);
+    background-color: rgba(255, 0, 255, 0.5);
+}
+
+.bottom {
+    transform: rotateX(-90deg) translateZ(50px);
+    background-color: rgba(0, 255, 255, 0.5)
+}

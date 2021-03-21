@@ -32,19 +32,28 @@
       <br />
       <a href="#" id="c">Button C</a>
       <br />
-      <a href="#" id="d">Button D</a>
+      <a href="#" id="d">Transition events (see js)</a>
       <br />
-      <a href="#" id="e">Button E</a>
+      <a href="#" id="e">Scale(2, 0.5)</a>
       <br />
-      <a href="#" id="f">Button F</a>
+      <a href="#" id="f">Rotate 720</a>
       <br />
-      <a href="#" id="g">Button G</a>
+      <a href="#" id="g">Translate 20px 20px</a>
       <br />
-      <a href="#" id="h">Button H</a>
+      <a href="#" id="h">ScewX(20deg)</a>
       <br />
-      <a href="#" id="i">Button I</a>
+      <a href="#" id="i">Rotate 90, scale 2, translateX 50%</a>
       <br />
-      <a href="#" id="j">Button J</a>
+      <a href="#" id="j">Rotate, origin 50% 0%</a>
+      <br/>
+      <div class="cube">
+          <div class="side front">Front</div>
+          <div class="side back">Back</div>
+          <div class="side right">Right</div>
+          <div class="side left">Left</div>
+          <div class="side top">Top</div>
+          <div class="side bottom">Bottom</div>
+      </div>
     </main>
     <section>
       <h2>transition-property</h2>
@@ -137,38 +146,53 @@
         </li>
       </ul>
 
-      <h2>Transform property</h2>
+      <h2>transform</h2>
       <p>
-        can combine as many of these as you want in a single transform property:
+        Element must be display: block and positioned to use transform.
+        can combine multiple transforms separated by a space in a single transform property.
       </p>
       <ul>
         <li>
           scale: can use scaleX(#), scaleY(#) to scale horiz and vert width
           independently, or can use scale(#) for both at once, or scale(X#, Y#)
-          to scale separately
+          to scale separately.  Also scaleZ for 3D elements with perspective.
         </li>
         <li>
           rotate: use positive val for clockwise, negative val for
-          counter-clockwise, can be more or less than 360 degrees
+          counter-clockwise, can be more or less than 360 degrees, e.g. rotate(90deg)
+          also rotateX, rotateY, rotateZ for rotations on 3D elements with perspective
         </li>
         <li>
           translate: x value first, y value second. pos x moves right, neg x
-          moves left pos y moves down, neg y moves up
+          moves left pos y moves down, neg y moves up.  also translateX, translateY, translateY, for translations of 3D elements
         </li>
         <li>
-          scew: can use scewX(deg), scewY(deg), or scew(Xdeg, Ydeg), pos x scews
-          left, neg x scews right, pos y scews down, neg y scews up
+          scew: can use scewX(deg), scewY(deg), or scew(Xdeg, Ydeg), positive x scews
+          left, negative x scews right, positive y scews down, negative y scews up.
+          Also scewZ for 3D elements.
         </li>
       </ul>
 
       <h2>transform-origin</h2>
       <ul>
         <li>
-          can be used with any of the transform properties to define the origin
-          of the transformation, can use 0% 0% for upper left, 100% 100% for
-          bottom right or anywhere inbetween
+          can be used with several of the transforms to define the origin
+          of the transformation, the default is the center of the element.
+          e.g. 0% 0% for upper left, 100% 100% for
+          bottom right, or use keywords 'bottom left', 'upper right'
         </li>
       </ul>
+
+      <h2>perspective</h2>
+      <ul>
+          <li>giving an parent element a perspective property will create a 3D effect for all children of the element.  The perspective property determines the distance between the z=0 plane and the user, e.g. perspective: 800px.  Elements inside the parent can then be transformed with rotations, translations, etc, in 3D space</li>
+      </ul>
+
+      <h2>perspective-origin</h2>
+      <ul>
+          <li>given to the parent element on which perspective is defined, sets the position from which the viewer is looking.  It sets the vanishing point of the perspective.  default is 50% 50%, which is from center of element, can be other percentages, or keywords such as perspective-origin: top; or perspective-origin: bottom right;</li>
+      </ul>
+
     </section>
   </body>
 </html>
