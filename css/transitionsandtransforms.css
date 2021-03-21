@@ -21,43 +21,9 @@ nav:hover {
     left: 0;
 }
 
-/*
-transition-property
-- defines which changing property the transition applies to, can use keyword all, and keyword transform
-ot transform-origin for transitioning the transform property
-- avoid transitioning a property to/from a value of auto, as it may cause unpredictable results
-- if you use javascript to change an element's style properties, including the transform property,
-then the CSS transition properties in your CSS document will still apply to the transition
-- careful when transitioning an element that was just added to the DOM with .appendChild() or
-if the element's display: none property was just removed.  The element will appear immediately in its
-final transitioned state, instead of initial state.  Avoid this by using a window.setTimeout() of a few
-milliseconds before changing the CSS property you intend to transition to.
-
-transition-timing-function
-- ease (short slow period- fast -long slow down) by default if not defined
-- can be ease-in (start slow end fast), ease-out (opposite), ease or ease-in-out (even slow fast slow periods), 
-linear (constant)
-- can also define your own timing function using the cubic-bezier function
-- can also use step-end for transition to be instaneous, but after given delay and duration
-- can also use steps(4, end) to transition in 4 discrete stepped transitions (or some other number)
-
-transition-duration and transition-delay
-- can be defined in ms or s,
-- a negative delay value will start the transition immediately, already part-way through the 
-transition process
-
-transition
-- combines transition-property, -duration, -timing-function, and -delay in one line, 
-- defaults used if any value left out, must include duration to include delay
-
-transition events
-- different parts of the transition emit events that you can respond to with javascript
-- transitionrun fires when transition begins before any delay,
-transitionstart fires immediately after any delay,
-and transitionend fires when transition is over (doesn't fire if transition doesn't complete for any reason)
-- transition event objecct provide a propertyName property of the property being transitioned,
-and an elapsedTime property giving time elapsed not including any delay
-*/
+section {
+    margin-left: 60px;
+}
 
 a {
     background-color: orange;
@@ -103,25 +69,6 @@ a:hover {
 #d {
     transition: all 800ms ease-in-out 300ms;
 }
-
-/*
-Transform property
-
-scale: can use scaleX(#), scaleY(#) to scale horiz and vert width independently,
-    or can use scale(#) for both at once, or scale(X#, Y#) to scale separately
-rotate: use positive val for clockwise, negative val for counter-clockwise, can be
-    more or less than 360 degrees
-translate: x value first, y value second.  pos x moves right, neg x moves left
-    pos y moves down, neg y moves up
-scew: can use scewX(deg), scewY(deg), or scew(Xdeg, Ydeg), pos x scews left,
-    neg x scews right, pos y scews down, neg y scews up
-
-can combine as many of these as you want in a single transform property
-
-transform-origin: can be used with any of the transform properties to define the origin
-    of the transformation, can use 0% 0% for upper left, 100% 100% for bottom right or
-    anywhere inbetween
-*/
 
 #e:hover {
     transform: scale(2, 0.5);

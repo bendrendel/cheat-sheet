@@ -1,44 +1,174 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>CSS Transitions</title>
-        <link rel="stylesheet" type="text/css" href="./reset.css" />
-        <link rel="stylesheet" type="text/css" href="./transitionsandtransforms.css" />
-        <script src="transitionsandtransforms.js" defer></script>
-    </head>
-    <body>
-        <nav>
-            <div class="hover-content">
-                <h2>Get in here!</h2>
-                <p>This could be a navigation menu</p>
-            </div>
-            <div class="visible-content">
-                <img src="https://s3.amazonaws.com/codecademy-content/courses/freelance-1/unit-6/triangle.png">
-            </div>
-        </nav>
-        <main>
-            <a href="./index.html">Home</a>
-            <br>
-            <a href="#" id="a">Button A</a>
-            <br>
-            <a href="#" id="b">Button B</a>
-            <br>
-            <a href="#" id="c">Button C</a>
-            <br>
-            <a href="#" id="d">Button D</a>
-            <br>
-            <a href="#" id="e">Button E</a>
-            <br>
-            <a href="#" id="f">Button F</a>
-            <br>
-            <a href="#" id="g">Button G</a>
-            <br>
-            <a href="#" id="h">Button H</a>
-            <br>
-            <a href="#" id="i">Button I</a>
-            <br>
-            <a href="#" id="j">Button J</a>
-        </main>
-    </body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>CSS Transitions</title>
+    <link rel="stylesheet" type="text/css" href="./reset.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="./transitionsandtransforms.css"
+    />
+    <script src="transitionsandtransforms.js" defer></script>
+  </head>
+  <body>
+    <nav>
+      <div class="hover-content">
+        <h2>Get in here!</h2>
+        <p>This could be a navigation menu</p>
+      </div>
+      <div class="visible-content">
+        <img
+          src="https://s3.amazonaws.com/codecademy-content/courses/freelance-1/unit-6/triangle.png"
+        />
+      </div>
+    </nav>
+    <main>
+      <a href="./index.html">Home</a>
+      <br />
+      <a href="#" id="a">Button A</a>
+      <br />
+      <a href="#" id="b">Button B</a>
+      <br />
+      <a href="#" id="c">Button C</a>
+      <br />
+      <a href="#" id="d">Button D</a>
+      <br />
+      <a href="#" id="e">Button E</a>
+      <br />
+      <a href="#" id="f">Button F</a>
+      <br />
+      <a href="#" id="g">Button G</a>
+      <br />
+      <a href="#" id="h">Button H</a>
+      <br />
+      <a href="#" id="i">Button I</a>
+      <br />
+      <a href="#" id="j">Button J</a>
+    </main>
+    <section>
+      <h2>transition-property</h2>
+      <ul>
+        <li>
+          defines which changing property the transition applies to, can use
+          keyword all, and keyword transform ot transform-origin for
+          transitioning the transform property
+        </li>
+        <li>
+          avoid transitioning a property to/from a value of auto, as it may
+          cause unpredictable results
+        </li>
+        <li>
+          if you use javascript to change an element's style properties,
+          including the transform property, then the CSS transition properties
+          in your CSS document will still apply to the transition
+        </li>
+        <li>
+          careful when transitioning an element that was just added to the DOM
+          with .appendChild() or if the element's display: none property was
+          just removed. The element will appear immediately in its final
+          transitioned state, instead of initial state. Avoid this by using a
+          window.setTimeout() of a few milliseconds before changing the CSS
+          property you intend to transition to.
+        </li>
+      </ul>
+
+      <h2>transition-timing-function</h2>
+      <ul>
+        <li>
+          ease (short slow period- fast -long slow down) by default if not
+          defined
+        </li>
+        <li>
+          can be ease-in (start slow end fast), ease-out (opposite), ease or
+          ease-in-out (even slow fast slow periods), linear (constant)
+        </li>
+        <li>
+          can also define your own timing function using the cubic-bezier
+          function
+        </li>
+        <li>
+          can also use step-end for transition to be instaneous, but after given
+          delay and duration
+        </li>
+        <li>
+          can also use steps(4, end) to transition in 4 discrete stepped
+          transitions (or some other number)
+        </li>
+      </ul>
+
+      <h2>transition-duration and transition-delay</h2>
+      <ul>
+        <li>can be defined in ms or s</li>
+        <li>
+          a negative delay value will start the transition immediately, already
+          part-way through the transition process
+        </li>
+      </ul>
+
+      <h2>transition</h2>
+      <ul>
+        <li>
+          combines transition-property, -duration, -timing-function, and -delay
+          in one line
+        </li>
+        <li>
+          defaults used if any value left out, must include duration to include
+          delay
+        </li>
+      </ul>
+
+      <h2>transition events</h2>
+      <ul>
+        <li>
+          different parts of the transition emit events that you can respond to
+          with javascript
+        </li>
+        <li>
+          transitionrun fires when transition begins before any delay,
+          transitionstart fires immediately after any delay, and transitionend
+          fires when transition is over (doesn't fire if transition doesn't
+          complete for any reason)
+        </li>
+        <li>
+          transition event objecct provide a propertyName property of the
+          property being transitioned, and an elapsedTime property giving time
+          elapsed not including any delay
+        </li>
+      </ul>
+
+      <h2>Transform property</h2>
+      <p>
+        can combine as many of these as you want in a single transform property:
+      </p>
+      <ul>
+        <li>
+          scale: can use scaleX(#), scaleY(#) to scale horiz and vert width
+          independently, or can use scale(#) for both at once, or scale(X#, Y#)
+          to scale separately
+        </li>
+        <li>
+          rotate: use positive val for clockwise, negative val for
+          counter-clockwise, can be more or less than 360 degrees
+        </li>
+        <li>
+          translate: x value first, y value second. pos x moves right, neg x
+          moves left pos y moves down, neg y moves up
+        </li>
+        <li>
+          scew: can use scewX(deg), scewY(deg), or scew(Xdeg, Ydeg), pos x scews
+          left, neg x scews right, pos y scews down, neg y scews up
+        </li>
+      </ul>
+
+      <h2>transform-origin</h2>
+      <ul>
+        <li>
+          can be used with any of the transform properties to define the origin
+          of the transformation, can use 0% 0% for upper left, 100% 100% for
+          bottom right or anywhere inbetween
+        </li>
+      </ul>
+    </section>
+  </body>
 </html>
