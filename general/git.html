@@ -117,24 +117,21 @@
             <h2>Backtracking Commands</h2>
             <p><strong>git show HEAD: </strong>shows log info and all committed changes for the HEAD commit</p>
             <p><strong>git checkout HEAD filename: </strong>replace filename in working directory with version of filename in HEAD commit, can use . to replace all files</p>
-                <ul>
-                    <li><strong>git checkout SHA filename: </strong>can also use a SHA (or first 7 characters of one) to replace the given filename in the working directory
-                        with the version of that file from the given SHA</li>
-                </ul>
-            <p><strong>git checkout -- filename: </strong>replaces filename in working directory with version of file in most recent commit (seems to be same as above)</p>
+            <p><strong>git checkout SHA filename: </strong>can also use a SHA (or first 7 characters of one) to replace the given filename in the working directory with the version of that file from the given SHA.  leave out filename to set entire working tree to the given SHA, this is intended to explore files/folders at the given commit and you shoudln't make commits while here</p>            
+            <p><strong>git checkout -- filename: </strong>replaces filename in working directory with version of file in most recent commit</p>
+
             <p><strong>git reset HEAD filename: </strong>replace filename in staging area with version of filename in HEAD commit, leave out filename to reset all staged files</p>
+
             <p><strong>git reset --soft HEAD~5: </strong>removes your previous 5 commits (in this example, can be any number) but leaves changes from those commits
                 in the staging area.  You can then make a commit with the changes in the staging area, essentially this squashes the 5 commits into one commit</p>
             <p><strong>git reset --hard HEAD~3: </strong>removes previous 3 commits (in this example, can be any number) and does not leave their changes in
                 the staging area or working directory, effectively resets your whole project back 3 commits</p>
-            <p><strong>git checkout commit_SHA: </strong>sets your working tree to the given commit_SHA (full SHA or first 7 chars),
-                this is intended to explore files/folders at the given commit and you shoudln't make commits while here</p>
+            <p><strong>git reset --hard SHA: </strong>Can take one of the 7 char SHAs appearing in the reflog and force the branch back to that point using this command</p>
             <p><strong>git reset commit_SHA: </strong>sets the HEAD to the commit with the given commit_SHA, the commit_SHA should be the first 7 characters of the SHA</p>
             <p><strong>git reflog: </strong>the reflog provides 30 days of all history on a branch, both forward commits and backward
                 resets, deletions of branches, and rebases</p>
                 <ul>
-                    <li><strong>git reset --hard SHA: </strong>Can take one of the 7 char SHAs appearing in the reflog and force the branch
-                        back to that point using this command</li>
+
                     <li><strong>gitk --all `git reflog | cut -c1-7`& </strong>use this comman to open a GUI showing the reflog so you can more
                         better see the organization of the reflog, which branches are out on their own, what commits are no longer part of it</li>
                 </ul>
