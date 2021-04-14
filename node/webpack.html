@@ -1,0 +1,80 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Webpack</title>
+  </head>
+  <body>
+    <a href="../index.html">Home</a>
+
+    <h1>Webpack</h1>
+
+    <h2>Installing Webpack</h2>
+    <p>
+      Install webpack in a project's root directory with
+      <code>npm intall webpack webpack-cli --save-dev</code> which will install
+      webpack and the webpack command line interface, and the --save-dev (or -D)
+      to save to devDependencies in package.json
+    </p>
+
+    <h2>Webpack Config</h2>
+    <h3>Description</h3>
+    <p>
+      Add a file to the project's root directory called
+      <code>webpack.config.js</code> to add configurations for webpack.
+    </p>
+    <p>
+      The file should contain an exported object with the configuration
+      settings, such as:
+    </p>
+    <ul>
+      <li>
+        entry property with the relative path to the file to process/bundle,
+        which is the entry point to the app
+      </li>
+      <li>
+        output property should be an object with a filename and path property,
+        controlling output when webpack is run, default filename is main.js,
+        default path is dist created in the project's root directory.path must
+        be an absolute path, thus you'll need to use the path node core module
+        which generates the absolute path of the project. e.g.
+        path.resolve(__dirname, app) will save the file named filename to
+        ./app/filename.
+      </li>
+      <li>mode property webpack will use (development, production)</li>
+      <li>
+        watch property if true then when you run the webpack command (through a
+        package.json script) it will stay running, and rebundle with every
+        change to the entry file. press ^C to stop running.
+      </li>
+    </ul>
+
+    <h3>Example Webpack Config</h3>
+    <pre>
+        <code>
+        const path = require('path');
+            
+        module.exports = {
+            entry: './app/assets/scripts/App.js',
+            output: {
+                filename: 'bundled.js',
+                path: path.resolve(__dirname, 'app')
+            },            
+            mode: 'development',
+            watch: true
+        }
+        </code>
+    </pre>
+
+    <h2>Running Webpack</h2>
+    <p>
+      In your package.json file, add a script to run the 'webpack command such as
+      <code>"build": "webpack"</code>
+    </p>
+    <p>
+      run the script that runs webpack with e.g. npm run build to bundle the file in the entry property of the webpack config file to the output property of the config file. run it whenever to rebundle any changes to the entry file
+    </p>
+    <p>The output file can be linked to the index.html through a script tag</p>
+  </body>
+</html>
