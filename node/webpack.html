@@ -48,12 +48,19 @@
         package.json script) it will stay running, and rebundle with every
         change to the entry file. press ^C to stop running.
       </li>
+      <li>module property can take an object with a rules property set to an array, this array can hold objects that each define how webpack should handle different filetypes.  the objects have a test property set to a regex that matches the filetypes to handle, and a use property that is set to an array of package names that should handle that filetype. the example below has rules for using style-loader and css-loader, and also a more complex one for using postCSS-loader</li>
     </ul>
 
     <h3>Example Webpack Config</h3>
     <pre>
         <code>
         const path = require('path');
+
+        const postCSSPlugins = [
+            require('postcss-simple-vars'),
+            require('postcss-nested'),
+            require('autoprefixer')
+        ]
             
         module.exports = {
             entry: './app/assets/scripts/App.js',
@@ -62,7 +69,22 @@
                 path: path.resolve(__dirname, 'app')
             },            
             mode: 'development',
-            watch: true
+            watch: true,
+            module: {
+                rules: [
+                    {
+                        test: /\.css$/i,
+                        use: ['style-loader', 'css-loader?url=false', {
+                            loader: 'postcss-loader',
+                            options: {
+                                postcssOptions: {
+                                    plugins: postCSSPlugins
+                                }
+                            }
+                        }]
+                    }
+                ]
+            }
         }
         </code>
     </pre>
@@ -76,5 +98,29 @@
       run the script that runs webpack with e.g. npm run build to bundle the file in the entry property of the webpack config file to the output property of the config file. run it whenever to rebundle any changes to the entry file
     </p>
     <p>The output file can be linked to the index.html through a script tag</p>
+
+    <h2>CSS Support</h2>
+    <h3>Overview</h3>
+    <p>CSS Preprocessors like SASS LESS and Stylus, and post-processors like PostCSS allow you to write CSS files with special features like variables, nested selectors, and will auto-prefix properties that need a prefix like moz or webkit</p>
+    <p>Out of the box, webpack only bundles javascript.  Additional npm packages are needed to support css and PostCSS</p>
+
+    <h3>Supporting CSS</h3>
+    <p>Add an import statement to the top of your 'entry' js file that imports the css file you want, e.g. <code>import '../styles/styles.css'</code></p>
+    <p>Use <code>npm install css-loader style-loader --save-dev</code> to install the css-loader package and style-loader package and add it to the dev dependencies, these will respectively support importing the css to your entry js file, and applying the styles to your html</p>
+    <p>In the webpack config file, ensure to add a module: rules array object that tests for css files and uses style-loader and css-loader (shown in the example config file above)</p>
+    <p>instead of 'css-loader' in the config file, use 'css-loader?url=false' to prevent it from handling any immages referenced in the css</p>
+
+    <h3>Supporting PostCSS</h3>
+    <p>Make sure there's an import statement in your 'entry' js file as discussed above</p>
+    <p>Now use npm to install <code>postcss-loader</code>, similarly to above</p>
+    <p>You'll also want to use npm to install the features you want, e.g <code>npm install postcss-simple-vars postcss-nested autoprefixer</code> to install variables, nested css, and autoprefixing</p>
+    <p>In the webpack config file add to the module rules array that tests for css files and use an object with a loader property and options property (shown in example above).</p>
+    <ul>
+        <li>vars can be made by declaring <code>$bluecolor: #2f557s</code> in the css, and then can use that var name elsewhere in css, e.g. <code>color: $bluecolor</code></li>
+        <li>nested css can be written as in <code>header { a { color: blue} }</code></li>
+    </ul>
+
+    <h2>Webpack project file structure</h2>
+
   </body>
 </html>
