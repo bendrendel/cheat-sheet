@@ -57,6 +57,7 @@
         const path = require('path');
 
         const postCSSPlugins = [
+            require('postcss-import'),
             require('postcss-simple-vars'),
             require('postcss-nested'),
             require('autoprefixer')
@@ -113,14 +114,46 @@
     <h3>Supporting PostCSS</h3>
     <p>Make sure there's an import statement in your 'entry' js file as discussed above</p>
     <p>Now use npm to install <code>postcss-loader</code>, similarly to above</p>
-    <p>You'll also want to use npm to install the features you want, e.g <code>npm install postcss-simple-vars postcss-nested autoprefixer</code> to install variables, nested css, and autoprefixing</p>
+    <p>You'll also want to use npm to install the features you want, e.g <code>npm install postcss-simple-vars postcss-nested autoprefixer postcss-import --save-dev</code> to install variables, nested css, autoprefixing, and imports</p>
     <p>In the webpack config file add to the module rules array that tests for css files and use an object with a loader property and options property (shown in example above).</p>
     <ul>
-        <li>vars can be made by declaring <code>$bluecolor: #2f557s</code> in the css, and then can use that var name elsewhere in css, e.g. <code>color: $bluecolor</code></li>
+        <li>vars can be made by declaring e.g.<code>$bluecolor: #2f557s</code> in the css, and then can use that var name elsewhere in css, e.g. <code>color: $bluecolor</code></li>
         <li>nested css can be written as in <code>header { a { color: blue} }</code></li>
+        <li>imports can be used by having a main css file and importing other css files to it, by putting <code>@import 'mymodule.css';</code> at top of main css file to import mymodule.css.  @import is a native css feature, but using the postcss imports plugin will import all of the imported css code before going to the client, so that the client doesn't have to download multiple css files, which it would have to do using the native @import.  css files to import may be named with an underscore prefix to indicate they are "partial files", e.g. _mymodule.css.  can also import a node module package like normalize.css without having to specify exact path, e.g. @import "normalize.css" will know to find it in the node modules folder of the project</li>
     </ul>
 
     <h2>Webpack project file structure</h2>
+    <ul>
+      <li>app</li>
+      <ul>
+        <li>assets</li>
+        <ul>
+          <li>images</li>
+          <ul>
+            <li>icons</li>
+          </ul>
+          <li>scripts</li>
+          <ul>
+            <li>App.js <em>entry js file</em></li>
+          </ul>
+          <li>styles</li>
+          <ul>
+            <li>base <em>folder containing _global.css for global styles</em></li>
+            <li>modules <em>folder containing specific section css styles</em></li>
+            <li>styles.css <em>main css file containing only @import statements to base css, module css, and node module css</em></li>
+          </ul>
+        </ul>
+
+        <li>bundled.js <em>file output by webpack, imports styles.css</em></li>
+        <li>index.html <em>main html file, script tag linking to bundled.js</em></li>
+      </ul>
+
+      <li>node_modules</li>
+      <li>.gitignore</li>
+      <li>package-lock.json</li>
+      <li>package.json</li>
+      <li>webpack.config.js</li>
+    </ul>
 
   </body>
 </html>
