@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS Architecture</title>
+  </head>
+  <body>
+    <a href="../index.html">Home</a>
+    <h1>CSS Architecture</h1>
+    <section>
+      <h2>Semantic Classes</h2>
+      <p>
+        Semantic classes describe the nature of an element's content rather than
+        the desired styling or presentation of the content
+      </p>
+      <ul>
+        <li>
+          This is in opposition to "atomic" css where you have many classes that
+          each do one styling, and assign many classes to each element like
+          "bold red pad-left-20"
+        </li>
+        <li>
+          Semantic CSS is easier to make responsive, easier to identify html
+          elements, less chance of regression, less maintenance, easier to
+          debug, better hooks, smaller HTML footprint
+        </li>
+      </ul>
+      <p>
+        Use semantic html tags whenever possible in place of classes, and avoid
+        classes like "link" that are redundant of a tag like "a"
+      </p>
+      <p>
+        CSS should specify regular styles so that most elements don't need a
+        class, classes should be used when exceptions to regular stylings are
+        needed
+      </p>
+      <p>
+        When possible, use good CSS selectors to style elements instead of
+        classes, e.g. use <code>article:p first-of-type</code> to style the
+        first paragraph of an article instead of giving the first paragraph a
+        class of "intro-para"
+      </p>
+      <p>
+        Avoid specifing styles in class name like "largeText" or "blueBkg" or
+        "left", because the style and positioning may change in the future,
+        instead use "priority-1" or "standout" or "brandcolor"
+      </p>
+      <p>
+        Consider that the semantics of the page content that is useful to
+        machines and visitors are handled by html elements, and not by classes.
+        Instead, the primary purpose of classes is to be a hook for CSS and JS
+        and should communicate useful information to the developer.
+      </p>
+      <p>
+        When a style is shared (like background color) between many elements,
+        this presents a challenge to semantic css, sometimes it is best to make
+        a big CSS selector with all the elements selected so you just apply that
+        style once and avoid repetition in the css, sometimes its best to have
+        separate selectors for each element and apply the style to each one so
+        you can also include other styles for each element under one selector,
+        and sometimes its best to use a more atomic approach and create a
+        special class for that style, and add that class to each element.
+      </p>
+    </section>
+    <section>
+      <h2>BEM</h2>
+      <p>
+        BEM stands for Block Element Modifier and is a way of conceptualizing
+        the structure of a user interface. It helps keep the relationship
+        between HTML and CSS clear for easier maintenance.
+      </p>
+      <ul>
+        <li>
+          Blocks are reusable, independent part of the design, like the hero
+          section as a whole, each feature card in the features section, each
+          testimonial card in the testimonials section, each button on the page
+        </li>
+        <li>
+          Elements belong to blocks and aren't used outside the block they
+          belong to, like the title and subtitle in the hero, or a profile photo
+          in the testimonial card
+        </li>
+        <li>
+          Modifiers are used on blocks or elements to indicate a change to the
+          default state of an object, like a class that gets added to a menu to
+          indicate it is open or visible, or a modifier to style buttons
+          differently like "btn--orange" or "btn--large"
+        </li>
+      </ul>
+
+      <p>
+        BEM dictates that all CSS selectors target elements directly with
+        classes
+      </p>
+      <ul>
+        <li>
+          This frees you from the cascade so you can move blocks around, nest
+          blocks inside of blocks, without consequence
+        </li>
+        <li>
+            BEM dictates classes name like "block-name__element-name"
+        </li>
+        <li>Useful to break each block into its own file.  Then use nested CSS in 
+            the file to make a top-level block selector, with nested selectors for
+            each element
+        </li>
+        <li>
+            BEM should avoid multi-class selectors, and only have a single class as a selector.  Thus, when using PostCSS nested selectors, use the & feature on the nested selectors to copy the top classes name, followed by __element.  e.g. the top selector is .large-hero, and the nested selector is &__title, resulting in a PostCSS output of .large-hero__title for the nested selector.
+        </li>
+      </ul>
+
+      <p>
+        BEM also dictates single-purpose blocks, such as a block that creates
+        columns, that can be reused wherever columns are needed.
+      </p>
+    </section>
+  </body>
+</html>

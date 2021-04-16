@@ -90,31 +90,6 @@
             </section>
 
             <section>
-                <h2>Semantic Classes</h2>
-                <p>Semantic classes describe the nature of an element's content rather than the desired styling or presentation of the content</p>
-                <ul>
-                    <li>This is in opposition to "atomic" css where you have many classes that each do one styling, and assign many classes to each element like "bold red pad-left-20"</li>
-                    <li>Semantic CSS is easier to make responsive, easier to identify html elements, less chance of regression, less maintenance, easier to debug, better hooks, smaller HTML footprint</li>
-                </ul>
-                <p>Use semantic html tags whenever possible in place of classes, and avoid classes like "link" that are redundant of a tag like "a"</p>
-                <p>CSS should specify regular styles so that most elements don't need a class,
-                    classes should be used when exceptions to regular stylings are needed</p>
-                <p>When possible, use good CSS selectors to style elements instead of classes, e.g. 
-                    use <code>article:p first-of-type</code> to style the first paragraph of an article
-                    instead of giving the first paragraph a class of "intro-para"
-                </p>
-                <p>Avoid specifing styles in class name like "largeText" or "blueBkg" or "left", because the style
-                    and positioning may change in the future, instead use "priority-1" or "standout" or "brandcolor"
-                </p>
-                <p>When a style is shared (like background color) between many elements, this presents a challenge to semantic css,
-                    sometimes it is best to make a big CSS selector with all the elements selected so you just apply that style once and avoid repetition in the css,
-                    sometimes its best to have separate selectors for each element and apply the style to each one so you can also include other styles for each element under one selector,
-                    and sometimes its best to use a more atomic approach and create a special class for that style, and add that class to each element.
-                </p>
-
-            </section>
-
-            <section>
                 <h2>CSS/Legacy Browser</h2>
                 <p>all modern browsers support HTML5 which introduced the semantic elements</p>
                 <p>But sometimes you will see the following css to set the semantic elements as block for legacy browsers</p>
