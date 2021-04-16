@@ -216,6 +216,7 @@
     </ul>
 
     <h2>Webpack project file structure</h2>
+    <p>Using modular CSS BEM architecture</p>
     <ul>
       <li>app</li>
       <ul>
@@ -232,19 +233,22 @@
           <li>styles</li>
           <ul>
             <li>
-              base <em>folder containing _global.css for global styles</em>
+              base
+              <em
+                >folder containing _global.css for global styles, and
+                _variable.css containing css variables that can be used throughout all other css files
+              </em>
             </li>
             <li>
-              modules <em>folder containing css files for each block in the
-                design under BEM css architecture
+              modules
+              <em
+                >folder containing css files for each block in the design under BEM css architecture
               </em>
             </li>
             <li>
               styles.css
               <em
-                >main css file containing only @import statements to single-
-                responsibility css files from base css, module css, and node 
-                module css</em
+                >main css file containing only @import statements to single-responsibility css files from base css, module css, and node module css (like normalize.css)</em
               >
             </li>
           </ul>

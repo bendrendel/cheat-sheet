@@ -99,22 +99,23 @@
           This frees you from the cascade so you can move blocks around, nest
           blocks inside of blocks, without consequence
         </li>
+        <li>BEM dictates classes name like "block-name__element-name--modifier-name", where names use - to separate words, blocks and elements are separated by two underscores, and modifiers are separated by two dashes, can have block-name--modifier-name with no element</li>
+        <li>BEM also dictates single-purpose blocks, such as a block that creates
+        columns, that can be reused wherever columns are needed.</li>
         <li>
-            BEM dictates classes name like "block-name__element-name"
-        </li>
-        <li>Useful to break each block into its own file.  Then use nested CSS in 
-            the file to make a top-level block selector, with nested selectors for
-            each element
+          Useful to break each block into its own file. Then use nested CSS in
+          the file to make a top-level block selector, with nested selectors for
+          each element
         </li>
         <li>
-            BEM should avoid multi-class selectors, and only have a single class as a selector.  Thus, when using PostCSS nested selectors, use the & feature on the nested selectors to copy the top classes name, followed by __element.  e.g. the top selector is .large-hero, and the nested selector is &__title, resulting in a PostCSS output of .large-hero__title for the nested selector.
+          BEM should avoid multi-class selectors, and only have a single class
+          as a selector. Thus, when using PostCSS nested selectors, use the &
+          feature on the nested selectors to copy the top classes name, followed
+          by __element. e.g. the top selector is .large-hero, and the nested
+          selector is &__title, resulting in a PostCSS output of
+          .large-hero__title for the nested selector.
         </li>
       </ul>
-
-      <p>
-        BEM also dictates single-purpose blocks, such as a block that creates
-        columns, that can be reused wherever columns are needed.
-      </p>
     </section>
   </body>
 </html>
