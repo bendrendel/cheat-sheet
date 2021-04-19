@@ -46,7 +46,10 @@
       <li>
         watch property if true then when you run the webpack command (through a
         package.json script) it will stay running, and rebundle with every
-        change to the entry file. press ^C to stop running.
+        change to the entry file. press ^C to stop running.  However, if you
+        are using the webpack devServer and it is set to hot, then you 
+        should delete the watch property because the hot devServer will watch
+        for changes automatically.
       </li>
       <li>
         module property can take an object with a rules property set to an
@@ -76,9 +79,14 @@
             output: {
                 filename: 'bundled.js',
                 path: path.resolve(__dirname, 'app')
-            },            
+            },
+            devServer: {
+              contentBase: path.join(__dirname, 'app'),
+              hot: true,
+              port: 3000
+            },           
             mode: 'development',
-            watch: true,
+            <s>watch: true,</s>
             module: {
                 rules: [
                     {
@@ -100,9 +108,9 @@
 
     <h2>Running Webpack</h2>
     <p>
-      In your package.json file, add a script to run the 'webpack command such
+      In your package.json file, add a script to run the 'webpack' command such
       as
-      <code>"build": "webpack"</code>
+      <code>"dev": "webpack"</code>
     </p>
     <p>
       run the script that runs webpack with e.g. npm run build to bundle the
@@ -111,6 +119,9 @@
       the entry file
     </p>
     <p>The output file can be linked to the index.html through a script tag</p>
+    <p>If you are using the webpack dev server package, then instead of
+      the webpack command, use webpack server, i.e. <code>"dev": "webpack serve"</code>
+    </p>
 
     <h2>CSS Support</h2>
     <h3>Overview</h3>
@@ -215,40 +226,80 @@
       </li>
     </ul>
 
+    <h2>Webpack Dev Server</h2>
+    <p>
+      Install in root of project with
+      <code>npm install webpack-dev-server --save-dev</code>
+    </p>
+    <p>In package.json set your webpack script to run 'webpack serve' instead
+      of webpack (see details above in running webpack)
+    </p>
+    <p>In your entry js file, add the following logic that will allow the js
+      to accept hot updates from the dev server:
+    </p>
+    <pre><code>
+      if (module.hot) {
+        module.hot.accept();
+      }
+    </code></pre>
+    <p>
+      Add a property to the webpack config file (see example above) called
+      devServer, which is set to an object with the following properties.
+    </p>
+    <ul>
+      <li>contentBase is set to the directory you want to serve, the directory
+        that contains index.html
+      </li>
+      <li>
+        hot set to true will make the server inject the new css and js to the
+        browser upon change, not requiring a full reload of the page.
+        if set to true, then you shouldn't use the watch property in the config object, because a hot devServer will automatically watch for changes, rebundle, and inject
+      </li>
+      <li>
+        port set to e.g. 3000, set to 8080 by default.  the served page can be
+        accessed at <code>localhost:3000</code> or whatever number you set
+        the port to
+      </li>
+    </ul>
+
     <h2>Webpack project file structure</h2>
     <p>Using modular CSS BEM architecture</p>
     <ul>
-      <li>app</li>
+      <li>app/</li>
       <ul>
-        <li>assets</li>
+        <li>assets/</li>
         <ul>
-          <li>images</li>
+          <li>images/</li>
           <ul>
-            <li>icons</li>
+            <li>icons/</li>
           </ul>
-          <li>scripts</li>
+          <li>scripts/</li>
           <ul>
             <li>App.js <em>entry js file</em></li>
           </ul>
-          <li>styles</li>
+          <li>styles/</li>
           <ul>
             <li>
-              base
-              <em
-                >folder containing _global.css for global styles, and
-                _variable.css containing css variables that can be used throughout all other css files
+              base/
+              <em>
+                a folder containing _global.css for global styles, and
+                _variable.css containing css variables that can be used
+                throughout all other css files
               </em>
             </li>
             <li>
-              modules
-              <em
-                >folder containing css files for each block in the design under BEM css architecture
+              modules/
+              <em>
+                a folder containing css files for each block in the design under
+                BEM css architecture
               </em>
             </li>
             <li>
               styles.css
               <em
-                >main css file containing only @import statements to single-responsibility css files from base css, module css, and node module css (like normalize.css)</em
+                >main css file containing only @import statements to
+                single-responsibility css files from base css, module css, and
+                node module css (like normalize.css)</em
               >
             </li>
           </ul>
@@ -260,7 +311,7 @@
         </li>
       </ul>
 
-      <li>node_modules</li>
+      <li>node_modules/</li>
       <li>.gitignore</li>
       <li>package-lock.json</li>
       <li>package.json</li>
