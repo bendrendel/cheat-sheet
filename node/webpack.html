@@ -69,6 +69,7 @@
 
         const postCSSPlugins = [
             require('postcss-import'),
+            require('postcss-mixins'),
             require('postcss-simple-vars'),
             require('postcss-nested'),
             require('autoprefixer')
@@ -173,14 +174,13 @@
       You'll also want to use npm to install the features you want, e.g
       <code
         >npm install postcss-simple-vars postcss-nested autoprefixer
-        postcss-import --save-dev</code
+        postcss-import postcss-mixins --save-dev</code
       >
-      to install variables, nested css, autoprefixing, and imports
+      to install variables, nested css, autoprefixing, imports, and mixins
     </p>
-    <p>
+    <p>v  
       In the webpack config file add to the module rules array that tests for
-      css files and use an object with a loader property and options property
-      (shown in example above).
+      css files and use an object with a loader property and options property with the plugins listed (shown in example above).
     </p>
     <ul>
       <li>
@@ -193,8 +193,12 @@
         <pre><code>
           .class { 
             .nested-class { 
-              color: blue
-            } 
+              font-size: 1rem;
+
+              @media (min-width: 530px) {
+                font-size: 2rem;
+              }
+            }
           }
           </code></pre>
         <p>
@@ -227,6 +231,22 @@
         node module package like normalize.css without having to specify exact
         path, e.g. @import "normalize.css" will know to find it in the node
         modules folder of the project
+      </li>
+      <li>
+        mixins can be used by creating a _mixins.css file and defining mixins that can be used elsewhere thanks to importing them into your main style file.  mixins are essentially prewritten pieces of css code, e.g. 
+        <pre><code>
+        @define-mixin atSmall {
+            @media (min-width: 530px) {
+                @mixin-content;
+            }
+        }
+        </code></pre>
+        which can then be used in your css files, e.g.
+        <pre><code>
+        @mixin atSmall {
+          font-size: 2.9rem
+        }
+        </code></pre>
       </li>
     </ul>
 
@@ -297,7 +317,7 @@
               <em>
                 a folder containing _global.css for global styles, and
                 _variable.css containing css variables that can be used
-                throughout all other css files
+                throughout all other css files, and _mixins.css for mixin definitions that can be used throughout the project
               </em>
             </li>
             <li>
@@ -312,7 +332,7 @@
               <em
                 >main css file containing only @import statements to
                 single-responsibility css files from base css, module css, and
-                node module css (like normalize.css)</em
+                node module css (like normalize.css), e.g. <code>@import './base/_mixins.css'</code></em
               >
             </li>
           </ul>
