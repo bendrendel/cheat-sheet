@@ -1,214 +1,293 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Responsive Design</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link type="text/css" rel="stylesheet" href="./responsive.css">
-        <link rel="stylesheet" type="text/css" media="screen and (max-device-width: 480px)" href="#">
-        <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
-        <script defer src="responsive.js"></script>
-    </head>
-    <body>
-        <a href="./index.html">Home</a>
+  <head>
+    <title>Responsive Design</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link type="text/css" rel="stylesheet" href="./responsive.css" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="screen and (max-device-width: 480px)"
+      href="#"
+    />
+    <link
+      type="text/css"
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css"
+    />
+    <script defer src="responsive.js"></script>
+  </head>
+  <body>
+    <a href="./index.html">Home</a>
 
-        <h1>Responsive Design</h1>
-        <p>Responsive Design is a website that resizes and reorganizes content based on screen size, screen orientation, 
-            platform considerations like if scripting is available, user settings like if they have a VPN the site
-            shouldn't be blocked, and also the size of other content.</p>
-        <p>It's not about a new design for every concievable device, but more like parameterized design, where
-            inherent in the design is how it changes with different environment parameters</p>
+    <h1>Responsive Design</h1>
+    <p>
+      Responsive Design is a website that resizes and reorganizes content based
+      on screen size, screen orientation, platform considerations like if
+      scripting is available, user settings like if they have a VPN the site
+      shouldn't be blocked, and also the size of other content.
+    </p>
+    <p>
+      It's not about a new design for every concievable device, but more like
+      parameterized design, where inherent in the design is how it changes with
+      different environment parameters
+    </p>
 
-        <hr>
-        
-        <h2>Fundamentals of a Responsive Site</h2>
+    <hr />
 
-        <h3>Foundations</h3>
-        <p><strong>meta viewport</strong> mobile devices commonly default to having a wider viewport than the 
-            actual screen width, and then shrink the viewport down to the screen width. This makes 
-            non-responsive websites better on mobile devices, but ruins responsive designs because 
-            the site won't be responding to the actual screen width but rather the wider viewport size
-            This tag instructs mobile devices to use the device width and not zoom in and should always 
-            be used on responsive designs</p>
-        <p><strong>Browser Reset: </strong>Include a css reset, the two most common are 
-            <a href="https://meyerweb.com/eric/tools/css/reset/">Reset</a> and 
-            <a href="http://necolas.github.io/normalize.css/">Normalize</a>. Reset completely
-            eradicates all styles, while normalize attempts to add consistency across browsers,
-            maintaining a default style</p>
-        <p><strong>Border Box: </strong>Set all elements to border-box (see boxmodel.css)</p>
-        <p><strong>jquery: </strong>optionally link to jquery if you'd like</p>
+    <h2>Fundamentals of a Responsive Site</h2>
 
-        <br>
+    <h3>Foundations</h3>
+    <p>
+      <strong>meta viewport</strong> mobile devices commonly default to having a
+      wider viewport than the actual screen width, and then shrink the viewport
+      down to the screen width. This makes non-responsive websites better on
+      mobile devices, but ruins responsive designs because the site won't be
+      responding to the actual screen width but rather the wider viewport size
+      This tag instructs mobile devices to use the device width and not zoom in
+      and should always be used on responsive designs
+    </p>
+    <p>
+      <strong>Browser Reset: </strong>Include a css reset, the two most common
+      are <a href="https://meyerweb.com/eric/tools/css/reset/">Reset</a> and
+      <a href="http://necolas.github.io/normalize.css/">Normalize</a>. Reset
+      completely eradicates all styles, while normalize attempts to add
+      consistency across browsers, maintaining a default style
+    </p>
+    <p>
+      <strong>Border Box: </strong>Set all elements to border-box (see
+      boxmodel.css)
+    </p>
+    <p><strong>jquery: </strong>optionally link to jquery if you'd like</p>
 
-        <h3>Breakpoints</h3>
-        <p><strong>Setting Breakpoints: </strong>media query breakpoints should be set according to how the 
-            content for the page naturally breaks at different screen sizes; they shouldn't be set trying to
-            target different devices because devices vary so widely. Often its best to keep it simple with
-            one breakpoint at ~800px, dividing between phones/tablets and laptops/desktops.  You can add
-            another breakpoint for more specific designs.</p>
-        <p><strong>Mobile First: </strong>A good strategy is to make content look great for mobile first,
-            and scale up from there.  In your css, this results in your main styles being for mobile, and 
-            media queries using min-width will alter styles for larger screens.</p>
+    <br />
 
-        <br>
-        
-        <h3>Grid Structure</h3>
-        <p><strong>Float-based grid: </strong>The traditional way to create a column layout is modelled
-            below and relies on floating the block-level column divs, and using the clearfix hack on rows.
-            Can use semantic HTML by replacing container with main, rows with section, and columns with
-            article or aside, depending on what the column is</p>
+    <h3>Breakpoints</h3>
+    <p>
+      <strong>Setting Breakpoints: </strong>media query breakpoints should be
+      set according to how the content for the page naturally breaks at
+      different screen sizes; they shouldn't be set trying to target different
+      devices because devices vary so widely. Often its best to keep it simple
+      with one breakpoint at ~800px, dividing between phones/tablets and
+      laptops/desktops. You can add another breakpoint for more specific
+      designs.
+    </p>
 
-        <div class="float-container">
-            <div class="row">
-                <div class="whole column">
-                    Column
-                </div>
-            </div>
-            <div class="row">
-                <div class="one-half column">
-                    One half column
-                </div>
-                <div class="one-half column">
-                    One half column
-                </div>
-            </div>
-            <div class="row">
-                <div class="one-third column">
-                    One third column
-                </div>
-                <div class="one-third column">
-                    One third column
-                </div>
-                <div class="one-third column">
-                    One third column
-                </div>
-            </div>
+    <h3>Mobile-first Design</h3>
+    <p>
+      <strong>Mobile First: </strong>A good strategy is to make content look
+      great for mobile first, and scale up from there. In your css, this results
+      in your main styles being for mobile, and media queries using min-width
+      will alter styles for larger screens.
+    </p>
+    <p>This is beneficial because most traffic these days is mobile, and results in more efficient, less bloated sites, like desktop-size images being downloaded on phones, wasting data.  Starting with limited screen space forces us to better prioritize content and anticipate most common actions, and make loading faster by starting with the most essential version of the site and building up from there in terms of images and code</p>
+    <p>You may have several breakpoints, the main style will be for screens all the way down to no width.  Then a media query at min size 530px for 'small screens', one at 800px for medium screens, and one at min size 1200px for large screens.</p>
+
+    <br />
+
+    <h3>Grid Structure</h3>
+    <p>
+      <strong>Float-based grid: </strong>The traditional way to create a column
+      layout is modelled below and relies on floating the block-level column
+      divs, and using the clearfix hack on rows. Can use semantic HTML by
+      replacing container with main, rows with section, and columns with article
+      or aside, depending on what the column is
+    </p>
+
+    <div class="float-container">
+      <div class="row">
+        <div class="whole column">Column</div>
+      </div>
+      <div class="row">
+        <div class="one-half column">One half column</div>
+        <div class="one-half column">One half column</div>
+      </div>
+      <div class="row">
+        <div class="one-third column">One third column</div>
+        <div class="one-third column">One third column</div>
+        <div class="one-third column">One third column</div>
+      </div>
+    </div>
+
+    <p>
+      <strong>Flexbox-based grid: </strong>This replaces the traditional way
+      with a better method, can also use semantic tags like float-based grid
+      example
+    </p>
+
+    <div class="flex-container">
+      <div class="row">
+        <div class="column">Whole-width column</div>
+      </div>
+      <div class="row">
+        <div class="column">
+          Evenly-divided columns, use flex: 1 regardless of # of cols
         </div>
-
-        <p><strong>Flexbox-based grid: </strong>This replaces the traditional way with a better method,
-            can also use semantic tags like float-based grid example</p>
-
-        <div class="flex-container">
-            <div class="row">
-                <div class="column">
-                    Whole-width column
-                </div>
-            </div>
-            <div class="row">
-                <div class="column">
-                    Evenly-divided columns, use flex: 1 regardless of # of cols
-                </div>
-                <div class="column">
-                    Evenly-divided columns
-                </div>
-                <div class="column">
-                    Evenly-divided columns
-                </div>
-            </div>
-            <div class="row">
-                <div class="column _25">
-                    25% Left Sidebar, use different flex props for different width cols
-                </div>
-                <div class="column _55">
-                    55% Main Content
-                </div>
-                <div class="column _20">
-                    20% Right Sidebar
-                </div>
-            </div>
+        <div class="column">Evenly-divided columns</div>
+        <div class="column">Evenly-divided columns</div>
+      </div>
+      <div class="row">
+        <div class="column _25">
+          25% Left Sidebar, use different flex props for different width cols
         </div>
+        <div class="column _55">55% Main Content</div>
+        <div class="column _20">20% Right Sidebar</div>
+      </div>
+    </div>
 
-        <br>
+    <br />
 
-        <h3>Navigation</h3>
-        <p>The hardest part is responsive navigation, commonly using the hamburger menu icon</p>
-        
-        <div class="topnav" id="myTopnav">
-            <a href="#home" class="active">Home</a>
-            <a href="#news">News</a>
-            <a href="#contact">Contact</a>
-            <a href="#about">About</a>
-            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-              <i class="fa fa-bars"></i>
-            </a>
-        </div>
+    <h3>Navigation</h3>
+    <p>
+      The hardest part is responsive navigation, commonly using the hamburger
+      menu icon
+    </p>
 
-        <hr>
-        
-        <h2>Common Mobile vs Desktop Changes</h2>
-        <p><strong>display: none </strong>Use the display: none property/value to show and hide things that should
-            only appear on large screens or small screens, e.g. for navigation structures that change with screen size</p>
-        <p><strong>Common patterns: </strong></p>
-        <ul>
-            <li>Common for desktop displays to include a non-essential sidebar on right hand side 
-                that disappears on mobile display, or multiple columns in desktop that stack vertically on mobile</li>
-            <li>Also common for navigation menu to simplify or turn into drop downs on mobile vs desktop</li>
-            <li>Common for logo to be in upper left on desktop and then move to top center above nav on mobile</li>
-            <li>Less white space on mobile devices</li>
-        </ul>
-            
-        <hr>
+    <div class="topnav" id="myTopnav">
+      <a href="#home" class="active">Home</a>
+      <a href="#news">News</a>
+      <a href="#contact">Contact</a>
+      <a href="#about">About</a>
+      <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+        <i class="fa fa-bars"></i>
+      </a>
+    </div>
 
-        <h2>Relative measurements</h2>
-        <h3>px</h3>
-        <p>pixels are not relative</p>
-        
-        <br>
+    <hr />
 
-        <h3>em and rem</h3>
-        <p>em and rem should be used for text and any dimension related to text or that should scale as text scales (padding & margin around text etc), allows scaling to client's default root font size</p>
-        <p><strong>em: </strong>sized as a multiple of the font size of the parent element (whether defined or inherited from its parent).
-            e.g. if font-size of parent is 18px, then 1.5em will be 27px.  good for sizing in comparison to nearby elements.</p>
-        <p><strong>rem: </strong>sized as multiple of the font size of the html element (root element, whether defined or using default
-            browser font size for html element). good for consistent sizing across entire website.</p>
-        
-        <br>
+    <h2>Common Mobile vs Desktop Changes</h2>
+    <p>
+      <strong>display: none </strong>Use the display: none property/value to
+      show and hide things that should only appear on large screens or small
+      screens, e.g. for navigation structures that change with screen size
+    </p>
+    <p><strong>Common patterns: </strong></p>
+    <ul>
+      <li>
+        Common for desktop displays to include a non-essential sidebar on right
+        hand side that disappears on mobile display, or multiple columns in
+        desktop that stack vertically on mobile
+      </li>
+      <li>
+        Also common for navigation menu to simplify or turn into drop downs on
+        mobile vs desktop
+      </li>
+      <li>
+        Common for logo to be in upper left on desktop and then move to top
+        center above nav on mobile
+      </li>
+      <li>Less white space on mobile devices</li>
+    </ul>
 
-        <h3>%</h3>
-        <p>% for non-text HTML elements, often for box-model values like width, height, padding, border, and margins, and 
-            positioning properties top, bottom, left, right</p>
-        <p><strong>%: </strong>for height and width sizes relative to corresponding parent dimension (which must be set),
-            for padding and margin all sizes relative to width dimension of parent element</p>
-        
-        <hr>
+    <hr />
 
-        <h2>Media Queries</h2>
-        <p><strong>@media: </strong>media query ruleset keyword</p>
-        <p><strong>only screen: </strong>dictates what device type the rule set, it should always be only screen, outdated to 
-            use for print, handheld, etc</p>
-        <p><strong>media features: </strong>e.g. and (max-width: 480px), conditions that must be met for rule to apply,
-            combine with and for AND logic, and commas for OR logic</p>
-            <ul>
-                <li><strong>min-width: </strong>browser or screen width must be at least this width for style to apply</li>
-                <li><strong>max-width: </strong>browser or screen width must be no more than this width for style to apply;
-                    combine min-width and max-width values to select a range of width for which the style should apply</li>
-                <li><strong>min-device-width: </strong>actual device width must be at least this width for style to apply;
-                    doesn't matter if browser or viewing area is minimized less than device width</li>
-                <li><strong>max-device-width: </strong>actual device width must be no more than this width for style to apply;
-                    doesn't matter if browser or viewing area is minimized less than device width;
-                    min/max device width is good for targeting specific devices but not when you make the browser smaller on
-                    a large screen</li>
-                <li><strong>orientation: </strong>can be either portrait (height > width) or landscape (width > height)</li>
-            </ul>
-        <p><strong>CSS Organization: </strong>Its best to put media queries right after their equivalent normal
-            style, pairing the normal style and media query style, as opposed to all normal styles in one section,
-            and all media queries in a separate section</p>
-        <p><strong>HTML link with media query: </strong>You can include a media query attribute in the css link element
-            (see head above), that will only load the css sheet if the media query condition is met.  This could load styles
-            to override some of the styles in the main css sheet (always loaded).  However, this is not as efficient as
-            including media queries all in a single css sheet which avoids multiple files needing to load, and should only
-            be used if the organizational benefit outweighs the efficiency loss</p>
-        <p><strong>Support for older browsers: </strong>If you must support older browsers that don't support CSS3 media
-            queries, there are javascript files you can include in your project that will make the media queries work for
-            old browsers without modification to the CSS</p>
+    <h2>Relative measurements</h2>
+    <h3>px</h3>
+    <p>pixels are not relative</p>
 
-        <div class="responsive-example">
-            <p>A wee bit of content for this highly</p>
-            <p>responsive div</p>
-        </div>
+    <br />
 
-        <br>
-        
-        <img src="./screen-sizes.png" width="1000px">
+    <h3>em and rem</h3>
+    <p>
+      em and rem should be used for text and any dimension related to text or
+      that should scale as text scales (padding & margin around text etc),
+      allows scaling to client's default root font size
+    </p>
+    <p>
+      <strong>em: </strong>sized as a multiple of the font size of the parent
+      element (whether defined or inherited from its parent). e.g. if font-size
+      of parent is 18px, then 1.5em will be 27px. good for sizing in comparison
+      to nearby elements.
+    </p>
+    <p>
+      <strong>rem: </strong>sized as multiple of the font size of the html
+      element (root element, whether defined or using default browser font size
+      for html element). good for consistent sizing across entire website.
+    </p>
 
-    </body>
+    <br />
+
+    <h3>%</h3>
+    <p>
+      % for non-text HTML elements, often for box-model values like width,
+      height, padding, border, and margins, and positioning properties top,
+      bottom, left, right
+    </p>
+    <p>
+      <strong>%: </strong>for height and width sizes relative to corresponding
+      parent dimension (which must be set), for padding and margin all sizes
+      relative to width dimension of parent element
+    </p>
+
+    <hr />
+
+    <h2>Media Queries</h2>
+    <p><strong>@media: </strong>media query ruleset keyword</p>
+    <p>
+      <strong>only screen: </strong>dictates what device type the rule set, it
+      should always be only screen, outdated to use for print, handheld, etc
+    </p>
+    <p>
+      <strong>media features: </strong>e.g. and (max-width: 480px), conditions
+      that must be met for rule to apply, combine with and for AND logic, and
+      commas for OR logic
+    </p>
+    <ul>
+      <li>
+        <strong>min-width: </strong>browser or screen width must be at least
+        this width for style to apply
+      </li>
+      <li>
+        <strong>max-width: </strong>browser or screen width must be no more than
+        this width for style to apply; combine min-width and max-width values to
+        select a range of width for which the style should apply
+      </li>
+      <li>
+        <strong>min-device-width: </strong>actual device width must be at least
+        this width for style to apply; doesn't matter if browser or viewing area
+        is minimized less than device width
+      </li>
+      <li>
+        <strong>max-device-width: </strong>actual device width must be no more
+        than this width for style to apply; doesn't matter if browser or viewing
+        area is minimized less than device width; min/max device width is good
+        for targeting specific devices but not when you make the browser smaller
+        on a large screen
+      </li>
+      <li>
+        <strong>orientation: </strong>can be either portrait (height > width) or
+        landscape (width > height)
+      </li>
+    </ul>
+    <p>
+      <strong>CSS Organization: </strong>Its best to put media queries right
+      after their equivalent normal style, pairing the normal style and media
+      query style, as opposed to all normal styles in one section, and all media
+      queries in a separate section
+    </p>
+    <p>
+      <strong>HTML link with media query: </strong>You can include a media query
+      attribute in the css link element (see head above), that will only load
+      the css sheet if the media query condition is met. This could load styles
+      to override some of the styles in the main css sheet (always loaded).
+      However, this is not as efficient as including media queries all in a
+      single css sheet which avoids multiple files needing to load, and should
+      only be used if the organizational benefit outweighs the efficiency loss
+    </p>
+    <p>
+      <strong>Support for older browsers: </strong>If you must support older
+      browsers that don't support CSS3 media queries, there are javascript files
+      you can include in your project that will make the media queries work for
+      old browsers without modification to the CSS
+    </p>
+
+    <div class="responsive-example">
+      <p>A wee bit of content for this highly</p>
+      <p>responsive div</p>
+    </div>
+
+    <br />
+
+    <img src="./screen-sizes.png" width="1000px" />
+  </body>
 </html>
