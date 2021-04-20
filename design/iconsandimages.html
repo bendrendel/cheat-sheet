@@ -38,6 +38,39 @@
         <p><strong>PNG: </strong>lossless, preferred for images with less detail like logos, can be used instead of JPEG for photos/images with more empty space</p>
         <p><strong>SVG: </strong>scalable vector graphics, usually smallest file size, roughly 50% less data than JPEG or PNG, load quickly, good for hi res screens, becoming widely used for icons/logos</p>
 
+        <h2>Responsive Images</h2>
+        <p>Use responsive image techniques to use smaller image resolutions on smaller screens to minimize data usage, or to use different crops of images on different size screens for aesthetic reasons</p>
+
+        <h3>Picture Element</h3>
+        <p>Use the picture element for fine-grain control over which image is displayed at different screen widths, useful for different cropped images for different screen sizes, i.e. you want the image to truly look different at different screen sizes.  Often you want more landscape images on big screens, that become more cropped to a square on smaller screens</p>
+
+        <pre><code>
+            &ltpicture>
+                &ltsource srcset="./images/large-version.jpg" media="(min-width: 1200px)">
+                &ltsource srcset="./images/medium-version.jpg" media="(min-width: 760px)">
+                &ltimg src="./images/small-version.jpg" alt="my image">
+            &lt/picture>
+        </code></pre>
+
+
+        <h3>Browser Detection</h3>
+
+        <p>You can also use the img element with a srcset property to include multiple different resolutions of an image, with each image tagged with the image's width in pixels.  Browsers will automatically pick the smallest image that will still be sharp.  If the browser window shrinks, then it won't download the smaller image if it has already downloaded a larger image since the larger image will be sharp enough already (must clear cache to get smaller image to download).  This is best when you don't want the image's appearance/cropping to change with different screen sizes, you just want to optimize data usage.</p>
+        <pre><code>
+            &ltimg srcset="./images/small-version.jpg 570w, ./images/medium-version.jpg 1200w, images/large-version.jpg 1920w" alt="my image">
+        </code></pre>
+
+        <h3>Combination</h3>
+        <p>You can combine the techniques above by using the picture element to display different crops of the image at different screen sizes, but include multiple resolutions of each crop in the srcset property of the img element and source elements.  This will allow for higher resolution images to be used if the screen has a high dpi like 4K monitors or retina screens.</p>
+
+        <pre><code>
+            &ltpicture>
+                &ltsource srcset="./images/large-version.jpg 1800w, ./images/large-version-hi-dpi.jpg 3600w" media="(min-width: 1200px)">
+                &ltsource srcset="./images/medium-version.jpg 1200w, ./images/medium-version-hi-dpi.jpg 2400w" media="(min-width: 760px)">
+                &ltimg srcset="./images/small-version.jpg 760w, ./images/small-version-hi-dpi.jpg 1520w" alt="my image">
+            &lt/picture>
+        </code></pre>
+
         <h2>Favicon</h2>
         <p>Favicons are the icons that appear at the top of a browser tab or window with site title</p>
         <p><a href="https://www.favicon-generator.org">Favicon Generator</a>: Upload GIF/PNG/JPEG, Use Generate only 16x16 favicon.ico</p>
