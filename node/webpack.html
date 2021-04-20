@@ -81,9 +81,13 @@
                 path: path.resolve(__dirname, 'app')
             },
             devServer: {
+              before: function (app, server) {
+                server._watch('./app/**/*.html');
+              },
               contentBase: path.join(__dirname, 'app'),
               hot: true,
-              port: 3000
+              port: 3000,
+              host: '0.0.0.0'
             },           
             mode: 'development',
             <s>watch: true,</s>
@@ -247,6 +251,12 @@
       devServer, which is set to an object with the following properties.
     </p>
     <ul>
+      <li>before is set to an anonymous function that will make the devServer
+        reload the page everytime you make changes to index.html or other html
+        files in your project.  without this property, the devServer is only
+        watching for changes to the js file that it is bundling (which also
+        watches for css changes since the css is imported into the js file)
+      </li>
       <li>contentBase is set to the directory you want to serve, the directory
         that contains index.html
       </li>
@@ -259,6 +269,9 @@
         port set to e.g. 3000, set to 8080 by default.  the served page can be
         accessed at <code>localhost:3000</code> or whatever number you set
         the port to
+      </li>
+      <li>host can be set so that the page is served on your local network
+        and can be accessed e.g. on your iphone if connected to the same network.  First find your local IP address (settings > network on mac) which starts with 192.168.X.X.  Instead of <code>localhost:3000</code> you can visit the page at <code>192.168.X.X:3000</code>
       </li>
     </ul>
 
