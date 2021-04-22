@@ -80,8 +80,20 @@
       in your main styles being for mobile, and media queries using min-width
       will alter styles for larger screens.
     </p>
-    <p>This is beneficial because most traffic these days is mobile, and results in more efficient, less bloated sites, like desktop-size images being downloaded on phones, wasting data.  Starting with limited screen space forces us to better prioritize content and anticipate most common actions, and make loading faster by starting with the most essential version of the site and building up from there in terms of images and code</p>
-    <p>You may have several breakpoints, the main style will be for screens all the way down to no width.  Then a media query at min size 530px for 'small screens', one at 800px for medium screens, and one at min size 1200px for large screens.</p>
+    <p>
+      This is beneficial because most traffic these days is mobile, and results
+      in more efficient, less bloated sites, like desktop-size images being
+      downloaded on phones, wasting data. Starting with limited screen space
+      forces us to better prioritize content and anticipate most common actions,
+      and make loading faster by starting with the most essential version of the
+      site and building up from there in terms of images and code
+    </p>
+    <p>
+      You may have several breakpoints, the main style will be for screens all
+      the way down to no width. Then a media query at min size 530px for 'small
+      screens', one at 800px for medium screens, and one at min size 1200px for
+      large screens.
+    </p>
 
     <br />
 
@@ -194,10 +206,12 @@
       allows scaling to client's default root font size
     </p>
     <p>
-      <strong>em: </strong>sized as a multiple of the font size of the parent
-      element (whether defined or inherited from its parent). e.g. if font-size
-      of parent is 18px, then 1.5em will be 27px. good for sizing in comparison
-      to nearby elements.
+      <strong>em: </strong>font-size is sized as a multiple of the font size of
+      the parent element (whether defined or inherited from its parent). e.g. if
+      font-size of parent is 18px, then 1.5em will be 27px. however margin and
+      padding will be sized as a multiple of the font-size of the element itself
+      (not the parent). good for sizing font in comparison to nearby elements,
+      or sizing an element's margin and padding based on element's font-size.
     </p>
     <p>
       <strong>rem: </strong>sized as multiple of the font size of the html
