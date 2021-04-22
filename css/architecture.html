@@ -105,7 +105,7 @@
         <li>
           Useful to break each block into its own file. Then use nested CSS in
           the file to make a top-level block selector, with nested selectors for
-          each element
+          each element or modifier
         </li>
         <li>
           BEM should avoid multi-class selectors, and only have a single class
@@ -115,6 +115,36 @@
           selector is &__title, resulting in a PostCSS output of
           .large-hero__title for the nested selector.
         </li>
+        <li>Example of what would go in a single block file called _headline.css, using PostCSS, where the block has some default styles, a few modifiers, and a media query that increases the font-size on larger screens.  The small modifier also has a nested media query that changes the font-size of elements with the small modifier.
+          <pre><code>
+            .headline {
+              font-weight: 300;
+              font-size: 2.875rem;
+              color: $mainBlue;
+
+              &--centered {
+                  text-align: center;
+              }
+
+              &--orange {
+                  color: $mainOrange;
+              }
+
+              &--small {
+                font-size: 1.2rem;
+
+                @media (min-width: 1200px) {
+                  font-size: 2rem;
+                }
+              }
+
+              @media (min-width: 1200px) {
+                font-size: 4rem;
+              }
+            }
+          </code></pre>
+        </li>
+        <li>HTML element classes might then contain class="headline headline--centered headline--orange"</li>
       </ul>
     </section>
   </body>
