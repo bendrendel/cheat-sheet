@@ -55,9 +55,9 @@
 
         <h3>Browser Detection</h3>
 
-        <p>You can also use the img element with a srcset property to include multiple different resolutions of an image, with each image tagged with the image's width in pixels.  Browsers will automatically pick the smallest image that will still be sharp.  If the browser window shrinks, then it won't download the smaller image if it has already downloaded a larger image since the larger image will be sharp enough already (must clear cache to get smaller image to download).  This is best when you don't want the image's appearance/cropping to change with different screen sizes, you just want to optimize data usage.</p>
+        <p>You can also use the img element with a srcset property to include multiple different resolutions of an image, with each image tagged with the image's width in pixels.  Browsers will automatically pick the smallest image that will still be sharp.  If the browser window shrinks, then it won't download the smaller image if it has already downloaded a larger image since the larger image will be sharp enough already (must clear cache to get smaller image to download).  In determining which resolution to use, the browser assumes the image will take the full screen width.  If this isn't the case, then you should include the sizes property and set it equal to the pixel width of the image on the screen, so the browser can use this to determine the appropriate resolution.  If the image width grows and shrinks with the screen, then set sizes to the widest width the image can possibly have.  You can include media queries in sizes to say, e.g. the image is 900px wide for screens greater than 1000px, and 100vw for all smaller screens, e.g. sizes="(min-width: 1000px) 900px, 100vw".  Overall, the browser detection technique is best when you don't want the image's appearance/cropping to change with different screen sizes, you just want to optimize data usage.</p>
         <pre><code>
-            &ltimg srcset="./images/small-version.jpg 570w, ./images/medium-version.jpg 1200w, images/large-version.jpg 1920w" alt="my image">
+            &ltimg sizes="404px" srcset="./images/small-version.jpg 570w, ./images/medium-version.jpg 1200w, images/large-version.jpg 1920w" alt="my image">
         </code></pre>
 
         <h3>Combination</h3>
