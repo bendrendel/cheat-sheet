@@ -96,6 +96,7 @@
                 <li>message should be in present tense and less than 50 characters, start with capitol letter</li>
                 <li>Often will group changes to multiple files under a single commit, should craft commits to tell an easy to understand story of changes</li>
                 <li>Can also make commits in a Github repo by editing a file directly in Github, when you save changes it creates a commit for the changes to that file</li>
+                <li>can use git commit -am "message" to automatically git add all files and commit them in one command</li>
             </ul>
             <p><strong>git log: </strong>view chronological list of commits to repository, options below
                 can be combined e.g. git log --patch --oneline</p>
@@ -203,8 +204,7 @@
                 or whatever the name of the branch is you are merging</p>
             <p><strong>git pull origin: </strong>same as fetch but also will merge the corresponding remote branch into whatever local branch you have checked out</p>
             <p><strong>git push origin your_branch_name: </strong>copies the local your_branch_name branch to the corresponding remote origin branch,
-                can leave off your_branch_name to simply copy the branch you have checked out.  Also updates your remote tracking branch.
-                Often used to copy a local feature branch to the remote repository named origin, so someone can review your branch and merge it to origin/master</p>
+                can leave off your_branch_name to simply copy the branch you have checked out.  However, you must include your_branch_name if you are pushing it up to origin and you haven't set up remote tracking for the branch.  Often used to copy a local feature branch to the remote repository named origin, so someone can review your branch and merge it to origin/master</p>
             <p><strong>Forking: </strong>To contribute to an open project on Github, you should use the fork feature in that project's repository
                 to create a copy of the repository in your own Github account.  This allows you to safely work on the project on your own.
                 Typically you should create a new branch after forking to do your work, and then you would submit a pull request when finished</p>
@@ -212,7 +212,7 @@
                 with ability to push to the repository or you forked the project and worked on a branch on your own, you should make a pull request
                 for the branch when its ready for review.  With a fork this is requesting from the owner to review your branch.  Pull requests
                 have feedback functionality built in and code testing abilities built in. Once accepted, it can be merged into the master branch
-                and you should delete your branch, as your commits and the pull request discussion become part of the destination branch</p>
+                and its best practice to delete your branch to keep your repo clean with no unneccessary branches, as your commits and the pull request discussion become part of the destination branch</p>
 
             <h2>Github Workflow</h2>
             <ol>
