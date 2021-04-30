@@ -117,7 +117,14 @@
 
             <h2>Backtracking Commands</h2>
             <p><strong>git show HEAD: </strong>shows log info and all committed changes for the HEAD commit</p>
-            
+            <p><strong>git reflog: </strong>the reflog provides 30 days of all history on a branch, both forward commits and backward
+                resets, deletions of branches, and rebases</p>
+                <ul>
+
+                    <li><strong>gitk --all `git reflog | cut -c1-7`& </strong>use this comman to open a GUI showing the reflog so you can more
+                        better see the organization of the reflog, which branches are out on their own, what commits are no longer part of it</li>
+                </ul>
+
             <h3>Reset</h3>
             <p><strong>git reset --soft SHA: </strong>Moves the head to the given SHA (first 7 characters) and stops there.  Does not change the staging area or working directory.  Instead of a SHA, you could use HEAD~ to move to the parent of the HEAD (i.e. one commit back from where HEAD currently is) or HEAD~2 to move two parents back or any other number of parents back.  This can be useful because you can then make a new commit from the unchanged files in the staging area.  You could move back one commit to essentially redo your most recent commit, or you could move back multiple commits to essentially squash multiple commits into one commit.</p>     
             <p><strong>git reset --mixed SHA: </strong>Moves the head to the given SHA (first 7 chars, or use HEAD/HEAD~/HEAD~2/etc shorthand) and then updates the staging area to the files in that commit.  --mixed is the default so it can also be omitted and git reset SHA will assume --mixed. Using it with HEAD is useful when you want to "unstage" files in the staging area because it will set them back to the version in HEAD, but leave the working directory untouched.  If you specify a particular file name as in git reset --mixed SHA file.txt, then the first step of moving the head is skipped, but the second step of copying the file from the given SHA into the staging directory is still performed.  If used with HEAD for the SHA, then this is useful to "unstage" a single file.</p>
@@ -128,13 +135,6 @@
             <p><strong>git checkout SHA filename: </strong>can also use a SHA (or first 7 characters of one) to replace the given filename in the working directory with the version of that file from the given SHA.  leave out filename to set entire working tree to the given SHA, this is intended to explore files/folders at the given commit and you shoudln't make commits while here</p>            
             <p><strong>git checkout -- filename: </strong>replaces filename in working directory with version of file in most recent commit</p>
 
-            <p><strong>git reflog: </strong>the reflog provides 30 days of all history on a branch, both forward commits and backward
-                resets, deletions of branches, and rebases</p>
-                <ul>
-
-                    <li><strong>gitk --all `git reflog | cut -c1-7`& </strong>use this comman to open a GUI showing the reflog so you can more
-                        better see the organization of the reflog, which branches are out on their own, what commits are no longer part of it</li>
-                </ul>
 
             <h2>Branching Commands</h2>
             <p><strong>git branch: </strong>shows all branches with a * next to the branch you are on, 
@@ -169,6 +169,7 @@
             <p><strong>git merge branch_name: </strong>brings all commits from branch_name (giver branch) into the current branch (receiver branch)</p>
             <ul>
                 <li>typically you checkout the master branch, then run this command to merge branch_name into master</li>
+                <li>git merge branch_name --no-ff, this command will prevent git from doing a fast forward merge if one is possible.  a fast-forward merge is when e.g. the last commit on the master branch is the ancestor of the feature branch you are merging, and thus the feature branch commits can just be added directly onto the end of the master branch.  When you use no-ff, this will create a single merge commit that is put on the end of the master branch, which will contain all the changes made in the feature.  However, this commit will have two parents, one is the previous commit on master, and the other is the last commit on feature.  Basically the feature commits are collapsed into one commit that is added to the master branch, but the whole history of the feautre branch commits is preserved but shown as being from a different branch.  this command will open vim and ask for a commit message for the merge, to exit vim, press the escape key, then a colon, then wq and press enter to exit vim.  some teams use no-ff and other don't, no-ff is convenient in that it creates a consolidated commit to see all changes from the features branch.</li>
             </ul>
             <p><strong>Resolving merge conflicts: </strong></p>
             <ul>
