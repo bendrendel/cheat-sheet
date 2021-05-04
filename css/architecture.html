@@ -75,18 +75,33 @@
         <li>
           Blocks are reusable, independent part of the design, like the hero
           section as a whole, each feature card in the features section, each
-          testimonial card in the testimonials section, each button on the page
+          testimonial card in the testimonials section, each button on the page.
+          Everything on the page is a block, or part of a block.  Blocks are reusable,
+          so you could have multiple things on the page that are the same type of block
+          and you'll only need to define styling for that block type once.  Blocks are
+          also nestable, so maybe one block gets reused multiple times within a 
+          containing block like with a grid of cards inside a page section.  Or perhaps
+          you need to combine different blocks in different ways, like a wrapper block
+          that adds margins, nested inside a page section block.  But the wrapper block
+          also gets nested inside the page header block.
         </li>
         <li>
           Elements belong to blocks and aren't used outside the block they
           belong to, like the title and subtitle in the hero, or a profile photo
-          in the testimonial card
+          in the testimonial card.  The key is you won't want to reuse the styling
+          anywhere else outside the block.  So if a Title style gets used in multiple
+          different blocks, then you may want to consider that Title style being its
+          own block, nested inside another block.
         </li>
         <li>
           Modifiers are used on blocks or elements to indicate a change to the
           default state of an object, like a class that gets added to a menu to
           indicate it is open or visible, or a modifier to style buttons
-          differently like "btn--orange" or "btn--large"
+          differently like "btn--orange" or "btn--large".  When you add a modifier class
+          to an html element, you always also add the main block or element class
+          to get the main styling of that block or element, then you add the modifier
+          class also to pick up whatever additional styling is contained in the modifier
+          class.
         </li>
       </ul>
 
@@ -103,8 +118,9 @@
           BEM dictates classes name like
           "block-name__element-name--modifier-name", where names use - to
           separate words, blocks and elements are separated by two underscores,
-          and modifiers are separated by two dashes, can have
-          block-name--modifier-name with no element
+          and modifiers are separated by two dashes, can have blocks with a modifier
+          directly, or elements with modifiers.  e.g.
+          block-name--modifier-name is modifying th block, not an element
         </li>
         <li>
           BEM also dictates single-purpose blocks, such as a block that creates
