@@ -308,7 +308,8 @@
           </ul>
           <li>scripts/</li>
           <ul>
-            <li>App.js <em>entry js file</em></li>
+            <li>modules/ <em>a folder containing js modules like classes, ideally each module has a single purpose like defining a class that is exported using ES6 export default or named exports and is then imported to App.js and used there.</em></li>
+            <li>App.js <em>entry js file, which imports js modules from the modules scripts/modules folder e.g. <code>import MyClass from './modules/MyClass.js';</code>, and also imports the styles.css file which in turn imports all the css files e.g. <code>import '../styles/styles.css';</code></em></li>
           </ul>
           <li>styles/</li>
           <ul>
