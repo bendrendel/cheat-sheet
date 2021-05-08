@@ -351,5 +351,41 @@
       <li>package.json</li>
       <li>webpack.config.js</li>
     </ul>
+
+    <h2>Example js class module for webpack project</h2>
+    <p>This class would be saved in the js modules folder.  It would
+      be imported into the App.js file and a variable would be initialized
+      in App.js to an instance of the class.  This initialization will
+      run the constructor function.
+    </p>
+    <code>filename: MobileMenu.js</code>
+    <code>
+      <pre>
+        class MobileMenu {
+          constructor {
+            this.mobileMenu = document.querySelector('.mobile-menu');
+              <em>//since the constructor runs when initialized in App.js,
+                this will select the menu element in index.html
+              </em>
+            this.events();
+          }
+
+          events() {
+            this.mobileMenu.addEventListener('click', () => this.handleClick());
+            <em>//the event listener function needs to be put inside an arrow 
+              function because inside an arrow function, 'this' will bind to the
+              object so it can use handleClick.  Without the arrow function, 'this'
+              would bind to the event target.  Arrow functions cannot bind
+              'this', so 'this' takes on the value of the outer context.
+            </em>
+          }
+
+          handleClick() {
+            console.log('clicked!');
+          }
+
+        }
+      </pre>
+    </code>
   </body>
 </html>
