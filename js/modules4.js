@@ -7,6 +7,10 @@ if filename has no extension then js is assumed
 import default, to be used with export default
 Menu is name of the variable to store the export default from ./modules3.js
 This name doesn't have to match the name of the export default in ./modules3.js
+Can be used to import npm modules into js, after using npm install to install the package
+import lodash from 'lodash';
+or import specific functionality as in
+import throttle from 'lodash/throttle';
 */
 import Menu from './modules3.js';
 
