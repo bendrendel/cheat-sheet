@@ -71,6 +71,29 @@
             &lt/picture>
         </code></pre>
 
+        <h2>Lazy Loading</h2>
+        <h3>Installing lazysizes Package</h3>
+        <p>You can install the lazysizes npm package for a project to load images only once they are scrolled
+            to on the webpage, so that the user doesn't have to download all images at once when they first 
+            reach the webpage.
+        </p>
+        <p>run <code>npm install lazysizes</code> in the root directory of your project to install the package</p>
+        <p>add <code>import 'lazysizes'</code> to a js file that is linked in to your html file</p>
+
+        <h3>Marking images for lazy loading</h3>
+        <p>In your html file, you'll want to lazy load images that are further down the screen.  Images at the
+            top of the screen should load instantly since the user will always see them when visiting.  Also,
+            you may only want to do this for jpgs and pngs due to their size, and not do it for svgs since they
+            have small file sizes.
+        </p>
+        <p>Add a class of <code>"lazyload"</code> to any <code>img</code> tag you want loaded lazily.  If using
+        the picture element, you only need to add the class to the img tag in the picture element</p>
+        <p>Also change the <code>src</code> or <code>srcset</code> attribute in any <code>img</code> or
+            <code>source</code> tags to <code>data-src</code> or <code>data-srcset</code> otherwise
+            the browser will automatically download images in the <code>src</code> and <code>srcset</code>
+            attributes.
+        </p>
+
         <h2>Favicon</h2>
         <p>Favicons are the icons that appear at the top of a browser tab or window with site title</p>
         <p><a href="https://www.favicon-generator.org">Favicon Generator</a>: Upload GIF/PNG/JPEG, Use Generate only 16x16 favicon.ico</p>
