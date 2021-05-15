@@ -352,6 +352,46 @@
       <li>webpack.config.js</li>
     </ul>
 
+    <h2>Example App.js file for Webpack Project</h2>
+    <p>Imports style sheet and modules at top.  Often all you need to do is run the constructor
+      of the imported class module.  In this case all you need to do is use new ClassModule(), so that
+      the constructor runs, and you don't need to save the instance of the class to a variable, unless
+      you need to use that variable later on, or as used in code-splitting.
+    </p>
+    <p>One powerful technique is to use the npm eventemitter package in your modules.  Then your modules
+      can emit custom events, and in your App.js file, you can have methods in other modules run when those
+      events are emitted.  To do this, you'll need to save your module class instances to variables so you
+      can call specific methods on them as event handlers.
+    </p>
+    <p>Inlcudes code splitting, where modal module gets loaded only once a button is clicked.
+      This saves the modal code in a variable called modal, and does not load the code again
+      if the modal variable has been initialized with the code.  Import the modal module
+      using the import function.  can use the webpackChunkName comment to give a name to the Additional
+      js file that the browser will download once the button is clicked.  Import returns a promise,
+      and must use the returned value x with new x.default() to create an instance of the module class.
+      Use set timeout before running a method of the class instance if it has just been loaded to make sure 
+      everything is fully loaded.
+    </p>
+
+    <code><pre>
+      import '../styles/styles.css';
+      import MobileMenu from './modules/MobileMenu.js';
+
+      new MobileMenu();
+      let modal;
+
+      document.querySelector('#button').addEventListener('click', e => {
+        if(!modal) {
+          import(/* webpackChunkName: 'modal' */ './modules/Modal.js').then((x) => {
+            modal = new x.default();
+            setTimeout(() => modal.openTheModal(), 20);
+          }).catch(() => console.log('Error'));
+        } else {
+          modal.openTheModal();
+        }
+      })
+    </pre></code>
+
     <h2>Example js class module for webpack project</h2>
     <p>This class would be saved in the js modules folder.  It would
       be imported into the App.js file and a variable would be initialized
