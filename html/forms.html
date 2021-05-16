@@ -119,9 +119,11 @@
                 provides dropdown list, can only select one
                 can't type in field to filter list, can't enter a value not in list
                 need to give each option a value which is not displayed but is submitted
+                Can use a disabled option first as a "Placeholder" of sorts
             -->
             <label for="lunch">What's for lunch?</label>
             <select id="lunch" name="lunch">
+                <option value="" selected disabled>Pick Food</option>
                 <option value="pizza">Pizza</option>
                 <option value="curry">Curry</option>
                 <option value="salad">Salad</option>
