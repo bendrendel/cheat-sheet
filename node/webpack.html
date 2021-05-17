@@ -40,16 +40,28 @@
         be an absolute path, thus you'll need to use the path node core module
         which generates the absolute path of the project. e.g.
         path.resolve(__dirname, app) will save the file named filename to
-        ./app/filename.
+        ./app/filename.  This is why path is required in at the beginning of the file.
       </li>
       <li>mode property webpack will use (development, production)</li>
       <li>
-        watch property if true then when you run the webpack command (through a
+        if not using the devServer, you can add a watch property, with a value of
+        true.  Then when you run the webpack command (through a
         package.json script) it will stay running, and rebundle with every
         change to the entry file. press ^C to stop running.  However, if you
         are using the webpack devServer and it is set to hot, then you 
         should delete the watch property because the hot devServer will watch
         for changes automatically.
+      </li>
+      <li>
+        In the build process, its helpful to set
+        filename to '[name].[chunkhash].js', and also add a chunkFilename property
+        set to this value also.  This will give the multiple js files output
+        upon build a descriptive name (e.g. main for main js, separate
+        names for code split modules, and vendor for npm packages), and will Also
+        give them each a hash key in the name that only changes if the contents of
+        the file are different (i.e. you change your code somehow).  This 
+        makes the client redownload the file when the hash changes, instead of relying
+        on cached versions of the file with an earlier hash.
       </li>
       <li>
         module property can take an object with a rules property set to an
@@ -58,14 +70,41 @@
         regex that matches the filetypes to handle, and a use property that is
         set to an array of package names that should handle that filetype. the
         example below has rules for using style-loader and css-loader, and also
-        a more complex one for using postCSS-loader
+        a more complex one for using postCSS-loader.  However, these css rules are
+        put into their own variable outside the config object so that it can
+        be easily altered for build vs development.  They both use css-loader and
+        postcss-loader, thus that's part of the variable initialization.  But
+        dev uses style-loader to simply bundle all the css into bundled.js, while
+        build uses the MiniCSSExtractPlugin to save the css in its own file for
+        distribution.  This is accomplished by using the unshift method on the use
+        array within dev and build.  MiniCSSExtractPlugin is required in at top and
+        also added to the plugins array for the build process.
+      </li>
+      <li>
+        optimization property, takes an object, can have splitChunks property
+        shown below, which is only relevant for the build process, it will split
+        the js from packages you use (direct dependencies) into its own js file,
+        separate from the js you are writing custom.  This allows the client to
+        cache the package js since it changes less frequently, and the client 
+        won't have to download it again.
+      </li>
+      <li>
+        plugins property can store an array of webpack plugins that you install.  For
+        instance, the CleanWebpackPlugin, which is required in at the beginning of the
+        file, and then an instance is added to the plugins array. Also the MiniCSSExtractPlugin,
+        also required in at the beginning, and then added to the plugins array, but with
+        an argument that sets the filename of the css file it produces to include the
+        file's chunkhash.
       </li>
     </ul>
 
     <h3>Example Webpack Config</h3>
     <pre>
         <code>
+        const currentTask = process.env.npm_lifecycle_event;
         const path = require('path');
+        const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+        const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
         const postCSSPlugins = [
             require('postcss-import'),
@@ -73,41 +112,58 @@
             require('postcss-simple-vars'),
             require('postcss-nested'),
             require('autoprefixer')
-        ]
+        ];
+
+        let cssConfig = {
+          test: /\.css$/i,
+          use: ['css-loader?url=false', { loader: 'postcss-loader', options: { postcssOptions: { plugins: postCSSPlugins } } }]
+        };
             
-        module.exports = {
+        let config = {
             entry: './app/assets/scripts/App.js',
-            output: {
-                filename: 'bundled.js',
-                path: path.resolve(__dirname, 'app')
-            },
-            devServer: {
-              before: function (app, server) {
-                server._watch('./app/**/*.html');
-              },
-              contentBase: path.join(__dirname, 'app'),
-              hot: true,
-              port: 3000,
-              host: '0.0.0.0'
-            },           
-            mode: 'development',
-            <s>watch: true,</s>
             module: {
                 rules: [
-                    {
-                        test: /\.css$/i,
-                        use: ['style-loader', 'css-loader?url=false', {
-                            loader: 'postcss-loader',
-                            options: {
-                                postcssOptions: {
-                                    plugins: postCSSPlugins
-                                }
-                            }
-                        }]
-                    }
+                    cssConfig
                 ]
             }
+        };
+
+        if (currentTask == 'dev') {
+            cssConfig.use.unshift('style-loader');
+            config.output = {
+                filename: '[bundled.js]',
+                path: path.resolve(__dirname, 'app')
+            };
+            config.devServer = {
+                before: function (app, server) {
+                    server._watch('./app/**/*.html');
+                },
+                contentBase: path.join(__dirname, 'app'),
+                hot: true,
+                port: 3000,
+                host: '0.0.0.0'
+            };
+            config.mode = 'development';
         }
+
+        if (currentTask == 'build') {
+            cssConfig.use.unshift(MiniCssExtractPlugin.loader);
+            config.output = {
+                filename: '[name].[chunkhash].js',
+                chunkFilename: '[name].[chunkhash].js',
+                path: path.resolve(__dirname, 'dist')
+            };
+            config.mode = 'production';
+            config.optimization = {
+                splitChunks: {chunks: 'all'}
+            }
+            config.plugins = [
+              new CleanWebpackPlugin(),
+              new MiniCssExtractPlugin({filename: 'styles.[chunkhash].css'})
+            ]
+        }
+
+        module.exports = config;
         </code>
     </pre>
 
@@ -127,6 +183,96 @@
     <p>If you are using the webpack dev server package, then instead of
       the webpack command, use webpack server, i.e. <code>"dev": "webpack serve"</code>
     </p>
+
+    <h2>Build Process</h2>
+    <p>Often, you'll use the dev server (below) for doing development, and include
+      a script in package.json called dev that runs webpack serve.  Webpack serve will
+      bundle your app.js entry file but it will only bundle it to temporary memory, instead
+      of outputting it to a file.  This can be accessed in your browser at the correct
+      local host port.
+    </p>
+    <p>The build process is what actually creates files that can be consumed by a client.</p>
+    <ul>
+      <li>In package.json, add a script <code>"build": "webpack"</code></li>
+      <li>In webpack.config.js, add a line of code to the top of the file: 
+        <code>const currentTask = process.env.npm_lifecycle_event;</code>, this will
+        set currentTask to either "dev" or "build", depending on if npm run dev or npm
+        run build was ran.  This will allow you to configure webpack differently for each.
+      </li>
+      <li>Now, for the config object that is exported form webpack.config.js, you can
+        build the config object with separate properties depending on if the currentTask
+        is dev or build.
+      </li>
+    </ul>
+    <h3>Build output</h3>
+    <ul>
+      <li>Build files should be output to a dist (distribution) folder</li>
+      <li>It will output your bundled js, with separate js for anything that is 
+        code-split (i.e imported using import function upon some action), and
+        package js if you use the optimization property in your webpack config file.
+      </li>
+      <li>should install a package <code>npm install clean-webpack-plugin -D</code>
+        and add to the config file, by requiring it in at top, and then adding
+        it to the plugins property for the build config only.  Once you do this,
+        every time you run the build script, all files in the dist folder will be
+        deleted first, and then the newly bundled files will be added.  If a particular
+        file has not changed, it will still have the same chunkhash, but if it has changed
+        then the chunkhash will be different than the previous version that was deleted.
+        This is what happens normally, except files wouldn't be deleted first, so you end
+        up with duplicate files if they've changed, one with the old hash and one with the new.
+        (If the hash didn't change then the file gets overwritten, so no duplicate).
+      </li>
+      <li>
+        You will also handle css differently for build.  For dev you want to simply
+        bundle the css in with bundled.js for simplicity, but for build you want the css
+        to be in its own file.  This is accomplished with the MiniCSSExtractPlugin.
+      </li>
+    </ul>
+
+    <h2>Webpack Dev Server</h2>
+    <p>
+      Install in root of project with
+      <code>npm install webpack-dev-server --save-dev</code>
+    </p>
+    <p>In package.json set your webpack script to run 'webpack serve' instead
+      of webpack (see details above in running webpack)
+    </p>
+    <p>In your entry js file, add the following logic that will allow the js
+      to accept hot updates from the dev server:
+    </p>
+    <pre><code>
+      if (module.hot) {
+        module.hot.accept();
+      }
+    </code></pre>
+    <p>
+      Add a property to the webpack config file (see example above) called
+      devServer, which is set to an object with the following properties.
+    </p>
+    <ul>
+      <li>before is set to an anonymous function that will make the devServer
+        reload the page everytime you make changes to index.html or other html
+        files in your project.  without this property, the devServer is only
+        watching for changes to the js file that it is bundling (which also
+        watches for css changes since the css is imported into the js file)
+      </li>
+      <li>contentBase is set to the directory you want to serve, the directory
+        that contains index.html
+      </li>
+      <li>
+        hot set to true will make the server inject the new css and js to the
+        browser upon change, not requiring a full reload of the page.
+        if set to true, then you shouldn't use the watch property in the config object, because a hot devServer will automatically watch for changes, rebundle, and inject
+      </li>
+      <li>
+        port set to e.g. 3000, set to 8080 by default.  the served page can be
+        accessed at <code>localhost:3000</code> or whatever number you set
+        the port to
+      </li>
+      <li>host can be set so that the page is served on your local network
+        and can be accessed e.g. on your iphone if connected to the same network.  First find your local IP address (settings > network on mac) which starts with 192.168.X.X.  Instead of <code>localhost:3000</code> you can visit the page at <code>192.168.X.X:3000</code>
+      </li>
+    </ul>    
 
     <h2>CSS Support</h2>
     <h3>Overview</h3>
@@ -159,7 +305,12 @@
     </p>
     <p>
       instead of 'css-loader' in the config file, use 'css-loader?url=false' to
-      prevent it from handling any immages referenced in the css
+      prevent it from handling any immages referenced in the css. I think this allows
+      you to handle images with lazy-sizes.
+    </p>
+    <p>style-loader should only be used with the dev process, as it will add the css
+      to bundled.js for simplicity.  For the build process, you should use MiniCSSExtractPlugin
+      to put the css in it's own file for distribution.
     </p>
 
     <h3>Supporting PostCSS</h3>
@@ -247,51 +398,6 @@
           font-size: 2.9rem
         }
         </code></pre>
-      </li>
-    </ul>
-
-    <h2>Webpack Dev Server</h2>
-    <p>
-      Install in root of project with
-      <code>npm install webpack-dev-server --save-dev</code>
-    </p>
-    <p>In package.json set your webpack script to run 'webpack serve' instead
-      of webpack (see details above in running webpack)
-    </p>
-    <p>In your entry js file, add the following logic that will allow the js
-      to accept hot updates from the dev server:
-    </p>
-    <pre><code>
-      if (module.hot) {
-        module.hot.accept();
-      }
-    </code></pre>
-    <p>
-      Add a property to the webpack config file (see example above) called
-      devServer, which is set to an object with the following properties.
-    </p>
-    <ul>
-      <li>before is set to an anonymous function that will make the devServer
-        reload the page everytime you make changes to index.html or other html
-        files in your project.  without this property, the devServer is only
-        watching for changes to the js file that it is bundling (which also
-        watches for css changes since the css is imported into the js file)
-      </li>
-      <li>contentBase is set to the directory you want to serve, the directory
-        that contains index.html
-      </li>
-      <li>
-        hot set to true will make the server inject the new css and js to the
-        browser upon change, not requiring a full reload of the page.
-        if set to true, then you shouldn't use the watch property in the config object, because a hot devServer will automatically watch for changes, rebundle, and inject
-      </li>
-      <li>
-        port set to e.g. 3000, set to 8080 by default.  the served page can be
-        accessed at <code>localhost:3000</code> or whatever number you set
-        the port to
-      </li>
-      <li>host can be set so that the page is served on your local network
-        and can be accessed e.g. on your iphone if connected to the same network.  First find your local IP address (settings > network on mac) which starts with 192.168.X.X.  Instead of <code>localhost:3000</code> you can visit the page at <code>192.168.X.X:3000</code>
       </li>
     </ul>
 
