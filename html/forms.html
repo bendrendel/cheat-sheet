@@ -14,12 +14,21 @@
             forms consist of a form element with children of input, select, textarea
             each input/select/textarea needs a name attribute
             each will also have a value attribute but how that gets assigned varies, value is case-sensitive
+
+            upon submission, an HTTP request is sent back to the server, to the route specified
+            in the form's action attribute, as either a POST or GET request per the method attribute.
             upon submission, all values are converted to strings and "name=value" gets sent for each 
-            input/select/textarea, 
+            input/select/textarea, if the method is GET, then the name value pairs get sent as
+            query strings added to the URL, but if the method is POST, then the name value
+            pairs get sent as data within the HTTP request.
 
             labels tie to input by setting for attribute equal to id of input
             when user clicks on the label it selects the corresponding input
             avoid label-less inputs fields to help with usability
+
+            can use inputs with the hidden attribute added, in order to send a value when the form is
+            submitted that the user cannot edit or see.  helpful to, e.g. send an id value perhaps
+            that is prepopulated to go along with the get or post request.
 
         -->
         <form action="/example.html" method="POST">
