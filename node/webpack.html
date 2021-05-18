@@ -86,7 +86,15 @@
         the js from packages you use (direct dependencies) into its own js file,
         separate from the js you are writing custom.  This allows the client to
         cache the package js since it changes less frequently, and the client 
-        won't have to download it again.
+        won't have to download it again.  By default, it won't split the code into
+        separate files if the package js is less than 20kb.  This is probably fine
+        to go by, but you can add a second property to the object with the min file 
+        size to use, in bytes.  Also including the minimize and minimizer
+        properties, which minifies the css file in the build process. This requires
+        installing the css minimizer plugin npm package, and requiring it in at top.
+        Minimize must be set to true, and minimizer takes an array, where the first item
+        indicates to use default settings, and the second specifies to use the 
+        CssMinimizerPlugin.
       </li>
       <li>
         plugins property can store an array of webpack plugins that you install.  For
@@ -105,6 +113,7 @@
         const path = require('path');
         const { CleanWebpackPlugin } = require('clean-webpack-plugin');
         const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+        const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 
         const postCSSPlugins = [
             require('postcss-import'),
@@ -155,7 +164,9 @@
             };
             config.mode = 'production';
             config.optimization = {
-                splitChunks: {chunks: 'all'}
+                splitChunks: {chunks: 'all', minSize: 1000},
+                minimize: true,
+                minimizer: [`...`, new CssMinimizerPlugin()]
             }
             config.plugins = [
               new CleanWebpackPlugin(),
@@ -311,6 +322,12 @@
     <p>style-loader should only be used with the dev process, as it will add the css
       to bundled.js for simplicity.  For the build process, you should use MiniCSSExtractPlugin
       to put the css in it's own file for distribution.
+    </p>
+    <p>Can also install the minimizer plugin with 
+      <code>npm install css-minimizer-webpack-plugin -D</code> which is only
+      used for the build process and minifies the css file in the dist folder, for quicker loading
+      on the client.  the plugin must be required in the webpack config file, and
+      added to the optimization property as shown in the example config above.
     </p>
 
     <h3>Supporting PostCSS</h3>
