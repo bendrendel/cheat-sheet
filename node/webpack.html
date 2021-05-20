@@ -81,6 +81,11 @@
         distribution.  This is accomplished by using the unshift method on the use
         array within dev and build.  MiniCSSExtractPlugin is required in at top and
         also added to the plugins array for the build process.
+
+        Finally, there is also the babel loader rule that is added to the modules
+        property for the build process only.  This use of babel will make the js
+        code added to your dist folder backwards-compatible with older web
+        browsers.
       </li>
       <li>
         optimization property, takes an object, can have splitChunks property
@@ -99,15 +104,29 @@
         CssMinimizerPlugin.
       </li>
       <li>
-        plugins property can store an array of webpack plugins that you install.  For
-        instance, the CleanWebpackPlugin, which is required in at the beginning of the
-        file, and then an instance is added to the plugins array. Also the MiniCSSExtractPlugin,
-        also required in at the beginning, and then added to the plugins array, but with
-        an argument that sets the filename of the css file it produces to include the
-        file's chunkhash.  These two plugins are used on build only and pushed to the plugin array in the build process.  There is also the HTMLWebpackPlugin, which is
-        added in the main config initialization to be used for both build and dev - it
-        takes two arguments, one being the file name to output, and the second being the
-        filename to use as the starting point.
+        plugins property can store an array of webpack plugins that you install.
+        <ul>
+            <li>For instance, the CleanWebpackPlugin, which is required in at the beginning of the
+            file, and then an instance is added to the plugins array.</li>
+            <li>Also the MiniCSSExtractPlugin, also required in at the beginning, and then added to the plugins array, but with an argument that sets the filename of the css file it produces to include the
+            file's chunkhash.  This and the CleanWebpack plugin are used on build only and pushed to the plugin array in the build process. </li>
+            <li>There is also the HTMLWebpackPlugin, which is
+            added in the main config initialization to be used for both build and dev - it
+            takes two arguments, one being the file name to output, and the second being the
+            filename to use as the starting point. Below there is a strikethrough example of how to use it
+            if your site has a single page, and the main example shows how to use it if your site
+            has multiple pages, in conjunction with the file system extra npm package, which is
+            required in at the beginning.</li>
+            <li>Finally the RunAfterCompile plugin is added to the build process only,
+              and this is a custom made plugin defined near the top of the config file itself.
+              This plugin is responsible for copying the assets folder into the dist folder,
+              so that the html will be able to access the images and other assets of the site.
+              It also relies on the fs-extra package which is required in at the beginning of the file.
+              You could include additional code in the RunAfterCompile class declaration if you
+              had other tasks you needed to do after the code is compiled.
+            </li>
+        </ul>
+           
       </li>
     </ul>
 
@@ -120,6 +139,7 @@
         const MiniCssExtractPlugin = require('mini-css-extract-plugin');
         const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
         const HtmlWebpackPlugin = require('html-webpack-plugin');
+        const fse = require('fs-extra');
 
         const postCSSPlugins = [
             require('postcss-import'),
@@ -129,14 +149,33 @@
             require('autoprefixer')
         ];
 
+        class RunAfterCompile {
+            apply(compiler) {
+                compiler.hooks.done.tap('Copy images', () => {
+                    fse.copySync('./app/assets/images', './dist/assets/images');
+                })
+            }
+        }
+
         let cssConfig = {
           test: /\.css$/i,
           use: ['css-loader?url=false', { loader: 'postcss-loader', options: { postcssOptions: { plugins: postCSSPlugins } } }]
         };
+
+        let pages = fse.readdirSync('./app').filter(file => {
+            return file.endsWith('.html');
+        }).map(page => {
+            return new HtmlWebpackPlugin({filename: page, template: `./app/${page}`})
+        });
             
         let config = {
             entry: './app/assets/scripts/App.js',
-            plugins: [new HtmlWebpackPlugin({filename: 'index.html', template: './app/index.html'})],
+            plugins: pages,
+            <s>plugins: [new HtmlWebpackPlugin({filename: 'index.html', template: './app/index.html'})],</s>
+            <em>if your site only has a single page (i.e. index.html), then you can use this version of
+              the plugins property and get rid of the one above and the variable pages, which is designed to
+              iterate through each page and apply the HthmlWebpack Plugin.
+            </em>
             module: {
                 rules: [
                     cssConfig
@@ -163,6 +202,16 @@
         }
 
         if (currentTask == 'build') {
+            config.module.rules.push({
+                test: /\.js$/,
+                exclude: /(node_modules)/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                }
+            });
             cssConfig.use.unshift(MiniCssExtractPlugin.loader);
             config.output = {
                 filename: '[name].[chunkhash].js',
@@ -177,7 +226,8 @@
             }
             config.plugins.push(
                 new CleanWebpackPlugin(),
-                new MiniCssExtractPlugin({ filename: 'styles.[chunkhash].css' })
+                new MiniCssExtractPlugin({ filename: 'styles.[chunkhash].css' }),
+                new RunAfterCompile()
             );
         }
 
@@ -197,7 +247,10 @@
       property of the config file. run it whenever to rebundle any changes to
       the entry file
     </p>
-    <p>The output file can be linked to the index.html through a script tag</p>
+    <p>The output file can be linked to the index.html through a script tag, but
+      this should be omitted if using the HtmlWebpackPlugin, which handles linking for
+      you both on the devServer and for the build process.
+    </p>
     <p>If you are using the webpack dev server package, then instead of
       the webpack command, use webpack server, i.e. <code>"dev": "webpack serve"</code>
     </p>
@@ -439,6 +492,32 @@
       </li>
     </ul>
 
+    <h2>Multipage Website</h2>
+    <p>Webpack can work well for sites with about 10 pages or less, any bigger you
+      should consider a static site generator
+    </p>
+    <p>Additional pages should be stored in your app folder in the same place as
+      index.html
+    </p>
+    <p>Install <code>npm install fs-extra -D</code>, and require it in at the top
+    of the webpack config file.  Then you can use it to help you iterate through
+    all of the pages in your site to use the HtmlWebpackPlugin on (see example
+    config file above), which handles all the linking to scripts
+    </p>
+
+    <h2>Supporting older browsers</h2>
+    <p>Using babel, you can write the latest modern javascript in your app folder,
+      and it will be compiled to backward compatible javascript in the dist folder so it
+      can run on browsers that don't support the latest js.
+    </p>
+    <p>Install <code>npm install @babel/core @babel/preset-env babel-loader -D</code> in
+    the root directory of the project</p>
+    <p>now all you need to do is make sure to add a rule to use babel-loader to the
+      module property of the webpack config file, as shown above in the example
+      config file.
+    </p>
+
+
     <h2>Webpack project file structure</h2>
     <p>Using modular CSS BEM architecture</p>
     <ul>
@@ -488,6 +567,8 @@
             or leave off script tag if using html-webpack-plugin to handle linking
           </em>
         </li>
+        <li>about.html</li>
+        <li>contact.html</li>
       </ul>
 
       <li>dist</li><em>contains files for distribution</em>
