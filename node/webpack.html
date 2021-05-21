@@ -661,5 +661,29 @@
         }
       </pre>
     </code>
+
+    <h2>Deploying to Github Pages</h2>
+    <ul>
+      <li>Github Pages requires the public folder to be named docs instead of dist.  Most other
+        hosting services allow you to call it what you want and dist is a common name.  But for Github
+        you need to change it by changing the webpack config file in two places: the run after compile
+        class and the output property of the build process.  Then delete your dist folder if it exists
+        and re run the build process to create the docs folder.
+      </li>
+
+      <li>Assuming you are using github for your repo hosting, push all your changes to the master branch.
+        Now, go to your repo on github.com, and go to settings > Github Pages.  Under Source, choose
+        your master branch, and then choose the Docs folder and click save.  This should produce a url for the
+        site and it is live on the web!  The url will be https://bendrendel.github.io/repo-name/
+      </li>
+
+      <li>The url might 10-20 minutes to go live.  To speed this up, try making a new commit to your project
+        and push it back up to github, which should force a re-deploy and make it available.
+      </li>
+
+      <li>Github also allows you to add a domain name if you purchase one from a domain name registrar</li>
+    </ul>
+
+    <h2>Deploying on Netlify</h2>
   </body>
 </html>
