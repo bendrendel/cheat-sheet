@@ -38,8 +38,8 @@
             </li>
             <li>
                 <p>Netlify: Like github pages, good for simple hosting of static web pages. But has
-                    a number of features that github pages doesn't have, like automated builds, form
-                    handling. </p>
+                    a number of features that github pages doesn't have, like automated builds and server-side
+                    functions, and form controls.</p>
                 <ul>
                     <li>Can create a new site from a github repo host, such as 
                         github.  Can give netlify access to all your repos on github, or specific
@@ -48,6 +48,69 @@
                     <li>Select the owner and branch to deploy (typically master). Also can 
                         give a build command like npm run build, and select the directory that
                         is made by the build command that is to be published to the web.
+                    </li>
+                </ul>
+                <h3>Amazon Web Services (AWS) Cloud Functions with Netlify</h3>
+                <ul>
+                    <li>In the root directory of your project, add a folder called e.g 'cloud-functions',
+                        in this directory you can add .js files that each have a cloud function that will
+                        be run on AWS hardware in the cloud.  There is an example of this type of file below.
+                        The name of the file would be descriptive like secret-area.js.  It defines a single method
+                        called exports.handler.  This function is run when the url for the function is visited.
+                        It is given an event with the http request information, for example if you send a post request
+                        to the function's url, the body of the post request can be accessed with event.body.
+                        The example below parses out the JSON of event.body, and then checks the password property
+                        of the resulting object.  It then runs the callback function, which sends the http
+                        response to the client, which takes null as the first argument (error first?), and then
+                        takes an object with info for the response, including the status code to send, and the body.
+                        In this case, the status is either 200 for OK or 401 for unauthorized, and the body is some
+                        html sent only for 200.  By default at least, the body of the response gets displayed in the
+                        browser.
+                    </li>
+                    <li>
+                        On the netlify site, go to your site's settings > Functions > Edit settings.  Enter
+                        in the name of your cloud functions directory just by itself with no slashes, e.g.
+                        'cloud-functions'.  Then, within your settings > Functions you should see each of the
+                        .js files in your cloud functions directory. If you click on them it will show you the unique
+                        url each one gets.  This is the url that you can send http requests to, e.g. post requests.
+                    </li>
+                    <li>
+                        There's a good chance you will want to make your github repository private if you are
+                        using cloud functions, because there may be functions you don't want the public to be able 
+                        to see, e.g. checking a password you don't want the public to be able to see the password
+                        in your js file.  Github repos can be set to private through settings > manage access, even
+                        for free github accounts.
+                    </li>
+                    <li>
+                        <h4>Example cloud function js file:</h4>
+                        <code><pre>
+                        exports.handler = function (event, context, callback) {
+                            const secretBody = `
+                                &lth3>Welcome to the Secret Area&lt/&h3>
+                                &ltp>Here we can tell you that the sky is &ltstrong>blue&lt/strong>,
+                                and two plus two equals four.&lt/p>
+                            `;
+
+                            let body;
+
+                            if (event.body) {
+                                body = JSON.parse(event.body);
+                            } else {
+                                body = {};
+                            }
+
+                            if (body.password === 'javascript') {
+                                callback(null, {
+                                    statusCode: 200,
+                                    body: secretBody
+                                });
+                            } else {
+                                callback(null, {
+                                    statusCode: 401,
+                                });
+                            }
+                        }
+                        </pre></code>
                     </li>
                 </ul>
             </li>
@@ -67,7 +130,7 @@
         <p><strong>Event-driven architecture: </strong>Traditional imperative programming executes a series of instructions in order, but for web applications, we need logic to handle things that could occur at different times (e.g. clickin a button), js and node.js use event-driven architecture</p>
         <p><strong>Simple Web Project Directory Structure: </strong>use lowercase folder and filenames with words separated by hyphens
             because casing and spaces will be interpreted differently in different situations, and google recognizes hyphens as a word separator</p>
-        <pre class="code-pre ">
+        <pre class="code-pre ">d
             <code>
             project/
             ├── scripts/
