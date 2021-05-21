@@ -685,5 +685,22 @@
     </ul>
 
     <h2>Deploying on Netlify</h2>
+    <ul>
+      <li>Create a new site on netlify and connect it to your github repo for a webpack project.
+        Ensure that on netlify you specify the build commmand of 'npm run build' and that you specify
+        the public directory built by npm run build, i.e. type in <code>dist</code> or <code>docs</code>
+      </li>
+      <li>You can actually delete the dist or docs folder from your repo.  Every time you push
+        changes to the master branch (or whatever publish branch you choose) in your github repo, netlify will detect the change and run the build command.  Netlify looks at your package.json
+        file and downloads all the npm dependencies and devDependencies, and runs the build command
+        on their hardware, creating the build directory.  It hosts the built directory or public directory.  You can see all the deploys Netlify makes each time you push to github.
+      </li>
+      <li>
+        You may want to still have the docs or dist folder in your project, because you may be testing
+        your build command for example.  In this case, you can add <code>docs/</code> or 
+        <code>dist/</code> on its own line in your .gitignore file so that the directory doesn't
+        get copied to github.
+      </li>
+    </ul>
   </body>
 </html>
