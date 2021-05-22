@@ -58,13 +58,21 @@
                         The name of the file would be descriptive like secret-area.js.  It defines a single method
                         called exports.handler.  This function is run when the url for the function is visited.
                         It is given an event with the http request information, for example if you send a post request
-                        to the function's url, the body of the post request can be accessed with event.body.
+                        to the function's url, the body of the post request can be accessed with event.body, and 
+                        event.httpMethod would be equal to 'POST'.
+                    </li>
+                    <li>
                         The example below parses out the JSON of event.body, and then checks the password property
                         of the resulting object.  It then runs the callback function, which sends the http
                         response to the client, which takes null as the first argument (error first?), and then
                         takes an object with info for the response, including the status code to send, and the body.
                         In this case, the status is either 200 for OK or 401 for unauthorized, and the body is some
-                        html sent only for 200.
+                        html sent only for 200.  The example also includes setting the headers and checking if
+                        the http request method is POST.  Setting the headers to allow for any origin can be done as
+                        shown to allow for testing on a development server.  Without this, the request would
+                        not allow a request to be received from a local development server, so you couldn't test 
+                        sending requests to it from a development server.  You'd have to push it to netlify to the real site for it to work.  A more lasting solution to this problem is to use Netlify Dev
+                        available as a service through Netlify that will give you a dev server that doesn't need this workaround.
                     </li>
                     <li>
                         On the netlify site, go to your site's settings > Functions > Edit settings.  Enter
@@ -99,6 +107,19 @@
                         <h4>Example cloud function js file:</h4>
                         <code><pre>
                         exports.handler = function (event, context, callback) {
+                            const headers = {
+                                'Access-Control-Allow-Origin': '*',
+                                'Access-Control-Allow-Headers': 'Content-Type',
+                            };
+
+                            if (event.httpMethod !== 'POST') {
+                                return callback(null, {
+                                    statusCode: 200,
+                                    headers,
+                                    body: 'This was not a POST request',
+                                });
+                            }
+
                             const secretBody = `
                                 &lth3>Welcome to the Secret Area&lt/&h3>
                                 &ltp>Here we can tell you that the sky is &ltstrong>blue&lt/strong>,
