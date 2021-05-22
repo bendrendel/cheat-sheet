@@ -82,6 +82,9 @@
                     <ul>
                         <li><p><code>npm install </code>you can run this without a package name in the root directory of a project and it will install all the packages listed in the package.json dependencies and devDependencies, this allows other developers to get a copy of just your code and quickly install all dependencies on their own</p></li>
                     </ul>
+                <li><code>import Package from 'package'</code> can use the ES6 import syntax in context like webpack,
+                to import a third party node package, or a core module, e.g. import Axios from 'axios', after
+                installing it in the root directory of the project if a third-party node package</li>
                 <li><strong>package.json </strong>a file in the root directory of a project used in managing node packages, conatins a json object with info about the project including:</li>
                 <ul>
                     <li>metadata: individual properties of the json object including project title, description, version, authors, etc.- you should at minimum specify a title and description, note the private property should be included and set to true to avoid accidental pulication of your project to npm as a package</li>
@@ -121,6 +124,12 @@
                 </ul>
                 <li><strong>/node_modules </strong>a directory in the root directory of a project that contains all of the node packages required in the project (dependencies) and all packages they're dependent on (sub-dependencies), (could also have packages you don't require anywhere for whatever reason). this folder should be included in .gitignore (should be by default) because these files don't need to be backed up.  they can always be reinstalled by using npm install which will install everything in package.json dependencies and devDependencies</li>
             </ul>
+        <p><strong>Popular Packages: </strong></p>
+        <ul>
+            <li><strong>axios: </strong>npm install axios, is a package that should be saved as a production
+            dependency.  Alternative to using the fetch api, can use nice methods like 
+            <code>axios.post(url, data).try().catch()</code> </li>
+        </ul>
 
         <h2>Asynchronous Actions</h2>
         <p><strong>Asynchronous Node APIs: </strong>node provides a number of APIs for performing asynchronous tasks that all use callback functions, such as setTimeout(callback, delayInMS), these APIs trigger subscribing to a completion event with the given callback function, and then emit the completion event perhaps with data upon completion thus adding the callback function to the task queue</p>
