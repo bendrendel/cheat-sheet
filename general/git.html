@@ -203,7 +203,33 @@
             <p><strong>git fetch origin: </strong>brings changes in from a remote, and puts them in your remote branches like origin/master, origin/feature, etc.
                 the remote branches can then be merged to your local branch by checking out the local branch and then using git merge origin/master or git merge origin/feature,
                 or whatever the name of the branch is you are merging</p>
-            <p><strong>git pull origin: </strong>same as fetch but also will merge the corresponding remote branch into whatever local branch you have checked out</p>
+            <p><strong>git pull origin: </strong>same as fetch but also will merge the corresponding remote branch into whatever local branch you have checked out.  For example, you may be on the master branch, and
+            perhaps someone on your team has pushed commits to the master branch, so that your local master 
+            branch is outdated.  And in the meantime, you have made commits yourself on your local copy of master.
+            If you try to push to github, you will get an error message saying the remote contains changes 
+            that you do not have locally.  This means you need to pull in those changes from the remote.<br>
+
+            Well, you can run <code>git pull origin master</code> This will attempt a merge, and you will
+            see the merge screen if there are no conflicts.  On the merge screen, press ESC, and then :wq and ENTER to
+            exit the merge screen. If there are no conflicts, then the merge will happen without incident and successfully merge the commits from you and your teammate into your local master branch.  Then you can
+            push your master branch to github with the successfully merged commits. <br>
+            
+            However, if you pull from the remote and there are conflicting changes in your commit and your teammates
+            commits, then git cannot automatically merge the commits and you'll  get a warning message,
+            and git will automatically add the merge labelling to any of the files in your working directory
+            that are in conflict with the files in the remote.  This is when you should edit the working directory
+            file to delete the merge conflict labelling and just keep the version you want.  Now you can add 
+            your edited files to the staging area, commit them with a message like "resolve merge conflict",
+            and now you can push them to the remote. <br>
+
+            To avoid merge conflicts as much as possibe, run git pulls frequently to always get the latest changes
+            from the remote for whatever branch you're working on. <br>
+
+            If you are working on a feature branch off of master, then likewise, you should pull the master branch
+            every couple or days at least, and while the feature branch is checked out you should merge master into
+            your feature branch.  That way you keep your feature branch up to date so that when you finally do merge
+            it back into master, you won't have a ton of conflicts to deal with.
+            </p>
             <p><strong>git push origin your_branch_name: </strong>copies the local your_branch_name branch to the corresponding remote origin branch,
                 can leave off your_branch_name to simply copy the branch you have checked out.  However, you must include your_branch_name if you are pushing it up to origin and you haven't set up remote tracking for the branch.  Often used to copy a local feature branch to the remote repository named origin, so someone can review your branch and merge it to origin/master</p>
             <p><strong>Forking: </strong>To contribute to an open project on Github, you should use the fork feature in that project's repository
