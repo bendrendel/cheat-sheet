@@ -128,7 +128,13 @@
         <ul>
             <li><strong>axios: </strong>npm install axios, is a package that should be saved as a production
             dependency.  Alternative to using the fetch api, can use nice methods like 
-            <code>axios.post(url, data).try().catch()</code> </li>
+            <code><pre>axios.post(url, {postData1: mydata, postData2: otherData}).then((response) => {
+                console.log(response.data)}).catch((err) => {
+                    console.log(err.response.status)
+                })</pre></code>
+            Where you are send a post request to a given url with a given object to be the body's data.  And catch
+            will catch any error status codes like 400's, etc.
+            </li>
         </ul>
 
         <h2>Asynchronous Actions</h2>

@@ -64,8 +64,7 @@
                         response to the client, which takes null as the first argument (error first?), and then
                         takes an object with info for the response, including the status code to send, and the body.
                         In this case, the status is either 200 for OK or 401 for unauthorized, and the body is some
-                        html sent only for 200.  By default at least, the body of the response gets displayed in the
-                        browser.
+                        html sent only for 200.
                     </li>
                     <li>
                         On the netlify site, go to your site's settings > Functions > Edit settings.  Enter
@@ -73,6 +72,21 @@
                         'cloud-functions'.  Then, within your settings > Functions you should see each of the
                         .js files in your cloud functions directory. If you click on them it will show you the unique
                         url each one gets.  This is the url that you can send http requests to, e.g. post requests.
+                    </li>
+                    <li>
+                        Now on the front end of your website, you can send post requests to the URL that netlify
+                        gives you for the cloud function.  For example, you could have a function like below
+                        that sends a post request using Axios to the url that Netlify gives you for the example
+                        cloud function below.
+                        <code><pre>
+                        sendRequest() {
+                            Axios.post('https://dreamy-thompson-4da149.netlify.app/.netlify/functions/secret-area', {password: this.field.value}).then(response => {
+                                console.log(response.data);
+                            }).catch(() => {
+                                console.log('error caught');
+                            });
+                        }
+                        </pre></code>
                     </li>
                     <li>
                         There's a good chance you will want to make your github repository private if you are
