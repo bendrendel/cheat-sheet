@@ -705,5 +705,80 @@
         form submission controls, and other Netlify features.
       </li>
     </ul>
+
+    <h2>Integrating React</h2>
+    <p>You can start integrating react into a webpack project, even if you didn't have the luxury
+      of starting the project from scratch with react using create-react-app
+    </p>
+    <ul>
+      <li>First install react & react-dom in the root directory of the project with 
+        <code>npm install react react-dom</code> and also install a babel package with
+        <code>npm install @babel/preset-react -D</code>
+      </li>
+      <li>
+        Now you can make a react component in your script modules folder, e.g. a file named
+        MyAmazingComponent.js with the following code:
+        <code><pre>
+        import React from 'react';
+
+        function MyAmazingComponent() {
+            return (
+            &ltdiv>
+                &lth1 className="section-title section-title--blue">This is my amazing react component!&lt/h1>
+                &ltp>React is great, the sky is blue
+                and the grass is green.
+                &lt/p>
+            &lt/div>
+            );
+        }
+
+        export default MyAmazingComponent;
+        </pre></code>
+      </li>
+      <li>Now, in App.js you'll want to include <code>import React from 'react'</code> and 
+        <code>import ReactDOM from 'react-dom'</code>, and you will also import your component 
+        <code>import MyAmazingComponent from './modules/MyAmazingComponent.js'</code>, and then you 
+        can render your component with ReactDOM render: 
+        <code>ReactDOM.render(&ltMyAmazingComponent />, document.querySelector('#my-react-example'));</code>
+        Or you can as usual have multiple components, and have components render other components, e.g. 
+        you could include <code>&ltAnotherComponent /></code> in the returned jsx of the MyAmazingComponent
+        function above, and import the AnotherComponent into the MyAmazingComponent module.
+      </li>
+      <li>
+        Now, you'll need to alter your webpack config file so that js files
+        use the babel react preset you installed.  The example config file
+        above only uses bable for the build process and uses the preset that
+        makes your code backward-compatible with older browsers, which isn't necessary
+        for your dev server since you the developer will likely be using an up to date
+        browser.  However, we need the react preset for both the dev server and the build
+        process.  So, the best way to do this is delete the config.module.rules.push() command
+        from the build process entirely, and instead add all that to the initialization
+        of config plus add the react preset to it, so that this will all apply to both the
+        dev server and the build process.  The config initialization should now be:
+        <code>
+          <pre>
+          let config = {
+              entry: './app/assets/scripts/App.js',
+              plugins: pages,
+              module: {
+                  rules: [
+                      cssConfig,
+                      {
+                          test: /\.js$/,
+                          exclude: /(node_modules)/,
+                          use: {
+                              loader: 'babel-loader',
+                              options: {
+                                  presets: ['@babel/preset-react', '@babel/preset-env']
+                              }
+                          }
+                      }
+                  ]
+              }
+          };
+          </pre>
+        </code>
+      </li>
+    </ul>
   </body>
 </html>
