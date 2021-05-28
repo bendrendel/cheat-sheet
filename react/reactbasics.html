@@ -12,7 +12,7 @@
         <p><code>React library: </code>Javascript library containing methods for pure React purposes, mainly allowing you to write JSX with the React.createElement() method, and allowing you to make components with React.Component class</p>
         
         <h3>JSX</h3>
-        <p><strong>JSX: </strong>JSX is a syntax extension for Javascript designed for use with the react library, that represents HTML elements in javascript code that can be rendered in the browser. Browsers cannot read this syntax, so any js file using it must be translated to regular Javascript using a JSX Compiler before being sent to a browser</p>
+        <p><strong>JSX: </strong>JSX is a syntax extension for Javascript designed for use with the react library, that represents HTML elements in javascript code that can be rendered in the browser. Browsers cannot read this syntax, so any js file using it must be translated to regular Javascript using a JSX Compiler before being sent to a browser.  JSX creates a react element, as does the equivalent React.createElement() method</p>
         <p><strong>JSX Expression: </strong>JSX is treated as an expression by Javascript and can go anywhere a normal expression could go (saved to variable, passed to function, etc.) Composed of a single JSX element that may contain nested JSX elements, but there is only one root element. must enclose in parentheses if more than one line.</p>
         <ul>
             <li>
@@ -31,10 +31,40 @@
             </ul>
             <li>HTML-like</li>
             <ul>
-                <li><p><strong>Attributes: </strong>JSX Elements can have attributes just like HTML elements, though with single quotes around the value instead of double quotes, or the value can be injected js. Some attribute names and/or values are a little different in JSX, particularly class in HTML is className in jsx due to class being a reserved word, className in JSX gets rendered as class. also event listener attributes are written in camelCase in JSX instead of all lowercase as in html (e.g. onMouseOver vs onmouseover) and their value should be a function (not an invoked function as in html). also the style attribute can be set equal to an injected object whose properties are css properties (some name differences in JSX) with whatever value you want to give them</p></li>
+                <li><p><strong>Attributes: </strong>JSX Elements can have attributes just like HTML elements, the values of which can be enclosed in single or double quotes depending on style preference, or the value can be injected js. Some attribute names and/or values are a little different in JSX, particularly class in HTML is className in jsx due to class being a reserved word, className in JSX gets rendered as class. also event listener attributes are written in camelCase in JSX instead of all lowercase as in html (e.g. onMouseOver vs onmouseover) and their value should be a function (not an invoked function as in html). commonly, the event listener functions are written as arrow functions, so that this binds to the component object instead of the event target.  also the style attribute can be set equal to an injected object whose properties are css properties (some name differences in JSX) with whatever value you want to give them</p></li>
                 <li><p><strong>key attribute for list elements: </strong>list elements sometimes need the key attribute included for list items, each list item given a unique key value, never hurts to use them if unsure, but they are needed if the list-items order might be shuffled between renders (e.g search results) or if the list items have memory between renders, e.g. it must be remembered if an item is checked off or not on a to do list, </p></li>
             </ul>
-            <li><code>React.createElement()</code> JSX elements are compiled to an invocation of the createElement() method of the React library, and you can use this method yourself to create elements</li></li>
+            <li><code>React.createElement()</code> JSX elements are compiled by babel to an invocation of the createElement() method of the React library, and you can use this method yourself to create elements.</li>
+                <ul>
+                    <li>The function takes a first argument of the type of element, a second element with an
+                        object containing the element's attributes (null if none), and any number of additional
+                        arguments that are appended together one after the other as the inner HTML of the element
+                    </li>
+                    <li>For instance the two snippets below are equivalent
+                        <code><pre>
+                        return (
+                            &ltdiv className="shopping-list">
+                                &lth1>Shopping List for {this.props.name}%lt/h1>
+                                &ltul>
+                                    &ltli>Instagram&lt/li>
+                                    &ltli>WhatsApp&lt/li>
+                                    &ltli>Oculus&lt/li>
+                                &lt/ul>
+                            &lt/div>
+                        );
+                        </pre></code>
+                        <code><pre>
+                        return React.createElement('div', {className: 'shopping-list'}, 
+                            React.createElement('h1', null, 'Shopping List for', this.props.name),
+                            React.createElement('ul', null, 
+                                React.createElement('li', null, 'Instagram'),
+                                React.createElement('li', null, 'WhatsApp'),
+                                React.createElement('li', null, 'Oculus')
+                            )
+                        );
+                        </pre></code>
+                    </li>
+                </ul>
         </ul>
 
         <h3>Components</h3>
@@ -43,7 +73,8 @@
         <ul>
             <li><strong>render method: </strong>for every component class, you must define a render() method that can contains logic, can access other methods and properties of the component class such as the props property using this.props.propertyname, can access variables outside the component class</li>
             <ul>
-                <li><p>Render method must include a return statement, usually returns a jsx expression which can include component instances and/or HTML-like JSX.  As in the ReactDOM.render method, component instances run their render method, and can have attributes to set props</p></li>
+                <li><p>Render method must include a return statement that returns a react element, typically in the 
+                form of a jsx expression which can include component instances and/or HTML-like JSX.  As in the ReactDOM.render method, component instances run their render method, and can have attributes to set props</p></li>
             </ul>
             <li><p><strong>props property: </strong> this is a property of the React.Component class whose constructor takes a single argument (an object) that props gets set equal to.  The prop object's properties can then be accessed in the body of a Component Class (e.g. this.props.myProp), but a component should never change the value of its props, it should be given those values upon instantiation.  It's value is typically set using attributes in a Component Instance, used to pass information to component, values can be any data type including functions like event handlers, which should be named the same as the event listener attribute like onClick or onKeyPress. </p></li>
             <ul>
