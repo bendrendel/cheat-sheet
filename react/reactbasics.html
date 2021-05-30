@@ -31,8 +31,12 @@
             </ul>
             <li>HTML-like</li>
             <ul>
-                <li><p><strong>Attributes: </strong>JSX Elements can have attributes just like HTML elements, the values of which can be enclosed in single or double quotes depending on style preference, or the value can be injected js. Some attribute names and/or values are a little different in JSX, particularly class in HTML is className in jsx due to class being a reserved word, className in JSX gets rendered as class. also event listener attributes are written in camelCase in JSX instead of all lowercase as in html (e.g. onMouseOver vs onmouseover) and their value should be a function (not an invoked function as in html). commonly, the event listener functions are written as arrow functions, so that this binds to the component object instead of the event target.  also the style attribute can be set equal to an injected object whose properties are css properties (some name differences in JSX) with whatever value you want to give them</p></li>
-                <li><p><strong>key attribute for list elements: </strong>list elements sometimes need the key attribute included for list items, each list item given a unique key value, never hurts to use them if unsure, but they are needed if the list-items order might be shuffled between renders (e.g search results) or if the list items have memory between renders, e.g. it must be remembered if an item is checked off or not on a to do list, </p></li>
+                <li><p><strong>Attributes: </strong>JSX Elements can have attributes just like HTML elements, the values of which can be enclosed in single or double quotes depending on style preference, or the value can be injected js. Some attribute names and/or values are a little different in JSX, particularly class in HTML is className in jsx due to class being a reserved word, className in JSX gets rendered as class. also event listener attributes are written in camelCase in JSX instead of all lowercase as in html (e.g. onMouseOver vs onmouseover) and their value should be a function (not an invoked function as in html). commonly, the event listener functions are written as arrow functions, so that this binds to the component object instead of the event target.  It's also common for the event listener function to be defined as a method of the component class outside the render method.  It's also common for a non-invoked function to be passed in as a prop to a component and then injected into the jsx as the event handler.  also the style attribute can be set equal to an injected object whose properties are css properties (some name differences in JSX) with whatever value you want to give them</p></li>
+                <li><p><strong>key attribute for list elements: </strong>list elements sometimes need the key attribute included for list items, each list item given a unique key value, never hurts to use them if unsure, but they are needed if the list-items order might be shuffled between renders (e.g search results) or if the list items have memory between renders, e.g. it must be remembered if an item is checked off or not on a to do list.  For any dynamic list where elements may be added, removed,
+                reordered, you should use a key.  The key needs to be unique in the list, for example could
+                just equal the value of the list item, or maybe an id if the list items come from a database.
+                by default if not assigned, a key will equal the index number of the list item, which can
+                cause problem like when things are reorder, react can't follow the items around correctly</p></li>
             </ul>
             <li><code>React.createElement()</code> JSX elements are compiled by babel to an invocation of the createElement() method of the React library, and you can use this method yourself to create elements.</li>
                 <ul>
@@ -69,6 +73,11 @@
 
         <h3>Components</h3>
         <p><strong>Component: </strong>React applications are made out of objects called components, which are small reusable chunks of code responsible for one job, often to render HTML, all are instances of a component class, React applications can contain dozens or even hundreds of components</p>
+            <ul>
+                <li>Components should each ideally do one thing, and are generally nested with subcomponents.
+                    The breakout of components oftens mirrors the data model of what you're representing.
+                </li>
+            </ul>
         <p><strong>Component Class: </strong>made by subclassing the React.Component class,  component class names must be capitalized for use in JSX (should be anyway like any class)</p>
         <ul>
             <li><strong>render method: </strong>for every component class, you must define a render() method that can contains logic, can access other methods and properties of the component class such as the props property using this.props.propertyname, can access variables outside the component class</li>
@@ -78,11 +87,16 @@
             </ul>
             <li><p><strong>props property: </strong> this is a property of the React.Component class whose constructor takes a single argument (an object) that props gets set equal to.  The prop object's properties can then be accessed in the body of a Component Class (e.g. this.props.myProp), but a component should never change the value of its props, it should be given those values upon instantiation.  It's value is typically set using attributes in a Component Instance, used to pass information to component, values can be any data type including functions like event handlers, which should be named the same as the event listener attribute like onClick or onKeyPress. </p></li>
             <ul>
-                <li><p><code>props.children </code> props always has a property called children which returns the innerHTML of the component instance.  If the component instance is self-closing, then it will be undefined.  If the innerHTML contains multiple child elements then they will be placed in an array in props.children, if only one or no children then just the single child or value is returned and not placed in an array.</p></li>
+                <li><p><code>props.children </code> props always has a property called children which returns the innerHTML of the component instance.  If the component instance is self-closing, then it will be undefined.  If the innerHTML contains multiple child elements then they will be placed in an array in props.children, if only one or no children then just the single child or value is returned and not placed in an array.  This could be handy if e.g. you have a component that displays a passed in list,
+                well instead of passing it in as a prop, you could render the component as having an opening
+                and closing tag instead of self-closing, and put the li elements inside there, just as you would 
+                inside an unordered list element.  Then, in the definition of the component, you could have it 
+                in the render method that it returns this.props.children to have it return all the li elements that 
+                were inside it. </p></li>
             </ul>
             
             <li><p><strong>constructor method: </strong>you have to include a constructor method to add a property inside the component class body (by including this.propertyname = 'value' in the constructor, you can also add properties after the component class has been declared e.g. MyComponent.propName = 'value'), if you do have a constructor method, it must accept a props argument and call super(props) to ensure the constructor of the React.Component class is invoked with any provided props (this happens automatically via the default js constructor when a component class has no constructor) </p></li>
-            <li><p><code>defaultprops</code> this is a property that can be defined for a component class that has an object value and the properties are the names of the component class's props and the values are default values to use if a Component Instance does not set the prop</p></li>
+            <li><p><code>defaultprops</code> this is a property that can be defined for a component class that has an object value and the properties are the names of the component class's props and the values are default values to use if a Component Instance does not set the prop.  Possibly common to define this outside the class component, i.e. you define the class component named MyComponent, and then outside of that class definition, you define MyComponent.defaultprops = {myprop: 'default-value'}</p></li>
             <li><p><strong>state property: </strong> a property you can create, an object, usually created in the constructor of a component class and given an initial value, the state property can then be accessed in the body of the component class (e.g. inside body use this.state.someThing), and unlike with props, the state can be changed inside the component class body</p></li>
             <li><p><strong>setState method: </strong>this is a method in the React.Component class, it takes two arguments, the first an object to update the components state with, and secondly a callback that is almost never needed.  after updating the state, it also calls the component's render method, thus it causes immediate changes on screen and cannot be called inside the render method to avoid an infinite loop. The first argument updates the component's current state by updating any of the currents state's properties to the values in the provided object if has that state property.  the provided argument doesn't have to include all of the state's properties.  the most common use of setState is calling it inside a method (especially an event handler) of the component class. </p></li>
             <li><p><strong>event handler methods: </strong>commonly methods are used to define event handlers that are injected into the rendered html and by convention these should be named something like handleClick or handleKeyPress, depending on the name of the event they handle. If you use 'this' inside an event handler method, then you must include a constructor method in the component class that includes a line to bind the method to 'this'.  (e.g. this.myEventHandler = this.myEventHandler.bind(this)) this is because when the method is injected into jsx as an event handler, it will lose its this, so it needs to have the object name already in place of this</p></li>
@@ -90,10 +104,28 @@
         </ul>        
         <p><strong>Modularity: </strong>Common to place each component in its own file, and then used ES6 named import/export or ES6 import/export default to import component modules into other component modules e.g. to render one component with another</p>
         <p><strong>Dynamic Information: </strong>information that can change, components get dynamic information through props (info from outside) and state (info decided by component itself), every other value used in a component should always stay exactly the same</p>
+        <p><strong>Process of creating a React App: </strong>
+            <ul>
+                <li>Lay out your components according to your data model.</li>
+                <li>Build a static version of the site first, building the component classes, and using props to pass data from parent to child components.  You won't use state at all in the static version because state is for interactivity, i.e. data that changes over time.  All your components will only have render methods and the top level component will be passed your data model as a prop (e.g. some JSON from an API).</li>
+                <li>Now determine the minimum number of state variables needed.  Think of all the pieces of data on your site, e.g. an original list of products, a filtered list of products, text in a search field, a filtering checkbox.  If the data is passed in from a parent via props, never changes, or can be computed based on any other state or props, then it's probably not a state variable.  So, an original list of JSON products is passed in to the app via props and isn't state, and the filtered product list can be computed if you know the search field text and filtering checkbox value, and the search field and checkbox are the only two state variables.</li>
+                <li>Now determine which component should house each state variable.  It should be housed in a component that is a common parent of all children using the state.  It will pass the state down
+                to all of the children that need it as props.
+                </li>
+                <li>Now you can pass down functions to children as props that update the state of the parent.
+                e.g. the value of a search bar component is a state variable in a parent component that is passed
+                down as props to the search bar component.  The search bar is also passed a function from the parent
+                component as props that will update the parent state variable whenever there is an on input event
+                in the search bar.
+                </li>
+            </ul>    
+        </p>
         <br>
     
         <h2>ReactDOM Library</h2>
-        <p><code>ReactDOM library: </code>JavaScript library containing several React-specific methods for interacting with and rendering to the DOM such as ReactDOM.render()</p>
+        <p><code>ReactDOM library: </code>JavaScript library containing several React-specific methods for interacting with and rendering to the DOM such as ReactDOM.render().  You don't need to include this in component modules
+        that don't render anything, and are just imported into other modules that do the actual rendering with
+        ReactDom.</p>
 
         <h3>Rendering</h3>
         <p><strong>Virtual DOM: </strong>In React, every DOM object gets a corresponding virtual DOM object.  When a JSX element is rendered, all virtual DOM objects are updated, then compared to a snapshot before updating (diffing), then only changed objects get updated in the real DOM. this is much faster than many frameworks that update the DOM inefficiently by updating more object than needed (e.g. updating a whole list instead of just the item that changed)</p>

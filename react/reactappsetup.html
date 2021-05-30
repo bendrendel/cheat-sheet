@@ -8,17 +8,20 @@
         <h2>Starting a React App</h2>
         <p><strong>Create React App CLI: </strong>create-react-app is a node package you can install globally that provides CLI commands to create a boilerplate react app</p>
         <ul>
-            <li><code>npm install -g create-react-app </code>Run this command to install create-react-app on your computer globally (-g), this only needs to be done once, not for each project</li>
-            <li><code>create-react-app {app-name} </code>Run this command to create a new react project in the current working directory, the app name should be all lowercase, a new directory for the project will be made with the provided name and all the react boilerplate directories, files, and developer settings</li>
+            <li><code>npm install -g create-react-app </code>Run this command to install create-react-app on your computer globally (-g), this only needs to be done once, not for each project.  As of node 5.2, this is no longer recommended, and instead you should use npx a package runner included with node</li>
+            <li><code>npx create-react-app {app-name} </code>Run this command to create a new react project in the current working directory, the app name should be all lowercase, a new directory for the project will be made with the provided name and all the react boilerplate directories, files, and developer settings</li>
+            <li><code>npm install react-scripts@latest</code> use this in your project to install the latest
+            version of create react app</li>
         </ul>
         <p><strong>React App Directory Structure: </strong>create-react-app will create the following structure </p>
         <ul>
             <li><code>.gitignore </code>create-react-app does not start a git repo for you, but it does create a .gitignore file with standard things to ignore when you do start a git repo</li>
             <li><code>package.json </code>it will create the package.json file with dependencies, scripts, and basic metadata for you</li>
-            <li><code>/node_modules </code>it will create the node_modules directory with react, react-dom, and react-scripts installed and subdependencies</li>
             <li><code>package-lock.json </code>this file contains the exact dependency tree in /node_modules along with all versions, helpful for teams to ensure they have same versions of everything, also contains history of changes to package.json to inspect dependency changes</li>
-            <li><code>/public </code>this directory is for assets to serve directly without additional processing by webpack, will include index.html (entry point for web app), a favicon (header icon), and manifest.json (specifies behavior if added to Android user's home screen)</li>
-            <li><code>/src </code>this directory is for javascript to be processed by webpack, it has the main app js, style, and test files (App.js, App.css, and App.test.js). it also has the index.js and associated index.css that provide an entry to the app and kick off the registerServiceWorker.js, which caches and updates files for end-users to allow offline viewing and faster loading</li>
+            <li><code>README.md </code>will make a starter readme file</li>
+            <li><code>/node_modules </code>it will create the node_modules directory with react, react-dom, and react-scripts installed and subdependencies</li>
+            <li><code>/public </code>this directory is for assets to serve directly without additional processing by webpack, will include index.html (entry point for web app), favicon.ico (header icon), manifest.json (specifies behavior if added to Android user's home screen), logo192.png, logo512.png, and robots.txt</li>
+            <li><code>/src </code>this directory is for javascript to be processed by webpack, it has the main app js, style, and test files (App.js, App.css, and App.test.js). it also has the index.js and associated index.css that provide an entry to the app and kick off the registerServiceWorker.js, which caches and updates files for end-users to allow offline viewing and faster loading. Also includes logo.svg, serviceWorker.js, and setupTests.js</li>
             <ul>
                 <li><code>/components </code>this directory actually is NOT created by create-react-app, but it is common to add it under src</li>
                     <ul>
