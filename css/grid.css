@@ -18,7 +18,8 @@ by /, then define columns;
     - can include line names in grid-template-columns/rows, 
     e.g. grid-template-rows: [row1-start] 10px [row1-end row2-start] 10px [row2-end]
     lines can be given more than one name, and lines can have same name, e.g. repeat(3, 10px [col-start]),
-    which can be reference by the name and count, e.g. col-start 1 or col-start 2
+    which can be reference by the name and count, e.g. col-start 1 or col-start 2,
+    when using the name-start or name-end convention to name lines, this will also create areas between those lines with the given name
 - grid-template-areas: defines names of cells in the grid created with above properties, 
 cells can have the same name to define a larger area, use . to denote empty cells, or none for undefined cells
 but each cell needs a name, defined one row at a time in quotes,
@@ -85,9 +86,9 @@ grid item properties
 -grid-row-start: for an item to span multiple rows, this defines the row "boundary" it starts at, the very top of 
 the container is the first row boundary, then there are boundaries between each row and the last boundary is at the 
 very bottom of the container boundaries = rows + 1. items will span across row gaps.
--grid-row-end: this defines the row the item ends at, if not specified items span 1 row by default
+-grid-row-end: this defines the row the item ends at, if not specified items span 1 row by default, can use span, or use -1 to automatically span all columns
 -grid-column-start: similar to grid-row-start but for columns
--grid-column-end: similar to grid-row-end but for columns, if not specified items span 1 column by default
+-grid-column-end: similar to grid-row-end but for columns, if not specified items span 1 column by default, can use span, or use -1 to automatically span all columns
 -grid-row: defines grid-row-start / grid-row-end in one line, e.g. 4 / 6
 -grid-column: defines grid-column start / grid-column-end in one line
 -grid-area: defines grid-row-start / grid-column-start / grid-row-end / grid-column-end in one line,
