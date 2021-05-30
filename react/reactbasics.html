@@ -104,7 +104,7 @@
         </ul>        
         <p><strong>Modularity: </strong>Common to place each component in its own file, and then used ES6 named import/export or ES6 import/export default to import component modules into other component modules e.g. to render one component with another</p>
         <p><strong>Dynamic Information: </strong>information that can change, components get dynamic information through props (info from outside) and state (info decided by component itself), every other value used in a component should always stay exactly the same</p>
-        <p><strong>Process of creating a React App: </strong>
+        <p><strong>Process of determining components/state/props: </strong>
             <ul>
                 <li>Lay out your components according to your data model.</li>
                 <li>Build a static version of the site first, building the component classes, and using props to pass data from parent to child components.  You won't use state at all in the static version because state is for interactivity, i.e. data that changes over time.  All your components will only have render methods and the top level component will be passed your data model as a prop (e.g. some JSON from an API).</li>
@@ -120,6 +120,16 @@
                 </li>
             </ul>    
         </p>
+        <p><strong>Component lifecycle: </strong>Component instances go through potentially three stages: mounting, updating, and unmounting. Each stage has is own lifecycle methods. </p>
+        <ul>
+            <li>Mounting first calls the constructor(), then render(), then componentDidMount(). The constructor should only do things without side-effects, calling super(props), initializing
+            the state, etc.  The render function makes it appear for the first time.  Then, the componentDidMount() method can be included in your component class definition to run code that does have side effects.  e.g. for a clock, the constructor sets the intial time as a state variable, then render renders it, then componentDidMount can start an interval that updates the state variable every second with the new time.  Side effects include asynchronous functions like setInterval or AJAX calls, manually tweaking the DOM, setting a global value and more.
+            </li>
+            <li>Updating occurs whenever setState() is called or when props are updated.  It will first run render() and the componentDidUpdate().  componentDidUpdate is a good place for code with side effects that should run with each update.  e.g. perhaps the clock is passed a prop that determines if it updates every second or ever millisecond, then you should deal with resetting the interval in the componentDidUpdate() method that checks the value of the prop and updates
+            the interval if necessary every time an update occurs.
+            </li>
+            <li>Unmounting calls the componentWillUnmount() method.  You should define this method in your component class definition to clean up any side effects in your componentDidMount method, e.g. you can use clearInterval() to stop the clock interval from continuing.  Side effects like this should always be cleaned up in your componentWillUnmount() method to avoid memory leaks.</li>
+        </ul>
         <br>
     
         <h2>ReactDOM Library</h2>
