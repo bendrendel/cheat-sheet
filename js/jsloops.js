@@ -16,10 +16,22 @@ for (let counter = 3; counter >= 0; counter--) {
 }
 
 //looping through an array, common to use i for index as iterator variable
-console.log('Example 3: ');
+console.log('Example 3.1: ');
 const myArray = ['element0', 'element1', 'element2'];
 for (let i = 0; i < myArray.length; i++) {
+    if (myArray[i] === 'element2') {
+        break;
+    }
     console.log(myArray[i]);
+}
+
+//using for..of on an array instead of normal for loop, could do this with a string too
+console.log('Example 3.2: ');
+for (const myItem of myArray) {
+    if (myItem === 'element1') {
+        continue;
+    }
+    console.log(myItem);
 }
 
 /*
