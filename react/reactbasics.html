@@ -126,7 +126,8 @@
             the state, etc.  The render function makes it appear for the first time.  Then, the componentDidMount() method can be included in your component class definition to run code that does have side effects.  e.g. for a clock, the constructor sets the intial time as a state variable, then render renders it, then componentDidMount can start an interval that updates the state variable every second with the new time.  Side effects include asynchronous functions like setInterval or AJAX calls, manually tweaking the DOM, setting a global value and more.
             </li>
             <li>Updating occurs whenever setState() is called or when props are updated.  It will first run render() and the componentDidUpdate().  componentDidUpdate is a good place for code with side effects that should run with each update.  e.g. perhaps the clock is passed a prop that determines if it updates every second or ever millisecond, then you should deal with resetting the interval in the componentDidUpdate() method that checks the value of the prop and updates
-            the interval if necessary every time an update occurs.
+            the interval if necessary every time an update occurs.  It's often useful to use the prevProps
+            object to compare the current value of a prop to the previous value to determine if something should update or not, e.g. if (this.props.myProp === prevProps.myProp) {go fetch new data or something}.
             </li>
             <li>Unmounting calls the componentWillUnmount() method.  You should define this method in your component class definition to clean up any side effects in your componentDidMount method, e.g. you can use clearInterval() to stop the clock interval from continuing.  Side effects like this should always be cleaned up in your componentWillUnmount() method to avoid memory leaks.</li>
         </ul>
