@@ -10,7 +10,10 @@
         <h2>Terms</h2>
         <p><strong>Accessibility:</strong> Making digital media usable for people with disabilities or 
             impairments; e.g. images with alt text and screen readers for visually impaired, 
-            closed-caption videos for hearing impaired, navigable by keyboard if can't use mouse</p>
+            closed-caption videos for hearing impaired, navigable by keyboard if can't use mouse.
+            Basically, need to consider, text to speech readers, colorblind people, people using
+            things highly zoomed in, people using only a keyboard, deaf people, people susceptible to
+            seizures (flashing things)</p>
         <p><strong>Screen reader:</strong> for visually impaired, provides text-to-speech (TTS) reads 
             website content aloud, reads HTML tags, attributes when appropriate, can be OS-based or 
             browser-based</p>
@@ -20,14 +23,19 @@
         <p><strong>a11y: </strong>general term referring to movement to make web content and all computer 
             hardware and software more accessible, sometimes used to refer to a scoring matrix for how 
             accessible UX of a site is, comes from abbreviating "accessibility" - IT convention to replace 
-            middle of a long word with number of letters</p>    
+            middle of a long word with number of letters</p>
+
+        <h2>Ally Project Guidlines</h2>
+        <p><a href="https://www.a11yproject.com/checklist/">The A11y Project Checklist</a> provides
+            a good checklist for checking accessibility.</p>
     
         <h2>Native HTML</h2>
         <p><strong>Semantic HTML:</strong> Quickest way to help screen readers is to use semantic elements 
             instead of generic divs with descriptive id's/classes, allows screen readers to jump from section 
             to section (landmarks)</p>
         <p><strong>Headings: </strong>Create sound document outlines with h1-h6 to help assistive technology 
-            navigate and jump between headings</p>
+            navigate and jump between headings, h1 should be for the particular page, not e.g. the name of
+            the site that shows in a header section for every page of the site</p>
         <p><strong>alt attribute:</strong> some elements like img have an alt attribute which is read aloud 
             by screen readers, and should generally be used when available over aria-label because alt has 
             added benefit of creating a visual tooltip</p>
@@ -36,7 +44,7 @@
                 more than 150 characters</p></li>
             <li><p>alt should never be omitted because screen readers will think it is a key part of the 
                 content with no textual equivalent,
-                instead should be left empty for images that convey no information like a decorative border, 
+                instead should be set to alt="" for images that convey no information like a decorative border, 
                 and when image is described by visible text near the image</p></li>
         </ul>
         <p><strong>hidden attribute: </strong>use to hide content visually and from screen readers, older 
@@ -71,6 +79,11 @@
             <li><p>e.g. aria-label attribute: for example an img of a painting with a p containing the artist 
                 name at bottom, you can give the artist name aria-label="Artist" so screen readers know what 
                 the p is for</p></li>
+            <li><p>aria-live is an attribute that can be set to aria-live="polite" or aria-live="assertive"
+                and is for a div for example that has content that will change due to some javascript,
+                and when that happens you want it to be read by the screen reader, like a warning or error
+                message perhaps.  polite will wait until user is done with other tasks, assertive will not.
+            </p></li>
         </ul>
             
         <h2>ARIA Roles</h2>

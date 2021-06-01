@@ -81,6 +81,11 @@
                 displayed, its just what gets sent
                 give all checkboxes or radios in the same group the same name attribute
                 checkbox allows for multiple selections in same group, radio allows for only one
+
+                fieldset is often used to draw a box around related radio buttons, with legend as a header,
+                but it is optional and only a visual change, not fundamental to making radio buttons work,
+                and it can be used to put a box around any related form inputs, e.g. you could have one
+                with a legend of Personal Info, with many inputs of different types inside.
             -->
             <p>Choose your toppings: </p>
             <label for="cheese">Extra cheese</label>
@@ -94,12 +99,14 @@
 
             <br><br>
 
-            <p>What is the sum of 1 and 1?</p>
-            <input type="radio" id="two" name="answer" value="2">
-            <label for="two">2</label>
-            <br>
-            <input type="radio" id="eleven" name="answer" value="11">
-            <label for="eleven">11</label>
+            <fieldset>
+                <legend>What is the sum of 1 and 1?</legend>
+                <input type="radio" id="two" name="answer" value="2">
+                <label for="two">2</label>
+                <br>
+                <input type="radio" id="eleven" name="answer" value="11">
+                <label for="eleven">11</label>
+            </fieldset>
 
             <br><br>
 
@@ -171,30 +178,58 @@
             <li>ensure complete data, e.g. no missing fields</li>
             <li>protection, e.g. secure password, no injected code through form</li>
         </ul>
-        <p><strong>Regular Expressions: </strong>Regex or regexp, since data submitted through forms are stored 
-            as strings, can use regex for validation</p>
+        <p><strong>Regular Expressions: </strong>Regex or regexp, since data submitted through forms 
+            are stored as strings, can use regex for validation.  Quite complex, but some basic examples:</p>
+        <ul>
+            <li>a — Matches one character that is a (not b, not aa, and so on).</li>
+            <li>abc — Matches a, followed by b, followed by c.</li>
+            <li>ab?c—Matches a, optionally followed by a single b, followed by c. ( ac or abc)</li>
+            <li>ab*c—Matches a, optionally followed by any number of bs, followed by c. 
+                ( ac , abc, abbbbbc, and so on).</li>
+            <li>a|b — Matches one character that is a or b.</li>
+            <li>abc|xyz — Matches exactly abc or exactly xyz (but not abcxyz or a or y, and so on).</li>
+        </ul>
         <p><strong>Client-side Validation: </strong>validation included in the client code, won't allow user 
             to submit form if anything is invalid, either prevents certain values from being entered at all or 
             will display alert with reason, faster than communicating with back-end</p>
         <ul>
             <li>
-                <p><strong>HTML Validation</strong></p>
+                <p><strong>Built-in HTML Validation</strong></p>
+                <p>Uses validation attributes in form elements. Has better performance the javascript validation 
+                    but not as customizable.  Input must follow rules of all validation attributes to be 
+                    considered valid, otherwise will be invalid and will prevent form submission and show 
+                    error message.</p>
                 <p>When an element is valid it will match the :valid CSS pseudo-class, allowing for styling</p>
-                <p>When invalid, it will match the :invalid CSS psuedo-class and sometimes others like
-                    :out-of-range</p>
+                <p>When invalid, it will match the :invalid CSS psuedo-class and sometimes other more specific 
+                    ones like :out-of-range</p>
+                <p><strong>Validation attributes:</strong></p>
                 <ul>
-                    <li>required attribute</li>
+                    <li>required attribute, inputs with the required attribute can be styled with psuedo-selector 
+                        input:required, which selects all inputs with the attribute.  To specifically get ones that 
+                        are required and empty, you can use input:invalid:required</li>
                     <li>min/max attributes for inputs of type number or type range</li>
-                    <li>minlength/maxlength attribute for inputs of type text, password, or textarea</li>
-                    <li>type attribute can specify number, email address, or other preset types</li>
-                    <li>pattern attribute for inputs of type text,password, or textarea, which requires input to 
-                        match a specified regex</li>
+                    <li>minlength/maxlength attribute for inputs of type text, password, or textarea. consider adding 
+                        some javascript that counts down the remaining characters available</li>
+                    <li>type attribute can specify number, email, or other preset types, which compares
+                        to a regex behind the scenes
+                    </li>
+                    <li>pattern attribute for inputs of type text,password, which requires input to match a specified 
+                        regex e.g. pattern="[Bb]anana|[Cc]herry" will match lowercase or uppercase banana or cherry. 
+                        textarea doesn't support this.</li>
                 </ul>                
             </li>
             <li>
                 <p><strong>JavaScript Validation</strong></p>
                 <p>For custom or more complex validation, can write javascript or use a JavaScript library to 
-                    validate</p>
+                    validate.  Most commonly used to change look and feel of the automatic error messages that
+                    HTML gives when you try to submit an invalid form, as well as control message because 
+                    message is locale-specific, i.e. it will be in french if the browser is set to french.</p>
+                <p>There are libraries, the built in constraint validation API, or you can always write totally
+                    custom js (usually you'd only do this if you need to support old browsers that don't support
+                    the constraint validation API), the totally custom option would do everything like check for
+                    all the user events, check the form values, test them against regexs in the js, check their length, etc.
+                </p>
+                <p><strong>Libraries: </strong></p>
                 <ul>
                     <li><strong>just-validate.js</strong> a simple vanilla JS library for validation</li>
                     <li><strong>parsley.js </strong> another JS library for validation</li>
@@ -202,6 +237,74 @@
                         framework-specific validation libraries
                         because they have to maniuplate the DOM and thus play well with the framework</li>
                 </ul>
+                <p><strong>Constraint Validation API </strong>Most browser support this out of the box,
+                    no library required. </p>
+                <ul>
+                    <li>This provides the following methods and properties on buttons, fieldsets, inputs, outputs, selects,
+                        and textareas, which you can create references to in your JS with e.g. document.getElementById
+                    </li>
+                    <ul>
+                        <li>.validationMessage: returns a string containing what if any validation constraints
+                            are broken
+                        </li>
+                        <li>.validity.xxx: returns true or false if the element violates a validation rule or not,
+                            e.g. .xxx could be .patternMismatch, returning true if the field violates a pattern rule,
+                            .tooLong if it exceeds maxlength, .tooShort if it is less than minlength, 
+                            .rangeOverflow if exceeds max, .rangeUnderflow if less than min,
+                            .typeMismatch if violating a type rule, .valid to check if it meets all constraints,
+                            and .valueMissing returns true if it's blank but required
+                        </li>
+                        <li>
+                            .willValidate: returns true if the element will be valid when the form is submitted
+                        </li>
+                        <li>
+                            .checkValidity(): returns true if the element is valid, and false if invalid plus
+                            fires an invalid event on the element
+                        </li>
+                        <li>
+                            .setCustomValidity(): takes a custom error message string as a argument, and displays
+                            it for the element and also sets the element as invalid, allowing you to set it as invalid
+                            depending on any custom code you write that leads to this method.  If the method has an
+                            empty string as the argument, it will not display an error message and the element will be
+                            set as valid.
+                        </li>
+                    </ul>
+                    <li>You may want to add the <code>novalidate</code> attribute to the form element to disable
+                        the browser's automatic validation check, but will still allow the constraint validation 
+                        api to work and the css pseudoclasses like :invalid.  This is often used to
+                        prevent error popups in the browser, so that you can show a fully custom error message perhaps
+                        somewhere else on the page like in a div.</li>
+                        <ul>
+                            <li>Using this, you can check if things are invalid in your form's submit event,
+                                then preventDefault to stop the form from being sent, and then run your own custom
+                                code for the invalid values.  Your custom code can respond to different types of invalid
+                                like rangeOverflow vs typeMismatch etc.
+                            </li>
+                        </ul>
+                    <li>Simple Example: </li>
+                    <ul>
+                        <li>In your JS, first get DOM variables for whatever form inputs you want to control,
+                            e.g. <code>email = document.getElementById('mail');</code> could get an input from your HTML
+                            like <code>&ltinput type="email" id="mail" name="mail"></code>
+                        </li>
+                        <li>Then you can add an event listener for input, and check for e.g. a type mismatch. If
+                            there is a type mismatch, then you can use setCustomValidity which will display a given
+                            custom error message and set the input as invalid, or use setCustomValidity with an
+                            empty string, rendering the input valid and displaying no error message.
+                            <code><pre>
+                            email.addEventListener("input", function (event) {
+                                if (email.validity.typeMismatch) {
+                                    email.setCustomValidity("I am expecting an e-mail address!");
+                                } else {
+                                    email.setCustomValidity("");
+                                }
+                            });
+                            </pre></code>
+                        </li>                        
+                    </ul>
+
+                </ul>
+
             </li>
         </ul>
         <p><strong>Server-side validation</strong></p>
