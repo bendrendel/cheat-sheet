@@ -71,6 +71,25 @@
             </fieldset>
         </form>
 
+        <h2>CSS and Javascript Considerations</h2>
+        <p><strong>Styling elements: </strong>Don't style elements to the point that they no longer resemble
+            their typical semantic meaning, e.g. h1-h6 should be bold or bigger or standout from p elements;
+            lists should look like lists; em elements should typically stick with italics and strong with bold;
+            the abbr element (abbreviation) should typically stick with dotted underline as a universal convention
+            for abbreviations; links should have different styles for standard, active, and visited states, and
+            give the user a pointer cursor for good interactive feedback; links and form inputs should be 
+            highlighted in some way when given focus (tabbed to); tables should have stand out titles and possibly
+            alternating shading; contrast should follow guidlines</p>
+        <p><strong>User stylesheet: </strong>Users can have their own default stylesheet override your styles,
+            e.g. for bigger text, higher contrast, etc. so make sure your site is structured enough to work
+            without your specific styles</p>
+        <p><strong>Unobtrustive javascript: </strong>Think about using javascript to enhance functionality, but
+            not be critical to the functionality.  Use built-in browser functionality when possible so its predictable
+            by screen readers and such.  Consider doubling up mouse events with something that isn't mouse-specific,
+            e.g. if you want something to happen when the mouse hovers over something, also include events for
+            onfocus and onblur, which will trigger the event when things are tabbed to instead of just hovered over
+            (device-independent events)</p>
+
         <h2>ARIA Properties</h2>
         <p><strong>ARIA properties: </strong>ARIA provides ARIA properties meant to help screen reader users 
             perceive information that is otherwise only being communicated visually, added as attributes to 
