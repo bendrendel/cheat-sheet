@@ -23,12 +23,14 @@
             <li><code>/public </code>this directory is for assets to serve directly without additional processing by webpack, will include index.html (entry point for web app), favicon.ico (header icon), manifest.json (specifies behavior if added to Android user's home screen), logo192.png, logo512.png, and robots.txt</li>
             <li><code>/src </code>this directory is for javascript to be processed by webpack, it has the main app js, style, and test files (App.js, App.css, and App.test.js). it also has the index.js and associated index.css that provide an entry to the app and kick off the registerServiceWorker.js, which caches and updates files for end-users to allow offline viewing and faster loading. Also includes logo.svg, serviceWorker.js, and setupTests.js</li>
             <ul>
-                <li><code>/components </code>this directory actually is NOT created by create-react-app, but it is common to add it under src</li>
+                <li><code>/Components </code>this directory actually is NOT created by create-react-app, but it is common to add it under src</li>
                     <ul>
-                        <li><code>/ComponentName </code>each component its own folder with the capitalized name of the component, e.g. ./src/components/App/ or ./src/components/MyComponent/, </li>
+                        <li><code>/ComponentName </code>each component its own folder with the capitalized name of the component, e.g. ./src/components/App/ or ./src/components/MyComponent/ Commonly you will start with a main component called App
+                            and you cab move the default App.js and App.css in the src folder into the Components/App folder. Be sure to update the App.js import statement in index.js to the new location of App.js</li>
                         <ul>
                             <li><code>/ComponentName.js </code>the component will have a .js, use <code>import './ComponentName.css </code> at the top of the file immediately after the react import to import the css file so the styles are applied</li>
                             <li><code>/ComponentName.css </code>the css file styles the jsx returned by the component and simply refers to the elements, ids, classes etc in the jsx, looks like a regular css file, no special export statement or anything</li>
+                            <li><code>Assets like images used in the components css or jsx should be stored in this folder as well</code></li>
                         </ul>
                     </ul> 
                 <li><code>/views </code>this directory also is NOT created by create-react-app but is common to add it under src to organize views</li>                
