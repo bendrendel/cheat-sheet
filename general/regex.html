@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regex</title>
+</head>
+<body>
+    <a href="../index.html">Home</a>
+    <a href="https://regexr.com/">regexr.com</a> <span> - site to test regexs</span>
+
+    <h2>Basic matching</h2>
+    <ul>
+        <li><code>/e/</code> matches the first instance of the letter e</li>
+        <li><code>/e/g</code> g global flag, matches all instances of the letter e</li>
+        <li><code>/e/gi</code> adding the i case insensitive flag, matches all instances of e or E</li>
+        <li><code>/\d/g</code> matches any digit character 0-9</li>
+        <li><code>/e+/g</code> matches all instances of one or more e's in a row</li>
+        <li><code>/ea?/g</code> matches all instances of e and if an a comes after the e, will match 
+            the ea, ? is like optional</li>
+        <li><code>/ea*/g</code> matches all instances of e and if one or more a's come after the e,
+            will match those too. ea+ would require there to be at least one a for a match, whereas ea*
+            makes the a optional</li>
+        <li><code>/.e/g</code> matches all instances of e and whatever character appears before the e,
+            except will not match the new line character if that is what appears before the e. period
+            matches any single character</li>
+        <li><code>/\./g</code> matches all instances of a period, using escape character \ so that the
+            period is treated literally</li>
+        <li><code>/\w/g</code> matches all word characters, essentially matches all words in a sentence
+            and not spaces or punctuation. also matches numbers and underscore.</li>
+        <li><code>/\W/g</code> matches the opposite of what \w matches</li>
+        <li><code>/\s/g</code> matches all tabs and spaces and line breaks</li>
+        <li><code>/\S/g</code> matches the opposite of what \s matches</li>
+        <li><code>/^The/g</code> matches The, but only if it is at the very beginning of the string.</li>
+        <li><code>/^The/gm</code> matches The, but only if it is the very beginning of the string or if it
+            is immediately preceded by a new line character (m flag is for multiline)</li>
+        <li><code>/\.$/</code> matches a period but only if it occurs at the very end of the string.</li>
+        <li><code>/\.$/</code> matches a period if it occurs at the very end of the string, or it is
+            immediately followed by a new line character</li>
+    </ul>
+
+    <h2>Counting characters</h2>
+    <ul>
+        <li><code>/\w{4}/g</code> matches word characters where there are 4 in a row. if there is a word
+            that is 10 word characters long, then it will match the first 4, and then match the second 4,
+            but won't match the last 2.</li>
+        <li><code>/\w{4,}/g</code> matches word characters where there are 4 or more in a row.  if there is
+            a word that is 10 word characters long, then it will match all 10 characters</li>
+        <li><code>/\w{4,5}/g</code> matches word characters where there are at least 4 in a row and up to 
+            5 in a row.  if there is a word that is 10 word characters long, then it will match the first 5,
+            and then match the second 5.</li>
+        <li><code>/re{2,3}/g</code> matches any r that has at least 2 e's after it, and matches up to 3 e's
+            after it.</li>
+    </ul>
+
+    <h2>Grouping</h2>
+    <ul>
+        <li><code>/[fc]at/g</code> matches all instances of at that are preceded by an f or c, and
+            includes the f or c in the match</li>
+        <li><code>/[c-f]at/g</code> matches all instances of at that are preceded by a c, d, e, or f, 
+            including the c, d, e, or f in the match.</li>
+        <li><code>/[a-zA-z]at/g</code> matches all instances of at that are preceded by an uppercase
+            or lowercase letter.</li>
+        <li><code>/[ ]at/g</code> matches all instances of at preceded by a space</li>
+        <li><code>/(t|T)he/g</code> match all instances of he preceded by either t or T. equivalent to
+            /[tT]he/g</li>
+        <li><code>/(r|e|t){2-3}/g</code> match all instances where 2 to 3 r's, e's, or t's appear in a row,
+            in any order or combination. e.g. the word 'street' will be matched with 'tre' getting a match and then 'et' getting a match.</li>
+        <li><code>/(r|e|t){2-3}\./g</code> match all instances where 2 to 3 r's, e's, or t's appear in a row,
+            and are followed by a period.  e.g. the word 'street.' (at the end of sentence) will match the
+            'eet.'</li>
+        <li><code>/(re){2-3}/g</code> matches all instances of 're' repeated 2 to 3 times. e.g. 're' will
+            not match and 'rererere' will match the first 3 repeats of 're', or 'rerere'</li>
+    </ul>
+
+    <h2>Look ahead and look behind</h2>
+    <ul>
+        <li><code>/(?$lt=[tT]he)./g</code> will match any single character preceded by the or The, but does
+            not include the or The in the match.  this is look behind. For instance "This is the sentence" will match the space after "the"</li>
+        <li><code>/(?$lt![tT]he)./g</code> inverse of above, matches everything except any character that is
+            preceded by the or The.  For instance "This is the sentence" will match everything except for 
+            the space after "the"</li>
+        <li><code>/.(?=at)/g</code> will match any character followed by at, but the at is not included in
+            the match  this is look ahead.  e.g. "Fat cats like to eat." will match the F, c, and e.</li>
+        <li><code>/.(?!at)/g</code> inverse of above, matching everything except any character followed
+            by at</li>
+    </ul>
+
+    <h2>Examples</h2>
+    <ul>
+        <li><code>/\d{10}/g</code> matches a phone number like 1234567890</li>
+        <li><code>/\d{3}-?\d{3}-?d{4}/g</code> matches a phone number like 1234567890 or
+            123-456-7890</li>
+        <li><code>/\d{3}[ -]?\d{3}[ -]?d{4}/g</code> matches a phone number like 1234567890 or
+            123-456-7890 or 123 456 7890</li>
+        <li><code>/(\d{3})[ -]?(\d{3})[ -]?(d{4})/g</code> matches a phone number like 1234567890 or
+            123-456-7890 or 123 456 7890, but now it returns three groups containing the digits only.
+            The groups can be accessed with $1, $2, and $3</li>
+        <li><code>/(?&ltareacode>\d{3})[ -]?(\d{3})[ -]?(d{4})/g</code> matches a phone number like
+            1234567890 or 123-456-7890 or 123 456 7890, but now it returns three groups containing the digits only and the first group is given a name of areacode, so the groups can be accessed with $areacode, $2, and $3.  areacode can also still be accessed with $1</li>
+        <li><code>/\(?(?&ltareacode>\d{3})\)?[ -]?(\d{3})[ -]?(d{4})/g</code> matches a phone number like
+            1234567890 or 123-456-7890 or 123 456 7890 or (123)4567890 or (123)-456-7890 or (123) 456 7890</li>
+        <li><code>/(\+1[ -])?\(?(?&ltareacode>\d{3})\)?[ -]?(\d{3})[ -]?(d{4})/g</code> matches a phone
+            number like 1234567890 or 123-456-7890 or 123 456 7890 or (123)4567890 or (123)-456-7890 or (123) 456 7890 but any of them could also have a +1, +1 , or +1- in front</li>        
+        <li><code>/(?:(\+1)[ -])?\(?(?&ltareacode>\d{3})\)?[ -]?(\d{3})[ -]?(d{4})/g</code> matches a phone
+            number like 1234567890 or 123-456-7890 or 123 456 7890 or (123)4567890 or (123)-456-7890 or (123) 456 7890 but any of them could also have a +1, +1 , or +1- in front.  However, now the +1 has been placed in its own group so that the group doesn't conatin the space or -, and then the group that would contain the space or - has been excluded from being captured by using ?:.  Now this will return four group, where $1 contains +1, $2 contains 123, $3 contains 456 , and $4 contains 7890.</li>      
+    </ul>
+</body>
+</html>
