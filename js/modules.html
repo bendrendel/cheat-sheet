@@ -2,35 +2,70 @@
 <html>
     <head>
         <title>Modules</title>
-        <!--must use attribute type="module" for module syntax to work-->
-        <script type="module" src="./modules1.js" defer></script>
-        <script type="module" src="./modules2.js" defer></script>
-        <script type="module" src="./modules4.js" defer></script>
     </head>
     <body>
         <a href="./index.html">Home</a>
         <h2>Modules</h2>
         <p><strong>Modularity: </strong>Software design technique where distinct parts each providing a single piece of the overall functionality come together to build a cohesive program, makes it more scalable, manageable, ability to incorporate libraries and frameworks</p>
-        <p><strong>Module: </strong>A collection of code in a file, instead of a program being in a single file, it is organized into separate files and combined through requiring them where needed</p>
+        <p><strong>Module: </strong>A collection of code in a file, instead of a program being in a single file, it is organized into separate files and combined through requiring them where needed.  How modules are implemented depends on the runtime environment.  The Node environment prefers the 
+        module.exports/require syntax for importing and exporting modules, whereas the browser prefers the
+        ES6 import/export syntax for importing and exporting modules.  The node environment can support ES6, but doesn't by default.</p>
         
         <h2>Node Modules</h2>
         <p><code>module.exports() </code>used to export things from a .js file in Node</p>
         <ul>
+            <li><p>To export something from a file simply set module.exports equal to what you want to export, which is often an object, e.g. <code>module.exports = myObject;</code></p></li>
             <li><p>JavaScript files run in the Node environment have a local module object with an exports property that holds everything in that file, aka module, available to be required into a different .js file</p></li>
             <li><p>This only works if running in Node, the module object and the require function are built into Node but not the browser</p></li>
-            <li><p>see modules1.js for Node.js module.exports example</p></li>
         </ul> 
         <p><code>require() </code>used to import in node</p>
         <ul>
+            <li><p>To import something from another file with an export, create a variable to store the imported item and set it equal to require('myfile.js').  e.g. <code>myObject = require('./myFile.js')</code></p></li>
             <li><p>In node.js, require loads module at provided file path, .js extension of file path is optional and assumed if ommitted</p></li>
             <li><p>Node first checks if the argument provided is a core module of node, and if not then attempts to locate it at the path provided</p></li>
-            <li><p>see modules2.js for Node.js require() example, run this file in Node to see combined functionality of modules1.js and modules2.js</p></li>
         </ul>  
         
         <br>
-        <p>For ES6 imports see:</p>
-        <p>modules3.js: ES6 export default & named exports</p>
-        <p>modules4.js: ES6 import & named imports</p>
+
+        <h2>ES6 Modules</h2>
+        <p>The use of javascript on the web was fairly minimal at first and has grown a lot as the web 
+            developed, creating the need for modules.  Modules were only introduced natively to the browser 
+            runtime in 2015 with ES6 and has been adopted by most modern browsers.
+        </p>
+        <p>To use a js script that uses modules in the browser, when you import it into your html, you must include <code>type="module"</code> in the script tag.  You only need to link your html to the js file that imports other files, you don't need to link to the files it imports in your html.  ES6 import and export can be used with js files served to the browser.  Note it won't work if you are viewing your website with file protocol in the browser due to CORS.  You must use a dev server and serve the whole folder with the js files.</p>
+        <p>ES6 offers named exoprts/imports, and export/import default.  For both types of imports, if the string at end of statement begins with a dot or slash, then it will be treated as a filepath
+        otherwise it will try to import node core modules (no dot or slash), also if filename has no extension then js is assumed</p>
+        <p>should not mix the two styles of named exports in one file, but can use both export default and one of the named export styles in same file, but best to only use one or the other unless for specific reasons e.g. if users of your module may only want to import a specific function (the default) but still need option to import other things (named exports)</p>
+
+        <p><strong>Named Exports</strong></p>
+        <ul>
+            <li>The first method is to use a statement like <code>export { myVar as myAlias, myOtherVar as myOtherAlias }</code>, where the aliases are optional and you can export as many things as you want between commas.</li>
+            <li>The second method is to export variables upon delaration, like <code>export function myFunction() {func definition}</code> or <code>export let myVar = 2;</code>, but no aliases are possible with this method</li>
+            <li></li>
+        </ul>
+
+        <p><strong>Named Imports</strong></p>
+        <ul>
+            <li>Use <code>import { myAlias as myAliasAlias, myOtherAlias as myOtherAliasAlias } from './myFile.js'</code>, where the aliases are optional, but the names must match the names of the things exported from the other file (or their aliases if aliased).  </li>
+            <li>Can use above to import just what you want, or use <code>import * as MyImportObject from './myFile.js'</code> to import everything and then you can access what was imported with
+            MyImportObject.myAlias, MyImportObject.myOtherAlias, etc.</li>
+        </ul>
+
+        <p><strong>Export Default</strong></p>
+        <ul>
+            <li>Can also use <code>export default myExportedObject;</code> to export a single item with ES6.
+                (this happens to be shorthand for a named export using a special default keyword: <code>export { myExportedObject as default }</code>)</li>
+        </ul>
+
+        <p><strong>Import Default</strong></p>
+        <ul>
+            <li>In conjunction with export default, use <code>import myImportedItem from './myFile.js'</code> (this is shorthand for a named import with the default keyword: <code>import { default as myImportedItem } from './myFile.js'</code>, where myImportedItem doesn't have to match the name of the item exported from myFile.js</li>
+            <li>If you're importing an object, you cn't use destructing in the import statement, you have to import the whole object</li>
+            <li>Can be used to import npm modules into js, after using npm install to install the package
+            import lodash from 'lodash';
+            or import specific functionality as in
+            import throttle from 'lodash/throttle';</li>
+        </ul>
         
         
 
