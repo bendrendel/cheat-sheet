@@ -78,6 +78,8 @@
                     The breakout of components oftens mirrors the data model of what you're representing.
                 </li>
             </ul>
+        
+        <h4>Class Components</h4>
         <p><strong>Component Class: </strong>made by subclassing the React.Component class,  component class names must be capitalized for use in JSX (should be anyway like any class)</p>
         <ul>
             <li><strong>render method: </strong>for every component class, you must define a render() method that can contains logic, can access other methods and properties of the component class such as the props property using this.props.propertyname, can access variables outside the component class</li>
@@ -98,7 +100,7 @@
             <li><p><strong>constructor method: </strong>you have to include a constructor method to add a property inside the component class body (by including this.propertyname = 'value' in the constructor, you can also add properties after the component class has been declared e.g. MyComponent.propName = 'value'), if you do have a constructor method, it must accept a props argument and call super(props) to ensure the constructor of the React.Component class is invoked with any provided props (this happens automatically via the default js constructor when a component class has no constructor) </p></li>
             <li><p><code>defaultprops</code> this is a property that can be defined for a component class that has an object value and the properties are the names of the component class's props and the values are default values to use if a Component Instance does not set the prop.  Possibly common to define this outside the class component, i.e. you define the class component named MyComponent, and then outside of that class definition, you define MyComponent.defaultprops = {myprop: 'default-value'}</p></li>
             <li><p><strong>state property: </strong> a property you can create, an object, usually created in the constructor of a component class and given an initial value, the state property can then be accessed in the body of the component class (e.g. inside body use this.state.someThing), and unlike with props, the state can be changed inside the component class body</p></li>
-            <li><p><strong>setState method: </strong>this is a method in the React.Component class, it takes two arguments, the first an object to update the components state with, and secondly a callback that is almost never needed.  after updating the state, it also calls the component's render method, thus it causes immediate changes on screen and cannot be called inside the render method to avoid an infinite loop. The first argument updates the component's current state by updating any of the currents state's properties to the values in the provided object if has that state property.  the provided argument doesn't have to include all of the state's properties.  the most common use of setState is calling it inside a method (especially an event handler) of the component class. </p></li>
+            <li><p><strong>setState method: </strong>this is a method in the React.Component class, it takes two arguments, the first an object to update the components state with, and secondly a callback that is almost never needed.  after updating the state, it also calls the component's render method, thus it causes immediate changes on screen and cannot be called inside the render method to avoid an infinite loop. The first argument updates the component's current state by updating any of the currents state's properties to the values in the provided object if has that state property.  the provided argument doesn't have to include all of the state's properties.  the most common use of setState is calling it inside a method (especially an event handler) of the component class. You can also use a function as the first argument that returns an object which will be used to set the state.  This function can have a parameter for the previous state, commonly called prevState which can be useful if needing info from the prev state.</p></li>
             <li><p><strong>event handler methods: </strong>commonly methods are used to define event handlers that are injected into the rendered html and by convention these should be named something like handleClick or handleKeyPress, depending on the name of the event they handle. If you use 'this' inside an event handler method, then you must include a constructor method in the component class that includes a line to bind the method to 'this'.  (e.g. this.myEventHandler = this.myEventHandler.bind(this)) this is because when the method is injected into jsx as an event handler, it will lose its this, so it needs to have the object name already in place of this</p></li>
             <li><strong>other methods: </strong>the component can also have other methods</li>
         </ul>        
@@ -131,7 +133,26 @@
             </li>
             <li>Unmounting calls the componentWillUnmount() method.  You should define this method in your component class definition to clean up any side effects in your componentDidMount method, e.g. you can use clearInterval() to stop the clock interval from continuing.  Side effects like this should always be cleaned up in your componentWillUnmount() method to avoid memory leaks.</li>
         </ul>
-        <br>
+
+        <h4>Function Components</h4>
+        <p>Components can also be created as functions instead of classes. The function returns the jsx 
+            normally found in the render method of a class component.  The function can have a parameter of props to access props in the function body, accessed like props.propName.  The following are equivalent:
+        </p>
+        <code>
+            export class MyComponentClass extends React.Component {
+                render() {
+                    return &ltdiv>Here is a prop: this.props.myProp&ltdiv>
+                }
+            }
+
+            export const MyComponentFunction = (props) => {
+                return &ltdiv>Here is a prop: this.props.myProp&ltdiv>
+            }
+        </code>
+        <p><strong>Hooks: </strong>Hooks allow you to use state and lifecycle methods with function components</p>
+
+
+        <br> 
     
         <h2>ReactDOM Library</h2>
         <p><code>ReactDOM library: </code>JavaScript library containing several React-specific methods for interacting with and rendering to the DOM such as ReactDOM.render().  You don't need to include this in component modules
