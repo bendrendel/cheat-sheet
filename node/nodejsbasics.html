@@ -12,10 +12,13 @@
         <ul>
             <li>Download from Node website and install.  Recommended to download the LTS (long term support) version instead of the current feature, it doesn't contain the latest features/javascript syntax but is less likely to cause errors and is guaranteed support by node for at least 18months</li>
         </ul>
+        <p><strong>Runtime Environment </strong>For a long time javascript was only run in browsers, or the browser runtime environment.  This gives javascript access to built in methods like window.alert(),
+        that the browser provides.  Apps made for the browser runtime environement are front-end apps.  node
+        allows you to build back end apps with javascript by providing a runtime environment outside the browser.  the window object isn't available in the node runtime environment, and other objects are available like process and access to the filesystem and databases and networks attached to the server</p>
 
         <h2>Terminal commands </h2>
         <p><code>node </code>Starts Node REPL to evaluate javascript input, type .editor while in REPL to type multiple lines of JS for evaluation, ctrl-d to exit editor, you can access variables/functions defined earlier in REPL session.  Read-Eval-Print Loop, a program that loops through a read state to accept input, an eval state to evaluate input, print state outputing results</p>
-        <p><code>node myProgram.js arg1 arg2</code>Executes the javascript code in myProgram.js with Node runtime, can optionally provide one or more arguments that can be accessed with the process.argv array, e.g. process.argv[2] = 'arg1'</p>
+        <p><code>node myProgram.js arg1 arg2</code>Executes the javascript code in myProgram.js using the Node runtime environment, can optionally provide one or more arguments that can be accessed with the process.argv array, e.g. process.argv[2] = 'arg1'</p>
         <p><code>node -v</code>displays node version installed</p>
 
         <h2>Built-in objects</h2>
