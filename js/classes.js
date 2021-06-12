@@ -24,6 +24,8 @@ class HospitalEmployee {
         return Math.floor(Math.random() * 10000);
     }
 
+    static someStaticProperty = 'myStaticProperty';
+
     get name() {
         return this._name;
     }
@@ -63,6 +65,7 @@ logToVC(employeeCurry.remainingVacationDays);
 Create a subclass aka child class using the extends keyword that inherits all of the properties of the superclass AKA parent class
 i.e. all properties/getters/setters/metods in the parent class can be used with instances of the child class, plus the child class can have its own properties/getters/setters/methods
 super calls the constructor of the parent class with the given arguments, you must call super before using the 'this' keyword and best practice is to call it in the first line of the child class constructor
+You can also use super to call methods in the super class
 */
 
 class Nurse extends HospitalEmployee {
@@ -78,6 +81,12 @@ class Nurse extends HospitalEmployee {
     addCertification(newCertification) {
         this._certifications.push(newCertification);
     }
+
+    earnVacationDay() {
+        super.earnVacationDay();
+        super.earnVacationDay();
+        //double vacation days for nurses
+    }
 }
 
 logToVC(Nurse.generatePassword());
@@ -92,3 +101,23 @@ nurseBillie.earnVacationDay();
 logToVC(nurseBillie.remainingVacationDays);
 nurseBillie.addCertification('anesthesia');
 logToVC(nurseBillie.certifications);
+
+/*
+Generator methods
+*/
+
+class Polygon {
+  constructor(...sides) {
+    this.sides = sides;
+  }
+  // Method
+  *getSides() {
+    for(const side of this.sides){
+      yield side;
+    }
+  }
+}
+
+const pentagon = new Polygon(1,2,3,4,5);
+
+logToVC([...pentagon.getSides()]); // [1,2,3,4,5]
