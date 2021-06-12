@@ -7,9 +7,13 @@
         <a href="./index.html">Home</a>
         <h2>Modules</h2>
         <p><strong>Modularity: </strong>Software design technique where distinct parts each providing a single piece of the overall functionality come together to build a cohesive program, makes it more scalable, manageable, ability to incorporate libraries and frameworks</p>
-        <p><strong>Module: </strong>A collection of code in a file, instead of a program being in a single file, it is organized into separate files and combined through requiring them where needed.  How modules are implemented depends on the runtime environment.  The Node environment prefers the 
-        module.exports/require syntax for importing and exporting modules, whereas the browser prefers the
-        ES6 import/export syntax for importing and exporting modules.  The node environment can support ES6, but doesn't by default.</p>
+        <p><strong>Module: </strong>A collection of code in a file, instead of a program being in a single file, it is organized into separate files and combined through requiring them where needed.  There are multiple implementations for modules with js (below) and which one to use generally depends on the runtime environment.  The Node environment prefers the module.exports/require syntax for importing and exporting modules, whereas the browser prefers the  ES6 import/export syntax for importing and exporting modules.  The node environment can support ES6, but doesn't by default.</p>
+        <ul>
+            <li><strong>Common JS (CJS)</strong>This is the syntax used by node, described in depth below.  Modules are imported synchronously and it gives you a copy of the imported item.  It does not work in the browser - it must be transpiled and bundled for that.  Allows you to import from a local directory e.g. <code>require('./myfile.js')</code> or a node module e.g <code>require('react')</code></li>
+            <li><strong>Asynchronous Module Definition (AMD)</strong>Uses the define method.  Modules are imported asynchronously.  Made for use in browsers</li>
+            <li><strong>Universal Module Definition (UMD)</strong>Uses complex syntax using define and module.exports.  Works on both front and back end, often used as a fallback for bundlers like webpack in case ESM doesn't work</li>
+            <li><strong>ES Modules (ESM)</strong>This is the format defined in ES6, works in most modern browsers.  Imports modules asynchronously and is tree-shakeable.  Generally considered the best due to simple syntax, async nature and tree-shakeability</li>
+        </ul>
         <p><strong>Exportable items: </strong>You can export top-level vars, lets, consts, functions and classes</p>
         <p><strong>File structure: </strong>a simple modular web project might have a file structure like</p>
         <pre>
@@ -75,7 +79,7 @@
         <ul>
             <li>Can also use <code>export default myExportedObject;</code> to export a single item with ES6.
                 (this is actually shorthand for a named export using a special default keyword: <code>export { myExportedObject as default }</code>) this can also be used inline upon
-                declaration of a variable/function/class by preceding it with export default</li>
+                declaration of a variable/function/class by preceding it with export default, but be careful with this because if it isn't a function or class declaration you'll be unable to reference the item within the module exporting it.</li>
         </ul>
 
         <p><strong>Import Default</strong></p>
