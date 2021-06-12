@@ -191,9 +191,11 @@
             <p><strong>creating a github repository: </strong>get started with a remote on github by creating an empty repository on github, which will provide instructions for adding it as a remote for a local project, the local project should have at least one commit so there is something to push</p>
                 <ul>
                     <li><p>Github will give you option to create a readme, .gitignore, etc.  if you do, it will create an initial commit with these files added.
-                        However, don't do this if you already have a local repository with commits to push to this github repository, as this will cause merge problems</p></li>
+                        However, don't do this if you already have a local repository with commits to push to this github repository, as this will cause merge problems.  You just want an empty repo on github to push your local project to.</p></li>
                 </ul>
-            <p><strong>git clone remote_location clone_name: </strong>good for branching, creates a copy of the git repository at remote_location (web address or filepath). the copy is named clone_name and placed in the current working directory, the remote will be aliased origin</p>
+            <p><strong>git clone remote_location clone_name: </strong>good for branching, creates a copy of the git repository at remote_location (web address or filepath). the copy is named clone_name and placed in the current working directory, 
+                the remote will be aliased origin.  Useful when there is a repo on github that you want a local copy of to work in.  You can use git clone remote_location, to create a local copy of the repo at remote_location and it will have the same name as the remote repo.
+                Then you might make a local branch, do your work and commit things, then push the branch back to the repo, where it can be reviewed, you can make a pull request, it can be merged eventually to master</p>
             <p><strong>git remote add origin remote_location: </strong>good for initial set up, run from local project directory to add a remote repository at remote_location (e.g. a github repository web url),
                 remote will have alias origin in this example (common) but could be named something else</p>
             <p><strong>git remote set-url origin remote_location: </strong>allows you to change the url of a remote (origin in this example) to a different remote_location</p>
@@ -203,38 +205,45 @@
             <p><strong>git fetch origin: </strong>brings changes in from a remote, and puts them in your remote branches like origin/master, origin/feature, etc.
                 the remote branches can then be merged to your local branch by checking out the local branch and then using git merge origin/master or git merge origin/feature,
                 or whatever the name of the branch is you are merging</p>
-            <p><strong>git pull origin: </strong>same as fetch but also will merge the corresponding remote branch into whatever local branch you have checked out.  For example, you may be on the master branch, and
-            perhaps someone on your team has pushed commits to the master branch, so that your local master 
-            branch is outdated.  And in the meantime, you have made commits yourself on your local copy of master.
-            If you try to push to github, you will get an error message saying the remote contains changes 
-            that you do not have locally.  This means you need to pull in those changes from the remote.<br>
+            <p><strong>git pull origin: </strong>same as fetch but also will merge the corresponding remote branch into whatever local branch you have checked out.  Use simply git pull
+                to pull in all remote trackign branches including the one you have checked out.  This is good if you want to get a new branch someone else made to work on.
+                Another example, you may be on the master branch, and
+                perhaps someone on your team has pushed commits to the master branch, so that your local master 
+                branch is outdated.  And in the meantime, you have made commits yourself on your local copy of master.
+                If you try to push to github, you will get an error message saying the remote contains changes 
+                that you do not have locally.  This means you need to pull in those changes from the remote.<br>
 
-            Well, you can run <code>git pull origin master</code> This will attempt a merge, and you will
-            see the merge screen if there are no conflicts.  On the merge screen, press ESC, and then :wq and ENTER to
-            exit the merge screen. If there are no conflicts, then the merge will happen without incident and successfully merge the commits from you and your teammate into your local master branch.  Then you can
-            push your master branch to github with the successfully merged commits. <br>
-            
-            However, if you pull from the remote and there are conflicting changes in your commit and your teammates
-            commits, then git cannot automatically merge the commits and you'll  get a warning message,
-            and git will automatically add the merge labelling to any of the files in your working directory
-            that are in conflict with the files in the remote.  This is when you should edit the working directory
-            file to delete the merge conflict labelling and just keep the version you want.  Now you can add 
-            your edited files to the staging area, commit them with a message like "resolve merge conflict",
-            and now you can push them to the remote. <br>
+                Well, you can run <code>git pull origin master</code> This will attempt a merge, and you will
+                see the merge screen if there are no conflicts.  On the merge screen, press ESC, and then :wq and ENTER to
+                exit the merge screen. If there are no conflicts, then the merge will happen without incident and successfully merge the commits from you and your teammate into your local master branch.  Then you can
+                push your master branch to github with the successfully merged commits. <br>
+                
+                However, if you pull from the remote and there are conflicting changes in your commit and your teammates
+                commits, then git cannot automatically merge the commits and you'll  get a warning message,
+                and git will automatically add the merge labelling to any of the files in your working directory
+                that are in conflict with the files in the remote.  This is when you should edit the working directory
+                file to delete the merge conflict labelling and just keep the version you want.  Now you can add 
+                your edited files to the staging area, commit them with a message like "resolve merge conflict",
+                and now you can push them to the remote. <br>
 
-            To avoid merge conflicts as much as possibe, run git pulls frequently to always get the latest changes
-            from the remote for whatever branch you're working on. <br>
+                To avoid merge conflicts as much as possibe, run git pulls frequently to always get the latest changes
+                from the remote for whatever branch you're working on. <br>
 
-            If you are working on a feature branch off of master, then likewise, you should pull the master branch
-            every couple or days at least, and while the feature branch is checked out you should merge master into
-            your feature branch.  That way you keep your feature branch up to date so that when you finally do merge
-            it back into master, you won't have a ton of conflicts to deal with.
+                If you are working on a feature branch off of master, then likewise, you should pull the master branch
+                every couple or days at least, and while the feature branch is checked out you should merge master into
+                your feature branch.  That way you keep your feature branch up to date so that when you finally do merge
+                it back into master, you won't have a ton of conflicts to deal with.
             </p>
             <p><strong>git push origin your_branch_name: </strong>copies the local your_branch_name branch to the corresponding remote origin branch,
-                can leave off your_branch_name to simply copy the branch you have checked out.  However, you must include your_branch_name if you are pushing it up to origin and you haven't set up remote tracking for the branch.  Often used to copy a local feature branch to the remote repository named origin, so someone can review your branch and merge it to origin/master</p>
+                can leave off your_branch_name to simply copy the branch you have checked out.  However, you must include your_branch_name if you are pushing it up to origin and you haven't set up remote tracking for the branch.
+                If the branch is new on your local repo and doesn't exist in the remote repo, then you'll probably want to set up the branch remotely,
+                to do this, on your first push of the new branch use git push --set-upstream origin my-branch
+                Often used to copy a local feature branch to the remote repository named origin, so someone can review your branch and merge it to origin/master</p>
             <p><strong>Forking: </strong>To contribute to an open project on Github, you should use the fork feature in that project's repository
                 to create a copy of the repository in your own Github account.  This allows you to safely work on the project on your own.
-                Typically you should create a new branch after forking to do your work, and then you would submit a pull request when finished</p>
+                Commonly you will fork the project, then clone the project onto your machine to get a local copy, then make a feature branch,
+                commit changes to the feature branch, then push the feature branch up to the remote using --set-upstream since it is a new branch,
+                then you would submit a pull request for the branch in your forked repo, with description, etc. and this would push the pull request up to the original repo for review.</p>
             <p><strong>Pull request: </strong>Within Github, when you are working on a branch of a repository, whether you're a core contributor
                 with ability to push to the repository or you forked the project and worked on a branch on your own, you should make a pull request
                 for the branch when its ready for review.  With a fork this is requesting from the owner to review your branch and is the route for getting your branch merged into the main branch of the original repository.  With a repository that you have contribution rights to you could merge your branch directly but a pull request gives the whole team a chance to review it first.  Pull requests
@@ -261,6 +270,23 @@
                     You can incorporate keywords into pull requests so that when it merges it closes an issue you fixed with the branch,
                     e.g. "Closes #32" will close issue 32 when merged into main</li>
             </ol>
+            <ul>
+                <li><strong>Issues: </strong>Github issues can be used for a variety of things but often used as a bug-tracker for a project, usually with a title and description,
+                    and assignee in charge of the issue, color coded labels to help organize issues (e.g. could be the type of coding like js, css, or if it is a feature or bug,
+                    or if it is confirmed or not, etc.), comments from anyone with access to the repo,
+                    and milestones which are containers for a collection of issues (e.g. beta version could be a milestone with many issues in it to solve first,
+                    october sprint coudl be a milestone with many issues, redesign could be a milestone, etc.).  They often contain @mentions to tag people,
+                    and references to other issues and commits to tie related things together.</li>
+                <li><strong>Notifications: </strong>Github can email you notifications and/or leave them for you on github under notifications, for repos you are watching (notify
+                    about changes, issues etc), or for repos you are participating in (everytime somone @mentions you)</li>
+                <li><strong>@mentions: </strong>common to tag people with the 'cc' convention for carbon copy. e.g. in body of issue at end of comment you put /cc @person1 @person2</li>
+                <li><strong>references: </strong>reference other issues in the same repo by simply including #42 in the issue body, or whatever number the issue is that you reference,
+                    or reference issues in other repos using username/projectname#42.  If you make a commit that starts with Fixes, Fix, Fixed, Close, Closed, or Closes and include the
+                    issue number in the commit message, then it will autamotically close the issue when you commit.</li>
+                <li><strong>Wikis</strong> For more detailed info on the project besides what a Readme provides, you can make a wiki for a project, supports markdown. this is all done on
+                    github's website under your project, has a home page as the entrance to the wiki and can have many other pages, and sidebard navigation.</li>
+            </ul>
+
         </main>
     </body>
 </html>
