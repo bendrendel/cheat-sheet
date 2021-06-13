@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security</title>
+</head>
+<body>
+    <a href="../index.html">Home</a>
+
+    <h2>Terms</h2>
+    <ul>
+        <li>Vulnerability: Sometimes called a security bug, is like other bugs in software, but is
+            one that could be used for abuse. Try to be aware of the common ones to reduce them as
+            much as you can.  Much of what you can do is just good programming practice like validating
+            data entered by user, ensuring a single user can't take up too much time, build unit tests.
+        </li>
+        <li>Security Features: A first line of defense against abuse of vulnerabilities, includes
+            HTTPS and CORS.
+        </li>
+    </ul>
+
+    <h2>OWASP Top 10 Web App Security Vulnerabilities</h2>
+    <a href="https://owasp.org/www-project-top-ten/">owasp.org</a>
+    <ul>
+        <li>Injection: An attacker using SQL, noSQL, or other injection to send code in a
+            command or query that tricks the interpreter into doing something unintended or
+            give access to data without proper authorization
+        </li>
+        <li>Broken Authentication: Functions related to authentication and session management
+            are often implemented incorrectly allowing attackers to assume other users identities
+        </li>
+        <li>Sensitive Data Exposure: Many web apps and APIS don't properly protect Sensitive
+            data, or offer extra protection like encryption while at rest or in transit
+        </li>
+        <li>
+            XML External Entities: Older or poorly configured XML processors evaluate external entity
+            references in XML documents, which can be used to disclose internal files and other attacks
+        </li>
+        <li>
+            Broken Access Control: Restrictions on what authenticated users can access and do are often
+            not properly enforced.
+        </li>
+        <li>
+            Security Misconfiguration: the most common issue.  insecure default configurations, misconfigured
+            HTTP headers, error messages containing sensitive info, OS/framework/library not patched and updated regularly
+        </li>
+        <li>
+            Cross-site scripting XSS: when apps include untrusted data in a new web page or updates a page with user-supplied info without proper validation, can be used to redirect users, add malicious code, deface website
+        </li>
+        <li>
+            Insecure Deserialization: Can result in remote code execution
+        </li>
+        <li>
+            Using Components with known vulnerabilities: Libraries, frameworks, other modules that have known
+            vulnerabilities used in the app
+        </li>
+        <li>
+            Insufficient Logging and Monitoring: insufficient monitoring coupled with non existant or poorly
+            integrated incident response allows attacks to go unnoticed for months, and worsening of attack
+        </li>
+    </ul>
+</body>
+</html>
