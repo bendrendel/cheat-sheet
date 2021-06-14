@@ -139,6 +139,12 @@
             Where you are send a post request to a given url with a given object to be the body's data.  And catch
             will catch any error status codes like 400's, etc.
             </li>
+            <li><strong>prompt-sync: </strong>npm install prompt-sync, is a package that can be used
+            for programs run in the node environment to easily get command line input from the user.  Normally this is a tricky thing to do with the readline core module and is done asyncronously,
+            but prompt-sync does it syncronously.  require in prompt-sync in your js file as follows:
+            <code>require('prompt-sync')({sigint: true})</code>, the import is a function and you 
+            call it right there in the import line, and you call it with a config object which allows the user to use Ctl+C to escape the program when it prompts for input. Now, you can use it as follows: <code>const name = prompt('What's your name');</code>, the input gets saved to the name variable, and it is always saved as a string, so make sure to convert numbers using node's 
+            <code>Number(varToConvert)</code> function.</li>
         </ul>
 
         <h2>Asynchronous Actions</h2>
