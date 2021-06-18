@@ -3,9 +3,13 @@
 fetch() GET/POST Request Boilerplate
 
 Request is made and sent to api-to-call.com
-If a response comes back, then the success handler runs regardless of http status
-(if the http status of the response is not ok, then the success handler throws an Error, which returns a rejected promise with the error message as at the reject reason)
-If the server could not be reached at all (e.g. server is down or heavy traffic), then the failure handler runs ("networkError")
+If a response comes back, then regardless of http status, the promise is settled as fulfilled
+Thus, in the success handler you'll want to check whether the http status is an error status or not,
+Here, if the http status of the response is not ok, then the success handler throws an Error, which returns a rejected promise with the error message as at the reject reason.
+If the server could not be reached at all (e.g. server is down or heavy traffic), then the promise is settled as rejected, and the failure handler runs ("networkError")
+Alternatively, you may not include the network error handler, and instead put a .catch() at the end of all
+this that would catch the network error instead, as well as any http errors, or any errors that come with handling the json response.
+Note response.json() returns a promise that fulfills to the json of the initial response object.
 
 fetch(https://api-to-call.com/endpoint, {settings object}).then(response => {
     if (response.ok) {

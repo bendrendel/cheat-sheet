@@ -3,10 +3,12 @@ Async-Await
 asynchronous actions: tasks we can wait on while moving on to other tasks, JS originally used callback functions for this, ES6 improved readability with native promises, and ES8 provides even better readability with async-await
   This allows JS to be non-blocking, i.e. time consuming operations like network requests can be done asynchronusly, so stack is clear for other things like UI experience
 async...await syntax: ES8 syntactic sugar (no new functionality, just new syntax for using promises and generators), more readable way of doing promises that looks like regular synchronous, imperative code
-async: keyword to create functions that handle asynchronous actions, use either before function declaration, or with function expressions, always returns a promise so by itself is just a handy way to write functions that return promises
+a
+sync: keyword to create functions that handle asynchronous actions, use either before function declaration, or with function expressions, always returns a promise so by itself is just a handy way to write functions that return promises
     -if nothing returned inside function, then returns promise with resolved value of undefined
     -if a non-promise value is returned inside function, then returns promise resolved to that value
     -if promise is returned inside function, then returns that promise
+
 await: operator that can only be used inside an async function, used in front of a promise (typically a function call that returns a promise), it pauses execution of the async function until promise settles, and once settle returns the resolved value of the promise, or throws error with rejection reason if rejected
 */
 
@@ -140,7 +142,7 @@ async function asyncAwaitVersion() {
 /****************************************/
 /****************************************/
 
-//Its possible to use regular error handling within async functions, in place of the promise's .catch method, await throws an error with the rejection reason if promise is rejected
+//Its possible to use regular error handling within async functions, in place of the promise's .catch method, await throws an error with the rejection reason if promise is rejected.  you can use try, catch and finally.
 async function asyncFunctionWithErrorHandling() {
   try {
     const firstResVal = await returnsFirstPromiseButFails();
@@ -156,7 +158,8 @@ async function asyncFunctionWithErrorHandling() {
 /****************************************/
 /****************************************/
 
-//Concurrent promises can be run inside an async function with appropriate use of await keyword, or Promise.all
+//Concurrent promises can be run inside an async function with appropriate use of await keyword, or Promise.all.  In the first example, when you set the returnsPromise functions equal to a variable, this sets off the code in the returnsPromise function immediately.  This way, both returnsPromise function run concurrently.  This is faster than if you added await in front of each returnsPromise function when you initialize it, e.g const firsResVal = await returnsFirstPromise(); because returnsFirstPromise() would have to complete before returnsSecondPromise() can begin.  In the second example, promise.all will immediately return a rejected promise upon one of the returnsPromise() functions returning a rejected promise. This is good if you wanted to add in error handling.  The first example won't return immediately upon a rejected promise, it will wait until both promises settle.
+
 async function asyncFunctionConcurrent() {
   const firstResVal = returnsFirstPromise();
   const secondResVal = returnsSecondPromise();
@@ -164,7 +167,7 @@ async function asyncFunctionConcurrent() {
 }
 
 async function asyncFunctionPromiseAll() {
-  const resValArray = Promise.all([returnsFirstPromise(), returnsSecondPromise()]);
+  const resValArray = await Promise.all([returnsFirstPromise(), returnsSecondPromise()]);
   for (let i=0; i<resValArray.length; i++) {
     console.log(resValArray[i]);
   }

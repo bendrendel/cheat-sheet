@@ -18,6 +18,12 @@ xhr.send(data);
 where data is optional depending on circumstances,
 e.g. a get request doesn't need it,
 but a post request does, e.g. const data = JSON.stringify({id: '200'});
+
+a common way to use this would be to wrap all of the above in a function
+that has some parameters like the url to call, and a callback function,
+maybe others like for the data and the response type.  For the 
+onreadystatechange, you would set it equal to your call back function,
+which could accept the xhr.response object and do something with it.
 */
 
 

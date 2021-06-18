@@ -8,10 +8,10 @@
         <a href="./index.html">Home</a>
         <h2>HTTP Requests</h2>
         <p><strong>AJAX: </strong>Asynchronous JavaScript and XML, enables requests to be made after initial page load,
-            initially for XML data but now used for requests in many different formats</p>
+            initially for XML data but now used for requests in many different formats.  The web initially could only load a whole web page at a time, i.e. the client sent a request to the server and the server sent back a web page that was loaded in the browser.  Thus, every time any new data was needed from the server (e.g. update a product listing) the entire page was reloaded.  AJAX is the collection of technologies that allow the client to request specific data from the server and integrate it into the web page without having to reload the whole page.  This means the server can provide an updated list of products to display on the page, but the header, footer, side info, etc don't have to be reloaded, saving time, bandwidth, and improving user experience.</p>
         <p><strong>XHR API: </strong>XMLHttpRequest API, an object used to create and send requests in JS,
-            also initially for XML data but now supports other formats. This is a somewhat outdated way to
-            make requests, fetch() is a modern more efficient version of it</p>
+            also initially for XML data but now supports other formats. This is an outdated way to
+            make requests, fetch() is the modern replacement version of it. You should only use it if support for older browsers is a concern.  XHR was a microsoft creation in the late 90's.</p>
         <p><strong>Query string: </strong>appended to the end of a url after a '?', consists of one or more parameters 
             separated by '&', parameters consist of key-value pairs separated by '=', 
             e.g. https://myapi.com/endpoint?key1=value1&key2=value2</p>

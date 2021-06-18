@@ -8,7 +8,7 @@
         <a href="./index.html">Home</a>
 
         <h1>Promises</h1>
-        <p><strong>Promises: </strong>native in ES6, objects that represent the eventual outcome of an asynchronous operation, create from the Promise class, has one of three states, initially pending but guaranteed to settle</p>
+        <p><strong>Promises: </strong>native in ES6, objects that represent the eventual outcome of an asynchronous operation, create from the Promise class, has one of three states, initially pending but guaranteed to settle. This is the modern replacement of callback functions, which should no longer be used unless necessary, in favor of using promises.</p>
             <ul>
                 <li><p><strong>Pending: </strong>operation not yet complete</p></li>
                 <li><p><strong>Settled - Fulfilled: </strong>Operation completed successfully and promise has a resolved value</p></li>
@@ -22,9 +22,21 @@
             can use .then() with one, both or neither argument, .then always returns a promise with the same state and resolved value/rejection reason as the calling promise, unless the success or failure handler explicity includes a return statement
             typically they're made to return a new promise, if the handler returns a non-promise value, then a resolved promise is returned by .then with a resolved value of what was returned by the handler, if the handler throws an error, an reject promise is returned with the error message as the reject reason</p>
 
-        <p><strong>.catch(onRejected): </strong>a method called on promise objects, works like .then but only takes one argument to run if the promise is in the rejected state, since .then returns a promise with same state as calling promise, you can use .then to handle success and .catch to handle failure</p>
+        <p><strong>.catch(onRejected): </strong>a method called on promise objects, works like .then but only takes one argument to run if the promise is in the rejected state, since .then returns a promise with same state as calling promise, you can use .then to handle success and .catch to handle failure.
+        .catch returns a promise, this promise is in the reject state if an Error is thrown or a rejected 
+        promise is returned, otherwise .catch will return a fulfilled promise.</p>
         <p><strong>promise composition: </strong>if only the onFulfilled argument of .then is used, and it returns a promise itself, then you can chain multiple .then calls, ending with a .catch to handle if any of the .then calls returns a rejected promise </p>
         <p><strong>promise.all([prom1, prom2, prom3, etc.]): </strong>takes an array of promises, if all promises are resolved, it returns a single resolved promise with a resolved value that is an array of the resolved values of each promise,     if any promise is rejected, it returns a single promise with a single rejection reason equal to the rejection reason of the rejected promise.  it "fails fast" as in as soon as one of the promises is rejected, promise.all immediately settles and returns a rejected promise</p>
+        <p><strong>.finally(finalCode): </strong>a method that can be called on promise object, that runs
+        when the promise is settled, regardless of it is fulfilled or rejected.  This is often used at the end of an entire promise chain, after the ending .catch of the chain.  It is useful for code you 
+        want to run whether the promises are succesful or not.  e.g. it could contain a function that logs 
+        out 'Operation complete', which would run after any success or failure handlers earlier in the chain.</p>
+        <p><strong>Use cases: </strong>Most often promises are used when fetching data from a server, and
+        you use a function like fetch() that returns a promise, and then handle the promise with .then and 
+        .catch which themselves return promises with functions like resopnse.json(), reponse.blob(), etc.
+        Another less common case is when dealing with an old-school syncronous database that you want to 
+        be able to call asyncronously.  In this case, you create your own promise object with new Promise(), 
+        and put the syncronous call to the database in this object, having it call resolve once complete, or reject if failed.  This will allow the syncronous call to run asyncronously so your stack isn't blocked.</p>
 
         <h2>Set Timeout Example</h2>
         <p id="setTimeout-example"></p>
