@@ -78,7 +78,20 @@
             <li><strong>Content-type field: </strong>If sending the client a data payload in the response body, this specifies the MIME type of the data and should match one of the types in the Accept field of the request</li>
         </ul>
         <p><strong>Body: </strong>contains data payload</p>
-        <p><strong>JSON: </strong>JavaScript Object Notation, format in which data is sent in response</p>
+        <p><strong>JSON: </strong>JavaScript Object Notation, common format in which data is transferred between client and server on the web.  It is the de facto standard to facilitate storing and sending data between all programming languages.</p>
+        <ul>
+            <li>JSON is a text string that contains a pair of curly braces filled with name-value pairs, where the name and value are separated by a colon, and each pair is separated with a comma (no ending comma after the last pair).  This is similar to javascript object syntax, except every name must be contained in double-quotes.  Javascript only requires names in double quotes when the contain a space or certain other special characters.</li>
+            <li>JSON strings may be returned as data from a server or something like that, or they may be contained in their own file, with the extension .json.</li>
+            <li>The data types of values in the JSON object can be strings (in double-quotes - not single-quotes which is okay in normal javascript), numbers (no quotes or any special container), objects (contained in curly braces, name-value separated by colon, comma delimited between name-value pairs, and with names in double quotes), arrays (contained in square brackets and comma delimited), boolean (keyword true or false with no quotes or any special container), or null (keyword null with no quotes or any special container).</li>
+            <li>JSON does not support certain data types as values, notably dates.  Dates are commonly stored as strings in the standard ISO 8601 format: "2014-01-01T23:28:56.782Z", and all programming languages should have built-in Json facilities to automatically convert this string to a date data type in that programming lanaguage.</li>
+            <li>Every programming language will have JSON facilities to help handle json.  In javascript, the built-in JSON class contains these methods.</li>
+            <ul>
+                <li>JSON.parse(myJsonString) will convert a json string called myJsonString into a normal javascript object.</li>
+                <li>JSON.stringify(myObject) will convert a regular javascript object called myObject into a
+                    JSON string.
+                </li>
+            </ul>
+        </ul>
         <strong>Example HTTP Response: </strong>
         <p><code>HTTP/1.1 200 (OK)</code>  &lt-- Protocol (indicates protocol understood), HTTP status message</p>
         <p><code>Content-Type: text/html</code>  &lt-- Type of content being sent</p>
