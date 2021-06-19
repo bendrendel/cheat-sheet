@@ -29,5 +29,41 @@
         <li><strong>Regression </strong>When previously tested functionality no longer passes the tests. Can
             happen when new features are implemented.</li>
     </ul>
+
+    <h2>Test Driven Development (TDD)</h2>
+    <p>Phases of test-drive development:</p>
+    <ol>
+        <li><strong>Add a test</strong> Convert requirements to tests, before code is written</li>
+        <li><strong>Run all tests - fail</strong> The new tests should fail because the requirements haven't been met yet</li>
+        <li><strong>Write simplest code to pass test</strong> Inelegant, hard-coded is fine</li>
+        <li><strong>Run all tests - pass</strong> Revise code until all tests pass</li>
+        <li><strong>Refactor</strong> Now make the code more logical, etc.</li>
+        <li><strong>Repeat</strong> Repeat this process for every new piece of functionality, generally using unit tests</li>
+    </ol>
+    <p>This is often simplified as:</p>
+    <ol>
+        <li><strong>Red: </strong>Tests fail (red) because code doesn't meet requirement</li>
+        <li><strong>Green: </strong>Write code as quickly as possible to make tests pass (green)</li>
+        <li><strong>Refactor: </strong>Refactor code while keeping tests green</li>
+    </ol>
+
+    <h2>Unit Testing</h2>
+    <ul>
+        <li>Automated tests written and run by developers, testing small units of code, such as a single class, a function, a module, a method, etc.</li>
+        <li>Needs to be used in conjuntion with integration testing, and other tests that test functionality of units working together</li>
+        <li>Can be used as a design-specification, essentially they define what needs to be built and how it should work and can simultaneously be
+            used to test if requirements are met.
+        </li>
+    </ul>
+
+    <h2>Integration Testing</h2>
+    <ul>
+        <li>This tests modules which have been unit tested, and aggregates them to test as a group.  Happens after unit testing,
+            but before validation and system testing.
+        </li>
+        <li>Different methods can be used such as big-bang testing which combines large aggregates of modules, or can systematically
+            test smaller aggregates first, building up to larger aggregates.
+        </li>
+    </ul>
 </body>
 </html>
