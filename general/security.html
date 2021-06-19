@@ -19,6 +19,49 @@
         <li>Security Features: A first line of defense against abuse of vulnerabilities, includes
             HTTPS and CORS.
         </li>
+        <li>Authentication: Process used by applications to confirm identities of users.</li>
+    </ul>
+
+    <h2>Authentication</h2>
+    <h3>Password Authentication</h3>
+    <ul>
+        <li>Most common kind of authentication is for user to enter email/username and password.</li>
+        <li>This is sent to a server that checks the information, and if valid, typically sends 
+            back an authentication token (auth token).  The auth token can be used by the client
+            to send with additional HTTP requests so the user doesn't have to keep logging in.  The auth
+            token usually expires after a certain amount of time.
+        </li>
+    </ul>
+    <h3>API Key</h3>
+    <ul>
+        <li>This kind of authentication is used for applications sending requests to third-party APIs.</li>
+        <li>Public APIs will provide a developer portal of some kind, allowing the developer to register
+            their application with the API and receive an API key unique to be used for that application.
+        </li>
+        <li>Allows the API to throttle requests, ensuring no spam or abuse, and ensure correct access permissions.</li>
+    </ul>
+    <h3>OAuth</h3>
+    <ul>
+        <li>This is use with APIs that provide access to user data. Generally these APIs don't allow the developer to access user data with just an API Key.  They also need the user to allow it.</li>
+        <li>One approach to this problem could be having the user provide their username and password to
+            the intermediary application accessing the API.  However, this is insecure since the intermediary
+            application now has the user's credentials and now full access to the user's account.
+        </li>
+        <li>OAuth is a better solution and is an open standard, i.e. guidelines, that many APIs follow in a roughly similar way.</li>
+        <li>The generic OAuth flow, is the user is redirected from the intermediary app to a login site for the API provider, like Google.  The API provider has them login and decide what access to allow to 
+        the intermediary.  Then the API provider redirects them back to the intermediary with an access token.
+        The access token can be used by the intermediary to gain access to the user's data.  The access token may expire after a certain time.
+        </li>
+    </ul>
+    <h3>OAuth2</h3>
+    <ul>
+        <li>A newer version of OAuth to handle different kinds of flows and levels of access</li>
+        <li>Client Credentials Grant: This is similar to the API Key authentication, and is only used by the developer, the end user does not participate in the flow.  Instead of an API Key, the API can use a client ID and client secret, granted when the application is registered with the API.  These are exchanged for an access token and sometimes a refresh token.  Access tokens are sent with requests to the API as authorization, and typically expire frequently.  Once expired, the client may have a refresh token they can use for a new access token instead of having to send the client ID and client secret again.  The refresh token generally expires any old access tokens.  The client secret should not be made publicly available in a github repo or sent to the client (all requests using it should be made server-side).  </li>
+        <li>Authorization Code Grant: Very common, and similar to OAuth, user is redirected to API provider,
+            logins in and grants permissions, then redirected back to intermediary with an authorization code.  The intermediary then sends requests to the API with the authorization code, a client ID and a client secret, to receive an access token and refresh token, used as with client credentials grant.  Tokens are now tied to a specific application and user, allowing a lot of control by the API provider.  The request that sends the client secret should again be done server-side.
+        </li>
+        <li>Implicit Grant: Similar to Authorization Code Grant, but does not send the client secret, and typically does not provide a refresh token. This allows applications to use the API who may not
+        have the server-side capabilities to send requests and keep the client secret private. </li>
     </ul>
 
     <h2>OWASP Top 10 Web App Security Vulnerabilities</h2>
