@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Structures</title>
+</head>
+<body>
+    <a href="../index.html">Home</a>
+
+    <h1>Data Structures</h1>
+
+    <h2>Basics</h2>
+    <ul>
+        <li>The backbone of every piece of software is data and algorithms.</li>
+        <li>Data structures are how data is stored and retrieved, including inputting,
+            processing, maintaining, and retrieving data.
+        </li>
+        <li>Picking a data structure depends on the intended purpose for the data,
+            whether you need memory to be statically or dynamically allocated, and
+            the speed at which the data structure can accomplish intended tasks.
+        </li>
+    </ul>
+
+    <h2>Nodes</h2>
+    <ul>
+        <li>Nodes are the building block of many data structures</li>
+        <li>A node is a piece of data (of any data type) and one or more links (called pointers) to other nodes. Pointers can be null, indicating the end of a path of nodes</li>
+        <li>Orphaned nodes are nodes which no other node has a pointer to.  This means they can't
+            be accessed and can happen if you mishandle adding, deleting, or modifying nodes.
+        </li>
+        <li>In javascript, nodes can be implemented using a class with a data property and a next property. The data can accept any data type, and the next property should only be allowed to be set to another instance of the node class.</li>
+        <li>With this structure, you can do things like loop through nodes that are linked to one another by using their next property to set a variable in the loop to the next node</li>
+    </ul>
+
+    <h2>Linked Lists</h2>
+    <ul>
+        <li>Linked lists are a series of nodes that each link to a single other node.  The first node, which no other node links to, is the head node, and the last node, which has a null link, is the tail node.</li>
+        <li>Some linked lists will use nodes that contain a link not only to the next node, but also to the previous node. These are called bidirectional linked lists.</li>
+        <li>Common operations are adding a new node to the linked list by adding it to the beginning of the list, i.e. giving it a pointer to the current head node.  Also, you may need to remove a node in the middle of the linked list, which requires you to change the pointer of the node pointing to the removed node, to the node the removed node is pointing to.</li>
+    </ul>
+</body>
+</html>
