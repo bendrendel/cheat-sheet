@@ -22,6 +22,32 @@
         <li>Authentication: Process used by applications to confirm identities of users.</li>
     </ul>
 
+    <h2>CORS</h2>
+    <h3>Security Policy</h3>
+    <ul>
+        <li>When you visit a website, it comes from one server, but it may direct your browser to
+            get assets from many different servers, like images, css files, fonts, etc.  This can pose
+            a security risk to the client if e.g the page is hijacked and malicious code is downloaded from
+            some server.
+        </li>
+        <li>Security policies can be implemented on servers to mitigate this risk</li>
+        <li>Security policies are based on the origin of assets.  The origin is the combination of 
+            the protocol (e.g. http://), the host (e.g. www.example.com/), and the port (e.g. 80 is default)
+        </li>
+        <li>Same-origin policy only allows a website to use assets from the same origin, for example a link
+            on a webpage can only go to another webpage at the same origin, or an image can only come from the same origin. This is safe but can be too restrictive.
+        </li>
+    </ul>
+
+    <h3>CORS Security Policy</h3>
+    <ul>
+        <li>CORS stands for Cross-origin resource sharing, and is a standard security policy that is less restrictive than same-origin but still provides protection.  CORS manages cross-origin http requests for assets</li>
+        <li>CORS allows servers to specify who can access assets on them, and how to access them</li>
+        <li>For example, many servers will allow cross origin GET requests from any requestor, but not allow push, pull, or delete requests.  Others may only allow requests from specific requestors.</li>
+        <li>CORS is implemented in the backend and all done using request headers. There are a dozen or so CORS request header properties. e.g. Access-Control-Allow-Origin is set to * if all origins are allowed to make requests, or some specific list of domains if only certain origins are.</li>
+        <li>Many HTTP methods like PUT, DELETE, CONNECT, will send a preflight request to the server that is sent before the real request is sent.  The server responds to the preflight request saying what methods are allowed from the user, and the user can send the real request if allowed, or cancel it if not. </li>
+    </ul>
+
     <h2>Authentication</h2>
     <h3>Password Authentication</h3>
     <ul>
