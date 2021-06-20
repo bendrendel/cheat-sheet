@@ -30,15 +30,118 @@
         <li>Orphaned nodes are nodes which no other node has a pointer to.  This means they can't
             be accessed and can happen if you mishandle adding, deleting, or modifying nodes.
         </li>
-        <li>In javascript, nodes can be implemented using a class with a data property and a next property. The data can accept any data type, and the next property should only be allowed to be set to another instance of the node class.</li>
+        <li>In javascript, nodes can be implemented using a class (example below) with a data property and a next property. The data can accept any data type, and the next property should only be allowed to be set to another instance of the node class.</li>
         <li>With this structure, you can do things like loop through nodes that are linked to one another by using their next property to set a variable in the loop to the next node</li>
+        <li><code><pre>
+            class Node {
+                constructor(data) {
+                    this.data = data;
+                    this.next = null;
+                }
+
+                setNextNode(node) {
+                    if (!(node instanceof Node)) {
+                    throw new Error('Next node must be a member of the Node class');
+                    }
+                    this.next = node;
+                }
+
+                getNextNode() {
+                    return this.next;
+                }
+            }
+
+            module.exports = Node;
+        </pre></code></li>
     </ul>
 
-    <h2>Linked Lists</h2>
+    <h2>Singly Linked Lists</h2>
     <ul>
-        <li>Linked lists are a series of nodes that each link to a single other node.  The first node, which no other node links to, is the head node, and the last node, which has a null link, is the tail node.</li>
-        <li>Some linked lists will use nodes that contain a link not only to the next node, but also to the previous node. These are called bidirectional linked lists.</li>
+        <li>Singly Linked lists are a an ordered series of nodes that each link to a single other node.  The first node, which no other node links to, is the head node, and the last node, which has a null link, is the tail node. The linked list really is nothing more than a pointer to the head node. Singly linked lists can be thought of as having a direction.</li>
         <li>Common operations are adding a new node to the linked list by adding it to the beginning of the list, i.e. giving it a pointer to the current head node.  Also, you may need to remove a node in the middle of the linked list, which requires you to change the pointer of the node pointing to the removed node, to the node the removed node is pointing to.</li>
+        <li>Many linked list problems require you to iterate through the linked list nodes, e.g. until
+            a given data value is found.  For many problems, it is helpful to iterate through the linked list with two pointers simultaneously.  E.g. a pointer that moves through the list two nodes at a time, and one the moves through one at a time, which could allow you to find the middle of the list as once the double-speed pointer gets to the end of the list, the single-speed pointer will be in the middle of the list.  Or to get the nth-last item in the list, you have one pointer iterate through to the end of the list, while another pointer iterates through, n nodes behind the first pointer.
+        </li>
+        <li>This can be implemented with a class in javascript, like this basic example below.</li>
+        <li><code><pre>
+            const Node = require('./Node');
+
+            class LinkedList {
+                constructor() {
+                    this.head = null;
+                }
+
+                addToHead(data) {
+                    const newHead = new Node(data);
+                    const currentHead = this.head;
+                    this.head = newHead;
+                    if (currentHead) {
+                        this.head.setNextNode(currentHead);
+                    }
+                }
+
+                addToTail(data) {
+                    let tail = this.head;
+                    if (!tail) {
+                        this.head = new Node(data);
+                    } else {
+                        while (tail.getNextNode() !== null) {
+                            tail = tail.getNextNode();
+                        }
+                        tail.setNextNode(new Node(data));
+                    }
+                }
+
+                removeHead() {
+                    const removedHead = this.head;
+                    if (!removedHead) {
+                        return;
+                    }
+                    this.head = removedHead.getNextNode();
+                    return removedHead.data;
+                }
+
+                deleteWithValue(data) {
+                    if (!this.head) {
+                        return
+                    }
+
+                    if (this.head.data === data) {
+                        this.head = this.head.getNextNode();
+                        return;
+                    }
+
+                    let currentNode = this.head;
+
+                    while(currentNode.getNextNode()) {
+                        if(currentNode.getNextNode().data === data) {
+                            currentNode.setNextNode(currentNode.getNextNode().getNextNode());
+                            return;
+                        }
+                        currentNode = currentNode.getNextNode();
+                    }
+                }
+
+                printList() {
+                    let currentNode = this.head;
+                    let output = '&lthead> ';
+                    while (currentNode !== null) {
+                        output += currentNode.data + ' ';
+                        currentNode = currentNode.getNextNode();
+                    }
+                    output += '&lttail>';
+                    console.log(output);
+                }
+            }
+
+            module.exports = LinkedList;
+        </pre></code></li>
+    </ul>
+
+    <h2>Doubly Linked Lists</h2>
+    <ul>
+        <li>A doubly linked list is an ordered series of nodes, each with a link to the next node in the list and the previous node in the list.  The first node is the head and has a null value for its pointer to the previous node, and the last node is the tail with a null value for its pointer to the next node. Unlike a singly linked list, the doubly linked list consists of a pointer to both the head node and the tail node.  An example of a double linked list is your browser history, where the first page you visit is the head, and subsequent pages are added to the tail, then you can traverse back and forward. Doubly linked lists can be though of as bi-directional.</li>
+        <li>Operations like adding/removing the head/tail, or inserting/removing in the middle are more complicated than singly linked lists because you need to update both the previous and next pointers of each node.  However, it can be easier with tail operations since you have a pointer to the current tail to start at, instead of having to iterate through everything to find the tail.</li>
     </ul>
 </body>
 </html>
