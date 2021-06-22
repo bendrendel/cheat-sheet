@@ -142,6 +142,112 @@
     <ul>
         <li>A doubly linked list is an ordered series of nodes, each with a link to the next node in the list and the previous node in the list.  The first node is the head and has a null value for its pointer to the previous node, and the last node is the tail with a null value for its pointer to the next node. Unlike a singly linked list, the doubly linked list consists of a pointer to both the head node and the tail node.  An example of a double linked list is your browser history, where the first page you visit is the head, and subsequent pages are added to the tail, then you can traverse back and forward. Doubly linked lists can be though of as bi-directional.</li>
         <li>Operations like adding/removing the head/tail, or inserting/removing in the middle are more complicated than singly linked lists because you need to update both the previous and next pointers of each node.  However, it can be easier with tail operations since you have a pointer to the current tail to start at, instead of having to iterate through everything to find the tail.</li>
+        <li>An example implementation is below. The imported Node would be similar to above except it would have a previous property, and setPreviousNode and getPreviousNode methods.</li>
+        <li><code><pre>
+            const Node = require('./Node');
+
+            class DoublyLinkedList {
+                constructor() {
+                    this.head = null;
+                    this.tail = null;
+                }
+
+                addToHead(data) {
+                    const newHead = new Node(data);
+                    const currentHead = this.head;
+                    if (currentHead) {
+                        currentHead.setPreviousNode(newHead);
+                        newHead.setNextNode(currentHead);
+                    }
+                    this.head = newHead;
+                    if (!this.tail) {
+                        this.tail = newHead;
+                    }
+                }
+
+                addToTail(data) {
+                    const newTail = new Node(data);
+                    const currentTail = this.tail;
+                    if (currentTail) {
+                        currentTail.setNextNode(newTail);
+                        newTail.setPreviousNode(currentTail);
+                    }
+                    this.tail = newTail;
+                    if (!this.head) {
+                        this.head = newTail;
+                    }
+                }
+
+                removeHead() {
+                    const removedHead = this.head;
+                    if (!removedHead) {
+                        return;
+                    }
+                    this.head = removedHead.getNextNode();
+                    if (this.head) {
+                        this.head.setPreviousNode(null);
+                    }
+                    if (removedHead === this.tail) {
+                        this.removeTail();
+                    }
+                    return removedHead.data;
+                }
+
+                removeTail() {
+                    const removedTail = this.tail;
+                    if (!removedTail) {
+                        return;
+                    }
+                    this.tail = removedTail.getPreviousNode();
+                    if (this.tail) {
+                        this.tail.setNextNode(null);
+                    }
+                    if (removedTail === this.head) {
+                        this.removeHead();
+                    }
+                    return removedTail.data;
+                }
+
+                removeByData(data) {
+                    let nodeToRemove;
+                    let currentNode = this.head;
+                    while (currentNode !== null) {
+                    if (currentNode.data === data) {
+                        nodeToRemove = currentNode;
+                        break;
+                    }
+                    currentNode = currentNode.getNextNode();
+                    }
+                    if (!nodeToRemove) {
+                        return null;
+                    }
+                    if (nodeToRemove === this.head) {
+                        this.removeHead();
+                    } else if (nodeToRemove === this.tail) {
+                        this.removeTail();
+                    } else {
+                        const nextNode = nodeToRemove.getNextNode();
+                        const previousNode = nodeToRemove.getPreviousNode();
+                        nextNode.setPreviousNode(previousNode);
+                        previousNode.setNextNode(nextNode);
+                    }
+                    return nodeToRemove;
+                }
+
+                printList() {
+                    let currentNode = this.head;
+                    let output = '&lthead> ';
+                    while (currentNode !== null) {
+                        output += currentNode.data + ' ';
+                        currentNode = currentNode.getNextNode();
+                    }
+                    output += '&lttail>';
+                    console.log(output);
+                }
+            }
+
+            module.exports = DoublyLinkedList;
+        </pre></code></li>
     </ul>
 </body>
 </html>
