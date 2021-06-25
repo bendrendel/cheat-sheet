@@ -31,8 +31,8 @@
             be accessed and can happen if you mishandle adding, deleting, or modifying nodes.
         </li>
         <li>In javascript, nodes can be implemented using a class (example below) with a data property and a next property. The data can accept any data type, and the next property should only be allowed to be set to another instance of the node class.</li>
-        <li>With this structure, you can do things like loop through nodes that are linked to one another by using their next property to set a variable in the loop to the next node</li>
-        <li><code><pre>
+        <li>With this structure, you can do things like loop through nodes that are linked to one another by using their next property to set a variable in the loop to the next node
+            <code><pre>
             class Node {
                 constructor(data) {
                     this.data = data;
@@ -64,8 +64,8 @@
             a given data value is found.  For many problems, it is helpful to iterate through the linked list with two pointers simultaneously.  E.g. a pointer that moves through the list two nodes at a time, and one the moves through one at a time, which could allow you to find the middle of the list as once the double-speed pointer gets to the end of the list, the single-speed pointer will be in the middle of the list.  Or to get the nth-last item in the list, you have one pointer iterate through to the end of the list, while another pointer iterates through, n nodes behind the first pointer.
         </li>
         <li>The benefit of a linked list over an array is that it is faster to add things to it, whether to the beginning, end or middle of the list.  JS automatically allocates contiguous blocks of memory for an array, and when you add to it, it may need to reallocate memory somewhere else if there isn't memory available next to the current block.  This requires copying everything in the array to a new location.  Even if there is space available, if you want to insert into the middle of the array, then it needs to move everything over in memory after the location you insert to.  Likewise if you delete from the middle of the array then it has to move over everything in memory to fill in the deleted space.  Linked lists don't have to do any reallocation of memory, adding and inserting is always merely a matter of updating pointers.  On the other hand, arrays are beneficial becuase the support direct access, i.e. you can simply use an index number to access part of an array, whereas linked lists always require sequential access, i.e. you have to start at the head and follow the pointers until you get where you want.</li>
-        <li>This can be implemented with a class in javascript, like this basic example below. Linked lists can have many other methods besides below that allows you to quickly do various things.</li>
-        <li><code><pre>
+        <li>This can be implemented with a class in javascript, like this basic example below. Linked lists can have many other methods besides below that allows you to quickly do various things.
+            <code><pre>
             const Node = require('./Node');
 
             class LinkedList {
@@ -145,8 +145,8 @@
         <li>A doubly linked list is an ordered series of nodes, each with a link to the next node in the list and the previous node in the list.  The first node is the head and has a null value for its pointer to the previous node, and the last node is the tail with a null value for its pointer to the next node. Unlike a singly linked list, the doubly linked list consists of a pointer to both the head node and the tail node.  An example of a double linked list is your browser history, where the first page you visit is the head, and subsequent pages are added to the tail, then you can traverse back and forward. Doubly linked lists can be though of as bi-directional.</li>
         <li>Operations like adding/removing the head/tail, or inserting/removing in the middle are more complicated than singly linked lists because you need to update both the previous and next pointers of each node.  However, it can be easier with tail operations since you have a pointer to the current tail to start at, instead of having to iterate through everything to find the tail.</li>
         <li>A circular linked list is one where the previous pointer of the head points to the tail, and the next pointer of the tail points to the head.</li>
-        <li>An example implementation is below. The imported Node would be similar to above except it would have a previous property, and setPreviousNode and getPreviousNode methods.</li>
-        <li><code><pre>
+        <li>An example implementation is below. The imported Node would be similar to above except it would have a previous property, and setPreviousNode and getPreviousNode methods.
+            <code><pre>
             const Node = require('./Node');
 
             class DoublyLinkedList {
@@ -259,8 +259,8 @@
         <li>Queues behave like people waiting in a line, where the front of the line is the head and the back is the tail.  They are a first-in first-out (FIFO) structure.</li>
         <li>Bounded queues have a limit to the number of nodes allowed.  Queue overflow occurs on a bounded queue if you try to enqueue past that limit.  Queue underflow can happen to bounded or non-bounded queues, and is when you try to dequeue from an empty queueu.</li>
         <li>Queues are used in breadth first search, job schedulers, print jobs, and recording and executing keyboard input.</li>
-        <li>Example implementation: </li>
-        <li><code><pre>
+        <li>Example implementation:
+            <code><pre>
             const LinkedList = require("./LinkedList");
 
             class Queue {
@@ -302,9 +302,62 @@
         </pre></code></li>
     </ul>
 
-    <h2>Stacks</h2>
+    <h3>Stacks</h3>
     <ul>
-        <li>LIFO, e.g. undo/redo list</li>
+        <li>Stacks are a series of nodes that only allows for adding to the head (push) and removing from the head (pop), as well as peek to look at head without removing.  They can be implemented using arrays and other data structures, but using a linked list is the most efficient way to do it.</li>
+        <li>Stacks behave like a stack of book, with top of stack as the head and bottom of stack the tail, they are a Last-In First-Out (LIFO) structure</li>
+        <li>Stacks can have a size limit, if you try to push onto a stack past its size limit it will cause stack overflow, and if you try to pop from an empty stack it will cause stack underflow</li>
+        <li>They are used in browser forward/back buttons, or undo/redo list</li>
+        <li>Here is an example implementation:
+            <code><pre>
+                const LinkedList = require('./LinkedList');
+
+                class Stack {
+                    constructor(maxSize = Infinity) {
+                        this.stack = new LinkedList();
+                        this.maxSize = maxSize;
+                        this.size = 0;
+                    }
+
+                    hasRoom() {
+                        return this.size &lt this.maxSize;
+                    }
+                    
+                    isEmpty() {
+                        return this.size === 0;
+                    }
+
+                    push(value) {
+                        if (this.hasRoom()) {
+                            this.stack.addToHead(value);
+                            this.size++;
+                        } else {
+                            throw new Error('Stack is full');
+                        }
+                    }
+
+                    pop() {
+                        if (!this.isEmpty()) {
+                            const value = this.stack.removeHead();
+                            this.size--;
+                            return value;
+                        } else {
+                            throw new Error('Stack is empty');
+                        }
+                    }
+
+                    peek() {
+                        if (!this.isEmpty()) {
+                            return this.stack.head.data;
+                        } else {
+                            return null;
+                        }
+                    }
+                }
+
+                module.exports = Stack;
+            </pre></code>
+        </li>
     </ul>
 </body>
 </html>
