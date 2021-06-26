@@ -364,16 +364,73 @@
     <h2>Complex Data Structures</h2>
     <h3>Hash Maps</h3>
     <ul>
-        <li>A Hash Map is a way of storing unique key-value pairs using an array of a fixed length and a hashing function.  The hashing function maps each key-value pair to an array index.  For multiple key-value pairs mapped to the same array index, a collision strategy is used.  It makes for faster retrieval of a key's value than if they were all stored in a linked list and you had to iterate through all list nodes. It allows for faster insertion/deletion time than if all the key value pairs were stored in an array and you had to constantly reallocate memory.</li>
-        <li>A map, mathematically is synomous with function.  In computer science context, it means associating unique keys with a value.</li>
-        <li>Hashing or Hash Functions take a string or other data and return an array index.  They map a large input domain (hash table keys) to a smaller output range (hash buckets, which are integer indices for an array of some predetermined length), and are sometimes called compression functions.  Information is lost in the output, so you can't map back from the hashbuckets to the keys. For every input, they calculate a hash code/hash value/hash, which should be a quick operation, such as adding up the numerical representations of characters in a hash key that is a string, or getting the numerical representation of the first character in hash keys that are strings.  Then, you take the modulus of the calculated hash value for the length of the array of hash buckets, to guarantee it will give an actual index of the array. Then you save the key's value to that array index/hash bucket.</li>
-        <li>Hash Collisions are when a hash function outputs the same hash for two different keys, meaning you would be trying to save both key's values to the same hash bucket.</li>
+        <li>A Hash Map is a way of storing unique key-value pairs (i.e. creating an associative array) using an array of a fixed length and a hashing function.  The hashing function maps each key-value pair to an array index (hash bucket) and is used to both save key-value pairs to hash-buckets, and later figure out which hash-buckets they are in to retrieve them.  For multiple key-value pairs mapped to the same array index, a collision strategy must be used.  Hash maps make for faster retrieval of a key's value than if they were all stored in a linked list and you had to iterate through all list nodes. It also allows for faster insertion/deletion time than if all the key value pairs were stored in an array and you had to constantly reallocate memory.</li>
+        <li>A map, mathematically is synomous with function.  In computer science context, it means associating unique keys with a value.  Objects are often used to do this in javascript.</li>
+        <li>Hashing or Hash Functions take a string or other data and return an integer.  They need to be deterministic, i.e. always give the same output for a given input, and should be a quick computation (e.g. get charCode of first letter of key, add charCodes together of letters in key).  Typically, they map a large input domain (all possible hash table keys) to a smaller output range (some range of integers called hash codes, hash values, or just hashes), and in this case may be called compression functions.  In this case, information is lost in the output, so you can't map back from range to the domain deterministically (irreversible).</li>
+        </li>Compression: The hash function output may not necessarily be a valid index number in the array of hash buckets.  In that case, the hash values are mapped onto valid array indices (compression)often by using modulus.  The compression step may be done within the hash function, so that the hash function returns a hash that is already a valid array index.</li>
+        <li>Hash Collisions are when a hash function outputs the same hash for two different keys, meaning you would be trying to save both key's values to the same hash bucket. A collision strategy is a way of dealing with this, and can involve using linked lists, more arrays, objects, js maps, and other methods</li>
         <ul>
             <li>First instead of just the value, we save the key-value pair, so that we know which value goes with which key in the hash bucket.</li>
             <li>This is often solved by separate chaining, which is making each hash bucket a linked list, and we append key/value pairs to the linked lists every time the hash function maps a key to that hash bucket.</li>
             <li>Open Addressing - linear probing is another method to deal with hash collisions, if the hash function tries to map a key-value pair to an hashbucket/array index that is already used, then there is a probing method that takes over to look for another index to save it at, such as checking if the next index is available, or if the fifth index away is available.  To find a key-value pair, you use the hash function and inspect that hashbucket, and if it doesn't contain the key/value pair, then you use the probing function to go to the next location it would be stored at, and so on.</li>
             <li>Clustering is when solving one hash collision ends up causing other hash collisions.  This happens with open addressing when a collision occurs and a key-value pair is stored in the next index number.  Then if another key comes along that should be stored there, it will need to get moved up to the next index.  This is lessened with non-linear probing methods like quadratic probing, where a colliding key is attempted to be stored 1 index away, then 4 away if not available, then 9 away if not available, then 16, etc.</li>
         </ul>
+        <li>Example implementation: 
+            <code><pre>
+                const LinkedList = require('./LinkedList');
+                const Node = require('./Node');
+                class HashMap {
+                constructor(size = 0) {
+                    this.hashmap = new Array(size)
+                        .fill(null)
+                        .map(() => new LinkedList());
+                }
+
+                hash(key) {
+                    let hashCode = 0;
+                    for (let i = 0; i &lt key.length; i++) {
+                        hashCode += hashCode + key.charCodeAt(i);
+                    }
+                    return hashCode % this.hashmap.length;
+                }
+
+                assign(key, value) {
+                    const arrayIndex = this.hash(key);
+                    const linkedList = this.hashmap[arrayIndex];
+                    if (linkedList.head === null) {
+                        linkedList.addToHead({ key, value });
+                        return;
+                    }
+                    let current = linkedList.head;
+                    while (current) {
+                    if (current.data.key === key) {
+                        current.data = { key, value };
+                        break;
+                    }
+                    if (!current.next) {
+                        current.next = new Node({ key, value });
+                        break;
+                    }
+                    current = current.next;
+                    }
+                }
+
+                retrieve(key) {
+                    const arrayIndex = this.hash(key);
+                    let current = this.hashmap[arrayIndex].head;
+                    while(current) {
+                        if(current.data.key === key) {
+                            return current.data.value;
+                        }
+                        current = current.getNextNode();
+                    }
+                    return null;
+                }
+                }
+
+                module.exports = HashMap;
+            </pre></code>
+        </li>
     </ul>
 </body>
 </html>
