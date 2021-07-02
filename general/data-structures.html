@@ -503,13 +503,13 @@
     <ul>
         <li>Heaps are a type of binary tree, and are either a min-heap where every parent node is less than or equal to its children and thus the root is the minimum value, or a max-heap where every parent node is greater than or equal to its children and thus the root is the maximum value of the tree.  Often the root is the only node allowed to be removed. And new nodes are add to the next open child spot.</li>
         <li>Heaps can be used to implement priority queues, to find the shortest path (Dijkstra’s Algorithm) and efficiently sorting data (heapsort)</li>
-        <li>Heaps are often more efficiently implemented as a list instead of a tree, where the list can be mapped to a binary tree by filling in the tree from top to bottom, left to right.  This way the root of the tree has list index 0.  The root's left child is index 1, it's right child is index 2, the furthest left grandchild is index 3, and so on.  Each parent's left child has an index of (parentIndex*2)+1, and each their right child has an index of (parentIndex*2)+2.  Alternatively, if the root is index 1, then the left child will be parent*2 and the right child will be parent*2 + 1.  The left child is always even in this case, and thus parent = leftchild/2 = floor(leftchild/2) since leftchild is divisible by 2.  since floor(leftchild/2) = floor(leftchild/2 + 1/2) = floor((leftchild+1)/2) = floor(rightchild/2) we have parent = floor(leftchild/2) = floor(rightchild/2) or simply parent = floor(child/2). To recap, for root index = 1:</li>
+        <li>Heaps are often more efficiently implemented as a list instead of a tree of node objects, where the list can be mapped to a binary tree by filling in the tree from top to bottom, left to right.  This way the root of the tree has list index 0.  The root's left child is index 1, it's right child is index 2, the furthest left grandchild is index 3, and so on.  Each parent's left child has an index of (parentIndex*2)+1, and each their right child has an index of (parentIndex*2)+2.  Alternatively, if the root is index 1, then the left child will be parent*2 and the right child will be parent*2 + 1.  The left child is always even in this case, and thus parent = leftchild/2 = floor(leftchild/2) since leftchild is divisible by 2.  since floor(leftchild/2) = floor(leftchild/2 + 1/2) = floor((leftchild+1)/2) = floor(rightchild/2) we have parent = floor(leftchild/2) = floor(rightchild/2) or simply parent = floor(child/2). To recap, for root index = 1:</li>
         <ul>
             <li>leftchild = parent * 2<li>
             <li>rightchild = parent * 2 + 1<li>
             <li>parent = floor(child / 2)</li>
         </ul>
-        <li>Heapifying is when you swap a parent and child that are out of order - e.g. for a min-heap when the child is smaller than the parent, you swap them.  When you add a new node to the bottom of heap you may need to heapify up (aka bubble up) by swapping the new node with its parent, and repeating this process until it is no longer greater than or less than its parent depending on if its a max or min heap.  When you remove a node, you first swap the node to remove with the last node in the heap, then remove it, then swap the swapped node with its smallest/largest child depending on if it is min/max heap to put it in order - this is to heapify down.</li>
+        <li>Heapifying is when you swap a parent and child that are out of order - e.g. for a min-heap when the child is smaller than the parent, you swap them.  When you add a new node to the bottom of heap you may need to heapify up (aka bubble up) by swapping the new node with its parent, and repeating this process until it is no longer greater than or less than its parent depending on if its a max or min heap.  When you remove a node, you first swap the node to remove with the last node in the heap, then remove it, then swap the swapped node with its smallest/largest child depending on if it is min/max heap to put it in order - this is to heapify down aka bubble down.</li>
         <li>If a heap of size 1 (the root only) is considered height 0, size 3 is height 1, size 7 is height 2, etc.  Then the max number of nodes at a given height is given by 2^0 + 2^1 + 2^2 + 2^3 + .... + 2^h = 2^(h+1) - 1.  This is a simple geometric series.</li>
         <li>Example implementation: 
         <code><pre>
@@ -594,6 +594,125 @@
 
             module.exports = MinHeap;
         </pre></code></li>
+    </ul>
+
+    <h3>Graphs</h3>
+    <ul>
+        <li>Graphs are composed of nodes (aka vertices) connected by edges.</li>
+        <li>Graphs are used to represent networks.  They can represent a bus map, with the vertices as bus stops and edges as bus routes between stops.  They can represent the internet, with web pages as vertices and hyperlinks between them as edges.</li>
+        <li>Adjacent vertices are connected directly by a single edge.</li>
+        <li>A path comprised the edges in a series of adjacent vertices</li>
+        <li>A cycle or cyclical graph is when a path ends on the same vertex it started on</li>
+        <li>Connectedness, the higher the ratio of edges to vertices, the more connected the graph is</li>
+        <li>Disconnected graphs are graphs that have at least two vertices with no path between them</li>
+        <li>Edges can be bidirectional or undirected (social network friends are friends with each other) or unidirectional or directed (one way street edges between intersection vertices).  These can be mixed in a single graph.</li>
+        <li>Edges can also be weighted, where each edge has a numerical weight or cost associated with it, and the total weight or cost of a path is the sum of the edges in the path.  The edges in a visual representation of a graph won't necessarily all be scaled to the weight.  For example, weight could represent travel time between nodes, but the graph's edges visually might be scaled to distance between nodes. Weighted/unweighted edges can be mixed in a single graph.</li>
+        <li>Adjacency Matrix, lists all vertices as rows in the matrix, and all vertices as columns in the matrix.  If a vertex in a row is adjacent to another vertex, then a "1" is put in the vertex's row under the column of the adjacent vertex.  Otherwise, a "0" is placed.  For weighted graphs, the edge's weight is placed instead of "1".</li>
+        <li>Adjacency List, is a list of all the vertices, with the vertices they're adjacent too.  Could be an object with the keys being the vertices, and the values being arrays of the vertices adjacent to that key.</li>
+        <li>Example Edge Implementation:
+            <code><pre>
+                class Edge {
+                    constructor(start, end, weight = null) {
+                        this.start = start;
+                        this.end = end;
+                        this.weight = weight;
+                    }
+                }
+
+                module.exports = Edge;
+            </pre></code>
+        </li>
+        <li>Example Vertex implementation:
+            <code><pre>
+                const Edge = require('./Edge.js');
+
+                class Vertex {
+                    constructor(data) {
+                        this.data = data;
+                        this.edges = [];
+                    }
+
+                    addEdge(vertex, weight) {
+                        if (vertex instanceof Vertex) {
+                            this.edges.push(new Edge(this, vertex, weight));
+                        } else {
+                            throw new Error('Edge start and end must both be Vertex');
+                        }
+                    }
+
+                    removeEdge(vertex) {
+                        this.edges = this.edges.filter(edge => edge.end !== vertex);
+                    }
+
+                    print() {
+                        const edgeList = this.edges.map(edge =>
+                            edge.weight !== null ? `${edge.end.data} (${edge.weight})` : edge.end.data);
+
+                        const output = `${this.data} --> ${edgeList.join(', ')}`;
+                        console.log(output);
+                    }
+                }
+
+                module.exports = Vertex;
+            </pre></code>
+        </li>
+        <li>Example Graph Implementation:
+            <code><pre>
+                const Edge = require('./Edge.js');
+                const Vertex = require('./Vertex.js');
+
+                class Graph {
+                    constructor(isWeighted = false, isDirected = false) {
+                        this.vertices = [];
+                        this.isWeighted = isWeighted;
+                        this.isDirected = isDirected;
+                    }
+
+                    addVertex(data) {
+                        const newVertex = new Vertex(data);
+                        this.vertices.push(newVertex);
+
+                        return newVertex;
+                    }
+
+                    removeVertex(vertex) {
+                        this.vertices = this.vertices.filter(v => v !== vertex);
+                    }
+
+                    addEdge(vertexOne, vertexTwo, weight) {
+                        const edgeWeight = this.isWeighted ? weight : null;
+
+                        if (vertexOne instanceof Vertex && vertexTwo instanceof Vertex) {
+                            vertexOne.addEdge(vertexTwo, edgeWeight);
+
+                            if (!this.isDirected) {
+                                vertexTwo.addEdge(vertexOne, edgeWeight);
+                            }
+                        } else {
+                            throw new Error('Expected Vertex arguments.');
+                        }
+                    }
+
+                    removeEdge(vertexOne, vertexTwo) {
+                        if (vertexOne instanceof Vertex && vertexTwo instanceof Vertex) {
+                            vertexOne.removeEdge(vertexTwo);
+
+                            if (!this.isDirected) {
+                                vertexTwo.removeEdge(vertexOne);
+                            }
+                        } else {
+                            throw new Error('Expected Vertex arguments.');
+                        }
+                    }
+
+                    print() {
+                        this.vertices.forEach(vertex => vertex.print());
+                    }
+                }
+
+                module.exports = Graph;
+            </pre></code>
+        </li>
     </ul>
 </body>
 </html>
