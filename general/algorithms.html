@@ -11,7 +11,7 @@
     <h1>Algorithms</h1>
     <h2>Asymptotic Notation</h2>
     <ul>
-        <li>Runtime is used to describe how efficient a program is. Since processor speeds vary or perhaps the efficiency of different programming languages, time is not is not usually used, but rather the number of operations the porgram has to perform based on the input.</li>
+        <li>Runtime or time complexity is used to describe how efficient a program is. Since processor speeds vary or perhaps the efficiency of different programming languages, time is not is not usually used, but rather the number of operations the porgram has to perform based on the input.</li>
         <li>Execution Count is a precise count of how many operations/instructions are performed by a function or program expressed as a function of the input size N.</li>
         <li>Asymptotic Notation describes the asymptotic behavior of the execution count is generally an easier and just as useful way to describe runtime.  It eliminates all constants and all but the largest term from the execution count function. So, if a program has a complex polynomial execution count, only the largest power termm will be used with no constant factor.  Or, if a program has multiple sections with different runtimes, only the section with the slowest runtime will be counted since it will have the largest term, i.e. we only care about the part of the program that runs the slowest when using asympmtotic notation.  e.g. if a program prints all numbers from 1 to N (linear runtime N) and then divides N by 2 until 1 is reached (logarithmic runtime log N), the execution count would be N + log N, but the asymptotic runtime will be N only since that is the larger term.  There are three variations of asymptotic notation:</li>
         <ul>
@@ -29,7 +29,9 @@
             <li>Θ(2^N) is exponential runtime common with recursive functions</li>
             <li>Θ(N!) is factorial runtime common when generating all permutations of some input</li>
         </ul>
+        <li>Space Complexity is used to describe how much memory is needed for a program or function and is also described using asymptotic notation.  It describes the amount of space needed in relation to input size, and generally does not include counting the input itself.  So if a function takes 10 arrays as input but simply prints "Hello world" in the body, it has a space complexity of O(1).  A function that takes an array as input and outputs a new array that doubles each value in the input array would have a space complexity of O(N) because the output array size grows linearly as the input size grows. However, if that same function mutated the input array instead of creating a new array it would have space complexity of O(1) because no new spaces is needed to perform the function.  Time complexity is generally more important to consider, but second to that it is important to optimize for space.  Space complexity might be considered when breaking a tie between two programs that have the same time complexity.</li>
     </ul>
+    
 
     <h2>Recursion</h2>
     <ul>
