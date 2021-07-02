@@ -58,6 +58,9 @@
                 <ul>
                     <li><p><code>fs.readFile(file, encoding, callback(err, data)) </code>used to get the contents of a file see example in nodejsbasics2.js</p></li>
                     <li><p><code>fs.createWriteStream(fileName) </code>This allows you to write to a file one line at a time through an open writeable stream to the file.  provide the filename to write to, returns a file stream, can use the .write() method on the file stream to write a line, and .end() method to end the stream</p></li>
+                    <li><p><code>fs.appendFileSync(path, str)</code> This will append a string, str, to the file at the give path (in quotes, and can be relative path like './myFile.txt'), if the file doesn't exist it will be created.</p></li>
+                    <li><p><code>fs.readFileSync(path)</code> will return the contents of the file at path as a string, could be saved to a variable for instance.</p></li>
+                    <li><p><code>fs.unlinkSync(path);</code> will delete file at give path, used in conjuction with appendFileSync, readFileSync</p></li>
                 </ul>
             </li>
             <li>

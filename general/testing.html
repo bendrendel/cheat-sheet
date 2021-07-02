@@ -13,12 +13,13 @@
     <h2>Terminology</h2>
     <ul>
         <li><strong>Software Testing </strong>Assessing the completeness and quality of computer software,
-            usually by comparing actual behavior to expected behavior.</li>
+            usually by comparing actual behavior/outcome to expected behavior/outcome.</li>
         <li><strong>Bugs </strong>An error, fault, or flaw making software behave in an unexpected way.</li>
         <li><strong>Manual Testing </strong>Testing done by a human interacting with the system</li>
         <li><strong>Automated Testing </strong>Testing done by software interacting with the system.
             This is faster and more reliable than manual testing and can be done more frequently, 
-            often after every significant change to the software.</li>
+            often after every significant change to the software.  Developers use test frameworks to organize
+            automated tests.</li>
         <li><strong>Test Code </strong>The code written to test software, in contrast to implementation
             code that is the code of the software itself.  Often stored along with implementation code.
             e.g. index.js is the implementation code and in the same folder is index-test.js with test code</li>
@@ -64,6 +65,102 @@
         <li>Different methods can be used such as big-bang testing which combines large aggregates of modules, or can systematically
             test smaller aggregates first, building up to larger aggregates.
         </li>
+    </ul>
+
+    <h2>Mocha</h2>
+    <ul>
+        <li>Mocha is a javascript test framework, which should be installed using <code>npm install mocha -D</code> in the root directory of a project, to save it to the dev dependcies of the project (-D)</li>
+        <li>Once installed, it can be executed from the project root directory with <code>./node_modules/mocha/bin/mocha</code>, however it is more common to set it as the test script
+        in the project's package.json by setting <code>"test": "mocha"</code> in the scripts object, so mocha can be executed using <code>npm test</code>. This will run the full test suite instead of having
+        to run each test in your test folder individually.</li>
+        <li>The <code>describe()</code> and <code>it()</code> are mocha methods that provide structure to your test code.  They both accept two arguments, a descriptive string and a callback function.</li>
+        <ul>
+            <li><code>describe()</code> groups related tests together. the first argument should describe the grouping, and the callback function contains the test code and may include nested
+            describe() functions to create subgroups of tests</li>
+            <li><code>it()</code> defines the actual tests.  the first argument should describes the functionality tested such as 'returns argument with highest value', and the callback function should
+            define the test</li>
+            <li>Example code: 
+                <code><pre>
+                    describe('Math', () => {
+                        describe('.max', () => {
+                            it('returns the argument with the highest value', () => {
+                                // Your test goes here
+                            });
+                            it('returns -Infinity when no arguments are provided', () => {
+                                // Your test goes here
+                            });
+                        });
+                    });
+                </pre></code>
+            </li>
+        </ul>
+        <li>The <code>assert.ok()</code> method comes from a core node module, and commonly used with Mocha to perform a test. It must be imported to the test file with <code>const assert = require('assert');</code></li>
+        <ul>
+            <li><code>assert.ok()</code> accepts a single conditional statement such as <code>assert.ok(myVar === 3)</code> and throws an AssertionError if condition is false.  This communciates to mocha that a test has failed
+            and logs it to the console.</li>
+            <li>Example Code:
+                <code><pre>
+                    describe('+', () => {
+                        it('returns the sum of its arguments', () => {
+                            // Write assertion here
+                            assert.ok(3 + 4 === 7);
+                        });
+                    });
+                </pre></code>
+            </li>
+        </ul>
+        <li>Test Phases are a good way to organize the test code inside an it statement callback function, to make it more maintainable, readable, and expressive</li>
+        <ul>
+            <li>Setup: create any variables, conditions, etc. needed to perform your test</li>
+            <li>Exercise: using your setup, execute the actual functionality being tested</li>
+            <li>Verify: using the outcome of the excerise, compare to expected outcome, can use assert.ok()</li>
+            <li>Teardown: not always needed, this resets any conditions changed during the test such as altering files or directory structure, changing read/write permissions for a file, editing database records.
+                This ensures your test is isolated.
+            </li>
+            <li>Example Code:
+                <code><pre>
+                    describe('appendFileSync', () => {
+                        it('writes a string to text file at given path name', () => {
+
+                            // Setup
+                            const path = './message.txt';
+                            const str = 'Hello Node.js';
+                            
+                            // Exercise: write to file
+                            fs.appendFileSync(path, str);
+
+                            // Verify: compare file contents to string
+                            const contents = fs.readFileSync(path);
+                            assert.ok(contents.toString() === str);
+
+                            // Teardown: delete path
+                            fs.unlinkSync(path);
+                        });
+                    });
+                </pre></code>
+            </li>
+        </ul>
+        <li>Hooks are generally a better way to write setup and teardown code instead of including it directly in your it callback code.  Hooks are included inside the describe callback function along with the
+            it function calls.  Hooks include <code>beforeEach(), afterEach(), before(), after()</code> and accept a single callback function as an argument.  For example, the provided callback function for afterEach() will
+            run after every time an it callback runs in the same describe callback.  This is especially important to use for teardown code because it ensures the teardown code will run even if the it callback ends early
+            due to an assertError or other error being thrown.  The teardown code would not run after the error if it was included in the it callback directly.
+        </li>
+        <ul>
+            <li>Example code:
+                <code><pre>
+                    describe('example', () => {
+                    
+                        afterEach(() => {
+                            // teardown goes here
+                        });
+                        
+                        it('.sample', () => {
+                            // test goes here
+                        });
+                    });
+                </pre></code>
+            </li>
+        </ul>
     </ul>
 </body>
 </html>
