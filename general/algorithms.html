@@ -31,7 +31,6 @@
         </ul>
         <li>Space Complexity is used to describe how much memory is needed for a program or function and is also described using asymptotic notation.  It describes the amount of space needed in relation to input size, and generally does not include counting the input itself.  So if a function takes 10 arrays as input but simply prints "Hello world" in the body, it has a space complexity of O(1).  A function that takes an array as input and outputs a new array that doubles each value in the input array would have a space complexity of O(N) because the output array size grows linearly as the input size grows. However, if that same function mutated the input array instead of creating a new array it would have space complexity of O(1) because no new spaces is needed to perform the function.  Time complexity is generally more important to consider, but second to that it is important to optimize for space.  Space complexity might be considered when breaking a tie between two programs that have the same time complexity.</li>
     </ul>
-    
 
     <h2>Recursion</h2>
     <ul>
@@ -49,5 +48,68 @@
         </ul>
         <li>Each recusive call adds to the call stack, calling the function with a different execution context that gets closer and closer to the base case.  When the base case is reached, the last function call returns, allowing earlier calls to return one by one.</li>
     </ul>
+
+    <h2>Bubble Sort</h2>
+    <ul>
+        <li>Bubble Sort is a common simple sorting algorithm.  It compares subsequent pairs of adjacent elements in an unsorted list starting with the first two elements and swaps them if the first element is larger than the second.  This forces the largest element in the list
+            to end up at the end of the list.  This is then repeated on the remaining unsorted elements, moving the second largest element to the second to last position in the list.  This continues until no more swaps occur indicating the list is sorted.
+        </li>
+        <li>To swap elements, you'll need a temporary variable to hold one of the elements or a language that supports multiple assignment in one line</li>
+        <li>The runtime is O(n^2).  Consider this requires you to make n-1 comparisons (and possible swaps) when you go through a list of length n once.  You have to go through the list making swaps up to n-1 times to get everything ordered.  But each time you go through, the number of comparisons (and possible swaps) needed decreases by one.  Calculating the actual execution count is something like below. Up to n-1 times through the list making comparisons and swaps (x2 operations), but decreasing the number of items by one each round:
+        </li>
+        <ul>
+            <li>
+                <pre>
+                                    n-1 terms
+                    2[(n-1)+(n-2)+(n-3)+...+(n-(n-2))+(n-(n-1))]
+                    =2[(n-1)+(n-2)+(n-3)+...+n-(n-2)+n-(n-1)]
+
+                    n even
+                    2[(n-1)+(n-2)+...+(n-n/2)+...+n-(n-2)+n-(n-1)]
+                    =2[n-n/2+n*(n/2-1)]
+                    =2[n(1-1/2+n/2-1)]
+                    =2[n(n/2-1/2)]
+                    =2[n((n-1)/2)]
+                    =n^2-n
+
+                    n odd
+                    2[((n-1)/2)*n]
+                    =n^2-n                    
+                </pre>
+            </li>
+        </ul>
+        <li>Bubble sort doesn't have a great big O, but it has a good big omega (Ω) of Ω(n), because in the best case scenario, the list is already sorted, so the algorithm just loops once through the list making comparisons, realizes no swaps were made and quits.  This makes bubble sort a good choice if you know a list is nearly fully sorted.</li>
+        <li>Example implementation with swap helper function:
+            <code><pre>
+                const swap = (arr, indexOne, indexTwo) => {
+                    const temp = arr[indexTwo];
+                    arr[indexTwo] = arr[indexOne];
+                    arr[indexOne] = temp;
+                };
+
+                const bubbleSort = input => {
+                    let swapCount = 0
+                    let swapping = true;
+                    
+                    while (swapping) {
+                        swapping = false;
+                        for (let i = 0; i &lt input.length - 1; i++) {
+                            if (input[i] > input[i + 1]) {
+                                swap(input, i, i + 1);
+                                swapCount++;
+                                swapping = true;
+                            }
+                        }
+                    }
+                    console.log(`Swapped ${swapCount} times`);
+                    return input;
+                };
+            </pre></code>
+        </li>
+    </ul>
 </body>
 </html>
+
+
+
+
