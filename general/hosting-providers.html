@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hosting Providers</title>
+</head>
+<body>
+    <a href="../index.html">Home</a>
+    <h1>Hosting Providers</h1>
+    <h2>Basics</h2>
+    <ul>
+        <li>Hosting: Hosting Providers are companies that maintain lots of servers and you can rent out server space for your website files and make available and accessible to anyone on the internet, e.g. GitHub pages, NameCheap Stellar hosting service</li>
+        <li>Website builders: Wix, squarespace, other content management systems, allow you to build websites without being a developer, maintain databases, networks, servers, email, etc.  Good for quick, or if you don't want to build it</li>
+        <li>Shared Web Hosting: You can rent a slice of a server for your website, shared with others, if someone else's site/app on the server consumes lots of resources, then yours will suffer</li>
+        <li>Dedicated Hosting: You can rent an entire dedicated server usually more expensive but don't have to share resources</li>
+        <li>Cloud Hosting: Vast network of data centers and computing resources, you can run different parts of your application on different types of machines/resources, e.g. one part of your app may be cpu hungry and another memory hungry</li>
+        <ul>
+            <li>Infrastructure as a service (IaaS): You get raw infrastructure resources - servers, storage, networks, and you must maintain them, provider ensures adequate servers, power, redundancy, security, etc, but you manage a lot else</li>
+            <li>Platform as a service (PaaS): You just provide your application and don't have to worry about configuring linux, etc like with IaaS</li>
+            <li>Functions as a service (Faas): AKA serverless.  provider manages tons, you don't provide an application, but specific functions, and the cloud provider runs your functions</li>
+        </ul>
+    </ul>
+
+    <h2>Providers</h2>
+    <ul>
+        <li>
+            <p>Github Pages: Good simple hosting, good for static files, simple html/css, or maybe compiled react, free easy to use, for Hosting service for webpages, well integrated with github, will auto-deploy whenever you push to a Github remote</p>
+            <p>you can have a repository named username.github.io and this will be the main hosted site at username.github.io, and can be set to host all of your repositories at username.github.io/repositoryname, repositories must have index.html file as home page</p>
+            <p>to use a custom domain name with Github pages, include a file name "CNAME" (no extension) in the repository with your custom domain on line 1 and nothing else (e.g. mycustomdomain.com)</p>
+            <p>One option to quickly set up a site is to use Jekyll themes found on the Github Pages settings page, you can customize the content</p>
+        </li>
+        <li>
+            <p>Netlify: Like github pages, good for simple hosting of static web pages. But has
+                a number of features that github pages doesn't have, like automated builds and server-side
+                functions, and form controls.</p>
+            <ul>
+                <li>Can create a new site from a github repo host, such as 
+                    github.  Can give netlify access to all your repos on github, or specific
+                    repos.  Site > Create New Site > Github > select repo.
+                </li>
+                <li>Select the owner and branch to deploy (typically master). Also can 
+                    give a build command like npm run build, and select the directory that
+                    is made by the build command that is to be published to the web.
+                </li>
+            </ul>
+            <h3>Amazon Web Services (AWS) Cloud Functions with Netlify</h3>
+            <ul>
+                <li>In the root directory of your project, add a folder called e.g 'cloud-functions',
+                    in this directory you can add .js files that each have a cloud function that will
+                    be run on AWS hardware in the cloud.  There is an example of this type of file below.
+                    The name of the file would be descriptive like secret-area.js.  It defines a single method
+                    called exports.handler.  This function is run when the url for the function is visited.
+                    It is given an event with the http request information, for example if you send a post request
+                    to the function's url, the body of the post request can be accessed with event.body, and 
+                    event.httpMethod would be equal to 'POST'.
+                </li>
+                <li>
+                    The example below parses out the JSON of event.body, and then checks the password property
+                    of the resulting object.  It then runs the callback function, which sends the http
+                    response to the client, which takes null as the first argument (error first?), and then
+                    takes an object with info for the response, including the status code to send, and the body.
+                    In this case, the status is either 200 for OK or 401 for unauthorized, and the body is some
+                    html sent only for 200.  The example also includes setting the headers and checking if
+                    the http request method is POST.  Setting the headers to allow for any origin can be done as
+                    shown to allow for testing on a development server.  Without this, the request would
+                    not allow a request to be received from a local development server, so you couldn't test 
+                    sending requests to it from a development server.  You'd have to push it to netlify to the real site for it to work.  A more lasting solution to this problem is to use Netlify Dev
+                    available as a service through Netlify that will give you a dev server that doesn't need this workaround.
+                </li>
+                <li>
+                    On the netlify site, go to your site's settings > Functions > Edit settings.  Enter
+                    in the name of your cloud functions directory just by itself with no slashes, e.g.
+                    'cloud-functions'.  Then, within your settings > Functions you should see each of the
+                    .js files in your cloud functions directory. If you click on them it will show you the unique
+                    url each one gets.  This is the url that you can send http requests to, e.g. post requests.
+                </li>
+                <li>
+                    Now on the front end of your website, you can send post requests to the URL that netlify
+                    gives you for the cloud function.  For example, you could have a function like below
+                    that sends a post request using Axios to the url that Netlify gives you for the example
+                    cloud function below.
+                    <code><pre>
+                    sendRequest() {
+                        Axios.post('https://dreamy-thompson-4da149.netlify.app/.netlify/functions/secret-area', {password: this.field.value}).then(response => {
+                            console.log(response.data);
+                        }).catch(() => {
+                            console.log('error caught');
+                        });
+                    }
+                    </pre></code>
+                </li>
+                <li>
+                    There's a good chance you will want to make your github repository private if you are
+                    using cloud functions, because there may be functions you don't want the public to be able 
+                    to see, e.g. checking a password you don't want the public to be able to see the password
+                    in your js file.  Github repos can be set to private through settings > manage access, even
+                    for free github accounts.
+                </li>
+                <li>
+                    <h4>Example cloud function js file:</h4>
+                    <code><pre>
+                    exports.handler = function (event, context, callback) {
+                        const headers = {
+                            'Access-Control-Allow-Origin': '*',
+                            'Access-Control-Allow-Headers': 'Content-Type',
+                        };
+
+                        if (event.httpMethod !== 'POST') {
+                            return callback(null, {
+                                statusCode: 200,
+                                headers,
+                                body: 'This was not a POST request',
+                            });
+                        }
+
+                        const secretBody = `
+                            &lth3>Welcome to the Secret Area&lt/&h3>
+                            &ltp>Here we can tell you that the sky is &ltstrong>blue&lt/strong>,
+                            and two plus two equals four.&lt/p>
+                        `;
+
+                        let body;
+
+                        if (event.body) {
+                            body = JSON.parse(event.body);
+                        } else {
+                            body = {};
+                        }
+
+                        if (body.password === 'javascript') {
+                            callback(null, {
+                                statusCode: 200,
+                                body: secretBody
+                            });
+                        } else {
+                            callback(null, {
+                                statusCode: 401,
+                            });
+                        }
+                    }
+                    </pre></code>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <p>Surge: <a href="https://surge.sh/">surge.sh</a> Super simple command line deployment
+                option. Make sure to install surge globally with npm install --global surge.  You'll
+                get a domain like https://benjamming.surge.sh/.  Simply run your build command, and navigate to your public folder, or for simple static sites without a build step, just
+                from your root directory.  From your public folder run the command <code>surge</code>
+                in the command line. This will walk you through some steps and deploy your site.
+                </p>
+        </li>
+        <li>
+            <p>Heroku: Cloud PaaS. Good for doing a web application with a backend, maybe the next thing to consider if github pages and netlify aren't enough.  Good for more complex full-stack apps, e.g. if you have a node.js backend and database.  not free.</p>
+        </li>
+        <li>
+            <p>Digital Ocean: Cloud provider providing full control over cloud resources, less complex than AWS or Google Cloud, but more control than a basic PaaS like Heroku</p>
+        </li>
+        <li>
+            <p>Amazon AWS, Microsoft Azure, Google, the bigger cloud providers, bigger learning curve for web applications with backend</p>
+        </li>
+    </ul>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Web Basics</title>
+    </head>
+    <body>
+        <a href="./index.html">Home</a>
+
+        <h2>Web Stack</h2>
+        <p><strong>Stack: </strong>The collection of technologies used on the front and back end of a website, e.g. MEAN is MongoDB, Express, Angular, Node, LAMP is the archetypal stack Linux, Apace, MySQL, PHP</p>
+        <ul>
+            <li><p><strong>Front-end: </strong>Everything that runs in the browser, also called client-side programming, composed of static assests such as JavaScript, CSS, HTML, images, and videos</p></li>
+            <li><p><strong>Back-end: </strong>Also called server-side programming, behind-the-scenes processes and data, much of it is CRUD operations on a database, </p></li>
+            <ul>
+                <li><p><strong>Application: </strong>All the logic in the back-end required to deliver dynamic content, manage security, process payments, send an email confirmation, perform a search algorithm, etc. sometimes called the application server. Serves content to the client, can provide an API to clients to access/manipulate data using HTTP request/response cycle and may be public or internal only.  Language/Framework used will provide API to interact with a database.  Many languages and frameworks like PHP/Laravel, JavaScript Node/Express, Ruby/Rails, Python/Django or Flask, Java</p></li>
+                <li><p><strong>Database: </strong>Data storage in the back-end, two major types are relational (e.g. MySQL, PostgreSQL, Oracle) and non-relational (e.g. MongoDB, Redis, stores data in key-value pairs or a document storage model instead of tables)</p></li>
+                <li><p><strong>Authentication: </strong>Process of validating the identity of a user, e.g. username and password, securely stored on back-end and checked upon visiting, or may use external resources like Google credentials</p></li>    
+                <li><p><strong>Authorization: </strong>Controls which users have access to which resources and actions</p></li> 
+            </ul>
+        </ul>
+        <p><strong>Deploy: </strong>Making software or content accessible and available for use.  For web, software is made accessible of internet. Happens over and over during the course of a software project</p>
+        <p><strong>Static Assets: </strong>Files that don't change, these are what get sent to the browser</p>
+        <p><strong>Dynamic Content: </strong>When the backend has logic deciding what assets to send based on the day or the user, etc</p>
+        <p><strong>Static Website: </strong>A website where the server sends the client the files needed to view the site, and they don't change or move.  Twitter for example is not static because it updates content as it changes</p>
+        <p><strong>Event-driven architecture: </strong>Traditional imperative programming executes a series of instructions in order, but for web applications, we need logic to handle things that could occur at different times (e.g. clickin a button), js and node.js use event-driven architecture</p>
+        <p><strong>Simple Web Project Directory Structure: </strong>use lowercase folder and filenames with words separated by hyphens
+            because casing and spaces will be interpreted differently in different situations, and google recognizes hyphens as a word separator</p>
+        <pre class="code-pre ">d
+            <code>
+            project/
+            ├── scripts/
+            |   └── script.js
+            ├── styles/
+            |   └── style.css
+            ├── images/
+            |   └── image.jpg
+            └── index.html
+            </code>
+        </pre>
+        <p><strong>Web Browsers: </strong></p>
+        <ul>
+            <li><strong>Firefox</strong></li>
+            <li><strong>Chrome</strong></li>
+            <li><strong>Opera</strong></li>
+            <li><strong>Safari</strong></li>
+            <li><strong>Internet Explorer</strong> Old and incompatible with some modern web features.
+                Very few people still use this so don't normally need to worry about it</li>
+            <li><strong>Microsoft Edge</strong></li>
+            <li><strong>Lynx</strong> Text-based terminal web browser good for seeing how visually-impaired will use site</li>
+            <li><strong>Brave</strong></li>
+        </ul>
+
+        <h2>REST</h2>
+        <p><strong>Representational State Transfer (REST): </strong>An architectural style for providing standards 
+            between computer systems on the web allwing easier communication between systems characterized by 
+            separation of client and server, and statelessness. systems following this are called REST-compliant 
+            or RESTful systems, communicate through a RESTful interface</p>
+        <ul>
+            <li><p><strong>Separation of Client and Server: </strong> needing only to know how to format message 
+                to each other, client and server can be implemented independently and code changed at any 
+                time without affecting the other, improves modularity, allows independent evolution, 
+                flexibility afforded by dedicated ui to work across different platforms, scalability by 
+                simplified server components, allows different clients to do the same actions to the same 
+                REST endpoints of a server and receive the same responses</p></li>
+            <li><p><strong>Statelessness: </strong>the client and server do not need to know what state the 
+                other is in, and can understand any message independently without knowing previous messages.  
+                enforced through, instead of commands, the use of resources through standardized operations 
+                that do not rely on implementation of interfaces, more reliable, faster, scalable, ability 
+                to componentize the system to allow for better management, updating, reusing, etc. </p></li>
+        </ul>
+        <p><strong>Client: </strong>In REST architecture, a client is the process interacting with the server, 
+            sending requests over the internet to retrieve or modify resources.  Could be a web browser requesting 
+            a website, could be another application, mobile device, smart appliance. AKA user-agent, any tool
+            that acts on behalf of the user.</p>
+        <p><strong>Web Server: </strong>A process running on a computer that listens for incoming requests from clients and sends back responses, a given machine could run multiple servers and each server should have a unique port that traffic is routed to, but they all share the same IP address. every website has at least one web server and could have many thousands for huge sites like Facebook. Servers appear virtually as a single machine but in reality could be a collection of machines sharing the load, could be piecing together info from multiple other computers</p>
+        <p><strong>Proxies: </strong>Between client and server there are numerous entities called proxies that
+            perform different operations and act as gateways or caches. Could be filtering like antivirus,
+            load balancing allowing multiple servers to serve the requests, authentication, logging.
+            There are also many computers like routers, modems, and more</p>
+        <p><strong>Request/Response Cycle: </strong>Communication between clients and servers in REST works one
+            message at a time (instead of a stream of data) and requires clients to send a <em>request</em> to 
+            retrieve or modify resources and servers to then send a <em>response</em>. A single webpage may make 
+            the client send many requests to many servers, e.g. an image from one server, an ad from another, etc.
+            This works as below:</p>
+        <ul>
+            <li><p>1. Client reads protocol of given URL</p></li>
+            <li><p>2. Client reads domain name of given URL and gets its IP address from DNS</p></li>
+            <li><p>3. Client opens TCP connection to the server at the IP address,
+                    may reuse an existing connection or open several connections</p></li>
+            <li><p>4. Client sends HTTP request</p></li>
+            <li><p>5. Server receives request and sends response</p></li>
+            <li><p>6. The response may prompt the client to make additional requests
+                    to the same or other servers to get stylesheets, scripts, images, etc.</p></li>
+            <li><p>7. TCP connection is closed</p></li>
+        </ul>        
+        <p><strong>Resource: </strong>Any entity on the web including HTML files, stylesheets, images, videos, 
+            and scripts, "nouns"/things of the web</p>
+        <p><strong>MIME Types: </strong>Multipurpose Internet Mail Extensions, consist of a type and subtype 
+            separated by a slash</p>
+        <ul>
+            <li><code>text/html, text/css</code> text file containing html or css</li>
+            <li><code>text/plain</code> generic text file, note this is not a super-type for text data, 
+                i.e. text/plain is a separate type and not interchangeable with other text subtypes like text/html</li>
+            <li><code>image/png, image/jpeg, image/gif</code> respective image types</li>
+            <li><code>audio/wav, audio/mpeg</code> respective audio types</li>
+            <li><code>video/mp4, video/ogg</code> respective video types</li>
+            <li><code>application/json, application/pdf, application/xml, application/octet-stream</code> 
+                respective application types</li>
+        </ul>
+        <p><strong>URL: </strong>Uniform Resource Locator</p>
+        <p><strong>Network Protocol: </strong>Format of a request from a client to a server and resulting response, 
+            e.g. HTTP</p>
+        <p><strong>TCP: </strong>Transmission Control Protocol, creates and manages the network channels between 
+            the client and server, used for many types of internet connections where one computer sends data 
+            to another</p>
+
+        <h2>Domain Names</h2>
+        <p>IP Address: This is what computers use to identify each other and communicate</p>
+        <p>Domain Name: A human-friendly name that serve as aliases for the IP address of web hosting servers, often called a web address, also enables an email account, consists of a top level domain and second level domain</p>
+        <ul>
+            <li><p>Second Level Domain: to the left of the period in a domain name, e.g. mydomain in the the domain mydomain.com, should be short, memorable, easy to spell (avoid easily misspelled or confused things like hyphens, abbreviations, numbers)</p></li>
+            <li><p>Top Level Domain (TLD): to the right of the period in the domain like .com, .org, .io, etc., all treated equally by google search</p></li>
+        </ul>
+        <p>Sub-domain: not part of the domain name but rather defined as a subdomain with a CNAME record, it is the "www" portion of the web address</p>
+        <p>Protocol: also not part of the domain name, it is the "https" part of the web address </p>
+        <p>Domain Name System (DNS): A global system that translates which domain names correspond to which servers IP address</p>
+        <p>when you type a domain name in your browser, it first checks it cache memory to see if it can pull the website from there,
+            if not then it goes to the Resolver which is the internet service provider to see if it can find it,
+            if not then it goes to the Root Server, there are only 13 in the world, and the root server instructs the resolver server on how to find the IP address
+            now the resolver sends the domain to the TLD (Top Level Domain) Server which stores the address information for the top level domains and sends it back to the resolver server
+            Now the resolver server sends it to the name server, which knows everything about the domain including the IP address, it sends it back to your computer which then stores it in its cache so it doesn't have to do this again when it wants the site
+        </p>
+        <p>Domain Name Registrar: Allows you to register domain names and create DNS records, e.g. Namecheap, Amazon Web Service's Route 53, creates unique name servers for the custom domain</p>
+        <p>Hosted Zone: A group of DNS records for a single domain, needs an NS record that matches the name servers of the domain name which links it to the domain name, an A record that links the domain name (e.g. mydomain.com, the root domain) to the IP address of the host servers, and a CNAME record for www subdomain (e.g. www.mydomain.com) that links to the canoncial name</p>        
+        <p>DNS Records: Globally accessible records that map domain names to servers</p>
+        <ul>
+            <li><p>A record (Address): A - IPv4 address, directs a domain name (e.g. mydomain.com) to an IP address of the servers hosting the site.  e.g. an A record for a GitHub hosted site should have two IP address values: 192.30.252.153 and 192.30.252.154</p></li>
+            <li><p>CNAME record (Canonical Name): specifies a domain name to use as an alias for the true (canonical) domain name, conventially create a CNAME record with name "www" and value is canonical domain name (e.g. username.github.io), this will make www.mydomain.com a subdomain of the root domain, mydomain.com</p></li>
+            <li>
+                <p>NS record (Name Server): associates domain names with the correct DNS records, form of verification, when typing an address your browser first retrieves the name servers, then those are responsible for getting necessary DNS records</p>
+                <p>e.g. in AWS Route 53, (handled automatically) the name servers have to be set on the registered domain name, and then that essentially links to a hosted zone with the same name servers, and the hosted zone has the additional necessary DNS records</p>
+            </li>
+        </ul>
+    </body>
+</html>

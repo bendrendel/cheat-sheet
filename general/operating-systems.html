@@ -12,13 +12,40 @@
 
     <h2>Basics</h2>
     <ul>
-        <li>Operating systems are the central piece of software running on every computer.  It manages the hardware and software resources of a system (e.g. processor, disk space, memory, keypad, network connection, etc), and provides a stable and consistent way for other software to interact with the hardware without knowing hardware details.  The first task involves managing CPU usage, memory, i/o, etc. to ensure demands on limited system resources are used for the greatest good of the user and applications.  The second task involves providing a consistent API to software developers that manages all the hardware details so other software doesn't have to and will still run on different machines, when hardware is upgraded, if memory capacity changes, regardless of what type of printer is connected, etc.  Users interact with the OS and its managers through the user interface.  Windows, Mac OS, Linux, and Unix are the major Operating Systems.  There are four essential managers of every operating system that work together:</li>
+        <li>Operating systems provide an interface between the computer user and hardware.  It manages the hardware and software resources of a system (e.g. processor, disk space, memory, keypad, network connection, etc), and provides a stable and consistent way for other software to interact with the hardware without knowing hardware details.  The first task involves managing CPU usage, memory, i/o, etc. to ensure demands on limited system resources are used for the greatest good of the user and applications.  The second task involves providing a consistent API to software developers that manages all the hardware details so other software doesn't have to and will still run on different machines, when hardware is upgraded, if memory capacity changes, regardless of what type of printer is connected, etc.  Users interact with the OS and its managers through the user interface.  Windows, Mac OS, Linux, and Unix are the major Operating Systems.  There are four essential managers of every operating system that work together:</li>
         <ul>
-            <li>Memory Manager: Manages RAM (main memory), scans every request for memory and allows allocation if available, takes care of deallocation</li>
-            <li>Process Manager: Manages the CPU, keeps track of status each process, handles jobs as they enter system and the processes associated with those jobs</li>
-            <li>Device Manager: Monitors every device, channel, and control unit, chooses most effecient way to allocate system devices that are connected.</li>
-            <li>File Manager: Checks every file on the system, data files, program files, compilers, installed applications, sets permissions at user level.</li>
-            <li>Network Manager: A fifth manager that is practically essential these days, Allows sharing of hardware and software resources while controlling access</li>
+            <li>Memory Manager: Manages RAM (main or primary memory - a large array of addressed bytes or words that can be accessed directly by the CPU and is where programs are loaded to to run)</li>
+            <ul>
+                <li>Keeps track of what memory is being used for what purpose, what memory is not in use</li>
+                <li>Decides which processes get memory and how much</li>
+                <li>Allocates and deallocates memory when a program requests to do so or if determined it can be deallocated</li>
+            </ul>
+            <li>Process Manager: Manages which process gets to use the CPU (central processing unit) and for how long (process scheduling)</li>
+            <ul>
+                <li>The traffic controller keeps track of the status of processes and the processor</li>
+                <li>Allocates and deallocates the processor to processes</li>
+            </ul>
+            <li>Device Manager: Manages device communication via their respective drivers</li>
+            <ul>
+                <li>The I/O controller keeps track of all devices</li>
+                <li>Decides which process gets each device, when and for how long</li>
+                <li>Allocates and deallocates devices</li>
+            </ul>
+            <li>File Manager: Manages the systems stored resources, usually organized in a heirarchical directory structure</li>
+            <ul>
+                <li>The File System keeps track of information, locations, uses, status, of all files</li>
+                <li>Decides who gets the resources (including user permissions)</li>
+                <li>Allocates and de-allocates the resources</li>
+            </ul>
+            <li>Other Important OS Activiites</li>
+            <ul>
+                <li>Network Manager: Allows sharing of hardware and software resources while controlling access</li>
+                <li>Security: Password/user management</li>
+                <li>System Performance: monitors delay between requests and responses of system</li>
+                <li>Job Accounting: Keeps track of time and resources used by jobs and users</li>
+                <li>Error Detecting: Produces dumps, traces, error messages, and other aides</li>
+                <li>Coordination between other users and software: Assignment of compilers, interpreters, and assemblers to users</li>
+            </ul>
         </ul>
     </ul>
 </body>
