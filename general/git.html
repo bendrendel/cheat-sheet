@@ -114,6 +114,13 @@
                             threshold after the -M if desired, e.g. -M75</li>
                     </ul>
             </ul>
+            <p><strong>git stash: </strong>This stores unstaged changes in a special 'stash'.  Good if you're not ready to make a commit, but you need to leave the branch you're on and go work on something else.</p>
+            <ul>
+                <li><strong>git stash -u: </strong>The -u mean include untracked files and its best to use stash with this option to save your stash.  It will include both changes to existing files and any brand new files that you haven't started tracking yet.</li>
+                <li><strong>git stash pop: </strong>This will restore the saved stash back to your working directory</li>
+                <li><strong>git stash drop: </strong>This will delete the saved stash</li>
+
+            </ul>
 
             <h2>Backtracking Commands</h2>
             <p><strong>git show HEAD: </strong>shows log info and all committed changes for the HEAD commit</p>
@@ -121,8 +128,9 @@
                 resets, deletions of branches, and rebases</p>
                 <ul>
 
-                    <li><strong>gitk --all `git reflog | cut -c1-7`& </strong>use this comman to open a GUI showing the reflog so you can more
+                    <li><strong>gitk --all `git reflog | cut -c1-7`& </strong>use this comman to open a GUI showing the reflog so you can 
                         better see the organization of the reflog, which branches are out on their own, what commits are no longer part of it</li>
+                    <li><strong>git reflog show branch-name</strong> shows the full reflog history for the given branch-name only</li>
                 </ul>
 
             <h3>Reset</h3>
