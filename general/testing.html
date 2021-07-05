@@ -52,9 +52,9 @@
     </ol>
     <p>This is often simplified as:</p>
     <ol>
-        <li><strong>Red: </strong>Tests fail (red) because code doesn't meet requirement</li>
-        <li><strong>Green: </strong>Write code as quickly as possible to make tests pass (green)</li>
-        <li><strong>Refactor: </strong>Refactor code while keeping tests green</li>
+        <li><strong>Red: </strong>Write tests to describe how code should behave, tests fail (red) because code doesn't meet requirement</li>
+        <li><strong>Green: </strong>Write the minimum possible code to address the test's error message.  Repeat until all tests pass (green).  e.g. the object you are testing doesn't exist (reference error) so you create the object.  Then the method in the object doesn't exist so you create the method.  Then the method returns undefined, so you make it return the hard-coded expected result, now the test passes.</li>
+        <li><strong>Refactor: </strong>Refactor code while testing often to ensure it stays green, and backtracking if it doesn't. This includes refactoring both test code and implementation code.  e.g. you may refactor your test code to be broken into setup/exercise/verify phases. You may add an additional test that feeds your method a different input expecting a different result and see that your method fails the test because it is returning the hard-coded expected result of the previous test. This forces you to refactor the implementation code to return a dynamic value based on input.  You might then write a test for edge cases, like providing the wrong data type as input or an empty array as input, and let that fail and guide refactoring of implementation code.  You may also simply refactor implementation code to make it more concise, reduce duplication, etc.  You may or may not need to refactor at all in this step, depending on the complexity of the functionality and testing.</li>
     </ol>
 
     <h2>Unit Testing</h2>
@@ -82,7 +82,7 @@
         <li>Once installed, it can be executed from the project root directory with <code>./node_modules/mocha/bin/mocha</code>, however it is more common to set it as the test script
         in the project's package.json by setting <code>"test": "mocha"</code> in the scripts object, so mocha can be executed using <code>npm test</code>. This will run the full test suite instead of having
         to run each test in your test folder individually.  You can put <code>"test": "mocha test/**/*_test.js"</code> to specifically run anything in any folder of the test directory that ends in _test.</li>
-        <li>Typically the architecture is you'll have a test folder in the root of your project, with one or more js files containing tests.  You might have an index.js file, and a corresponding index_test.js file in the test folder.  In the index_test.js you'll typically need to require in index.js at the top (and index.js will need a module.exports statement) so you can test the functionality in index.js.  You'll also typically require in the assert core module.  You don't have to require in Mocha if its been installed as described above.</li>
+        <li>Typically the architecture is you'll have a test folder in the root of your project, with one or more js files containing tests.  You might have an index.js file, and a corresponding index_test.js file in the test folder.  In the index_test.js you'll require in index.js at the top (and index.js will need a module.exports statement) so you can test the functionality in index.js.  You'll also typically require in the assert core module.  You don't have to require in Mocha if its been installed as described above.</li>
         <li>The <code>describe()</code> and <code>it()</code> are mocha methods that provide structure to your test code.  They both accept two arguments, a descriptive string and a callback function.</li>
         <ul>
             <li><code>describe()</code> groups related tests together. the first argument should describe the grouping, and the callback function contains the test code and may include nested
