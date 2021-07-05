@@ -23,7 +23,15 @@
         <li><strong>Test Code </strong>The code written to test software, in contrast to implementation
             code that is the code of the software itself.  Often stored along with implementation code.
             e.g. index.js is the implementation code and in the same folder is index-test.js with test code</li>
-        <li><strong>Test Suite </strong>A collection of tests for an application.  A good test suite is fast, complete, reliable, isolated (tests don't have side effects), maintainable, and expressive (easy to read and descriptive, making it useful for documentation)</li>
+        <li><strong>Test Suite </strong>A collection of tests for an application.  A good test suite is maintainable, complete, fast, isolated, reliable, and expressive (MC-FIRE)</li>
+        <ul>
+            <li>Fast: Fast tests encourage the developer to run tests more often and save time, integration tests generally take longer than unit tests, so a test suite that is heavy on integration tests will be slower</li>
+            <li>Complete: A test suite that cover 100% of your code base will give you confidence the program is working correctly</li>
+            <li>Reliable: The test suite gives the same output for the same version of the program, i.e. it doesn't fail one time and then pass the next</li>
+            <li>Isolated: Tests don't make changes that persist when the test is done running, which could impact other tests or have other unexpected results</li>
+            <li>Maintainable: Well-organized so it is easy to add, edit, and remove tests, encouraging completeness</li>
+            <li>Expressive: Tests should be descriptive of functionality tested, which effectively documents the purpose of the software</li>
+        </ul>
         <li><strong>Documentation </strong>Any content separate from implementation code explaining how it
             works or how to use it.  Tests can be a form of documentation that is unique in that it is
             both readable by humans and computers to confirm it works as described.</li>
@@ -32,6 +40,7 @@
     </ul>
 
     <h2>Test Driven Development (TDD)</h2>
+    <p>A development method that writes test code to define program behavior before implementation code</p>
     <p>Phases of test-drive development:</p>
     <ol>
         <li><strong>Add a test</strong> Convert requirements to tests, before code is written</li>
