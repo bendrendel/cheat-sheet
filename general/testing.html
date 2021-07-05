@@ -40,7 +40,7 @@
     </ul>
 
     <h2>Test Driven Development (TDD)</h2>
-    <p>A development method that writes test code to define program behavior before implementation code</p>
+    <p>A development method that writes test code to define program behavior before implementation code, and only writes implementation code in response to failed tests, addressing one failure at a time.</p>
     <p>Phases of test-drive development:</p>
     <ol>
         <li><strong>Add a test</strong> Convert requirements to tests, before code is written</li>
@@ -54,7 +54,7 @@
     <ol>
         <li><strong>Red: </strong>Write tests to describe how code should behave, tests fail (red) because code doesn't meet requirement</li>
         <li><strong>Green: </strong>Write the minimum possible code to address the test's error message.  Repeat until all tests pass (green).  e.g. the object you are testing doesn't exist (reference error) so you create the object.  Then the method in the object doesn't exist so you create the method.  Then the method returns undefined, so you make it return the hard-coded expected result, now the test passes.</li>
-        <li><strong>Refactor: </strong>Refactor code while testing often to ensure it stays green, and backtracking if it doesn't. This includes refactoring both test code and implementation code.  e.g. you may refactor your test code to be broken into setup/exercise/verify phases. You may add an additional test that feeds your method a different input expecting a different result and see that your method fails the test because it is returning the hard-coded expected result of the previous test. This forces you to refactor the implementation code to return a dynamic value based on input.  You might then write a test for edge cases, like providing the wrong data type as input or an empty array as input, and let that fail and guide refactoring of implementation code.  You may also simply refactor implementation code to make it more concise, reduce duplication, etc.  You may or may not need to refactor at all in this step, depending on the complexity of the functionality and testing.</li>
+        <li><strong>Refactor: </strong>Refactor code while testing often to ensure it stays green, and backtracking if it doesn't. This includes refactoring both test code and implementation code.  e.g. you may refactor your test code to be broken into setup/exercise/verify phases. You may add an additional test that feeds your method a different input expecting a different result and see that your method fails the test because it is returning the hard-coded expected result of the previous test. This forces you to refactor the implementation code to return a dynamic value based on input.  You might then write a test for edge cases, like providing the wrong data type as input or an empty array as input, and let that fail and guide refactoring of implementation code.  You may also simply refactor implementation code to make it more concise, reduce duplication, use more efficient methods, etc.  You may or may not need to refactor at all in this step, depending on the complexity of the functionality and testing.</li>
     </ol>
 
     <h2>Unit Testing</h2>
