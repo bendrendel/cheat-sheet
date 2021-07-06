@@ -116,6 +116,35 @@
             <li>2. Merge: Now merge the neighboring single elements into two element lists in order from smallest to largest. Continue merging the lists by comparing the leftmost elements and adding the smallest to the merged list, then comparing the remaining leftmost elements and adding the smallest to the merged list, and so on.</li>
         </ul>
         <li>It has runtime O(n*log n) with no variability (doesn't matter if list is already nearly sorted).  It has space complexity of up to O(n)</li>
+        <li>Example implementation: 
+            <code><pre>
+                const mergeSort = (startArray) => {
+                    const length = startArray.length;
+                    if (length === 1) {
+                        return startArray;
+                    }
+                    
+                    const mid = Math.floor(length / 2);
+                    const leftArray = startArray.slice(0, mid);
+                    const rightArray = startArray.slice(mid, length);
+
+                    return merge(mergeSort(leftArray), mergeSort(rightArray))
+                }
+
+                const merge = (leftArray, rightArray) => {
+                    const sortedArray = [];
+                    while (leftArray.length > 0 && rightArray.length > 0) {
+                        if (leftArray[0] &lt rightArray[0]) {
+                            sortedArray.push(leftArray.shift());
+                        } else {
+                            sortedArray.push(rightArray.shift());
+                        }
+                    }
+                
+                    return sortedArray.concat(leftArray).concat(rightArray);
+                }
+            </pre></code>
+        </li>
     </ul>
 </body>
 </html>
