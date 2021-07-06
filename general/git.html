@@ -55,6 +55,7 @@
                     <li>Can use git init in a local project directory that you've already worked on to start using version control</li>
                     <li>For a brand new project, helpful to use git init projectname to create a git project directory named projectname in the current directory</li>
                 </ul>
+            <p><strong>git config --global alias.sla 'log --oneline --decorate --graph --all'</strong> This will create an alias for a long command, in this case you alias the log command with options, to 'sla', (short log all), and this can then be run with simply 'git sla' in the command line</p>
             <p><strong>git status: </strong>check status of changes in working directory</p>
             <p><strong>git add filename: </strong>adds filename to the staging area, can list multiple filenames one after the other separated by a space or a single period adds all files in working directory (git add .)</p>
             <ul>
@@ -105,7 +106,12 @@
                 <li><strong>git log --stat </strong>shows files involved in each commit</li>
                 <li><strong>git log --patch </strong>shows the difference between each subsequent commit, like in diff command</li>
                 <li><strong>git log --graph --all --decorate --oneline </strong>--graph shows a graph of all your commits and different branches
-                    other options aren't necessary, just a recommended way to change how graph looks</li>
+                    other options aren't necessary, just a recommended way to change how graph looks, very useful way to look at history</li>
+                <li><strong>git log --pretty=format: '%C(yellow)%h%C(reset) - %an [%C(green)%ar%C(reset)] %s'</strong> %h is shortened commit hash, %an is author, %ar is relative date of commit, %s is short summary, %C sets a color and then resets a color basically wrapping something in that color.  This allows you to make your own format for the log. </li>
+                <li><strong>git log -E -i --grep 'cach(e|ing)'</strong> This will search through your commit messages of everything in the history, for a regular expression, in this case it will find anything with cache or cahing in the history.  -E extended regular expressions for full searching power, -i case insensitive</li>
+                <li><strong>git log -S with_active_subscription </strong>-S searches the actual code in each commit for any changes that involve the provided string.  In this case it will show any commit that changes the number of occurances of the provided string with_active_subscription, great if you have code you need to find</li>
+                <li><strong>git log --oneline -- MyFile.txt</strong> Will show all changes to just the provided file MyFile.txt.  This example includes the --oneline option which is mandatory, and use -- with a space after the option, which is needed to separate options from arguments, you could also just run git log MyFile.txt if you don't want oneline.</li>
+                <li><strong>git blame MyFile.txt</strong> gives you the name of who changed each line in the file.</li>
                 <li><strong>git log --stat -- filename </strong>shows all commits that contain changes to the given filename, which should include extension
                     and may contain a filepath e.g. git log --stat -- images/myimg.jpg</li>
                     <ul>
@@ -123,7 +129,7 @@
             </ul>
 
             <h2>Backtracking Commands</h2>
-            <p><strong>git show HEAD: </strong>shows log info and all committed changes for the HEAD commit</p>
+            <p><strong>git show HEAD: </strong>shows log info and all committed changes for the HEAD commit, or any commit hash you give it</p>
             <p><strong>git reflog: </strong>the reflog provides 30 days of all history on a branch, both forward commits and backward
                 resets, deletions of branches, and rebases</p>
                 <ul>
