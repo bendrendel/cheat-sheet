@@ -146,6 +146,29 @@
             </pre></code>
         </li>
     </ul>
+
+    <h2>Quicksort</h2>
+    <ul>
+        <li>A recursive sorting method</li>
+        <ul>
+            <li>1. Partition: Pick a 'pivot element' from the list, then break the list into two partitions, one with elements less than the pivot element, and one with elements greater than the pivot.  Eelements equal to the pivot could go in either partition.  Repeat this on each partition until there is 1 or 0 elements in the partitions. You don't include the pivot element in either partition.</li>
+            <li>2. Merge</li>
+
+        </ul>
+        <li>Picking the pivot element:</li>
+        <ul>
+            <li>One good way to pick the pivot element is at random instead of say, always picking the first element.  If you always pick the first element, the algorithm would perform badly on lists that are already sorted because one partition would have all the elements and the other would have just one.  Picking at random will mean that no particular data set will perform badly.</li>
+            <li>Another good method is to take the median of the first, middle, and last elements in the list, which tends to create uniform partitions</li>
+        </ul>
+        <li>Runtime</li>
+        <ul>
+            <li>The worst case runtime is O(n^2) and the average case is O(n*log n).  The worst case is so uncommon that usually it is thought of as O(n*log n)</li>    
+            <li>The worst case occurs when the pivot element is always the min or max of the list, and thus each time you partition you end up with everything in one partition, this would require n partitioning steps, and for each partition you would have a merge step that does essentially n operations, making for n^2</li>
+            <li>The best case occurs when the pivot element is always the median so you end up with equal partitions each time you partition, this would cut the list in half with each partition and get down to 1 element in log2 N steps.  Then the merge step at each level would be n operations, making for n*log n</li>
+        </ul>
+        
+
+    </ul>
 </body>
 </html>
 
