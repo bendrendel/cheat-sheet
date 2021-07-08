@@ -35,8 +35,20 @@
         <li><strong>Documentation </strong>Any content separate from implementation code explaining how it
             works or how to use it.  Tests can be a form of documentation that is unique in that it is
             both readable by humans and computers to confirm it works as described.</li>
+        <li><strong>Coverage </strong>Refers to the scope of what is tested. Often testing only covers functionality - i.e. meeting the requirements.  But testing could expand coverage to security, ease of use, and speed</li>
+        <ul>
+            <li>Code Coverage: This refers to automated tests, and the extent to which they test every area of code</li>
+            <li>Test Coverage: This refers to the QA team testing that the software meets the requirements, and the extent to which it tests all the requirements</li>
+            <ul>
+                <li>Product Coverage: The extent to which all areas of the product are tested</li>
+                <li>Risk Coverage: The extent to which possible risks have been tested for</li>
+                <li>Requirements Coverage: The extent to which all requirements have been tested</li>
+            </ul>
+        </ul>
         <li><strong>Regression </strong>When previously tested functionality no longer passes the tests. Can
             happen when new features are implemented.</li>
+        <li><strong>Mock Testing </strong>This is when you use a fake version of an internal or external service (e.g. JSON from an API), for testing purposes. This is good to use when possible to save time when running the test.</li>
+        <li><strong>Stub Testing </strong>Similar to mock testing, except you only fake some portion of the internal or external service that is specifically needed for the test.  Like mock testing, this is good to use to save time when running the test.  An example is instead of creating an actual error condition by e.g. creating a corrupt file programmatically and then testing what happens when your program tries to read it, you could stub the file system with some functionality that returns the error code for a corrupt file and feed that to your test, instead of actually creating the corrupt file.</li>
     </ul>
 
     <h2>Test Driven Development (TDD)</h2>
@@ -57,13 +69,23 @@
         <li><strong>Refactor: </strong>Refactor code while testing often to ensure it stays green, and backtracking if it doesn't. This includes refactoring both test code and implementation code.  e.g. you may refactor your test code to be broken into setup/exercise/verify phases. You may add an additional test that feeds your method a different input expecting a different result and see that your method fails the test because it is returning the hard-coded expected result of the previous test. This forces you to refactor the implementation code to return a dynamic value based on input.  You might then write a test for edge cases, like providing the wrong data type as input or an empty array as input, and let that fail and guide refactoring of implementation code.  You may also simply refactor implementation code to make it more concise, reduce duplication, use more efficient methods, etc.  You may or may not need to refactor at all in this step, depending on the complexity of the functionality and testing.</li>
     </ol>
 
-    <h2>Unit Testing</h2>
+    <h2>Testing Heirarchy</h2>
+    <p>Unit/Component Testing is the fastest and cheapest testing and is done often.  You move up the heirarchy only as previous tests are exhuasted, as higher up tests are slower and more resource expensive.</p>
+    <h2>Unit/Component Testing</h2>
     <ul>
         <li>Automated tests written and run by developers, testing small units of code, such as a single class, a function, a module, a method, etc.</li>
         <li>Needs to be used in conjuntion with integration testing, and other tests that test functionality of units working together</li>
+        <li>Expect Unit Tests to evolve as the implementation code evolves and implementation details change, unit test code is not as static as higher level tests that test overall functionality that doesn't change as much.</li>
         <li>Can be used as a design-specification, essentially they define what needs to be built and how it should work and can simultaneously be
             used to test if requirements are met.
         </li>
+        <li>Unit Testing is fast and cheap, and you should rely heavily on these in your test suite</li>
+    </ul>
+
+    <h2>Contract Testing</h2>
+    <ul>
+        <li>When two services integrate with each other they have expectations about what is received and returned, which can be thought of as a contract between integrated endpoints.</li>
+        <li>You can test internal services (microservices architecture) this way also, and use mocks and stubs for the expected returned values from the other system.</li>
     </ul>
 
     <h2>Integration Testing</h2>
@@ -74,6 +96,12 @@
         <li>Different methods can be used such as big-bang testing which combines large aggregates of modules, or can systematically
             test smaller aggregates first, building up to larger aggregates.
         </li>
+        <li>Integration Testing is slower and more expensive on resources than unit testing, and should only be done once unit tests have been exhuasted.</li>
+    </ul>
+
+    <h2>UI Layer Testing</h2>
+    <ul>
+        <li></li>
     </ul>
 
     <h2>Mocha</h2>
