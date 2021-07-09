@@ -151,8 +151,8 @@
     <ul>
         <li>A recursive sorting method</li>
         <ul>
-            <li>1. Partition: Pick a 'pivot element' from the list, then break the list into two partitions, one with elements less than the pivot element, and one with elements greater than the pivot.  Eelements equal to the pivot could go in either partition.  Repeat this on each partition until there is 1 or 0 elements in the partitions. You don't include the pivot element in either partition.</li>
-            <li>2. Merge</li>
+            <li>1. Partition: Pick a 'pivot element' from the list, then reorder the list into two partitions, one with elements less than the pivot element, and one with elements greater than the pivot.  Elements equal to the pivot could go in either partition.</li>
+            <li>2. Recurse: Now partition the partitions from the step above, reordering elements in the list, and continue until the partitions are only one element, meaning the whole list will be sorted</li>
 
         </ul>
         <li>Picking the pivot element:</li>
@@ -163,10 +163,45 @@
         <li>Runtime</li>
         <ul>
             <li>The worst case runtime is O(n^2) and the average case is O(n*log n).  The worst case is so uncommon that usually it is thought of as O(n*log n)</li>    
-            <li>The worst case occurs when the pivot element is always the min or max of the list, and thus each time you partition you end up with everything in one partition, this would require n partitioning steps, and for each partition you would have a merge step that does essentially n operations, making for n^2</li>
+            <li>The worst case occurs when the pivot element is always the min or max of the list, and thus each time you partition you end up with everything in one partition, this would require n partitioning steps, and for each partition you would have n comparison and swap steps, making for n^2</li>
             <li>The best case occurs when the pivot element is always the median so you end up with equal partitions each time you partition, this would cut the list in half with each partition and get down to 1 element in log2 N steps.  Then the merge step at each level would be n operations, making for n*log n</li>
         </ul>
-        
+        <li>Example implementation:
+            <code><pre>
+                const quicksort = (array, leftBound = 0, rightBound = array.length - 1) => {
+                    if (leftBound &lt rightBound) {
+                        const pivotIndex = partition(array, leftBound, rightBound);
+                        quicksort(array, leftBound, pivotIndex - 1);
+                        quicksort(array, pivotIndex, rightBound);
+                    }
+                    return array;
+                }
+
+                const partition = (array, leftIndex, rightIndex) => {
+                    const pivot = array[Math.floor((rightIndex + leftIndex) / 2)];
+                    while (leftIndex $lt= rightIndex) {
+                        while (array[leftIndex] &lt pivot) {
+                            leftIndex++;
+                        }
+                        while (array[rightIndex] > pivot) {
+                            rightIndex--;
+                        }
+                        if (leftIndex &lt= rightIndex) {
+                            swap(array, leftIndex, rightIndex);
+                            leftIndex++;
+                            rightIndex--;
+                        }
+                    }
+                    return leftIndex;
+                }
+
+                const swap = (arr, indexOne, indexTwo) => {
+                    const temp = arr[indexTwo];
+                    arr[indexTwo] = arr[indexOne];
+                    arr[indexOne] = temp;
+                }
+            </pre></code>
+        </li>
 
     </ul>
 </body>
