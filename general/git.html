@@ -23,8 +23,11 @@
             <p><strong>Git workflow: </strong>edit files in working directory, add files to staging area, save changes (commit) to repository</p>
             <p><strong>Git collobarative workflow: </strong>fetch and merge changes from remote, create new local branch to work on feature, develop feature on new branch making commits along way, when done fetch and merge from remote again, push project branch to remote for review</p>
             <p><strong>Github: </strong>simply a cloud storage service popularly used for backing up Git repositories, you copy (push) your local repository to Github periodically to back it up, GitHub automatically displays contents of README.txt if in your repository</p>
-            <p><strong>HEAD: </strong>the commit you are currently on in the sequence of commits</p>
-            <p><strong>branch: </strong>essentially when a copy of the repository is made at a given commit, then creating two independent branches of future commits</p>
+            <p><strong>HEAD: </strong>this is what is currently checkout out, and typically points to a branch.  Less typically, it can also point directly to a commit which is called a detached head state, and commits cannot be made in this state.</p>
+            <p><strong>branch: </strong>this is simply a pointer to a commit, which updates to the child commit if you make a commit while the branch is checked out</p>
+            <p><strong>commit: </strong>this is a pointer to a tree, in particular it always points to the root tree/working directory tree, it also points to its parent commit, the one that the head branch was pointing to when you made the commit.</p>
+            <p><strong>tree: </strong>this is a collection of pointers to other trees and blobs along with the names of the trees and blobs, typically each commit makes a new tree reflecting the working directory</p>
+            <p><strong>blob: </strong>this is how git stores a file.  every time you commit if a file has changed, a new blob is created for that file containing the full contents of the file.</p>
             <p><strong>master branch: </strong>at any branching point, one branch is actually considered the master branch, so there is a continuous master branch back to the beginning</p>
             <p><strong>remote: </strong>a git repository outside your git project that multiple collaborators can work on and merge changes to, could be on the web, a network, or just somewhere else on your computer</p>
             
@@ -48,6 +51,8 @@
                         get a list of all the files git is ignoring based on your .gitignore file(s)</li>
                 </ul>
             <p><strong>license </strong></p>
+            <p>Git object model:</p>
+            <img src="./git-object-model-complete.png" alt="Git object model">
 
             <h2>Basic Workflow Commands</h2>
             <p><strong>git init: </strong>turns the current working directory into a Git project</p>
@@ -92,12 +97,13 @@
                     <li><strong>git diff --stat </strong>will only show filenames that have changes, won't show line by line changes</li>
                 </ul>
             <p><strong>git commit -m "message": </strong>permanently stores changes in staging area to repository, 
-                creates a "commit" with unique 40-character hexadecimal value SHA or git ref</p>
+                creates a "commit" with unique 40-character hexadecimal value SHA or git ref.  Typically requires creating of at least one new blob for a new file added or a new version of an existing file.  Also typically involves creating a new tree to represent the working directory that references the new blobs, and then a commit is created pointing to that tree. The new commit points to the parent commit (the one that the HEAD branch was pointing to when commit is made), and finally this updates the branch HEAD is pointing to, to now point at the new commit.</p>
             <ul>
                 <li>message should be in present tense and less than 50 characters, start with capitol letter</li>
                 <li>Often will group changes to multiple files under a single commit, should craft commits to tell an easy to understand story of changes</li>
                 <li>Can also make commits in a Github repo by editing a file directly in Github, when you save changes it creates a commit for the changes to that file</li>
                 <li>can use git commit -am "message" to automatically git add all files and commit them in one command</li>
+                <li><strong>git commit --amend --no-edit</strong> This will commit the files in your staging area, but add them to your previous commit, this is handy if you forgot to add a file to a commit you just made.  --no-edit will make it so the commit message doesn't change (no prompt to change it).  Technically this creates a new commit hash that has the changes from your previous commit and the one you are doing currently.  The previous commit is taken out of the branch.</li>
             </ul>
             <p><strong>git log: </strong>view chronological list of commits to repository, options below
                 can be combined e.g. git log --patch --oneline</p>
@@ -140,14 +146,22 @@
                 </ul>
 
             <h3>Reset</h3>
+            <p><strong>Reset changes the commit that your current branch points to.  You give reset the commit SHA that you want the branch to point to, and the branch will now point to that commit.  (Instead of a SHA you can use a shortcut of HEAD/HEAD~/HEAD~2, to make the branch point at the current commit, the parent commit, the grandparent commit, and so on.) Additionally, it will update your staging area and/or working directory with the new commit you are pointing to.  reset soft only moves the head, reset mixed additionally updates the staging area, and reset hard additionally updates the working directory.</strong></p>
             <p><strong>git reset --soft SHA: </strong>Moves the head to the given SHA (first 7 characters) and stops there.  Does not change the staging area or working directory.  Instead of a SHA, you could use HEAD~ to move to the parent of the HEAD (i.e. one commit back from where HEAD currently is) or HEAD~2 to move two parents back or any other number of parents back.  This can be useful because you can then make a new commit from the unchanged files in the staging area.  You could move back one commit to essentially redo your most recent commit, or you could move back multiple commits to essentially squash multiple commits into one commit.</p>     
             <p><strong>git reset --mixed SHA: </strong>Moves the head to the given SHA (first 7 chars, or use HEAD/HEAD~/HEAD~2/etc shorthand) and then updates the staging area to the files in that commit.  --mixed is the default so it can also be omitted and git reset SHA will assume --mixed. Using it with HEAD is useful when you want to "unstage" files in the staging area because it will set them back to the version in HEAD, but leave the working directory untouched.  If you specify a particular file name as in git reset --mixed SHA file.txt, then the first step of moving the head is skipped, but the second step of copying the file from the given SHA into the staging directory is still performed.  If used with HEAD for the SHA, then this is useful to "unstage" a single file.</p>
             <p><strong>git reset --hard SHA: </strong>Moves the head to the given SHA (first 7 chars, or use HEAD~/HEAD~2/etc shorthand) and then updates the staging area and working directory to the files in that commit.  This is potentially dangerous if the files in the working directory have not been saved to a commit.  If they have, then you could get them back using reflog.  If they haven't then they will be permanently lost.</p>
 
             <h3>Checkout</h3>
-            <p><strong>git checkout HEAD filename: </strong>replace filename in working directory with version of filename in HEAD commit, can use . to replace all files</p>
-            <p><strong>git checkout SHA filename: </strong>can also use a SHA (or first 7 characters of one) to replace the given filename in the working directory with the version of that file from the given SHA.  leave out filename to set entire working tree to the given SHA, this is intended to explore files/folders at the given commit and you shoudln't make commits while here</p>            
-            <p><strong>git checkout -- filename: </strong>replaces filename in working directory with version of file in most recent commit</p>
+            <p>Checkout changes what your HEAD points to and updates your staging and working directory. Except it also has a way of interacting with files that does not change what HEAD points to and only updates the working directory.</p>
+            <p>The typical use of checkout is <code>git checkout -b branch_name starting_branch_name</code>, which moves HEAD to point at branch_name and updates your working directory and staging area to match that branch.  -b is optional if you want to create a new branch called branch_name and then move HEAD to it.  In this case, you can also optionally include starting_branch to instruct the new branch to point to the same commit as starting_branch, if it is not included, it will point to the same commit pointed to by the branch that head points to. Before moving HEAD to a new branch, git will check if you have uncommitted changes in your working directory and warn you if so.</p>
+            <p>Checkout can also be used with a commit SHA instead of a branch name, as in <code>git checkout commit_SHA</code>, this is what creates a detached HEAD state, because now HEAD is bypassing your branches and checking out a commit directly.  Further commits cannot be made when in this state.  Commits can only be made when HEAD is pointing to a branch. This likely updates both your working directory and staging area with that commit.</p>
+            <p>checkout can also be used with a tree and usually a particular filename to find particular versions of particular files in your git repo, and copy them into your current working directory, regardless of what your head is currently on.  In this usage, it does not change what your HEAD is pointing to, and it does not change your staging area.  When using it this way you will use <code>git checkout * -- filename</code>, where * is a tree or anything that points to a tree through a chain of pointers. That is it can be HEAD, a branch name, a commit SHA, or a tree SHA since the chain of pointers is HEAD-->branch-->commit-->tree. Once the chain of pointers is followed to that tree, the blob associated with the filename in that tree, will be copied into your working directory.  Examples:</p>
+            <ul>
+                <li><strong>git checkout HEAD filename: </strong>replace filename in working directory with version of filename in HEAD commit, can use . to replace all files. Useful if you've made changes to the file in the working directory that you want to discard and revert to the file last committed in your current branch.</li>
+                <li><strong>git checkout SHA filename: </strong>can also use a commit SHA (or first 7 characters of one) to replace the given filename in the working directory with the version of that file from the given SHA.</li>            
+                <li><strong>git checkout -- filename: </strong>replaces filename in working directory with version of file in most recent commit</li>
+            </ul>
+           
 
 
             <h2>Branching Commands</h2>
@@ -155,13 +169,6 @@
                 the master branch should always be production-ready, so always do your work on a separate branch</p>
             <p><strong>git branch new_branch: </strong>creates a new branch with name new_branch, name should describe purpose of branch in a word or two, no whitespace
                 e.g. refactor-authentication or user-content-cache-key</p>
-                <ul>
-                    <li><strong>git checkout -b newbranch </strong>this will create a new branch and also checkout to it right away</li>
-                </ul>
-            <p><strong>git checkout branch_name: </strong>switches you over to the branch with name branch_name</p>
-                <ul>
-                    <li>This updates your staging area and working directory with that branch's files, and future commits will be to that branch.  The command will check for any changes to your working directory before switching to ensure it doesn't overwrite any unsaved changes in the working directory.</li>
-                </ul>
             <p><strong>git branch -d branch_name: </strong>deletes branch with branch_name, should be done once a branch has been merged into a receiver branch like master
                 because the receiver will have all the commits from the branch in it after merging, can't delete the branch you're on, so switch to a different branch first</p>
                 <ul>
@@ -177,12 +184,16 @@
                     <li>Rebase is good if clarity of history on the master branch is desired, because it creates an easy to follow linear history on the master
                         branch.  However, for projects where speed of delivery is more important, rebase may not be preferred, and instead merge will be used
                     </li>
+                    <li><strong>git rebase --interacive branchname</strong>This rebases the checked out branch, but instead of creating a new commit for each of the checked out branch's new commits since it branched off the receiver branch, it will only create one commit for all of those.  It performs the same actions as rebase, but all of the new commits are removed and replaced with a single commit that points at the same tree as the final new commit that would have been made with a normal rebase. </li>
                 </ul>
 
             <h2>Merging Commands</h2>
-            <p><strong>git merge branch_name: </strong>brings all commits from branch_name (giver branch) into the current branch (receiver branch)</p>
+            <p><strong>git merge branch_name: </strong>brings all commits from branch_name (giver branch) into the currently checked out branch (receiver branch)</p>
             <ul>
                 <li>typically you checkout the master branch, then run this command to merge branch_name into master</li>
+                <li><strong>git merge ff-only branch_name </strong>this will do a fast forward merge.  This is when the branch you want to merge into your current branch, has the current branch's current commit in its history.  If the receiver branch has had its own independent commits since the giver branch branched off, then the reciever branch will point to a commit that is not in the giver branch's history, and a fast forward merge is not possible.  If a fast forward merge is possible, then all it does is moves the receiver branch to point at the same commit as the giver branch.</li>
+                <li>When a fast forward merge is not possible, the giver branch and receiver branch will have branched out separately, and when you run the git merge branch_name command, you will actually be creating a branch new commit that is an attempt to combine the two separate branches.  This commit will point to the final commits in both branches as the parent commits -- it will have two parent commits which is otherwise unusual.  This is also very different than fast forward because fast forward does not create a new commit, it simply moves the receiver branch to point at the same commit as the giver branch.  Generally fast forward is preferred as it is more simple and maintains a linear history, and allows you to be in better control of exactly what is in the commit your reciever branch will point to after the merge.</li>
+                <li>Rebase is generally a much better solution if the giver branch and receiver branch have branched off independently.  A rebase starts at the current commit of your receiver branch, and it replays the commits from your giver branch one at a time, startign with the first commit made after the giver branch branched off from the receiver branch.  It calculates the diffs between each commit in your giver branch and it applies those diffs one at a time to the receiver branch.  With each diff application, it creates a brand new commit, which has the same message/author info as the original commit in the giver branch.  The giver branch will point at the final new commit.  The original commits in the giver branch will be orphaned an inaccessible except through git reflog.  The receiver branch can now be fast forwared to the final new commit on the giver branch.</li>
                 <li>git merge branch_name --no-ff, this command will prevent git from doing a fast forward merge if one is possible.  a fast-forward merge is when e.g. the last commit on the master branch is the ancestor of the feature branch you are merging, and thus the feature branch commits can just be added directly onto the end of the master branch.  When you use no-ff, this will create a single merge commit that is put on the end of the master branch, which will contain all the changes made in the feature.  However, this commit will have two parents, one is the previous commit on master, and the other is the last commit on feature.  Basically the feature commits are collapsed into one commit that is added to the master branch, but the whole history of the feautre branch commits is preserved but shown as being from a different branch.  this command will open vim and ask for a commit message for the merge, to exit vim, press the escape key, then a colon, then wq and press enter to exit vim.  some teams use no-ff and other don't, no-ff is convenient in that it creates a consolidated commit to see all changes from the features branch.</li>
             </ul>
             <p><strong>Resolving merge conflicts: </strong></p>
