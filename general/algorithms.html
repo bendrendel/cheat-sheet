@@ -202,7 +202,37 @@
                 }
             </pre></code>
         </li>
+    </ul>
 
+    <h2>Binary Search</h2>
+    <ul>
+        <li>This is a way of searching through a sorted data set.  It gives a runtime of log n by cutting the list in half with each iteration, meaning at worst it would have to cut it in half again and again until it gets down to 1 element which would take log n iterations.  This is instead of a linear search method that would have a runtime of n, when the order of the list is not known or known to be out of order.</li>
+        <li>Binary Search Trees are a binary tree data structure, where every left child node is less than or equal to the parent, and every right child node is greater than or equal to the parent.</li>
+        <li>It is a recursive algorithm that looks at the middle value of a sorted list.  If it matches what is searched for then it is done, otherwise the same algorithm is applied to the left half of the list if the searched for value is less than the middle value, or it is applied to the right half of the list if the search for value is greater than the middle value.  This is repeated until the search for value is found.</li>
+        <li>Example implementation:
+            <code><pre>
+                const binarySearch = (arr, target) => {
+                    let left = 0;
+                    let right = arr.length;
+                    
+                    while (right > left) {
+                        const indexToCheck = Math.floor((left + right) / 2);
+                        const checking = arr[indexToCheck];
+                        console.log(indexToCheck);
+                    
+                        if (checking === target) {
+                            return indexToCheck;
+                        } else if (checking &lt target) {
+                            left = indexToCheck + 1;
+                        } else {
+                            right = indexToCheck;
+                        }
+                    }
+                    
+                    return null;
+                }
+            </pre></code>
+        </li>
     </ul>
 </body>
 </html>
