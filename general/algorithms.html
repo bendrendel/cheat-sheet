@@ -234,9 +234,78 @@
             </pre></code>
         </li>
     </ul>
+
+    <h2>Graph Traversal</h2>
+    <ul>
+        <li>There are many ways to traverse/search through a graph, but depth-first search (DFS) and breadth-first search (BFS) are the two most common general approaches</li>
+        <li>The worst-case O(n) runtime for both is that every single vertex is visited and every edge is traversed between those vertices, thus O(vertices+edges).</li>
+    </ul>
+
+    <h3>Depth-First Search</h3>
+    <ul>
+        <li>DFS Continues down a single path until reaching the end.</li>
+        <li>It is helpful when determining if a path exists at all between two vertices. Can be used to solve problems that have a singular correct answer (a path between the start state and end state) such as a Soduko puzzle. It is best for long graphs with few connections.</li>
+        <li>Perhaps the most common implementation uses recursion (see example implementation below).</li>
+        <li>Another implementation uses a list of all visited vertices and a stack of vertices in the current path.  When a vertex is visited it is added to the list of visited vertices.  With every step, we add the visited vertex to the stack. (The stack starts with the vertex we are starting from.) The vertex at the top of the stack is our current vertex, and we pick an adjacent vertex that isn't in the visited list to move to next.  We add that next vertex to the stack (and the list of visited vertices) and repeat until the current vertex has no adjacent unvisited vertices (i.e. all of its adjacent vertices are in the visited list). At this point, we pop off the current vertex from the stack, making the previous vertex the current one, and then try to visit an unvisited vertex from there.  If there are none, then we pop that off the stack and try again.  This is repeated, until some target vertex is found, or the stack is completely empty indicating all vertices have been visited.</li>
+        <li>DFS can be used to get a list of all vertices in a graph, but there are several ways of ordering this, commonly:</li>
+        <ul>
+            <li>Preorder: This is the order in which vertices are added to the visited vertices list.  It lists the vertices as they were visited by the algorithm, starting at the origin and going down each path explored.</li>
+            <li>Postorder: This is the order in which vertices are popped from the stack.  So, the first vertex will be at the end of the first path visited by the algorithm, when the algorithm first starts to back up and pop vertices off the stack. The last element will be the vertex you started the algorithm from.  This is the order in which vertices are "fully explored" by the algorithm.</li>
+            <li>Reverse-postorder: AKA Topological sort, this is simply the reverse of the postorder list. So the first element of this list will be the vertex the algorithm started from.</li>
+        </ul>
+        <li>Example implementation, this could be a method on the Graph data structure developed on the data structure page. It uses a recursive implementation instead of the stack implementation. Start is a vertex from a graph (e.g. myGraph.vertices[0])
+            <code><pre>
+                const depthFirstTraversal = (start, callback, visitedVertices = [start]) => {
+                    callback(start);
+
+                    start.edges.forEach((edge) => {
+                        const neighbor = edge.end;
+
+                        if (!visitedVertices.includes(neighbor)) {
+                            visitedVertices.push(neighbor);
+                            depthFirstTraversal(neighbor, callback, visitedVertices);
+                        }
+                    });
+                };
+            </pre></code>
+        </li>
+    </ul>
+
+    <h3>Breadth-First Search</h3>
+    <ul>
+        <li>BFS checks every neighboring vertex before moving down another level of depth.</li>
+        <li>It is helpful when looking for the shortest path between two vertices. It's inefficient if just looking for whether a path exists at all. It is better for densley connected graphs.</li>
+        <li>One implementation uses a list of all visited vertices and a queue of vertices.  Whenever a vertex is visited it is add to the list of visited vertices.  With every step, the vertex is added to the queue (the queue starts with the vertex we start from).  The vertex at the head of the queue is the current vertex and each of its adjacent vertices are checked against the visited vertex list, and if they haven't been visited yet, are added to the queue and the list of visited vertices.  Once the current vertex has no more unvisited adjacent vertices, it is dequeued.  Now the process repeats for the new head of the queue.  This repeats until the target vertex is found or the queue is completely empty indicating all vertices have been visited.</li>
+        <li>Example, implementation, relying on the graph data structure and the queue data structure developed on the data strucuture page.  This simply prints out vertices as they are visited, but could be modified to accept a callback instead.
+            <code><pre>
+                const breadthFirstTraversal = (start) => {
+                    const visitedVertices = [start];
+                    const visitQueue = new Queue();
+                    visitQueue.enqueue(start);
+
+                    while(!visitQueue.isEmpty()) {
+                        const current = visitQueue.dequeue();
+
+                        console.log(current.data);
+
+                        current.edges.forEach((edge) => {
+                            const neighbor = edge.end;
+
+                            if (!visitedVertices.includes(neighbor)) {
+                                visitedVertices.push(neighbor);
+                                visitQueue.enqueue(neighbor);
+                            }
+                        });
+                    }
+                };
+            </pre></code>
+        </li>
+    </ul>
+
+    <h3>Dijkstra's Algorithm</h3>
+    <ul>
+        <li>This finds the shortest path from a given vertex to every other vertex in a weighted graph, by using BFS and keeping track of the total weight of paths as it goes.</li>
+        <li>Helpful for finding the quickest route, or least costly weighted route from one vertex to another in a weighted graph.</li>
+    </ul>
 </body>
 </html>
-
-
-
-

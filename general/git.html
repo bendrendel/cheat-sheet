@@ -169,6 +169,7 @@
                 the master branch should always be production-ready, so always do your work on a separate branch</p>
             <p><strong>git branch new_branch: </strong>creates a new branch with name new_branch, name should describe purpose of branch in a word or two, no whitespace
                 e.g. refactor-authentication or user-content-cache-key</p>
+            <p><strong>git branch -vv</strong> this lists all branches along with what commit sha they are pointing to, and what their upstream tracking branch is.</p>
             <p><strong>git branch -d branch_name: </strong>deletes branch with branch_name, should be done once a branch has been merged into a receiver branch like master
                 because the receiver will have all the commits from the branch in it after merging, can't delete the branch you're on, so switch to a different branch first</p>
                 <ul>
@@ -260,10 +261,15 @@
                 it back into master, you won't have a ton of conflicts to deal with.
             </p>
             <p><strong>git push origin your_branch_name: </strong>copies the local your_branch_name branch to the corresponding remote origin branch,
-                can leave off your_branch_name to simply copy the branch you have checked out.  However, you must include your_branch_name if you are pushing it up to origin and you haven't set up remote tracking for the branch.
-                If the branch is new on your local repo and doesn't exist in the remote repo, then you'll probably want to set up the branch remotely,
-                to do this, on your first push of the new branch use git push --set-upstream origin my-branch
-                Often used to copy a local feature branch to the remote repository named origin, so someone can review your branch and merge it to origin/master</p>
+                can leave off your_branch_name to simply copy the branch you have checked out.
+                <ul>
+                    <li>If the branch is new on your local repo and doesn't exist in the remote repo, then you'll need to set up the remote tracking branch, aka upstream branch for your new local branch,
+                    to do this, on your first push of the new branch use git push --set-upstream origin my-branch, to set the remote tracking branch to my-branch on the origin remote repo. (-u is shorthand for --set-upstream). This will create my-branch on the remote if it doesn't already exist.  Typically my-branch is named the same as your local branch but it doesn't have to be.  If you want a different name on the remote then use the comman <code>git push --setupstream origin my-local-branch:my-remote-branch</code>, where my-local-branch is the name of your local branch and my-remote-branch is the name of the remote branch you want to use</li>
+                    <li>git push origin --delete my-branch.  This will delete the remote branch my-branch from origin completely.</li>
+                </ul>
+            </p>
+
+
             <p><strong>Forking: </strong>To contribute to an open project on Github, you should use the fork feature in that project's repository
                 to create a copy of the repository in your own Github account.  This allows you to safely work on the project on your own.
                 Commonly you will fork the project, then clone the project onto your machine to get a local copy, then make a feature branch,
