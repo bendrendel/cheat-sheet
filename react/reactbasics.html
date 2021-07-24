@@ -129,7 +129,7 @@
             </li>
             <li>Updating occurs whenever setState() is called or when props are updated.  It will first run render() and the componentDidUpdate().  componentDidUpdate is a good place for code with side effects that should run with each update.  e.g. perhaps the clock is passed a prop that determines if it updates every second or ever millisecond, then you should deal with resetting the interval in the componentDidUpdate() method that checks the value of the prop and updates
             the interval if necessary every time an update occurs.  It's often useful to use the prevProps
-            object to compare the current value of a prop to the previous value to determine if something should update or not, e.g. if (this.props.myProp === prevProps.myProp) {go fetch new data or something}.
+            object to compare the current value of a prop to the previous value to determine if something needs to be done because the prop changed.  prevProps is passed in as an argument to componentDidUpdate.  e.g. componentDidUpdate(prevProps) {if (this.props.myProp !== prevProps.myProp) {go fetch new data or something}}.
             </li>
             <li>Unmounting calls the componentWillUnmount() method.  You should define this method in your component class definition to clean up any side effects in your componentDidMount method, e.g. you can use clearInterval() to stop the clock interval from continuing.  Side effects like this should always be cleaned up in your componentWillUnmount() method to avoid memory leaks.</li>
         </ul>
@@ -138,7 +138,7 @@
         <p>Components can also be created as functions instead of classes. The function returns the jsx 
             normally found in the render method of a class component.  The function can have a parameter of props to access props in the function body, accessed like props.propName.  The following are equivalent:
         </p>
-        <code>
+        <code><pre>
             export class MyComponentClass extends React.Component {
                 render() {
                     return &ltdiv>Here is a prop: this.props.myProp&ltdiv>
@@ -148,6 +148,7 @@
             export const MyComponentFunction = (props) => {
                 return &ltdiv>Here is a prop: this.props.myProp&ltdiv>
             }
+            </pre>
         </code>
         <p><strong>Hooks: </strong>Hooks allow you to use state and lifecycle methods with function components</p>
 
