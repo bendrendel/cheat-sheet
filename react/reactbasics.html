@@ -78,8 +78,6 @@
                     The breakout of components oftens mirrors the data model of what you're representing.
                 </li>
             </ul>
-        
-        <h4>Class Components</h4>
         <p><strong>Component Class: </strong>made by subclassing the React.Component class,  component class names must be capitalized for use in JSX (should be anyway like any class)</p>
         <ul>
             <li><strong>render method: </strong>for every component class, you must define a render() method that can contains logic, can access other methods and properties of the component class such as the props property using this.props.propertyname, can access variables outside the component class</li>
@@ -134,9 +132,9 @@
             <li>Unmounting calls the componentWillUnmount() method.  You should define this method in your component class definition to clean up any side effects in your componentDidMount method, e.g. you can use clearInterval() to stop the clock interval from continuing.  Side effects like this should always be cleaned up in your componentWillUnmount() method to avoid memory leaks.</li>
         </ul>
 
-        <h4>Function Components</h4>
-        <p>Components can also be created as functions instead of classes. The function returns the jsx 
-            normally found in the render method of a class component.  The function can have a parameter of props to access props in the function body, accessed like props.propName.  The following are equivalent:
+        <h3>Function Components</h3>
+        <p>Components can also be created as functions instead of classes. In the latest versions of React, function components can do everything classes can do, and are preferred by some developers for their simplicity and straightforward features.  Function components should return the jsx 
+            normally found in the render method of a class component.  The function can have a parameter of props to access props in the function body, accessed like props.propName (note you don't have to precede it with 'this.' like you would in a class component).  The following are equivalent:
         </p>
         <code><pre>
             export class MyComponentClass extends React.Component {
@@ -146,11 +144,15 @@
             }
 
             export const MyComponentFunction = (props) => {
-                return &ltdiv>Here is a prop: this.props.myProp&ltdiv>
+                return &ltdiv>Here is a prop: props.myProp&ltdiv>
             }
             </pre>
         </code>
-        <p><strong>Hooks: </strong>Hooks allow you to use state and lifecycle methods with function components</p>
+
+        <h4>Hooks</h4>
+        <ul>
+            <li>Hooks extend the features of function components, allowing for state management and lifecycle methods with function components.</li>
+        </ul>
 
 
         <br> 
