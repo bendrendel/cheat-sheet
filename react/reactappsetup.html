@@ -6,16 +6,16 @@
     <body>
         <a href='./index.html'>Home</a>
         <h2>Starting a React App</h2>
-        <p><strong>Create React App CLI: </strong>create-react-app is a node package you can install globally that provides CLI commands to create a boilerplate react app</p>
+        <p><strong>Create React App CLI: </strong>create-react-app is a node package you can use to create a boilerplate react app.  You can also set up a react app from scratch but create react app is a good way to take care of the typical file structure and makes sure you are using the right tools</p>
         <ul>
-            <li><code>npm install -g create-react-app </code>Run this command to install create-react-app on your computer globally (-g), this only needs to be done once, not for each project.  As of node 5.2, this is no longer recommended, and instead you should use npx a package runner included with node</li>
+            <li><code>npm install -g create-react-app </code>Run this command to install create-react-app on your computer globally (-g), this only needs to be done once, not for each project.  As of node 5.2, this is no longer recommended, and instead you should use npx a package runner included with node. You should uninstall create-react-app globally if it was previously installed, before using npx.  Use npm uninstall -g create-react-app</li>
             <li><code>npx create-react-app {app-name} </code>Run this command to create a new react project in the current working directory, the app name should be all lowercase, a new directory for the project will be made with the provided name and all the react boilerplate directories, files, and developer settings</li>
             <li><code>npm install react-scripts@latest</code> use this in your project to install the latest
             version of create react app</li>
         </ul>
         <p><strong>React App Directory Structure: </strong>create-react-app will create the following structure </p>
         <ul>
-            <li><code>.gitignore </code>create-react-app does not start a git repo for you, but it does create a .gitignore file with standard things to ignore when you do start a git repo</li>
+            <li><code>.gitignore </code>npx create-react-app should initialize your project as a git repo (it didn't used to), it creates a .gitignore file with standard things to ignore</li>
             <li><code>package.json </code>it will create the package.json file with dependencies, scripts, and basic metadata for you</li>
             <li><code>package-lock.json </code>this file contains the exact dependency tree in /node_modules along with all versions, helpful for teams to ensure they have same versions of everything, also contains history of changes to package.json to inspect dependency changes</li>
             <li><code>README.md </code>will make a starter readme file</li>
