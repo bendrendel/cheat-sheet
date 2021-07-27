@@ -222,6 +222,7 @@
                 <ul>
                     <li><p>Github will give you option to create a readme, .gitignore, etc.  if you do, it will create an initial commit with these files added.
                         However, don't do this if you already have a local repository with commits to push to this github repository, as this will cause merge problems.  You just want an empty repo on github to push your local project to.</p></li>
+                    <li>Typically, you'll create your project on your computer, then create a repo on the github website with the same name and no readme/gitignore/etc.  Then in your command line in the root directory of your project, you'll run 'git remote add origin https://github.com/bendrendel/my-project.git' to connect it to the new github repo, and then run git push -u origin master to push your master branch up to the remote.</li>
                 </ul>
             <p><strong>git clone remote_location clone_name: </strong>good for branching, creates a copy of the git repository at remote_location (web address or filepath). the copy is named clone_name and placed in the current working directory, 
                 the remote will be aliased origin.  Useful when there is a repo on github that you want a local copy of to work in.  You can use git clone remote_location, to create a local copy of the repo at remote_location and it will have the same name as the remote repo.
@@ -268,7 +269,7 @@
                 can leave off your_branch_name to simply copy the branch you have checked out.
                 <ul>
                     <li>If the branch is new on your local repo and doesn't exist in the remote repo, then you'll need to set up the remote tracking branch, aka upstream branch for your new local branch,
-                    to do this, on your first push of the new branch use git push --set-upstream origin my-branch, to set the remote tracking branch to my-branch on the origin remote repo. (-u is shorthand for --set-upstream). This will create my-branch on the remote if it doesn't already exist.  Typically my-branch is named the same as your local branch but it doesn't have to be.  If you want a different name on the remote then use the comman <code>git push --setupstream origin my-local-branch:my-remote-branch</code>, where my-local-branch is the name of your local branch and my-remote-branch is the name of the remote branch you want to use</li>
+                    to do this, on your first push of the new branch use git push --set-upstream origin my-branch, to set the remote tracking branch to my-branch on the origin remote repo. (-u is shorthand for --set-upstream). This will create my-branch on the remote if it doesn't already exist.  Typically my-branch is named the same as your local branch but it doesn't have to be.  If you want a different name on the remote then use the command <code>git push --setupstream origin my-local-branch:my-remote-branch</code>, where my-local-branch is the name of your local branch and my-remote-branch is the name of the remote branch you want to use</li>
                     <li>git push origin --delete my-branch.  This will delete the remote branch my-branch from origin completely.</li>
                 </ul>
             </p>
