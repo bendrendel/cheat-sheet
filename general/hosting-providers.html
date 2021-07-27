@@ -54,8 +54,8 @@
                     repos.  Select 'new site from Git' to get started, it should lead you through connecting to your github account, and provide a list of your repositories.  Pick one of your repos to deploy.
                 </li>
                 <li>Select the owner (your netlify account name usually) and branch to deploy (typically    master). Also can 
-                    give a build command like npm run build, and select the publish directory that
-                    is made by the build command that is to be published to the web.  If you aren't using a build tool, then you will leave the build command blank and the publish directory blank (it will just publish your root directory)
+                    give a build command (e.g. <code>npm run build</code> for a react app), and select the publish directory that
+                    is made by the build command that is to be published to the web (e.g. <code>build/</code> for a react app).  Netlify will automatically run your build command upon deployment, and just deploy your published directory to the web.  If you aren't using a build tool, then you will leave the build command blank and the publish directory blank (it will just publish your root directory)
                 </li>
                 <li>Under the Deploys section of the site's settings page, you'll see if auto publishing is on (generally recommended), which means your site automatically deploys every time you push a commit to the published branch on Github (Continuous deployment).  </li>
                 <li>Under site setting you can change the url of your site from the default one provided (still uses the netlify url format). Among many other things, you can also update your build settings here, and set notifications about deployment including adding comments to github pull requests about the deployment status</li>

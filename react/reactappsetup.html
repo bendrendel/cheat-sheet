@@ -43,6 +43,12 @@
         <p><strong>css reset </strong>add a css reset file to the ./public/ directory and link to it in ./public/index.html, to apply the reset across the entire app</p>
         <p><strong>fonts </strong>add links to fonts like google fonts in the public/index.html file to use throughout app</p>
         <p><strong>create components directory </strong>create the components directory and create the App component folder first, move the default App.js/App.css/App.test.js files into it (can delete App.test.js if not using), and then update the link to src/App/App.js in src/index.js (index.js and index.css should stay where they are directly under ./src/)</p>
+
+        <h2>Build and deploy</h2>
+        <ul>
+            <li>You will build your react app by running <code>npm run build</code>.  This will create a directory called <code>build</code> in your root directory containing the files that you would deploy</li>
+            <li>So, for a hosting provider like netlify, you should be sure to include the npm run build command as the build command, and the build/ directory for the published directory.  This will allow netlify to build and publish your react app upon deployment.</li>
+        </ul>
         
         <h2>React Developer Tools</h2>
         <p><strong>React Developer Tools </strong>Chrome extension developed by facebook to help inspect React components</p>
