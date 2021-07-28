@@ -99,6 +99,8 @@
             <li><p><code>defaultprops</code> this is a property that can be defined for a component class that has an object value and the properties are the names of the component class's props and the values are default values to use if a Component Instance does not set the prop.  Possibly common to define this outside the class component, i.e. you define the class component named MyComponent, and then outside of that class definition, you define MyComponent.defaultprops = {myprop: 'default-value'}</p></li>
             <li><p><strong>state property: </strong> a property you can create, an object, usually created in the constructor of a component class and given an initial value, the state property can then be accessed in the body of the component class (e.g. inside body use this.state.someThing), and unlike with props, the state can be changed inside the component class body</p></li>
             <li><p><strong>setState method: </strong>this is a method in the React.Component class, it takes two arguments, the first an object to update the components state with, and secondly a callback that is almost never needed.  after updating the state, it also calls the component's render method, thus it causes immediate changes on screen and cannot be called inside the render method to avoid an infinite loop. The first argument updates the component's current state by updating any of the currents state's properties to the values in the provided object if has that state property.  the provided argument doesn't have to include all of the state's properties.  the most common use of setState is calling it inside a method (especially an event handler) of the component class. You can also use a function as the first argument that returns an object which will be used to set the state.  This function can have a parameter for the previous state, commonly called prevState which can be useful if needing info from the prev state.</p></li>
+            <li><strong>Array state variable tricks: </strong> State variables that are arrays are often used to create a series of jsx elements.  This can be done by calling the .map method on the array in your rendered jsx.  You might be creating list items, buttons, or something else for each item in the array.  Generally you'll want to have a key attribute on the jsx elements you create, which is a unique value and might just be the value of the array element itself if those are all unique, or maybe you call map with the optional index argument and use that as the key.  Another good trick with arrays is the spread operator when updating the value of an array state variable.  Your previous value of the array might be prevState, and you have a new value newItem to add to the array.  This can be done with setState(prevState => ({myArrayStateVar: [...prevState.myArrayStateVar, newItem]}))</li>
+            <li><strong>Object state vairiable tricks: </strong>Object state variables are often used to store form inputs, and if each input on the form has a name attribute and a value attribute, it can be useful to store them in an object state variable with each key as the name and their associted value. You'll often have an event handler that sets the state in response to changes on each input element.  They can all use the same event handler but use the target name and value properties to respond to each input element properly.  You can use the spread operator and keep in mind that later key/values in the object will overwrite earlier ones. So, your event handler would take in the event target as an argument and contain a call as follows: <code>setState(prevState => ({myObjectStateVar: {...prevState.myObjectStateVar, [name]: value}}))</code></li>
             <li><p><strong>event handler methods: </strong>commonly methods are used to define event handlers that are injected into the rendered html and by convention these should be named something like handleClick or handleKeyPress, depending on the name of the event they handle. If you use 'this' inside an event handler method, then you must include a constructor method in the component class that includes a line to bind the method to 'this'.  (e.g. this.myEventHandler = this.myEventHandler.bind(this)) this is because when the method is injected into jsx as an event handler, it will lose its this, so it needs to have the object name already in place of this</p></li>
             <li><strong>other methods: </strong>the component can also have other methods</li>
         </ul>        
@@ -133,7 +135,8 @@
         </ul>
 
         <h3>Function Components</h3>
-        <p>Components can also be created as functions instead of classes. In the latest versions of React, function components can do everything classes can do, and are preferred by some developers for their simplicity and straightforward features.  Function components should return the jsx 
+        <p>Components can also be created as functions instead of classes. In the latest versions of React, function components can do everything classes can do, and are preferred by some developers for their simplicity and straightforward features.  For function components you need to import the React library. </p> 
+        <p>Function components should return the jsx 
             normally found in the render method of a class component.  The function can have a parameter of props to access props in the function body, accessed like props.propName (note you don't have to precede it with 'this.' like you would in a class component).  The following are equivalent:
         </p>
         <code><pre>
@@ -149,9 +152,41 @@
             </pre>
         </code>
 
-        <h4>Hooks</h4>
+        <h4>Hooks - Use State</h4>
         <ul>
             <li>Hooks extend the features of function components, allowing for state management and lifecycle methods with function components.</li>
+            <li>useState is a function from the React library that allows for state management with function components</li>
+            <li>You'll often see people use import default to import React along with a named import to specifically import certain React features like useState, e.g. <code>import React, { useState } from 'react';</code>, you don't have to do this you can just import the React library like normal, but it allows you to use useState in your code directly instead of React.useState</li>
+            <li><code>useState(initVal)</code> is used to set up a single state variable with an optional initial value of initVal (if you don't include an initial value it will be initialized as undefined, but in this case usually people explicitly initialize it using null or an empty string as the initial value instead of leaving it undefined).  It returns an array of two elements: the first is the current value of the state variable and the second is a function that changes the value of the state variable.  Most commonly these are saved using destructured assignment like so: <code>const [myStateVar, setMyStateVar] = useState(myInitVal);</code></li>
+            <li>Now, myStateVar can be used in the returned jsx of your function component to return the state variable value, and the setMyStateVar function can be invoked with a new value for the state as an argument to set the state and rerender the component.  e.g. <code>
+                <pre>
+                    return (
+                        &ltdiv>
+                            &ltp>Toggle value: {myStateVar}&lt/p>
+                            &ltbutton onClick={() => setMyStateVar('ON')}>ON&lt/button>
+                            &ltbutton onClick={() => setMyStateVar('OFF')}>OFF&lt/button>
+                        &lt/div>
+                    )
+                </pre>
+            </code></li>
+            <li>For more complicated event handlers and maybe all event handlers, you don't want to define the handler in-line as above.  You'll often see variables defined in function components that are event handlers, and are injected into the returned jsx. Destructured assignment can be used to grab the target from the event object e.g. <code>
+                <pre>
+                    function myComponent() {
+                        const [input, setInput] = useState('');
+                        const handleChange({target}) {
+                            setInput(target.value);
+                        }
+                        return (
+                            &ltinput value={input} onChange={handleChange}>
+                        )
+                    }
+                </pre>
+            </code></li>
+            <li>The method returned by useState to change the state, can also be given a function argument instead of just the new value you want.  The function argument takes the previous state value as an argument and should return the new state value you want.  e.g. you might have <code>[counter, setCounter] = useState(0);</code> and you might use setCounter like so <code>setCounter(prevState => prevState + 1)</code> You might think of using <code>setCounter(counter+1)</code> and this may work a lot of the time, but it might not in more complex apps and using the previous state as shown first is recommended.</li>
+            
+
+
+
         </ul>
 
 

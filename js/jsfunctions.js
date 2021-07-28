@@ -38,6 +38,9 @@ const arrowFunctionOneArg = myOnlyArg => {
 //function bodies that consist of only a single line return statement can omit the curly brackets and return keyword
 const superConciseFunction = number => number * number;
 
+//however, returning an object literal requires parentheses around the object
+const superConciseObjectFunction = someArg => ({ prop1: mypropValue, prop2: myOtherVal })
+
 //pass functions between variables
 const newFunctionName = superConciseFunction;
 console.log('The square of 4 is: ' + newFunctionName(4));
