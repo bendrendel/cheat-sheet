@@ -5,15 +5,16 @@
     </head>
     <body>
         <a href="./index.html">Home</a>
-        <p><strong>Stateful Component: </strong>Any component with a state property</p>
-        <p><strong>Stateless Component: </strong>Any component without a state property</p>
 
-        <h2>Common Pattern</h2>
+        <h2>Stateful Components and Stateless Components</h2>
+        
+        <h3>Terms</h3>
         <p>Parent components are stateful, and render child components that are stateless.
         One child component updates the parent state, and another displays the state, promoting one task per component</p>
-        
-        <h3>Building to that pattern:</h3>
-        
+        <p><strong>Stateful Component: </strong>Any component with a state property, these are often parent/container/uncontrolled and they render other components.</p>
+        <p><strong>Stateless Component: </strong>Any component without a state property, these are often child/presentational/controlled components and are rendered by another component</p>  
+
+        <h3>Progessively Complex Examples</h3>
         <h4>Pattern 1</h4>
         <p>A stateful (parent) component passes state info to a stateless (child) one as props</p>
         <ul>
@@ -34,12 +35,26 @@
             <li>Example 4: A parent has two child components, one that can update the parent's state using a state-changing method from the parent, and the other is passed state info for display</li>
         </ul>
         
-        <h3>Separating Presentational and Container Components</h3>
+        <h2>Container Components and Presentational Components</h2>
         <ul>
-            <li>Implementing this pattern will often mean refactoring a component that has become too complex by dividing it into a container component and one or more presentational components.  Generally if a component is performing complex logic and has state, and also returning complex JSX with many HTML-like elements, it is doing too much and should be divided into multiple components.</li>
+            <li>Implementing the above pattern will often mean refactoring a component that has become too complex by dividing it into a container component and one or more presentational components.  Generally if a component is performing complex logic and has state, and also returning complex JSX with many HTML-like elements, it is doing too much and should be divided into multiple components.</li>
             <li>The container component is stateful and contains the possibly complex logic that determines the state and what to display and its JSX is minimal, usually just importing and rendering other presentational components and passing props to them to control their behavior</li>
             <li>The presentational component(s) are stateless and contain minimal logic and their JSX contains the HTML-like attributes and all the detail of what is displayed.  It is passed props from the container component and these props are displayed or used to do simple logic of what to display.</li>
             <li>Sometimes you'll see the presentational components kept in a components/ directory and the container components kept in a container/ directory.</li>
+        </ul>
+
+        <h2>Uncontrolled Components and Controlled Components</h2>
+        <h3>Terms</h3>
+        <ul>
+            <li><strong>Uncontrolled Component: </strong>This is a component that has that has its own internal state thus has memory about itself</li>
+            <li><strong>Controlled Component: </strong>This is a component that has no internal state, thus has no memory about itself, it is controlled by another component that has memory about it.  Most React components are controlled, and there is just a small number of uncontrolled components that control all the other components.</li>
+        </ul>
+
+        <h3>React Forms Example</h3>
+        <ul>
+            <li>A common pattern for handling e.g. an input element in react is to render the input element with a <code>value</code> attribute set equal to a state variable of the component, and an <code>onChange</code> attribute set equal to a method of the component that updates that state variable to equal the event target's value.</li>
+            <li>This pattern removes 'memory' from the input element, moving storage of the input element's value to the state variable.  This makes the input element a controlled component instead of uncontrolled. Any inquiry into the value of the input element should be done using the state variable instead of the value of the input element.</li>
+            <li>The benefit is that this makes it easy to get the input value through the state variable at any time.  Often you need to update server information on every change of the state variable to ensure the server and client are always in sync, and this is easy to do using the state variable. In React, it is OK to have forms that are only a single input element, with no form element or submit button.  This is thanks to this pattern that allows constant updates to the server, unlike in traditional web development where information is only sent to the server when the form is submitted.</li>
         </ul>
     </body>
 </html>
