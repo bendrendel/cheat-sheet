@@ -34,6 +34,12 @@
             <li>Example 4: A parent has two child components, one that can update the parent's state using a state-changing method from the parent, and the other is passed state info for display</li>
         </ul>
         
-
+        <h3>Separating Presentational and Container Components</h3>
+        <ul>
+            <li>Implementing this pattern will often mean refactoring a component that has become too complex by dividing it into a container component and one or more presentational components.</li>
+            <li>The container component is stateful and contains the possibly complex logic that determines the state and what to display and its JSX is minimal, usually just rendering other presentational components and passing props to them to control their behavior</li>
+            <li>The presentational component(s) are stateless and contain minimal logic and their JSX contains the HTML-like attributes and all the detail of what is displayed.  It is passed props from the container component and these props are displayed or used to do simple logic of what to display.</li>
+            <li>Sometimes you'll see the presentational components kept in a components/ directory and the container components kept in a container/ directory.</li>
+        </ul>
     </body>
 </html>
