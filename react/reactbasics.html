@@ -53,7 +53,7 @@
                         };
                     </pre>
                 </code>
-                then you would include an <code>import {styles} from './styles.js'</code> in each component, and in their 'divStyle' or 'h1Style', or other other style variables, if you need to define fontFamily for the element, you can set it equal to the imported fontFamily from the styles object.  additionally, instead of a single color property in styles.js, you might have multiple colors, like darkBlue, lightBlue, white, or mainColor, secondaryColor, etc.  and then you can use these imported colors as needed.  Same idea goes for any other property.
+                then you would include an <code>import {styles} from './styles.js'</code> in each component, and in their 'divStyle' or 'h1Style', or other other style variables, if you need to define fontFamily for the element, you can set it equal to the imported fontFamily from the styles object.  additionally, instead of a single color property in styles.js, you might have multiple colors, like darkBlue, lightBlue, white, or mainColor, secondaryColor, etc.  and then you can use these imported colors as needed.  Same idea goes for any other property.  Or you might have one object of divStyles and another object of imgStyles, and export them both, or export them combined as object-valued properties of a single styles object.  Basically multiple ways to organize this.
                 </li>
 
             </ul>
@@ -213,9 +213,6 @@
             <li>The callback function can also return a function which will run right before every re-render and right before the component unmounts.  This is the place to clean up memory leaks, like stopping a timer, removing event listeners, etc.  e.g. <code>useEffect(()=>{document.addEventListener('keydown', handleKeyDown); return ()=>{document.removeEventListener('keydown', handleKeyDown);};})</code></li>
             <li>The second argument for useEffect is the dependency array, which contains an array of values where if one of them changes, useEffect's callback will run on the next re-render and the returned cleanup function will run right before the next re-render.  If the dependency array is left out, the the callback runs on mounting and every re-render, and the returned cleanup function runs before every re-render and before unmounting.  If the dependency array is an empty array, then the callback will only run on mounting, and the returned cleanup function will run only before unmounting.  </li>
         </ul>
-
-        <h3>Inline Styles</h3>
-
 
         <br> 
     
