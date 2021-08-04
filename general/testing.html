@@ -70,8 +70,8 @@
     </ol>
 
     <h2>Testing Heirarchy</h2>
-    <p>Unit/Component Testing is the fastest and cheapest testing and is done often.  You move up the heirarchy only as previous tests are exhuasted, as higher up tests are slower and more resource expensive.</p>
-    <h2>Unit/Component Testing</h2>
+    <p>Testing generally breaks down to Unit Testing, Integration Testing, and UI Testing.  Unit/Component Testing is the fastest and cheapest testing and is done often.  You move up the heirarchy only as previous tests are exhuasted, as higher up tests are slower and more resource expensive.</p>
+    <h3>Unit/Component Testing</h3>
     <ul>
         <li>Automated tests written and run by developers, testing small units of code, such as a single class, a function, a module, a method, etc.</li>
         <li>Needs to be used in conjuntion with integration testing, and other tests that test functionality of units working together</li>
@@ -82,13 +82,13 @@
         <li>Unit Testing is fast and cheap, and you should rely heavily on these in your test suite</li>
     </ul>
 
-    <h2>Contract Testing</h2>
+    <h3>Contract Testing</h3>
     <ul>
         <li>When two services integrate with each other they have expectations about what is received and returned, which can be thought of as a contract between integrated endpoints.</li>
         <li>You can test internal services (microservices architecture) this way also, and use mocks and stubs for the expected returned values from the other system.</li>
     </ul>
 
-    <h2>Integration Testing</h2>
+    <h3>Integration Testing</h3>
     <ul>
         <li>This tests modules which have been unit tested, and aggregates them to test as a group.  Happens after unit testing,
             but before validation and system testing.
@@ -99,7 +99,7 @@
         <li>Integration Testing is slower and more expensive on resources than unit testing, and should only be done once unit tests have been exhuasted.</li>
     </ul>
 
-    <h2>UI Layer Testing</h2>
+    <h3>UI Layer Testing</h3>
     <ul>
         <li></li>
     </ul>
@@ -201,6 +201,36 @@
                 </pre></code>
             </li>
         </ul>
+    </ul>
+
+    <h2>Jest</h2>
+    <ul>
+        <li>Jest is another javascript test framework and the default one used for React applications.  It needs to be installed for a project by initiliazing the project with npm (npm init) if it isn't already, and then running <code>npm install jest -D</code> to install to dev dependencies.  Then in your package.json file, under scripts, make sure you have <code>"scripts" : { "test": "jest" }</code> so that jest runs when you use the command <code>npm test</code></li>
+        <li>By default, jest expects all tests to be saved in a folder in your root directory called <code>__tests__</code>.  By some conventions, you name each test file as <code>functionalityToTest.spec.js</code> where functionalityToTest is any descriptive name of the functionality to be tested in the file and .spec is included as an old Ruby convention indicating the file is a specification of functionality.</li>
+        <li>As with Mocha, the typical usage is that you would import the functionality with <code>myFunction = require('../myFile/myCode.js')</code> to test from some javascript file in your project (and export the functionality in that file using module.exports = myFunction), and then you can use that funcitonality in your test file to exercise/test it. You shouldn't need to import Jest in your test files in any way if you've installed it for the project as described above</li>
+        <li>Basic test syntax is similar to Mocha, except it use test() instead of it(), and provides a special syntax for exercising and verifying, namely <code>expect().toEqual()</code>, where expect() accepts an argument like a call to a function being tested that give some output, and toEqual() accepts an argument that that output should be equal to.  There are other 'matcher' functions besides .toEqual() like .toThrowError(Error('expected error msg here')) depending on the nature of the verification</li>
+        <li>Example:
+            <code><pre>
+                describe("Filter function", () => {
+                    test("it should filter by a search term (link)", () => {
+
+                        // Setup
+                        const input = [
+                            { id: 1, url: "https://www.url1.dev" },
+                            { id: 2, url: "https://www.url2.dev" },
+                            { id: 3, url: "https://www.link3.dev" }
+                        ];
+
+                        const output = [{ id: 3, url: "https://www.link3.dev" }];
+
+                        //Exercise and Verify
+                        expect(filterByTerm(input, "link")).toEqual(output);
+                    });
+                });
+            </pre></code>
+        </li>
+        <li>Jest provides a code coverage analysis feature.  This provides a report of how well your test files covers the file that is imported and tested.  If there are lines in the file that are never tested by your test file, then the report will indicate those lines and give percentage of lines covered, and some other info.  This coverage analysis can be run in a few ways.  You can run <code>npm test -- --coverage</code> to get a report in the command line after the test runs.  You can change your package.json scripts.test property from <code>"jest"</code> to <code>"jest --coverage</code> to always run the coverage report when you run <code>npm test</code>.  You can also instead add a separate new property to your package.json file outside of the scripts property that is <code>"jest": { "collectCoverage": true, "coverageReporters": ["html"] }</code> which will also always run the coverage report when you run <code>npm test</code> and the coverageReporters property can be left out to simply run reports in the command line, or included to instead print the reports to html files in a folder called 'coverage' in your root directory and which contain even more info than the command line report.</li>
+
     </ul>
 </body>
 </html>
