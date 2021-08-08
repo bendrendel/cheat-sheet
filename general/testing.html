@@ -229,8 +229,35 @@
                 });
             </pre></code>
         </li>
-        <li>Jest provides a code coverage analysis feature.  This provides a report of how well your test files covers the file that is imported and tested.  If there are lines in the file that are never tested by your test file, then the report will indicate those lines and give percentage of lines covered, and some other info.  This coverage analysis can be run in a few ways.  You can run <code>npm test -- --coverage</code> to get a report in the command line after the test runs.  You can change your package.json scripts.test property from <code>"jest"</code> to <code>"jest --coverage</code> to always run the coverage report when you run <code>npm test</code>.  You can also instead add a separate new property to your package.json file outside of the scripts property that is <code>"jest": { "collectCoverage": true, "coverageReporters": ["html"] }</code> which will also always run the coverage report when you run <code>npm test</code> and the coverageReporters property can be left out to simply run reports in the command line, or included to instead print the reports to html files in a folder called 'coverage' in your root directory and which contain even more info than the command line report.</li>
+        <li><strong>Code Coverage: </strong>Jest provides a code coverage analysis feature.  This provides a report of how well your test files covers the file that is imported and tested.  If there are lines in the file that are never tested by your test file, then the report will indicate those lines and give percentage of lines covered, and some other info.  This coverage analysis can be run in a few ways.  You can run <code>npm test -- --coverage</code> to get a report in the command line after the test runs.  You can change your package.json scripts.test property from <code>"jest"</code> to <code>"jest --coverage</code> to always run the coverage report when you run <code>npm test</code>.  You can also instead add a separate new property to your package.json file outside of the scripts property that is <code>"jest": { "collectCoverage": true, "coverageReporters": ["html"] }</code> which will also always run the coverage report when you run <code>npm test</code> and the coverageReporters property can be left out to simply run reports in the command line, or included to instead print the reports to html files in a folder called 'coverage' in your root directory and which contain even more info than the command line report.</li>
+        <li><strong>Snapshot Testing: </strong>You can install an additional library called react test renderer to use with jest to perform snapshot testing, which allows your tests to create snapshots of the rendered component throughout the test.  Each time you run the test, it will compare to the previous snapshot and let you know if there are any changes, which you can confirm are intentional or not.  If you used create-react-app to set up your app, then all you need to do is run <code>npm install react-test-renderer -D</code> in your root to install to dev dependencies. If you didn't use create-react-app there are additional steps.  Now, imagine you had e.g. a component called Link that lets you create custom links and that has methods called onMouseEnter and onMouseLeave that change a 'status' state variable indicating if the link is hovered over or not. You could have a test that calls those methods and takes a snapshot of the component after the method is called as so:
+        <code><pre>
+            // Link.react.test.js
+            import React from 'react';
+            import renderer from 'react-test-renderer';
+            import Link from '../Link.react';
 
+            test('Link changes the class when hovered', () => {
+                const component = renderer.create(
+                    &ltLink page="http://www.facebook.com">Facebook</Link>,
+                );
+                let tree = component.toJSON();
+                expect(tree).toMatchSnapshot();
+
+                // manually trigger the callback
+                tree.props.onMouseEnter();
+                // re-rendering
+                tree = component.toJSON();
+                expect(tree).toMatchSnapshot();
+
+                // manually trigger the callback
+                tree.props.onMouseLeave();
+                // re-rendering
+                tree = component.toJSON();
+                expect(tree).toMatchSnapshot();
+            });
+        </pre></code> This will create a snapshot file in your test folder called Link.react.test.js.snapshot and will include a snapshot of the HTML that the component rendered each time you call .toMatchSnapshot().  Next time you test, if the snapshots don't match you'll get an error.  You can override the error by running <code>jest -u</code> which will overwrite the existing snapshot.</li>
+        
     </ul>
 </body>
 </html>
