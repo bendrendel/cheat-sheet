@@ -9,5 +9,37 @@
 <body>
     <a href="../index.html">Home</a>
     <h1>React Redux</h1>
+    <ul>
+        <li>Redux is a library to help with state management in React.</li>
+        <li><strong>Basic Model: </strong> It separates React Apps into State, View, and Action.  Where data flows from State to View to inform what the app displays, from View to Action to inform what actions to change the state are available, and from Action to State to change the state, starting back to state to view again. </li>
+        <ul>
+            <li><strong>State: </strong>State defines the current data behind an application, e.g for a word processing application, the written text, the print settings, comments, etc. In redux, this could be represented by any data type in javascript that makes sense for the application, like an array, an object, etc.</li>
+            <li><strong>View: </strong></li>
+            <li><strong>Actions: </strong>Actions are the process of communicating data between components. When an action is generated and notifies other parts of the app it is known as dispatched. In redux, actions are represented as objects with a 'type' property, and an optional 'payload' property.  The type property describes the action such as 'todos/addTodo', 'todos/removeAll', 'todos/removeTodo'.  The payload property contains related info if relevant, like adding a todo would have a payload of a string equal to the todo, or removing a todo would contain a payload of a string equal to the todo to remove.  Removing all todos on the other hand would need no payload.  The name of the action object should be descriptive of the action, e.g. const addTodo.</li>
+        </ul>
+        <li><strong>Reducers: </strong>These are functions that define what actions do to the state.  It takes the state variable as a first argument, an action as a second argument, and it returns the new state, returning the state unchanged if no action or an unrecognized action is provided. It should make immutable updates (i.e. does not mutate provided arguments - note that strings, numbers, booleans are always passed by value as arguments to a function so they won't be mutated if you change them, but objects and array are passed by reference so the can be changed within the function). Also it should be a pure function meaning it should always give the same output for the same inputs. Reducers should follow the rules below, where Rule number 2 below ensures immutable updates, and 1 and 3 ensure a pure function:
+        <ol>
+            <li>They should only calculate the new state based on the provided state and action arguments (e.g. no global variables involved).</li>
+            <li>They should not change the current state, rather make a copy, alter it, and return that as the new state (e.g. don't push to the current state, instead make a new array and use the spread operator to get the old state array elements)</li>
+            <li>No side effects or asynchronous logic. (e.g. don't calculate a random number in the reducer to define the new state, rather the random number should be passed in as payload, also don't depend on any asynchronous logic to get the output because async logic could return an error or otherwise be unpredictable, async should happen outside the reducer and the results passed into the reducer as payload) </li>
+        </ol> 
+        Example reducer, often you'll see a default state equal to some pre-defined state variable for when the app first starts: 
+        <code><pre>
+                const todoReducer = (state = initialState, action) => {
+                    switch (action.type) {
+                        case 'todos/addTodo': {
+                            return [ ...state, action.payload];
+                        }
+                        case 'todos/removeAll': {
+                            return [];
+                        }
+                        default: {
+                            return state;
+                        }
+                    }
+                }
+            </pre></code></li>
+        <li><strong>Store: </strong>This is a special object in Redux that houses the state, provides an initial state, provides a way to dispatch actions, and calls the reducer to updates state.  Most redux apps should have only one store. </li>
+    </ul>
 </body>
 </html>
