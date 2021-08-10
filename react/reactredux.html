@@ -10,8 +10,8 @@
     <a href="../index.html">Home</a>
     <h1>React Redux</h1>
     <ul>
-        <li>Redux is a library to help with state management in React.</li>
-        <li><strong>Basic Model: </strong> It separates React Apps into State, View, and Action.  Where data flows from State to View to inform what the app displays, from View to Action to inform what actions to change the state are available, and from Action to State to change the state, starting back to state to view again. </li>
+        <li>Redux is a library to help with state management in React, it is an implementation of the Flux framework, an alternative to MVC framework.  To use it in a project, install it in the root directory with <code>npm install redux</code> to install it to production dependencies</li>
+        <li><strong>Basic Model: </strong> It separates React Apps into State, Views, and Actions.  Where data flows from State to View to inform what the app displays, from View to Action to inform what actions to change the state are available, and from Action to State to change the state, starting back to state to view again. </li>
         <ul>
             <li><strong>State: </strong>State defines the current data behind an application, e.g for a word processing application, the written text, the print settings, comments, etc. In redux, this could be represented by any data type in javascript that makes sense for the application, like an array, an object, etc.</li>
             <li><strong>View: </strong></li>
@@ -25,6 +25,7 @@
         </ol> 
         Example reducer, often you'll see a default state equal to some pre-defined state variable for when the app first starts: 
         <code><pre>
+                const initialState = [];
                 const todoReducer = (state = initialState, action) => {
                     switch (action.type) {
                         case 'todos/addTodo': {
@@ -40,6 +41,15 @@
                 }
             </pre></code></li>
         <li><strong>Store: </strong>This is a special object in Redux that houses the state, provides an initial state, provides a way to dispatch actions, and calls the reducer to updates state.  Most redux apps should have only one store. </li>
+        <ul>
+            <li>Use <code>import { createStore } from 'redux';</code> to get started making a store (redux must be installed with npm first in the root of the project)</li>
+            <li>Now you can create <code>const store = createStore(myReducerFunction);</code> to create a store, where myReducerFunction is some reducer function typically defined above the line where you intialize the store, and where the state parameter will have a default value set to some initial state defined before the reducer.</li>
+            <li><code>store.dispatch({type: 'myActionType', payload: 'myPayload'})</code> This will run the store's reducer with the provided action (where the payload is optional).  The store will save the state returned by the reducer when dispatch is called.</li>
+            <li><code>store.getState()</code> will return the saved state (the most recently returned state by the reducer).  The store will initially run the reducer with default state and no action, which will return the default state and save the default state as the initial state of the store.</li>
+            <li>action creators are functions that return an action, e.g. <code>const toggle = () => { return {type: 'toggle'}; }</code>, and are often used in redux applications though not strictly necessary.  They would typically be defined above the reducer and initial state variables.  When an action is dispatched, you would typically use the action creator, e.g. <code>store.dispatch(toggle());</code></li>
+            <li><code>store.subscribe(myEventListener); </code> will call the myEventListener function any time the state changes in store.  e.g. myEventListern might be a function that console logs the store.getState() value.  store.subscribe() returns a function that you can call to 'unsubscribe' myEventListener, so it stops being called in response to state changes.  Thus, you'll often see <code>const unsubscribe = store.subscribe(myListener);</code> and then you may call <code>unsubscribe()</code> later in the code to stop the event listener.  You'll often see the myEventListener function and unsubscribe const defined below the action creators, initial state, reducer, and creation of the store.</li>
+
+        </ul>
     </ul>
 </body>
 </html>
