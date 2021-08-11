@@ -9,6 +9,8 @@
 <body>
     <a href="../index.html">Home</a>
     <h1>React Redux</h1>
+
+    <h2>Basics</h2>
     <ul>
         <li>Redux is a library to help with state management in React, it is an implementation of the Flux framework, an alternative to MVC framework.  To use it in a project, install it in the root directory with <code>npm install redux</code> to install it to production dependencies</li>
         <li><strong>Basic Model: </strong> It separates React Apps into State, Views, and Actions.  Where data flows from State to View to inform what the app displays, from View to Action to inform what actions to change the state are available, and from Action to State to change the state, starting back to state to view again. </li>
@@ -48,8 +50,94 @@
             <li><code>store.getState()</code> will return the saved state (the most recently returned state by the reducer).  The store will initially run the reducer with default state and no action, which will return the default state and save the default state as the initial state of the store.</li>
             <li>action creators are functions that return an action, e.g. <code>const toggle = () => { return {type: 'toggle'}; }</code>, and are often used in redux applications though not strictly necessary.  They would typically be defined above the reducer and initial state variables.  When an action is dispatched, you would typically use the action creator, e.g. <code>store.dispatch(toggle());</code></li>
             <li><code>store.subscribe(myEventListener); </code> will call the myEventListener function any time the state changes in store.  e.g. myEventListern might be a function that console logs the store.getState() value.  store.subscribe() returns a function that you can call to 'unsubscribe' myEventListener, so it stops being called in response to state changes.  Thus, you'll often see <code>const unsubscribe = store.subscribe(myListener);</code> and then you may call <code>unsubscribe()</code> later in the code to stop the event listener.  You'll often see the myEventListener function and unsubscribe const defined below the action creators, initial state, reducer, and creation of the store.</li>
-
         </ul>
+    </ul>
+        
+    <h2>Connecting to a UI</h2>
+    <ul>
+        <li>To use redux with a UI, there is a general series of steps regardless of if the UI is vanilla JS, react, or another framework</li>
+        <ul>
+            <li>Create a redux store</li>
+            <li>Render the initial state of the store.  This involves creating a render function or some callback function that uses state to determine UI, e.g. could be as simple as having a state that is a counter and the render function sets the innerHTML of a DOM element to the value of the state variable do as to display the counter value. The render function always 1) gets the current store state, 2) select the data needed by the UI, 3) updates the UI based on the data</li>
+            <li>Subscribe to updates, that is <code>store.subscribe(myRenderFunction)</code> so that the render function or other callback that updates the UI, runs everytime there is a change in the store's state, ensuring your UI is always up to date</li>
+            <li>Respond to UI events by dispatching actions to the store.  e.g the on click event of a plus button has an event handler function that calls <code>store.dispatch(myActionCreator())</code> dispatching some action using an action creator, thus updating state, thus causing the subscribed render function to run, thus updating the UI.</li>
+        </ul>
+        <li>Used with React, connecting to the UI means the render function will be a function that calls ReactDOM.render() to render your top-level component.  After defining your render function, you then call your render function once so that the React App is rendered initially.  Then you subscribe the render function to the store, so that it runs everytime the store changes state.  Event handler methods in your react components dispatch actions to the store in order to change the state.  The state is passed in as a prop to the top level component when you render it inside the render function e.g. <code>const myRenderFunction = () => {ReactDOM.render(&ltMyTopLevelComponent state={store.getState()}/>, document.getElementById('root'))}</code></li>
+        <li>Example Basic React app with Redux:
+            <code><pre>
+                import React from 'react';
+                import ReactDOM from 'react-dom';
+                import { createStore } from 'redux';
+
+                // REDUX CODE
+                ///////////////////////////////////
+
+                const increment = () => {
+                return {type: 'increment'} 
+                }
+
+                const decrement = () => { 
+                return {type: 'decrement'}
+                }
+
+                const initialState = 0;
+                const counterReducer = (state = initialState, action) => {
+                switch (action.type) {
+                    case 'increment':
+                    return state + 1;
+                    case 'decrement':
+                    return state - 1;
+                    default:
+                    return state; 
+                }
+                } 
+
+                const store = createStore(counterReducer);
+
+                // REACT CODE
+                ///////////////////////////////////
+
+                const render = () => {
+                ReactDOM.render(
+                    &ltCounterApp 
+                    state={store.getState()}
+                    />,
+                    document.getElementById('root')
+                )
+                }
+
+
+                // Render once with the initial state.
+                render();
+
+                // Subscribe render to changes to the store's state.
+                store.subscribe(render);
+
+                function CounterApp(props) {
+                const state = props.state;
+                
+                const onIncrementButtonClicked = () => {
+                    // Dispatch an 'increment' action.
+                    store.dispatch(increment());
+                }
+                
+                const onDecrementButtonClicked = () => {
+                    // Dispatch an 'decrement' action.
+                    store.dispatch(decrement());
+                }
+                
+                return (   
+                    &ltdiv id='counter-app'>
+                    &lth1> {state} &lt/h1>
+                    &ltbutton onClick={onIncrementButtonClicked}>+&lt/button> 
+                    &ltbutton onClick={onDecrementButtonClicked}>-&lt/button>
+                    &lt/div>
+                )
+                }
+            </pre></code>
+        </li>
+
+
     </ul>
 </body>
 </html>
