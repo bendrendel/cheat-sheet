@@ -276,5 +276,64 @@
     <li><strong>useSelector: </strong>This method is provided by react-redux for use in React components and must be imported in the component with <code>import { useSelector } from 'react-redux';</code> You'll also need to import selector functions from one or more slice.js files to use the selectors.  You use useSelector in a component definition (inside the component class definition or function definition of function components), providing it an argument of a selector.  useSelector must be used within a child component under the top level Provider component.  It will feed the selector the current state of the store, and return whatever the selector returns.  However, it will also subscribe rendering of the component to the store, but only for changes to the slices involved in the selector function.  So, components will re-render only when slices update that effect them.  You don't have to use a separately defined selector function with useSelector, and can instead define the selector in line with useSelector, e.g. <code>const todos = useSelector(state => state.todos);</code> or could use props passed to the component in the selector e.g. <code>const todo = useSelector(state => state.todos[props.id])</code></li>
     <li><strong>useDispatch: </strong>This method is provided by react-redux for use in React components and must be imported in the component with (also importing useSelector in this example) <code>import { useSelector, useDispatch } from 'react-redux';</code>.  This method simply returns the store's dispatch method, so that you can use dispatch in your component without having to pass it down through props (from index.js to App.js to the component).  In your component definition (inside your component class body or function body for function components), you would include <code>const dispatch = useDispatch()</code>.  Then you can use dispatch like normal, e.g. in response to a button click you might use <code>dispatch(removeTodo(todo))</code>, where removeTodo is an action creator that you imported at the beginning of the component file from the appropriate slice file, and this action creator happens to take an argument that it uses as payload to determine which todo should be removed.</li>
     </ul>
+
+    <h2>Redux Toolkit</h2>
+    <ul>
+        <li>The redux toolkit (RTK) is a library that helps reduce some of the code you have to write to use redux.  It needs to be installed in the root of a project with <code>npm install @reduxjs/toolkit</code></li>
+        <li><strong>createSlice() </strong>This is a method available in the redux toolkit and needs to be imported to the file using it with <code>import { createSlice } from '@reduxjs/toolkit';</code> It provides a way of more easily defining a slice reducer and associated action creators.</li>
+        <ul>
+            <li>createSlice accepts an object argument with three properties: name, initialState, and reducers.  This object may be defined first as a const called 'options' and provided to the createSlice() method.  The name property should be a string that is the name of the slice and the prefix used in the action types for the slice (e.g. todos is the prefix in todos/addTodo).  The initialState property is the initial state value for that slice.  The reducers property is an object with keys equal to the last half of each action type (e.g. addTodo). Each key is set to a function called case reducers that accept state and action arguments and returns the new state for that action. It is not necessary to define a default action.</li>
+            <li>createSlice returns an object with three properties: name, reducer, and actions, and which you normally would save to a const named nameSlice (e.g. todoSlice).  The name is the name you provide in the options object. The reducer is an automatically generated slice reducer function that essentially creates a traditional switch statement with the code you provided for each possible action in the options object, along with a default case that returns the state unchanged.  Finally, the actions property is an object whose keys are the names of the actions you provided in the options object (e.g. addTodo), and each key is set to an action creator function that accepts a payload argument and returns an action object of type name/action (e.g. todos/addTodo) and the payload provided.  You will want to export the action creators so they can be used elsewhere.  This is most commonly done with e.g. <code>export const { addTodo, toggleTodo } = todosSlice.actions;</code> where todosSlice is the name of the const you save the return value of createSlice.  You'll also want to export the reducer function so that it can be imported into the store to create the combined reducer, this is typically made to be the default export, e.g <code>export default todosSlice.reducer;</code></li>
+            <li>createSlice also has the benefit that it uses the Immer library to allow you to write mutative code without actually mutating the provided arguments, so you don't have to worry about writing an immutable function, and can mutate the passed in state argument for easier code (e.g. you can push to a state that is an array).</li>
+            <li>Example createSlice:
+                <code><pre>
+                    const todosSlice = createSlice({
+                        name: 'todos',
+                        initialState: [],
+                        reducers: {
+                            addTodo(state, action) {
+                                const { id, text } = action.payload
+                                state.push({ id, text, completed: false })
+                            },
+                            toggleTodo(state, action) {
+                                const todo = state.find(todo => todo.id === action.payload)
+                                if (todo) {
+                                    todo.completed = !todo.completed
+                                }
+                            }
+                        }
+                    })
+                        
+                    /* Object returned by todosSlice */
+                    {
+                        name: 'todos',
+                        reducer: (state, action) => newState,
+                        actions: {
+                            addTodo: (payload) => ({type: 'todos/addTodo', payload}),
+                            toggleTodo: (payload) => ({type: 'todos/toggleTodo', payload})
+                        },
+                        // case reducers field omitted
+                    }
+                </pre></code>
+            </li>
+        </ul>
+        <li><strong>configureStore() </strong>This is a method provided by redux toolkit that you would import into your store.js file with <code>import { configureStore } from '@reduxjs/toolkit';</code>.  It is passed a configuration object and it returns a store object that you would save to your const store, in place of create store.  The config object can have multiple properties but the most basic usage is a single property called reducer.  reducer is set equal to an object that has keys equal to the name of each slice of state, and values of the associated slice Reducer, which would be imported as usual in to the store.js file.  This reducer object is the same thing you would pass to combineReducers to create a root reducer.  Passing this config object to configureStore() will create a root reducer and create a store based on that root reducer, thus making the process a little simpler than combineReducers and createStore (which you don't have to import if you're using configureStore instead).  However, configureStore will also add middleware and set up Redux Dev Tools extension, thus saving you even more code. Example usage in a store.js file:
+        <code><pre>
+            import { configureStore } from '@reduxjs/toolkit'
+ 
+            import todosReducer from './features/todos/todosSlice'
+            import filtersReducer from './features/filters/filtersSlice'
+            
+            const store = configureStore({
+                reducer: {
+                    // Define a top-level state field named `todos`, handled by `todosReducer`
+                    todos: todosReducer,
+                    filters: filtersReducer
+                }
+            });
+            
+            export default store
+        </pre></code></li>
+    </ul>
 </body>
 </html>
