@@ -193,7 +193,7 @@
                 }));
             </pre></code></li>
         </ul>
-        <li><strong>Ducks File Structure: </strong>Most commonly redux apps are broken up in multiple files using the Redux Ducks pattern, shown below. src/ is a folder in your root directory, at the same level as perhaps a test/ folder and img/ folder, etc.  index.js is the entry point to the app as usual.  store.js imports redux features, and defines the root reducer and creates the store.  featureASlice.js, featureBSlice.js, etc. define the action creators, the initial state, and reducer for a single slice of state.  These files export their action creators for import into react feature components and reducers for import into store.js.  Also included are react-specific folders and files (denoted with +) that work will within the Ducks structure.  App.js is the main top level react component.  The components folder contains components that are generic and get reused in other components.  Under each features folder, the react component corresponding to rendering/updating that slice is included.
+        <li><strong>Ducks File Structure: </strong>Most commonly redux apps are broken up in multiple files using the Redux Ducks pattern, shown below. src/ is a folder in your root directory, at the same level as perhaps a test/ folder and img/ folder, etc.  index.js is the entry point to the app as usual.  store.js imports redux features, and defines the root reducer and creates the store.  featureASlice.js, featureBSlice.js, etc. define the action creators, the initial state, and reducer for a single slice of state.  These files export their action creators for import into react feature components and reducers for import into store.js.  Also included are react-specific folders and files (denoted with +) that work will within the Ducks structure.  App.js is the main top level react component.  The components folder contains components that are generic and get reused in other components.  Under each features folder, the react component corresponding to rendering/updating that slice is included.  Sometimes you'll see App.js outside the app folder, directly under src.  Sometimes you'll see features as subfolder of another feature or nested even deeper if they are meant to only be rendered by that component.
         <code><pre>
             src/
             |-- index.js
@@ -241,6 +241,40 @@
             <li><strong>App.js </strong>App.js as usual imports the feature components to render them. To these components, App.js passes as props the slice of state for that components, and the dispatch method so that the components can dispatch actions to the store. Passing state through App to the components is called prop threading or drilling and isn't ideal, this is solved with react-redux library</li>
             <li><strong>feature components: </strong>These will use the slice of state passed in as props to render the component, import action creators from the associated Slice.js file, and run the passed in dispatch method with the action creators to run in response to user actions</li>
         </ul>
+    </ul>
+
+    <h2>React-Redux</h2>
+    <ul>
+        <li>The react-redux library optimizes using redux with react.  It must be installed in your project's root directory with <code>npm install react-redux</code>, which installs it as a production dependency.  It offers better ways of accomplishing several things when using redux with react</li>
+        <li><strong>Provider Component: </strong>This is a component in the react-redux library which you will generally import into your index.js with <code>import { Provider } from 'react-redux';</code> You will then wrap your rendered App component inside the Provider Component and pass the store as a prop to your Provider component.  This will allow the App component and all children components access to the store without having to pass it as props. e.g. index.js will render:
+        <code><pre>
+            ReactDOM.render(
+                &ltProvider store={store}>
+                    &ltApp />
+                &lt/Provider>,
+                document.getElementById("root")
+            );
+        </pre></code></li>
+        <li><strong>Selectors: </strong>Selectors are functions you write in each feature's featureNameSlice.js file, which contains the action creators, initial state, and reducer for one slice of state.  There is nothing to import from react-redux to implement these, they just use vanilla js. The selector functions take the full state as an argument (i.e. all slices of state) and return just one slice of state, or perhaps some sub part of that slice, or filter the slice first, etc.  They should deal with the slice in the slice.js file they are in.  They need to be pure functions that do not mutate the argument, and always provide the same output for same input with no randomness or side effects.  They should be named selectDescriptionOfDataReturned, e.g. selectAllRecipes or selectFilteredRecipes.  They should be exported so they are available for import where needed, in other slice files or UI components.  They can be as simple as returned a slice of state, e.g. <code>export const selectFilter = state => state.filter;</code> or more complicated like returning only the todo items in the state.todos array that are marked as complete or filtering state.AllRecipes array in the allRecipesSlice.js file based on state.searchTerm that is retrieved by importing selectSearchTerm from the searchTermSlice.js file:
+        <code>
+            <pre>
+                export const selectIsCompleteIDs = state => state.todos.filter(
+                    todo => todo.isComplete).map(todo => todo.id)
+            </pre>
+        </code>
+        <code>
+            <pre>
+                export const selectFilteredAllRecipes = (state) => {
+                    const allRecipes = selectAllRecipes(state);
+                    const searchTerm = selectSearchTerm(state);
+
+                    return allRecipes.filter(recipe => recipe.name.toLowerCase().includes(searchTerm.toLowerCase()));
+                }
+            </pre>
+        </code>
+    </li>
+    <li><strong>useSelector: </strong>This method is provided by react-redux for use in React components and must be imported in the component with <code>import { useSelector } from 'react-redux';</code> You'll also need to import selector functions from one or more slice.js files to use the selectors.  You use useSelector in a component definition (inside the component class definition or function definition of function components), providing it an argument of a selector.  useSelector must be used within a child component under the top level Provider component.  It will feed the selector the current state of the store, and return whatever the selector returns.  However, it will also subscribe rendering of the component to the store, but only for changes to the slices involved in the selector function.  So, components will re-render only when slices update that effect them.  You don't have to use a separately defined selector function with useSelector, and can instead define the selector in line with useSelector, e.g. <code>const todos = useSelector(state => state.todos);</code> or could use props passed to the component in the selector e.g. <code>const todo = useSelector(state => state.todos[props.id])</code></li>
+    <li><strong>useDispatch: </strong>This method is provided by react-redux for use in React components and must be imported in the component with (also importing useSelector in this example) <code>import { useSelector, useDispatch } from 'react-redux';</code>.  This method simply returns the store's dispatch method, so that you can use dispatch in your component without having to pass it down through props (from index.js to App.js to the component).  In your component definition (inside your component class body or function body for function components), you would include <code>const dispatch = useDispatch()</code>.  Then you can use dispatch like normal, e.g. in response to a button click you might use <code>dispatch(removeTodo(todo))</code>, where removeTodo is an action creator that you imported at the beginning of the component file from the appropriate slice file, and this action creator happens to take an argument that it uses as payload to determine which todo should be removed.</li>
     </ul>
 </body>
 </html>
