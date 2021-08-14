@@ -50,6 +50,31 @@
             <li><code>store.getState()</code> will return the saved state (the most recently returned state by the reducer).  The store will initially run the reducer with default state and no action, which will return the default state and save the default state as the initial state of the store.</li>
             <li><strong>action creators</strong> are functions that return an action, e.g. <code>const toggle = () => { return {type: 'toggle'}; }</code>, and are often used in redux applications though not strictly necessary.  They would typically be defined above the reducer and initial state variables.  When an action is dispatched, you would typically use the action creator, e.g. <code>store.dispatch(toggle());</code> They may have an argument that is passed in and set as the value of the payload.</li>
             <li><code>store.subscribe(myEventListener); </code> will call the myEventListener function any time the state changes in store.  e.g. myEventListern might be a function that console logs the store.getState() value.  store.subscribe() returns a function that you can call to 'unsubscribe' myEventListener, so it stops being called in response to state changes.  Thus, you'll often see <code>const unsubscribe = store.subscribe(myListener);</code> and then you may call <code>unsubscribe()</code> later in the code to stop the event listener.  You'll often see the myEventListener function and unsubscribe const defined below the action creators, initial state, reducer, and creation of the store.</li>
+            <li>The underlying implementation of store looks something like below. It accepts a reducer as an argument. It holds an internal state variable, and an array of listener functions to run.  the getState method simply returns the state.  The dispatch method accepts an action and runs the reducer with the given action and current state value, updating the state with the returned value, then for each subscribed listener function it calls the listener function since state has been updated (possibly the state didn't actually change dependign on the action).  The subscribe method accepts a listener function and adds it to the array of listeners, returning a function that will filter out the provided listener from the listener array (i.e. the unsubscribe function).  dispatch is then called to run the reducer with an empty action object, which means the initial state value will be returned be defautl and thus set the internal state value to the initial state.  Finally, createStore returns an object containing three methods: the getState, dispatch, and subscribe methods.
+                <code><pre>
+                    const createStore = (reducer) => {
+                        let state;
+                        let listeners = [];
+                        
+                        const getState = () => state;
+                        
+                        const dispatch = (action) => {
+                            state = reducer(state, action);
+                            listeners.forEach(listener => listener());
+                        };
+                        
+                        const subscribe = (listener) => {
+                            listeners.push(listener);
+                            return () => {  
+                                listeners = listeners.filter(l => l !== listener)  
+                            }
+                        };
+                        
+                        dispatch({});
+                        return { getState, dispatch, subscribe };
+                    }
+                </pre></code>
+            </li>
         </ul>
     </ul>
         
