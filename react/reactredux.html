@@ -73,23 +73,23 @@
                 ///////////////////////////////////
 
                 const increment = () => {
-                return {type: 'increment'} 
+                    return {type: 'increment'} 
                 }
 
                 const decrement = () => { 
-                return {type: 'decrement'}
+                    return {type: 'decrement'}
                 }
 
                 const initialState = 0;
                 const counterReducer = (state = initialState, action) => {
-                switch (action.type) {
-                    case 'increment':
-                    return state + 1;
-                    case 'decrement':
-                    return state - 1;
-                    default:
-                    return state; 
-                }
+                    switch (action.type) {
+                        case 'increment':
+                            return state + 1;
+                        case 'decrement':
+                            return state - 1;
+                        default:
+                            return state; 
+                    }
                 } 
 
                 const store = createStore(counterReducer);
@@ -98,14 +98,13 @@
                 ///////////////////////////////////
 
                 const render = () => {
-                ReactDOM.render(
-                    &ltCounterApp 
-                    state={store.getState()}
-                    />,
-                    document.getElementById('root')
-                )
+                    ReactDOM.render(
+                        &ltCounterApp 
+                            state={store.getState()}
+                        />,
+                        document.getElementById('root')
+                    )
                 }
-
 
                 // Render once with the initial state.
                 render();
@@ -114,25 +113,25 @@
                 store.subscribe(render);
 
                 function CounterApp(props) {
-                const state = props.state;
+                    const state = props.state;
+                    
+                    const onIncrementButtonClicked = () => {
+                        // Dispatch an 'increment' action.
+                        store.dispatch(increment());
+                    }
                 
-                const onIncrementButtonClicked = () => {
-                    // Dispatch an 'increment' action.
-                    store.dispatch(increment());
-                }
+                    const onDecrementButtonClicked = () => {
+                        // Dispatch an 'decrement' action.
+                        store.dispatch(decrement());
+                    }
                 
-                const onDecrementButtonClicked = () => {
-                    // Dispatch an 'decrement' action.
-                    store.dispatch(decrement());
-                }
-                
-                return (   
-                    &ltdiv id='counter-app'>
-                    &lth1> {state} &lt/h1>
-                    &ltbutton onClick={onIncrementButtonClicked}>+&lt/button> 
-                    &ltbutton onClick={onDecrementButtonClicked}>-&lt/button>
-                    &lt/div>
-                )
+                    return (   
+                        &ltdiv id='counter-app'>
+                            &lth1> {state} &lt/h1>
+                            &ltbutton onClick={onIncrementButtonClicked}>+&lt/button> 
+                            &ltbutton onClick={onDecrementButtonClicked}>-&lt/button>
+                        &lt/div>
+                    )
                 }
             </pre></code>
         </li>
@@ -143,7 +142,80 @@
         <li><strong>Slices: </strong>A redux app's state will usually be an object, and each property of the object is known as a slice, with values of any data type such as a string, array, object, etc.</li>
         <li><strong>Initial State: </strong>Best practice in redux is to start the application by defineing an initialState const variable so that the structure of the state object is established, and then provide that initialState to the reducer function. Each slice should generally be set equal to an empty string, empty array, object with empty projects, false, etc.  If using reducer composition, then you would have multiple initial state const variables, one for each slice of the state, named initialSliceName.  These variables would get set to the initial value of just that slice. </li>
         <li><strong>Actions: </strong>Actions should be defined next, and each action type should be named 'slice/actiondescription', where slice is the slice changed by the action (each action should usually only effect one slice).  An action creator should be written for each action type, with an optional argument for the payload. The action creator name should be the same as the actiondescription used in the action type. Sometimes the payload will be data from an API, where perhaps the action is dispatched on app load to populate a slice that holds the data.</li>
-        <li><strong>Reducer: </strong>The reducer should be defined next, with the default state set to the initial state.  The key is that it doesn't mutate the state passed to it, but makes a copy, mutates the copy and returns that, which can be tricky with complex state but the spread operator come in handy.  Also, you can use reducer composition to handle complex state.  This has one reducer called rootReducer, and this is the reducer that the store is created with, and as usual accepts a state variable and action as arguments.  The rootReducer defines a nextState const variable inside it set equal to the value of the new state to be returned by the reducer.  Each slice in the new state is set to a call to another reducer that only handles that slice, called sliceNameReducer.  The slice reducer accepts a state variable and action just like a regular reducer, but the state is just for that slice (state.sliceName) and the action is the same as the action passed to the rootReducer.  Each slice's reducer is called each time the rootReducer is called, and returns an updated slice if the action pertains to that slice or else returns the slice unchanged, then the root returns the nextState object.</li>
+        <li><strong>Reducer: </strong>The reducer should be defined next, with the default state set to the initial state.  It is important that it doesn't mutate the state passed to it, but makes a copy, mutates the copy and returns that, which can be tricky with complex state but the spread operator come in handy.</li>
+        <ul>
+            <li><strong>Reducer Composition: </strong>Also, you can use reducer composition to handle complex state.  This has one reducer called rootReducer, and this is the reducer that the store is created with, and as usual accepts a state variable and action as arguments.  The rootReducer defines a nextState const variable inside it set equal to the value of the new state to be returned by the reducer.  Each slice in the new state is set to a call to another reducer that only handles that slice, called sliceNameReducer.  The slice reducer accepts a state variable and action just like a regular reducer, but the state is just for that slice (state.sliceName) and the action is the same as the action passed to the rootReducer.  Each slice's reducer is called each time the rootReducer is called, and returns an updated slice if the action pertains to that slice or else returns the slice unchanged, then the root returns the nextState object.  Example of root reducer is below, where todosReducer and filterReducers accept their respective state slices and the action, and return an updated version of their respective state slice based on the action or return an unchanged slice if the action doesn't alter that slice.
+            <code><pre>
+                import { createStore } from 'redux';
+ 
+                // todosReducer and filterReducer omitted
+                
+                const rootReducer = (state = {}, action) => {
+                    const nextState = {
+                        todos: todosReducer(state.todos, action),
+                        filter: filterReducer(state.filter, action)
+                    };
+                    return nextState;
+                };
+                
+                const store = createStore(rootReducer);
+            </pre></code></li>
+            <li><strong>combineReducers: </strong><code>combineReducers() </code>is a function that can be imported from the Redux library with e.g. <code>import { createStore, combineReducers } from 'redux';</code>.  This simplifies reducer composition.  It takes a single argument of an object whose keys are the slices of state, and the values are the functions that are the reducers for each slice.  It returns a root reducer that behaves the same as the rootReducer above.  Creation of a store with a root reducer can thus be all written inline like below, or you can create separate const reducers variable equal to the object containing the reducers, and a separate const rootReducer variable where you call the combineReducers function with it:
+            <code><pre>
+                const store = createStore(combineReducers({
+                    todos: todosReducer,
+                    filter: filterReducer
+                }));
+            </pre></code></li>
+        </ul>
+        <li><strong>Ducks File Structure: </strong>Most commonly redux apps are broken up in multiple files using the Redux Ducks pattern, shown below. src/ is a folder in your root directory, at the same level as perhaps a test/ folder and img/ folder, etc.  index.js is the entry point to the app as usual.  store.js imports redux features, and defines the root reducer and creates the store.  featureASlice.js, featureBSlice.js, etc. define the action creators, the initial state, and reducer for a single slice of state.  These files export their action creators for import into react feature components and reducers for import into store.js.  Also included are react-specific folders and files (denoted with +) that work will within the Ducks structure.  App.js is the main top level react component.  The components folder contains components that are generic and get reused in other components.  Under each features folder, the react component corresponding to rendering/updating that slice is included.
+        <code><pre>
+            src/
+            |-- index.js
+            |-- app/
+                |-- App.js (+)
+                |-- store.js
+            |-- components/
+                |-- FavoriteButton.js (+)
+                |-- Recipe.js (+)
+            |-- features/
+                |-- allRecipes/
+                    |-- AllRecipes.js (+)
+                    |-- allRecipesSlice.js
+                |-- favoriteRecipes/
+                    |-- FavoriteRecipes.js (+)
+                    |-- favoriteRecipesSlice.js
+                |-- searchTerm/
+                    |-- SearchTerm.js (+)
+                    |-- searchTermSlice.js
+        </pre></code></li>
+        <ul>
+            <li><strong>index.js </strong>This file imports react and reactDOM, and imports App.js and store.js.  It renders App.js and passes the store state and store dispatch method to App as props.  It als renders App.js within a render function that is called once for the initial render and then subscribed to the store.
+            <code><pre>
+                import React from 'react';
+                import ReactDOM from 'react-dom';
+
+                import { App } from './app/App.js';
+                // Import 'store' here.
+                import { store } from './app/store.js';
+
+                const render = () => {
+                // Pass `state` and `dispatch` props to &ltApp />
+                ReactDOM.render(
+                    &ltApp 
+                        state={store.getState()}
+                        dispatch={store.dispatch}
+                    />,
+                    document.getElementById('root')
+                )
+                }
+                render();
+                // Subscribe render to changes to the `store`
+                store.subscribe(render);
+            </pre></code></li>
+            <li><strong>App.js </strong>App.js as usual imports the feature components to render them. To these components, App.js passes as props the slice of state for that components, and the dispatch method so that the components can dispatch actions to the store. Passing state through App to the components is called prop threading or drilling and isn't ideal, this is solved with react-redux library</li>
+            <li><strong>feature components: </strong>These will use the slice of state passed in as props to render the component, import action creators from the associated Slice.js file, and run the passed in dispatch method with the action creators to run in response to user actions</li>
+        </ul>
     </ul>
 </body>
 </html>
