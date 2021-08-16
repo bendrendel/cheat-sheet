@@ -336,7 +336,132 @@
             export default store
         </pre></code></li>
     </ul>
-    
+
+    <h2>Redux Middleware and Thunks</h2>
+    <ul>
+        <li><strong>Middleware</strong> refers to the code in a system that runs between receiving a request and producing a response. In redux, middleware runs between the moment an action is dispatched, and the moment the reducer is called with that action. Common middleware tasks include logging actions, caching, adding auth tokens to request headers, crash reporting, routing, and making asynchronous requests for data. There are many libraries you can use with redux to help accomplish these things, or you can write your own middleware.</li>
+        <li><strong>applyMiddleware </strong>To write your own middleware, first import the applyMiddleware method from the redux library to your store.js file with (also importing createStore in this example) <code>import { createStore, applyMiddleware } from 'redux';</code>.  createStore() offers two additional arguments after the reducer argument.  The first is the initialState, and the second is for middleware.  To use middleware you call the applyMiddleware method in the middleware argument of createStore.  applyMiddleware takes one or more arguments, which are the middleware functions you want to run in order from first to last.  Dispatches to the store will actually call the first middleware function, then all preceding ones, and then finally call the store's reducer. e.g. 
+        <code><pre>
+            const store = createStore(
+                exampleReducer, 
+                initialState, 
+                applyMiddleware(
+                    middleware1, 
+                    middleware2, 
+                    middleware3
+                )
+            );
+        </pre></code></li>
+        <li><strong>Custom Middleware functions: </strong>Middleware functions (middlewares) included in the applyMiddleware() function must conform to a specific pattern, shown below.  This pattern gives each middleware access to the store's methods (dispatch, getState) through the storeAPI, the next middleware, and the action. For the last middleware in the pipeline, next will be calling store.dispatch(action) to finally run the reducer.  The pattern is you do stuff for that middleware, then you return a call to the next middleware with that action.
+        <code>
+            const exampleMiddleware = storeAPI => next => action => {
+                // do stuff here
+                return next(action);  // pass the action on to the next middleware in the pipeline
+            }
+        </code>
+        Example of one logging middleware:
+        <code><pre>
+            import { createStore, applyMiddleware } from 'redux';
+
+            const messageReducer = (state = '', action) => {
+                if (action.type === 'NEW_MESSAGE') {
+                    return action.payload;
+                } else {
+                    return state;
+                }
+            }
+
+            const logger = storeAPI => next => action => {
+                console.log(storeAPI.getState());
+                
+                const nextState = next(action);
+                console.log(nextState);
+
+                return nextState;
+            };
+
+            const store = createStore(messageReducer, '', applyMiddleware(logger));
+
+        </pre></code></li>
+        <li><strong>Asynchronous Actions in Redux: </strong>Barriers to asynchronous actions in redux include, async actions return promises, but dispatch expects a plain object and runs the reducer with it immediately (e.g. the payload can't be a promise that returns a value later, the reducer will have run by then). Additionally, reducers are supposed to have no side effects or indeterminate logic, so async logic in the reducer itself is a no-go.  Redux recommends async operation should happen as part of the action creation process.</li>
+        <li><strong>Thunk</strong> A thunk is a function that is set up and returned by another function, so that it can be called later when needed. e.g. <code>const add = (x, y) => { return () => { return x+y }}</code> creates a function called add that takes two number to add, but instead of returning the result, it returns a thunk function that will return the result if called later.</li>
+        <li><strong>redux-thunk </strong>This is a library that is automatically included with RTK and applied to a store automatically if you use configureStore().  You can use it standalone without RTK as well but need to install and import it.  It allows you to write action creators that return asynchronous functions (thunks) instead of action objects.  You can also continue to write action creators that return plain action objects.  When you call <code>dispatch(actionCreator())</code> somewhere in your codebase, the dispatch call will first go to thunks middleware instead of straight to the reducer.  If the action creator returns a plain action object, then thunks will pass it along to the reducer.  If the action creator returns a function, then thunks will run the function, providing it three arguments: dispatch, getState, and extraArugment.  Not sure what extraArgument is for, but dispatch and getState will be those methods from your store so the can be used in your function definition.  getState and extraArgument are optional arguments.  These types of action creators are helpful if you need to dispatch an action that has an async operation a part of it.  The action creator itself can accept any arguments you need or none at all, e.g. you might want to give the action creator an id, so this id is in the returned thunk and is used to make an api call.  The thunk can have up to three parameters as discussed above, the dispatch, getState, and extraArgument parameters.  You will call dispatch at the end of your thunk with a plain action object (perhaps with a payload recieved from an api call).  When this plain object is dispatched it will go through thunks again but this time be passed straight away to the reducer.
+        <code><pre>
+            import { fetchUser } from './api'
+            const getUser = (id) => {
+                return async (dispatch, getState) => {
+                    const payload = await fetchUser(id);
+                    dispatch({type: 'users/addUser', payload: payload});
+                }
+            }
+        </pre></code></li>
+        <li><strong>Promise lifecycle: </strong>When fetching from an API and creating a promise, for better UX it is good for your app to respond to different parts of the promise lifecycle, i.e. when it is pending, when it fulfills, and if it is rejected.  A manual way of doing this is to have separate actions for each phase that you dispatch at the right time to update your state and thus UI.  E.g. for fetch user example above, you could write: 
+        <code><pre>
+            const fetchUserById = (id) => {
+                return async (dispatch, getState) => {
+                    dispatch({type: 'users/requestPending'})
+                    try {
+                        const payload = await fetchUser(id)
+                        dispatch({type: 'users/addUser', payload: payload})
+                    } catch(err) {
+                        dispatch({type: 'users/error', payload: err})
+                    }
+                }
+            }
+        </pre>
+        </code></li>
+        <li><strong>createAsyncThunk(): </strong>This is a method available in the RTK, it needs to be imported with <code>import { createAsyncThunk } from '@reduxjs/toolkit';</code> It takes two arguments, an action type, and a payload creator, and it returns a function meant to be used as an action creator that returns a thunk. So, you would set your action creator equal to a call to createAsyncThunk().  The first argument the action type, is the action type that will be used for the eventual action object to dispatch.  The second argument is an async function that takes two arguments, 'arg', and 'thunkAPI', and returns the payload you want to use in your eventual action object to dispatch.  When you call the action creator you can provide it a single argument that will be passed own to 'arg' in the async function.  It will be undefined if nothing is passed down.  If you only need to pass one value, you should name the parameter semantically, if multiple values are needed, you should call it 'arg' and pass it an object with the multiple values.  The 'thunkAPI' parameter gives you access to store.dispatch, store.getState, and other things.  createAsyncThunk() will dispatch all three actions of the promise lifecycle, based on the name you provide in the first argument, appended with '/pending', /'fulfilled', or '/rejected'.  (e.g. if you provide 'users/fetchUserById', it will dispatch the actions 'users/fetchUserById/pending', 'users/fetchUserById/fulfilled', or 'users/fetchUserById/rejected').  You can then respond to these actions in your reducer.  On the fulfilled action, it will include as payload whatever you return from the async function in the second argument.  Additionally, it will return action creators with these three actions separately if you want to force a dispatch of the particular action.  These can be called with the name you give the action creator const variable, e.g. fetchUserById.pending(), fetchUserById.fulfilled(), and fetchUserById.rejected().
+        <code>
+            <pre>
+                import { createAsyncThunk } from '@reduxjs/toolkit'
+                import { fetchUser } from './api'
+                const fetchUserById = createAsyncThunk(
+                    'users/fetchUserById', // action type
+                    async (userId, thunkAPI) => { // payload creator
+                        const response = await fetchUser(userId);
+                        const json = await response.json();
+                        return json;
+                    }
+                )
+
+                //call on user id 17
+                dispatch(fetchUserById(17));
+            </pre>
+        </code>
+        Multiple args:
+        <code>
+            <pre>
+                const searchUsers = createAsyncThunk(
+                    'users/searchUsers',
+                    async ({ firstName, lastName}, thunkAPI) => {
+                        // perform the asynchronous search request here    
+                    }
+                )
+            </pre>
+        </code>
+        </li>
+        <li><strong>Extra Reducers: </strong>If using createAsyncThunk, and using createSlice to make your reducer and actions for the slice, you will have an issue because createAsyncThunk will create three action types that are not included in your reducers property in the options object given to createSlice().  createSlice allows a fourth options object property called 'extraReducers'.  The value of it is an object where you will want to add a property for each of the three action types, and give it a case reducer function.  Often you'll see state values for isLoading and isError, that are booleans used to respond to the promise lifecycle actions.  e.g. your usersSlice would be set to a call to createSlice, and it takes an options object, and you would include the extraReducers property:
+        <code>
+            <pre>
+                extraReducers: {
+                    [fetchUserById.pending]: (state, action) => ({
+                        state.isLoading = true;
+                        state.hasError = false;
+                    }),
+                    [fetchUserById.fulfilled]: (state, action) => ({
+                        state.users.push(action.payload);
+                        state.isLoading = false;
+                        state.hasError = false;
+                    }),
+                    [fetchUserById.rejected]: (state, action) => ({
+                        state.isLoading = false;
+                        state.hasError = true;
+                    })
+                }
+            </pre>
+        </code></li>
+
+    </ul>
 
     <h2>Redux DevTools</h2>
     <ul>
