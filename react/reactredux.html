@@ -444,22 +444,41 @@
         <code>
             <pre>
                 extraReducers: {
-                    [fetchUserById.pending]: (state, action) => ({
+                    [fetchUserById.pending]: (state, action) => {
                         state.isLoading = true;
                         state.hasError = false;
-                    }),
-                    [fetchUserById.fulfilled]: (state, action) => ({
+                    },
+                    [fetchUserById.fulfilled]: (state, action) => {
                         state.users.push(action.payload);
                         state.isLoading = false;
                         state.hasError = false;
-                    }),
-                    [fetchUserById.rejected]: (state, action) => ({
+                    },
+                    [fetchUserById.rejected]: (state, action) => {
+                        state.isLoading = false;
+                        state.hasError = true;
+                    }
+                }
+            </pre>
+        </code>
+        You can alternatively give extra reducers a function that accepts a builder argument, and add cases with .addCase() calls which can be strung together like so:
+        <code><pre>
+            extraReducers: builder => {
+                builder
+                    .addCase(fetchUserById.pending, state => {
+                        state.isLoading = true;
+                        state.hasError = false;
+                    })
+                    .addCase(fetchUserById.fulfilled, state => {
+                        state.users.push(action.payload);
+                        state.isLoading = false;
+                        state.hasError = false;
+                    })
+                    .addCase(fetchUserById.rejected, state => {
                         state.isLoading = false;
                         state.hasError = true;
                     })
-                }
-            </pre>
-        </code></li>
+            }
+        </pre></code></li>
 
     </ul>
 
