@@ -271,6 +271,28 @@
                 expect(tree).toMatchSnapshot();
             });
         </pre></code> This will create a snapshot file in your test folder called Link.react.test.js.snapshot and will include a snapshot of the HTML that the component rendered each time you call .toMatchSnapshot().  Next time you test, if the snapshots don't match you'll get an error.  You can override the error by running <code>jest -u</code> which will overwrite the existing snapshot.</li>
+        <li>Jest Mocks: To test components that render complex child components (maybe they make API calls or access local storage) you can use jest.mock to create mocks of these components that replace the real thing when testing.  For example. suppose you had an App component that imports a component <code>import MyComponent from './MyComponent';</code> and renders MyComponent.  Suppose you want to test your App component, and MyComponent makes an API call that you don't need to test.  Your test could use jest.mock as follows:
+        <code><pre>
+            import React from 'react';
+            import { render } from '@testing-library/react';
+            import App from './App';
+
+            jest.mock('./MyComponent', () => () => (&ltdiv>Hello World&lt/div>));
+
+            test('renders', () => {
+                const { container } = render(&ltApp/>);
+                expect(container.textContent)
+                    .toMatch('Hello World');
+            });
+        </pre></code>
+        Alternatively you can create a separate file where you create the mock instead of defining it inline as above.  The file should be located in a folder next to the actual component you want to mock, e.g. the mock for ./MyComponent.js should be in ./__mocks__/MyComponent.js. when you call jest.mock on MyComponent, it will automatically find the mocked component when no inline mock is provided.  Thus the test is the same as above except the call to jest.mock should be <code>jest.mock('./MyComponent');</code> The mock should look like:
+        <code><pre>
+            import React from 'react';
+
+            const MyMockComponent = () => (&ltdiv>Hello World&lt/div>);
+
+            export default MyMockComponent;
+        </pre></code></li>
     </ul>
 
     <h2>Enzyme</h2>
