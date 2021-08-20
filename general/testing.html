@@ -110,12 +110,12 @@
         <li>Once installed, it can be executed from the project root directory with <code>./node_modules/mocha/bin/mocha</code>, however it is more common to set it as the test script
         in the project's package.json by setting <code>"test": "mocha"</code> in the scripts object, so mocha can be executed using <code>npm test</code>. This will run the full test suite instead of having
         to run each test in your test folder individually.  You can put <code>"test": "mocha test/**/*_test.js"</code> to specifically run anything in any folder of the test directory that ends in _test.</li>
-        <li>Typically the architecture is you'll have a test folder in the root of your project, with one or more js files containing tests.  You might have an index.js file, and a corresponding index_test.js file in the test folder.  In the index_test.js you'll require in index.js at the top (and index.js will need a module.exports statement) so you can test the functionality in index.js.  You'll also typically require in the assert core module.  You don't have to require in Mocha if its been installed as described above.</li>
+        <li>Typically the architecture is you'll have a test folder in the root of your project, with one or more js files containing tests.  You might have an index.js file, and a corresponding index_test.js file in the test folder.  In the index_test.js you'll require in index.js at the top (and index.js will need a module.exports statement) so you can test the functionality in index.js.  You'll also typically require in the assert core module or other assertion library like chai.  You don't have to require in Mocha if its been installed as described above.</li>
         <li>The <code>describe()</code> and <code>it()</code> are mocha methods that provide structure to your test code.  They both accept two arguments, a descriptive string and a callback function.</li>
         <ul>
-            <li><code>describe()</code> groups related tests together. the first argument should describe the grouping, and the callback function contains the test code and may include nested
+            <li><code>describe()</code> groups related tests together, generally grouping together a test suite. the first argument should describe the grouping, and the callback function contains the test code and may include nested
             describe() functions to create subgroups of tests</li>
-            <li><code>it()</code> defines the actual tests.  the first argument should describes the functionality tested such as 'returns argument with highest value', and the callback function should
+            <li><code>it()</code> defines the actual tests, generally each one is a unit test or a test case.  the first argument should describes the functionality tested such as 'returns argument with highest value', and the callback function should
             define the test</li>
             <li>Example code: 
                 <code><pre>
@@ -132,7 +132,7 @@
                 </pre></code>
             </li>
         </ul>
-        <li>The <code>assert</code> library is a core node module, and is commonly used with Mocha to perform a test. It must be imported to the test file with <code>const assert = require('assert');</code></li>
+        <li>The <code>assert</code> library is a core node module, and is commonly used with Mocha to perform a test. (Chai is another commonly used assertion library with Mocha) It must be imported to the test file with <code>const assert = require('assert');</code></li>
         <ul>
             <li><code>assert.ok()</code> accepts a single conditional statement such as <code>assert.ok(myVar === 3)</code> and throws an AssertionError if condition is false.  This communciates to mocha that a test has failed and mocha then logs it to the console.</li>
             <li><code>assert.equal()</code> and <code>assert.strictEqual()</code> can and should (for a more expressive, easier to read test) be used instead of .ok() when you just want to test if two items are equal, .equal does a loose == comparison and .strictEqual does a strict === comparison. e.g. <code>assert.strictEqual(result, expected)</code> where typically the result/actual is put first and the expected second</li>
@@ -205,10 +205,11 @@
 
     <h2>Jest</h2>
     <ul>
-        <li>Jest is another javascript test framework and the default one used for React applications.  It needs to be installed for a project by initiliazing the project with npm (npm init) if it isn't already, and then running <code>npm install jest -D</code> to install to dev dependencies.  Then in your package.json file, under scripts, make sure you have <code>"scripts" : { "test": "jest" }</code> so that jest runs when you use the command <code>npm test</code></li>
+        <li>Jest is another javascript test framework and the default one used for React applications.  It needs to be installed for a project by initiliazing the project with npm (npm init) if it isn't already, and then running <code>npm install jest -D</code> to install to dev dependencies.  Then in your package.json file, under scripts, make sure you have <code>"scripts" : { "test": "jest" }</code> so that jest runs when you use the command <code>npm test</code>.  If you made a react project with create-react-app then jest should already be installed, and <code>npm test</code> should already be configured to run jest tests</li>
         <li>By default, jest expects all tests to be saved in a folder in your root directory called <code>__tests__</code>.  By some conventions, you name each test file as <code>functionalityToTest.spec.js</code> where functionalityToTest is any descriptive name of the functionality to be tested in the file and .spec is included as an old Ruby convention indicating the file is a specification of functionality.</li>
         <li>As with Mocha, the typical usage is that you would import the functionality with <code>myFunction = require('../myFile/myCode.js')</code> to test from some javascript file in your project (and export the functionality in that file using module.exports = myFunction), and then you can use that funcitonality in your test file to exercise/test it. You shouldn't need to import Jest in your test files in any way if you've installed it for the project as described above</li>
-        <li>Basic test syntax is similar to Mocha, except it use test() instead of it(), and provides a special syntax for exercising and verifying, namely <code>expect().toEqual()</code>, where expect() accepts an argument like a call to a function being tested that give some output, and toEqual() accepts an argument that that output should be equal to.  There are other 'matcher' functions besides .toEqual() like .toThrowError(Error('expected error msg here')) depending on the nature of the verification</li>
+        <li>Basic test syntax is similar to Mocha.  Instead of it() you may see test(), but both can be used in Jest and they mean the exact same thing, test() is the official method and it() is an alias for it. Also, Jest provides a special syntax for exercising and verifying, namely <code>expect().toEqual()</code>, where expect() wraps what you want to test, accepting an argument like a call to a function being tested that gives some output, and toEqual() is the matcher function that accepts an argument that that output should be equal to.  There are other 'matcher' functions besides .toEqual() like .toThrowError(Error('expected error msg here')) depending on the nature of the verification</li>
+        <li>With react, the describe function groups together tests for a single component, creating a test suite for the component.  it/test functions define individual test cases/unit tests for the component.</li>
         <li>Example:
             <code><pre>
                 describe("Filter function", () => {
@@ -230,7 +231,20 @@
             </pre></code>
         </li>
         <li><strong>Code Coverage: </strong>Jest provides a code coverage analysis feature.  This provides a report of how well your test files covers the file that is imported and tested.  If there are lines in the file that are never tested by your test file, then the report will indicate those lines and give percentage of lines covered, and some other info.  This coverage analysis can be run in a few ways.  You can run <code>npm test -- --coverage</code> to get a report in the command line after the test runs.  You can change your package.json scripts.test property from <code>"jest"</code> to <code>"jest --coverage</code> to always run the coverage report when you run <code>npm test</code>.  You can also instead add a separate new property to your package.json file outside of the scripts property that is <code>"jest": { "collectCoverage": true, "coverageReporters": ["html"] }</code> which will also always run the coverage report when you run <code>npm test</code> and the coverageReporters property can be left out to simply run reports in the command line, or included to instead print the reports to html files in a folder called 'coverage' in your root directory and which contain even more info than the command line report.</li>
-        <li><strong>Snapshot Testing: </strong>You can install an additional library called react test renderer to use with jest to perform snapshot testing, which allows your tests to create snapshots of the rendered component throughout the test.  Each time you run the test, it will compare to the previous snapshot and let you know if there are any changes, which you can confirm are intentional or not.  If you used create-react-app to set up your app, then all you need to do is run <code>npm install react-test-renderer -D</code> in your root to install to dev dependencies. If you didn't use create-react-app there are additional steps.  Now, imagine you had e.g. a component called Link that lets you create custom links and that has methods called onMouseEnter and onMouseLeave that change a 'status' state variable indicating if the link is hovered over or not. You could have a test that calls those methods and takes a snapshot of the component after the method is called as so:
+        <li><strong>Snapshot Testing: </strong>You can install an additional library called react test renderer to use with jest to perform snapshot testing, which allows your tests to create snapshots of the rendered component throughout the test.  Each time you run the test, it will compare to the previous snapshot and let you know if there are any changes, which you can confirm are intentional or not.  If you used create-react-app to set up your app, then all you need to do is run <code>npm install react-test-renderer -D</code> in your root to install to dev dependencies. If you didn't use create-react-app there are additional steps.  You then import renderer from react-test-renderer in your test file to use it.  A basic use of snapshot testing would be to compare your component's rendered HTML to a stored snapshot of the rendered HTML from a previous render, so you can detect if anything has changed an decide if that was intentional or not.  The snapshot of the HTML will be stored in e.g. src/__snapshots__/App.test.js.snapshot, if you are creating the snapshots in your tests in the App.test.js file.  The snapshot is simply the HTML produced, and it shoudl be converted to JSON for making comparisons in the test. The first time you run the test in App.test.js the snapshot will not exist and it will automatically be created by renderer.create().  Future runs of the test will compare to this stored snapshot.  The test will fail if they don't match.  However, if you intended for the snapshot to change, then you simply press u in the terminal window where tests are being run to update the stored snapshot.
+        <code><pre>
+                // src/App.test.js
+                import React from 'react';
+                import renderer from 'react-test-renderer';
+                import App from './App';
+                
+                it('matches the snapshot', () => {
+                    const tree = renderer.create(&ltApp />).toJSON();
+                    expect(tree).toMatchSnapshot();
+                });
+        </pre></code>
+            
+        Now, imagine you had e.g. a component called Link that lets you create custom links and that has methods called onMouseEnter and onMouseLeave that change a 'status' state variable indicating if the link is hovered over or not. You could have a test that calls those methods and takes a snapshot of the component after the method is called as so:
         <code><pre>
             // Link.react.test.js
             import React from 'react';
@@ -239,7 +253,7 @@
 
             test('Link changes the class when hovered', () => {
                 const component = renderer.create(
-                    &ltLink page="http://www.facebook.com">Facebook</Link>,
+                    &ltLink page="http://www.facebook.com">Facebook&lt/Link>,
                 );
                 let tree = component.toJSON();
                 expect(tree).toMatchSnapshot();
@@ -257,7 +271,138 @@
                 expect(tree).toMatchSnapshot();
             });
         </pre></code> This will create a snapshot file in your test folder called Link.react.test.js.snapshot and will include a snapshot of the HTML that the component rendered each time you call .toMatchSnapshot().  Next time you test, if the snapshots don't match you'll get an error.  You can override the error by running <code>jest -u</code> which will overwrite the existing snapshot.</li>
-        
+    </ul>
+
+    <h2>Enzyme</h2>
+    <ul>
+        <li>Enzyme is a testing library to help test the output of React components.  It needs to be installed in the project's root with <code>npm install enzyme enzyme-adapter-react-16 -D</code>, which actually is to install both the enzyme library and the adapater library that makes enzyme work with react v16.  You will install a different adapter library depending on the version of react you are using.  Using enzyme with react also depends on having react and react-dom installed which should be already for your react app.</li>
+        <li>To use enzyme in tests, you need a setupTests.js file in your src/ folder, that tells enzyme what adapter to use.  create-react-app is configured to automatically run this file before running tests.  The file should include the following code:
+            <code><pre>
+                import Enzyme from 'enzyme';
+                import Adapter from 'enzyme-adapter-react-16';
+
+                Enzyme.configure({ adapter: new Adapter() });
+            </pre></code>
+        </li>
+        <li>Enzyme works in tandem with test frameworks such as Mocha and Jest and assertion libraries, to handle the actual organization, running of tests.  Enzyme simply allows you to render React components in the test so that you can check various things about the render.  Full DOM rendering mounts the component in the DOM and is meant for when components interact with the DOM or for components wrapped in higher order components.  Shallow rendering is a little less intensive, it is a simulated rendering of a component tree that doesn't require the DOM and only goes one level of components deep, allowing for testing of the component's rendered contents, and simulation of user interaction.  Static rendering seems to be least intensive and generates an HTML tree you can inspect.</li>
+        <li>A basic content and user interaction test using enzyme for the App component would be stored at src/App.test.js.  It could first test the initial state of the component by making a shallow render of the App comoponent, saving it to the variable wrapper.  Shallow renders then have method you can use, e.g. to find a paragraph element in the component and get the innerHTML text of it.  Finally it can test that text is equal to an expected value. Next, it could test user interaction, say there is a button element rendered by App, and it has a className of 'increment'.  Enzyme can simulate a click of that button, and then you can again test the paragraph element to test it has the correct value after the click.  The code might look like this:
+            <code><pre>
+                    import React from 'react';
+                    import { shallow } from 'enzyme';
+                    import App from './App';
+                    
+                    describe('App component', () => {
+                        it('starts with a count of 0', () => {
+                            const wrapper = shallow(&ltApp />);
+                            const text = wrapper.find('p').text();
+                            expect(text).toEqual('Count: 0');
+                        });
+                        it('increments count by 1 when the increment button is clicked', () => {
+                            const wrapper = shallow(&ltApp />);
+                            const incrementBtn = wrapper.find('button.increment');
+                            incrementBtn.simulate('click');
+                            const text = wrapper.find('p').text();
+                            expect(text).toEqual('Count: 1');
+                        });
+                    });
+            </pre></code>
+        </li>
+        <li>Examples:
+            <h3>Shallow Rendering</h3>
+            <code><pre>
+                import React from 'react';
+                import { expect } from 'chai';
+                import { shallow } from 'enzyme';
+                import sinon from 'sinon';
+
+                import MyComponent from './MyComponent';
+                import Foo from './Foo';
+
+                describe('&ltMyComponent />', () => {
+                it('renders three &ltFoo /> components', () => {
+                    const wrapper = shallow(&ltMyComponent />);
+                    expect(wrapper.find(Foo)).to.have.lengthOf(3);
+                });
+
+                it('renders an `.icon-star`', () => {
+                    const wrapper = shallow(&ltMyComponent />);
+                    expect(wrapper.find('.icon-star')).to.have.lengthOf(1);
+                });
+
+                it('renders children when passed in', () => {
+                    const wrapper = shallow((
+                    &ltMyComponent>
+                        &ltdiv className="unique" />
+                    &lt/MyComponent>
+                    ));
+                    expect(wrapper.contains(&ltdiv className="unique" />)).to.equal(true);
+                });
+
+                it('simulates click events', () => {
+                    const onButtonClick = sinon.spy();
+                    const wrapper = shallow(&ltFoo onButtonClick={onButtonClick} />);
+                    wrapper.find('button').simulate('click');
+                    expect(onButtonClick).to.have.property('callCount', 1);
+                });
+                });
+            </pre></code>
+
+            <h3>Full DOM Rendering</h3>
+            <code><pre>
+                import React from 'react';
+                import sinon from 'sinon';
+                import { expect } from 'chai';
+                import { mount } from 'enzyme';
+
+                import Foo from './Foo';
+
+                describe('&ltFoo />', () => {
+                it('allows us to set props', () => {
+                    const wrapper = mount(&ltFoo bar="baz" />);
+                    expect(wrapper.props().bar).to.equal('baz');
+                    wrapper.setProps({ bar: 'foo' });
+                    expect(wrapper.props().bar).to.equal('foo');
+                });
+
+                it('simulates click events', () => {
+                    const onButtonClick = sinon.spy();
+                    const wrapper = mount((
+                    &ltFoo onButtonClick={onButtonClick} />
+                    ));
+                    wrapper.find('button').simulate('click');
+                    expect(onButtonClick).to.have.property('callCount', 1);
+                });
+
+                it('calls componentDidMount', () => {
+                    sinon.spy(Foo.prototype, 'componentDidMount');
+                    const wrapper = mount(&ltFoo />);
+                    expect(Foo.prototype.componentDidMount).to.have.property('callCount', 1);
+                    Foo.prototype.componentDidMount.restore();
+                });
+                });
+            </pre></code>
+
+            <h3>Static Rendering</h3>
+            <code><pre>
+                import React from 'react';
+                import { expect } from 'chai';
+                import { render } from 'enzyme';
+
+                import Foo from './Foo';
+
+                describe('&ltFoo />', () => {
+                it('renders three `.foo-bar`s', () => {
+                    const wrapper = render(&ltFoo />);
+                    expect(wrapper.find('.foo-bar')).to.have.lengthOf(3);
+                });
+
+                it('renders the title', () => {
+                    const wrapper = render(&ltFoo title="unique" />);
+                    expect(wrapper.text()).to.contain('unique');
+                });
+                });
+            </pre></code>
+        </li>
     </ul>
 </body>
 </html>
