@@ -37,25 +37,82 @@
                 just equal the value of the list item, or maybe an id if the list items come from a database.
                 by default if not assigned, a key will equal the index number of the list item, which can
                 cause problem like when things are reorder, react can't follow the items around correctly</p></li>
-                <li><strong>Styles: </strong>HTML-like jsx can have a <code>style</code> attribute to apply css styles, but it works a little differently than normal HTML.  The style attribute's value should be a javascript object.  The object contains key value pairs where the key is the name of the css style property, but is in camelCase instead of hyphenated lowercase like in css (e.g. backgroundColor instead of background-color).  This is the same as when you use the style property in regular JS on a DOM element, e.g. myElem.style.backgroundColor. The value should almost always be a string wrapped in single quotes, again like regular JS (e.g. myElem.style.backgroundColor = 'red'), and unlike in CSS where quotes generally aren't used.  The exception to this is for most styles, if you give them a numerical value, React will assume the unit is pixels, so <code>fontSize: 30</code> is interpreted as <code>fontSize: '30px'</code>.  Often, inline styles in React are used by defining a <code>styles</code> const variable equal to a style object at the top level in a component's module above the exported component, then injected in the jsx of the component. The style variable might be named 'divStyle' or 'h1Style' and you may have several of them for the different jsx elements in the component.  Additionally, you might have a styles.js file in your project, that exports a 'styles' object which is then imported in multiple components and used in the style variables of each component.  e.g. your styles.js file might look like:
-                <code>
-                    <pre>
-                        const fontFamily = 'Comic Sans MS, Lucida Handwriting, cursive';
-                        const fontSize = '4em';
-                        const padding = '45px 0';
-                        const color = 'green';
+                <li><strong>Styles: </strong>Components can have a separate css file that you import at the top of the file, this css file will apply styles to the rendered output of the component like normal (use classes, element selectors, etc). HTML-like jsx can have a <code>style</code> attribute to apply css styles, but it works a little differently than normal HTML.  The style attribute's value should be a javascript object.  The object contains key value pairs where the key is the name of the css style property, but is in camelCase instead of hyphenated lowercase like in css (e.g. backgroundColor instead of background-color).  This is the same as when you use the style property in regular JS on a DOM element, e.g. myElem.style.backgroundColor. The value should almost always be a string wrapped in single quotes, again like regular JS (e.g. myElem.style.backgroundColor = 'red'), and unlike in CSS where quotes generally aren't used.  The exception to this is for most styles, if you give them a numerical value, React will assume the unit is pixels, so <code>fontSize: 30</code> is interpreted as <code>fontSize: '30px'</code>.  
+                <ul>
+                    <li>
+                    Often, inline styles in React are used by defining a <code>styles</code> const variable equal to a style object at the top level in a component's module above the exported component, then injected in the jsx of the component. The style variable might be named 'divStyle' or 'h1Style' and you may have several of them for the different jsx elements in the component.  Additionally, you might have a styles.js file in your project, that exports a 'styles' object which is then imported in multiple components and used in the style variables of each component.  e.g. your styles.js file might look like:
+                    <code>
+                        <pre>
+                            const fontFamily = 'Comic Sans MS, Lucida Handwriting, cursive';
+                            const fontSize = '4em';
+                            const padding = '45px 0';
+                            const color = 'green';
 
-                        export const styles = {
-                            fontFamily: fontFamily,
-                            fontSize: fontSize,
-                            padding: padding,
-                            color: color
-                        };
-                    </pre>
-                </code>
-                then you would include an <code>import {styles} from './styles.js'</code> in each component, and in their 'divStyle' or 'h1Style', or other other style variables, if you need to define fontFamily for the element, you can set it equal to the imported fontFamily from the styles object.  additionally, instead of a single color property in styles.js, you might have multiple colors, like darkBlue, lightBlue, white, or mainColor, secondaryColor, etc.  and then you can use these imported colors as needed.  Same idea goes for any other property.  Or you might have one object of divStyles and another object of imgStyles, and export them both, or export them combined as object-valued properties of a single styles object.  Basically multiple ways to organize this.
+                            export const styles = {
+                                fontFamily: fontFamily,
+                                fontSize: fontSize,
+                                padding: padding,
+                                color: color
+                            };
+                        </pre>
+                    </code>
+                    then you would include an <code>import {styles} from './styles.js'</code> in each component, and in their 'divStyle' or 'h1Style', or other other style variables, if you need to define fontFamily for the element, you can set it equal to the imported fontFamily from the styles object.  additionally, instead of a single color property in styles.js, you might have multiple colors, like darkBlue, lightBlue, white, or mainColor, secondaryColor, etc.  and then you can use these imported colors as needed.  Same idea goes for any other property.  Or you might have one object of divStyles and another object of imgStyles, and export them both, or export them combined as object-valued properties of a single styles object.  Basically multiple ways to organize this.
+                    </li>
+                    <li><strong>Styled Components</strong> This is a styling library for react, install it in the root of your project with <code>npm install styled-components</code>. Then in any component you want to use it in, include <code>import styled from 'styled-components';</code> The basic usage is at the top of your Component file outside the component definition, you define variables for all of the regular html components you want to render in the component.  The variables are set equal to <code>styled.tagname``</code> to define the html tagname and styles in between the backticks (which can also be left empty if no styles are needed).  Then in your jsx, instead of regular html tags, you use the names of the variables to render a pre-styled version of the tag.  The variables should be named like react components in UpperCamelCase. The styling is just like css, and can also use the & selector to reference the component for use in psuedo selectors, and can use nested styles for styling psuedo selectors. You can also reference a styled element variable that was defined previously in the code with injection, use a psuedo selector with it, and then define styles for the current element with &.  E.g when you hover over a previously defined MyButton element, maybe you want the input to change color.  This would look like <code>${MyButton}:hover & {background-color: red;}</code>.  Also, you can extend the styles of a previously defined styled component, e.g. say you defined <code>const Button = style.button`...`;</code>, well you can create <code>const GreenButton = styled(Button)`...`;</code> to use the Button styles and add any additional styles on top of that.  Also, you can reference props passed to the component in the style definition, e.g <code>color: ${props => (props.primary ? 'violet' : 'palevioletred')};</code>
+                    <code><pre>
+                        const Input = styled.input`
+                            font-size: 16px;
+                            border: solid 1px #dbdbdb;
+                            border-radius: 3px;
+                            color: #262626;
+                            
+                            padding: 7px 33px;
+                            border-radius: 3px;
+                            color: #999;
+                            cursor: text;
+                            font-size: 14px;
+                            font-weight: 300;
+                            text-align: center;
+                            background: #fafafa;
+                            
+                            &:active,
+                            &:focus {
+                                text-align: left;
+                            }
+                        `
+                    </pre></code>
+                    Then in your jsx to be rendered, you would include
+                    <code>&ltInput type="text" placeholder="Search" /></code> to create an html-like input element, but prestyled per above styling.</li>
+                    <li><strong>Global styles with styled components: </strong>You can create a global style with styled components by creating a globalStyle.js file under src/theme/globalStyle.js.  This file has <code>import { createGlobalStyle } from 'styled-components';</code> and then defines and exports a const variable like <code>const GlobalStyle = createGlobalStyle``;</code> where inside the backticks you define your css that should apply globally, e.g. styling to the body element, to all code elements, etc.  Now you import and include that GlobalStyle component at the top of the React tree to apply it, for some reason using the fragment component. Like so:
+                    <code><pre>
+                        import React, { Fragment } from 'react';
+                        import styled from 'styled-components';
+                        import Header from './components/Header.js';
+                        import Profile from './components/Profile.js';
+                        import GlobalStyle from './theme/globalStyle';
+                        
+                        const AppWrapper = styled.div`
+                            background-color: #fafafa;
+                        `;
+                        
+                        function App() {
+                        return (
+                            &ltFragment>
+                            &ltGlobalStyle />
+                            &ltAppWrapper>
+                                &ltHeader />
+                        
+                                &ltProfile />
+                            &lt/AppWrapper>
+                            &lt/Fragment>
+                        );
+                        }
+                        
+                        export default App;
+                    </pre></code></li>
+
+                </ul>
                 </li>
-
             </ul>
             <li><code>React.createElement()</code> JSX elements are compiled by babel to an invocation of the createElement() method of the React library, and you can use this method yourself to create elements.</li>
                 <ul>
