@@ -247,12 +247,14 @@
     <h2>React-Redux</h2>
     <ul>
         <li>The react-redux library optimizes using redux with react.  It must be installed in your project's root directory with <code>npm install react-redux</code>, which installs it as a production dependency.  It offers better ways of accomplishing several things when using redux with react</li>
-        <li><strong>Provider Component: </strong>This is a component in the react-redux library which you will generally import into your index.js with <code>import { Provider } from 'react-redux';</code> You will then wrap your rendered App component inside the Provider Component and pass the store as a prop to your Provider component.  This will allow the App component and all children components access to the store without having to pass it as props. e.g. index.js will render:
+        <li><strong>Provider Component: </strong>This is a component in the react-redux library which you will generally import into your index.js with <code>import { Provider } from 'react-redux';</code> You will then wrap your rendered App component inside the Provider Component and pass the store as a prop to your Provider component.  This will allow the App component and all children components access to the store without having to pass it as props. e.g. index.js will render.  Your index.js will have the code below, note if React.StrictMode is used, it is the outer most component.  If you are using React Router then that would happen perhaps in the App component itself, as the top level component of the App component.
         <code><pre>
             ReactDOM.render(
-                &ltProvider store={store}>
-                    &ltApp />
-                &lt/Provider>,
+                &ltReact.StrictMode>
+                    &ltProvider store={store}>
+                        &ltApp />
+                    &lt/Provider>
+                &lt/React.StrictMode>,
                 document.getElementById("root")
             );
         </pre></code></li>
