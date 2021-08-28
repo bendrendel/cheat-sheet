@@ -8,6 +8,73 @@
 </head>
 <body>
     <a href="../index.html">Home</a>
-    
+    <h1>Search Engine Optimization</h1>
+    <h2>Basics</h2>
+    <ul>
+        <li>SEO is the means by which websites appear in search engines.</li>
+        <li>Google holds 85%+ market share.  More than 90% of web traffic comes through search engines.</li>
+        <li>"Black Hat" SEO means using deceptive techniques to improve SEO like cramming keywords in hidden places, or purchasing links from reputable sites</li>
+        <li>Black Hat SEO may work temporarily, but search engines will punish the behavior if found out</li>
+        <li>Ultimately good SEO is a long-term game that improves with long-term maintenance</li>
+    </ul>
+
+    <h2>Essentials</h2>
+    <ul>
+        <li><strong>Title Element:</strong> Search Engines inspect your title elements, so create unique titles for each page, avoid vague titles like Home, keep them descriptive but concise, e.g. use "Mary's quick maple bacon donut recipe" instead of "Donut recipe". Don't stuff with keywords or else they could be labelled spam</li>
+        <li><strong>Meta Description:</strong> the <code>&ltmeta name="description"></code> tag summarizes the page's contents that search engines include in the search results.  High-quality unique descriptions make your page appear more relevant and can increase traffic. Descriptions should be unique for each page, descriptive but concise, not vague like "home", no keyword stuffing (or could be marked as spam), can contain structured data instead of complete sentences.  E.g. Use <code>&ltmeta name="description" content="Mary's simple recipe for maple bacon donuts makes a sticky, sweet treat with just a hint of salt that you'll keep coming back for."></code> instead of simply <code>content="A donut recipe."</code></li>
+        <li><strong>Link text: </strong>For anchor tags, avoid generic displayed text like 'click here', 'learn more', 'start', etc.  Use descriptive text that clearly indicates what kind of content will be found by following the link.  This helps users and search engines understand contents and how they relate to each other.  Keep text to a few words or short phrase, e.g. use <code>&ltp>Check out all of our &lta href="#">basketball videos&lt/a>&lt/p></code> instead of <code>&ltp>Check out our basketball videos &lta href="#">here&lt/a>&lt/p></code></li>
+        <li><strong>hreflang: </strong>if your site has multiple versions for different languages or regions, then these should be specified in link tags using the hreflang attribute, or it can be done through response headers for your site, or language version info can be added to your sitemap</li>
+        <li><strong>rel="canonical"</strong> Use this tag if you have duplicative pages</li>
+        <li><strong>HTTP Error Codes: </strong>Make sure pages don't return HTTP error codes (400 and 500 series) they may not index correctly</li>
+        <li><strong>robots.txt: </strong>Use a robots.txt file in your project to tell search engine which pages should be crawled and be public.  You can also link to a sitemap file to help search engines.</li>
+        <li><strong>Plugins: </strong>Don't use browser plugins like Java and Flash. These won't be indexed properly.</li>
+        <li><strong>Meta viewport tag: </strong>Always include a <code>&ltmeta name="viewport" content="width=device-width, initial-scale=1"></code> tag, as search engines will check this often to help rank if your site is mobile friendly.</li>
+        <li><strong>Font Size: </strong>Make sure to use font sizes that are at least 12px for 60% or more of your text content.  Smaller sizes may require zooming in and are bad for seo</li>
+        <li><strong>Tap Targets: </strong>Buttons/links/etc that users tap with a finger on mobile, should be at least 48px x 48px, and at least 8px apart, or else they are difficult to use and will impact seo.</li>
+    </ul>
+
+    <h2>Other Considerations</h2>
+    <ul>
+        <li><strong>Good Content: </strong>Quality content matters above all, consider:</li>
+        <ul>
+            <li>Expertise, Authoritativeness, and Trustworthiness (E-A-T)</li>
+            <li>Your Money or Your Life (YMYL) Pages</li>
+            <li>The reputation of websites and creators</li>
+            <li>Mobile user needs</li>
+            <li>Auto-generated content</li>
+            <li>Deceptive page design</li>
+            <li>What low quality pages look like</li>
+        </ul>
+        <li><strong>Accessibility: </strong>Accessible design tends to overlap with good practices for SEO. Consider:</li>
+        <ul>
+            <li>Image alt text</li>
+            <li>Descriptive title and header tags</li>
+            <li>Video transcriptions</li>
+            <li>Content sections</li>
+            <li>Clear, logical sitemaps</li>
+            <li>Colour contrast</li>
+        </ul>
+        <li><strong>Javascript: </strong></li>
+        <ul>
+            <li>Web-crawlers will give up if a page takes too long to load</li>
+            <li>Try Google's <a href="https://support.google.com/webmasters/answer/9012289?hl=en">URL Inspection Tool</a></li>
+        </ul>
+        <li><strong>Structured Data: </strong></li>
+        <ul>
+            <li>Beyond metadata and semantic markup, there is structured data techniques like <a href="https://schema.org/">Schema</a></li>
+            <li>This is used by search engines to display rich search results based on the type of content. (e.g. formatted recipe cards in the search results for a recipe)</li>
+        </ul>
+        <li><strong>Site Speed: </strong></li>
+        <ul>
+            <li>Web crawlers give up on slow sites, and don't prioritize them for users</li>
+            <li>Avoid big images (multiple megabytes), link to big images if you must.</li>
+            <li>Streamline code, removing superfluous HTML, CSS, Javascript</li>
+            <li><a href="https://developers.google.com/speed/pagespeed/insights/">PageSpeed Insights</a> will help you improve site speed</li>
+        </ul>
+        <li><strong>Mobile First: </strong></li>
+        <ul>
+            <li>Google now indexes based on the mobile version of your site, not the desktop version.</li>
+        </ul>
+    </ul>
 </body>
 </html>
