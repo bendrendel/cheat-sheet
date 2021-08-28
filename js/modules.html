@@ -32,13 +32,13 @@
         <h2>Node Modules</h2>
         <p><code>module.exports() </code>used to export things from a .js file in Node</p>
         <ul>
-            <li><p>To export something from a file simply set module.exports equal to what you want to export, which is often an object, e.g. <code>module.exports = myObject;</code></p></li>
+            <li><p>To export something from a file simply set module.exports equal to what you want to export, which is often an object, e.g. <code>module.exports = myObject;</code>, you can also do something like <code>module.exports.myFirstFunction = myFirstFunctionDef</code> followed by module.exports.mySecondFunction = mySecondFunctionDef, which creates the exports object one property at a time.</p></li>
             <li><p>JavaScript files run in the Node environment have a local module object with an exports property that holds everything in that file, aka module, available to be required into a different .js file</p></li>
             <li><p>This only works if running in Node, the module object and the require function are built into Node but not the browser</p></li>
         </ul> 
         <p><code>require() </code>used to import in node</p>
         <ul>
-            <li><p>To import something from another file with an export, create a variable to store the imported item and set it equal to require('myfile.js').  e.g. <code>myObject = require('./myFile.js')</code></p></li>
+            <li><p>To import something from another file with an export, create a variable to store the imported item and set it equal to require('myfile.js').  e.g. <code>myObject = require('./myFile.js')</code>, it can be useful to use object destructuring to get a particular property of the imported file, e.g. <code>{ myFirstFunction } = require('./myFile.js');</code> will just save the myFirstFunction property of the myFile.js to the myFirstFunction variable, instead of importing everything from the file.</p></li>
             <li><p>In node.js, require loads module at provided file path, .js extension of file path is optional and assumed if ommitted</p></li>
             <li><p>Node first checks if the argument provided is a core module of node, and if not then attempts to locate it at the path provided</p></li>
         </ul>  
