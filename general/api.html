@@ -22,7 +22,7 @@
                     <ul>
                         <li>Library/Framework APIs: These are third-party apis that are imported by linking the src url in your html file using a script tag with the src set to the third party api url.  Then you can use objects in the linked code.  There may be css to link to as well using a link tag with the href set to the third-party api's css.
                         </li>
-                        <li>RESTful APIs: These require you to make an HTTP request to a server to retrieve data.  Oten you send URL parameters to the API's URL, and it sends back data based on that.</li>
+                        <li>REST APIs: These require you to make an HTTP request to a server to retrieve data.  Oten you send URL parameters to the API's URL, and it sends back data based on that, most often a JSON response. Nice thing is that it works just like requesting a webpage from a server with the REST HTTP model.</li>
                     </ul>
             </ul>
         </ul>
@@ -52,6 +52,23 @@
             <li>APIs will provide documentation of how to utilize the API</li>
             <li><strong>API Key</strong> this is often require to be registered with a third-party API
             to use it, it should be kept secret because malicious users could use it to rack up charges on paid APIs</li>
+        </ul>
+
+        <h2>Naming Resources</h2>
+        <ul>
+            <li>In REST, everything that can be a target of a hypertext reference is a resource, and these resources are found at particular URIs.  Creating these URIs should follow an easy to use naming convention that is consistent across the API.  Forward slashes (/) are used to indicate heirarchical relationships.  Don't use forward slashes at the end (trailing) of the URI and also never put file extensions at the end of the URI, these add no semantic value (file type can be seen in the http headers). Hyphens should be used to separate words if clarity is needed, and underscores should never be used because certain fonts obscure them.  Always use lower case letters only. Don't put CRUD actions in the URI, this can be found in the type of request (GET, PUT, etc). /li>
+            <li>Resources can either be collections like <code>/customers</code> or singletons like <code>/customers/{customerId}</code></li>
+            <li>Resources can contain sub-collections which can have singletons as well like <code>/customers/{customerId}/accounts</code> or <code>/customers/{customerId}/accounts/{accountId}</code></li>
+            <li>Use nouns instead of verbs to name resources, except controller resources</li>
+            <li>Use query parameters to filter or sort results, instead of a new URI, like <code>http://api.example.com/device-management/managed-devices?region=USA&brand=XYZ&sort=installation-date</code></li>
+            <li>Resources are categorized as follows:</li>
+            <ul>
+                <li>document: this is a singleton resource contained in a collection, like <code>http://api.example.com/device-management/managed-devices/{device-id}</code> or <code>http://api.example.com/user-management/users/admin</code></li>
+                <li>collection: this is a server-managed directory of resources, which would control what users can add/delete from the collection, like <code>http://api.example.com/device-management/managed-devices</code> or <code>http://api.example.com/user-management/users/{id}/accounts</code></li>
+                <li>store: this is a client-managed repository of resources, where each stored resource has a URI chosen by the client when originally added, like <code>http://api.example.com/song-management/users/{id}/playlists</code></li>
+                <li>controller: this is a resource that is procedural like functions with inputs and outputs and should use a verb, like <code>http://api.example.com/cart-management/users/{id}/cart/checkout</code> or <code>http://api.example.com/song-management/users/{id}/playlist/play
+</code></li>
+            </ul>
         </ul>
     </body>
 </html>

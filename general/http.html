@@ -31,8 +31,8 @@
         </ul>
 
         <h2>HTTP Requests</h2>
-        <p><strong>Requests: </strong>Consists of a Method, a resource path, the protocol version, and
-            optional headers to convey information to servers and an optional body with data</p>
+        <p><strong>Requests: </strong>Consists of a Method, a resource path, the protocol version, host, and
+            optionally different "headers" to convey information to servers and optionally a body with data</p>
         <p><strong>HTTP Method: </strong>define the type of operation to perform, 
             many types but four most common are:</p>
         <ul>
@@ -41,21 +41,26 @@
             <li>PUT - update a specific resource</li>
             <li>DELETE - remove a specific resource</li>
         </ul>
-        <p><strong>Protocol: </strong>HTTP/1.1</p>
         <p><strong>Resource Path: </strong>Specifies the resource upon which to perform the http method, 
             designed to generally be heirarchical and easy to interpret, using plurals for collections of resources, 
             and id numbers for specific resources if needed.  e.g. /customers/57/orders/2, 
             for perhaps getting or deleting the 2nd order of the 57th customer, or /customers/57/photos, 
-            for perhaps posting a new photo to the photos collection for customer 57</p>
-        <p><strong>headers: </strong>contains different information about the request for servers</p>
+            for perhaps posting a new photo to the photos collection for customer 57.  Alternatively or in addition to this heirarchy, this could also contain query parameters e.g. in a GET request, like ?searchterm=somethingtosearch&userid=1234</p>
+        <p><strong>Protocol: </strong>HTTP/1.1</p>
+        <p><strong>Host: </strong>server address</p>
+        <p><strong>headers: </strong>contains different information about the request for servers, optional</p>
         <ul>
             <li><strong>Accept field: </strong>The header's accept field specifies the type of data it can recieve from the server by MIME Type, can specify multiple types it is willing to accept</li>
+            <li><strong>Cookie: </strong>This contains key=value; key=value; key=value information used for e.g. session id info</li>
+            <li>Many other headers like Connection, User-Agent, Referer, Accept-Encoding, etc.</li>
         </ul>
-        <p><strong>Host: </strong>server address</p>
+        <p><strong>Body: </strong>Could contain the info for a post request, instead of query params as used in a GET request, post requests would put info in the body (like updated name to use, etc)</p>
+
+
         <p><strong>Example HTTP Request: </strong></p>
         <p><code>GET /examplepage.html HTTP/1.1</code>  &lt-- Method, path to resource, protocol</p>
-        <p><code>Accept: text/html, application/xhtml</code>  &lt-- Accept header field</p>
         <p><code>Host: www.example.com</code>  &lt-- Server address</p>
+        <p><code>Accept: text/html, application/xhtml</code>  &lt-- An optional accept header field</p>
         <p>Additional lines possibly, data payload</p>
     
 
@@ -68,6 +73,7 @@
             <li>200 (0K) - standard response for successful GET and PUT requests</li>
             <li>201 (CREATED) - standard response for successful POST requests</li>
             <li>204 (NO CONTENT) - standarad respons for successful DELETE requests</li>
+            <li>302 (FOUND) - another standard response for POST requests</li>
             <li>400 (BAD REQUEST) - bad syntax, excessive size, or another client error</li>
             <li>403 (FORBIDDEN) - client does not have permission to access the resource</li>
             <li>404 (NOT FOUND) - resource wasn't found</li>
@@ -75,9 +81,10 @@
         </ul>
         <p><strong>Headers: </strong></p>
         <ul>
-            <li><strong>Content-type field: </strong>If sending the client a data payload in the response body, this specifies the MIME type of the data and should match one of the types in the Accept field of the request</li>
+            <li><strong>Content-type: </strong>If sending the client a data payload in the response body, this specifies the MIME type of the data and should match one of the types in the Accept field of the request</li>
+            <li>Many other headers like Date, Content-Length, etc.</li>
         </ul>
-        <p><strong>Body: </strong>contains data payload</p>
+        <p><strong>Body: </strong>contains data payload, could be html file, json, etc.</p>
         <p><strong>JSON: </strong>JavaScript Object Notation, common format in which data is transferred between client and server on the web.  It is the de facto standard to facilitate storing and sending data between all programming languages.</p>
         <ul>
             <li>JSON is a text string that contains a pair of curly braces filled with name-value pairs, where the name and value are separated by a colon, and each pair is separated with a comma (no ending comma after the last pair).  This is similar to javascript object syntax, except every name must be contained in double-quotes.  Javascript only requires names in double quotes when the contain a space or certain other special characters.</li>
