@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Tools</title>
+</head>
+<body>
+    <a href="../index.html">Home</a>
+    <h1>Build Tools</h1>
+    <h2>Basics</h2>
+    <ul>
+        <li>Build tools strictly speaking are optional since js is directly interpreted by the browser, its not like a language that requires compiling first.</li>
+        <li>Early build tools simply concatenated all your scripts together, but it has gotten more complex since then with all the big libraries and advanced javascript ui.  The basic technique is to defer loading until needed instead of all at once.</li>
+        <li>Before node and npm came to dominance, it was difficult to consume dependencies (it required script tags to CDNs that hosted the library in your html).  A major motivation of build tools was a sane way to use code libraries.</li>
+        <li>With modules now standardized in JS, browsers are trying to create native support so build tools are needed for that any more.  but build tools do so much else now that they are probably here to stay.</li>
+
+    </ul>
+    
+    <h2>Task Runners (Scripting)</h2>
+    <ul>
+        <li>Task Runners can run multiple scripts for different purposes, e.g. creating a production build, minifying your file, or runnign tests, converting css to scss, changing all image paths to use a third party image hosting service.  They are generally good because they can run cross-platform.  They came about in web development as an alternative to getting libraries from different CDNs, you could download the code and then concatenate all the code together into a bundled js file or multiple bundles.</li>
+        <li>Make: this is an old and well known task runner mostly used with C projects, but can be used with javascript. </li>
+        <li>npm scripts: thanks to the package.json scripts property, npm CLI commands can be used as task runners.  You can define multiple scripts in the scripts property as one word commands that run some longer command.  Then they can be run with <code>npm run scriptname</code></li>
+        <li>Grunt: this was the first famous task runner for web frontends.  It had many plugins which allowed you to define many smaller tasks, and you could run them within a watch task that would give you realtime error messages and warning as you change your code</li>
+        <li>Gulp: This is common tool that doesn't rely on plugins like grunt does, and lets you write more actual code which is good especially if you're familiar with unix piping/file commands.</li>
+        <li>Script Loaders: Before ES2015 import syntax, RequireJS was a popular library to export/import js modules.  JSPM is another approach.</li>
+    </ul>
+
+    <h2>Automation</h2>
+    <ul>
+        <li>Automation tools like CircleC, Travis, and Jenkins can run tests for your automatically, run all your build scripts</li>
+        <li>Continuious Integration is offered by Github running build scripts, and Netlify runnign build scripts</li>
+    </ul>
+
+    <h2>Transpilation</h2>
+    <ul>
+        <li>Tools like babel allowed developers to use new javascript syntax that browser weren't updated for yet, it would transpile code to older syntax.  This could be done on its own but often is used within the bundler and part of the bundler step.</li>
+        <li>ONe issue is if you should only transpile your own code, or also your dependency code.  If you don't transpile dependency code, it could crash browsers, but if you do, it could lead to large files and slow down ux.  lately its shifted toward transpiling all code including dependencies.</li>
+        <li>This also allows for non-standard javascript, like jsx in React, or single file components in other frameworks, that all get transpiled into real javascript, html, and css files to deliver to the browser.  It also opened the door to writing in any language you want and transpiling to js.  Typescript is currently the most popular.</li>
+    </ul>
+
+    <h2>Bundlers</h2>
+    <ul>
+        <li>Module Bundling: Bundle is another term for build, often emphasizing the module bundling aspect of a build tool like webpack.  Bundling it the process of taking multiple js and css files, and concatenating them into one or more chunks. It is good to have multiple smaller chunks instead of one big file, to make loading and lookup faster.  This operates on a lower level than task runners, on modules and assets.  These started to replace task runners somewhat since things like npm scripts offered simple task running duties, and offered much more robust combining of javascript modules and libraries.  Task runners would simply concatenate and cause possible namespace issues, bad ordering, etc, all of which a bundler handles.  webpack pioneered the import syntax and allowed for import of css files and image files into javascript as well.  </li>
+        <li>Browersify is a viable alternative to webpack. Brunch is another one.  Rollup is well known for its tree-shaking features and works with webpack.  Webpack is the big one, it offers a lot of power though complex to start with.  It is extenable with plugins and loaders.  create-react-app, Next.js, gatsby were built around webpack to simplify webpack usage.</li>
+        <li>Bundlers usually do other things too, not fundamental to bundling, though:</li>
+        <ul>
+            <li>Minification: This removes all white space from your file, sometimes called uglification.  It is not easily read by humans, but is easily read by robots still and reduces size.  It also removes all comments and reduces variable names.  There are tools to 'prettify' uglified files, adding whitespace back so you can read it.</li>
+            <li>Code-splitting: this is what chunks up the bundle to minimize initial load, and later load as needed.</li>
+            <li>Prerendering/server side rendering: renders html files on the server for initial load, so rendering doesn't have to take place on client.</li>
+            <li>Deduplication: Finds duplicated libraries and removes them.</li>
+            <li>Tree shaking:  This finds unused code in your files, variables that are defined but never used, unused functionality in libraries you're using, and it comments them out.  Since minification removes comments this will delete unused code from your files, reducing size.  You can turn it on just for libraries so e.g. you don't ship all the lodash functions, just the ones you use.</li>
+            <li>Dev server</li>
+            <li>Hot module replacement: if running dev server, constantly updating if code changes</li>
+            <li>source maps: maps unreadable production code to source code for finding erros in production, etc.</li>
+        </ul>
+    </ul>
+</body>
+</html>
