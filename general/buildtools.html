@@ -15,7 +15,21 @@
         <li>Early build tools simply concatenated all your scripts together, but it has gotten more complex since then with all the big libraries and advanced javascript ui.  The basic technique is to defer loading until needed instead of all at once.</li>
         <li>Before node and npm came to dominance, it was difficult to consume dependencies (it required script tags to CDNs that hosted the library in your html).  A major motivation of build tools was a sane way to use code libraries.</li>
         <li>With modules now standardized in JS, browsers are trying to create native support so build tools are needed for that any more.  but build tools do so much else now that they are probably here to stay.</li>
+    </ul>
 
+    <h2>Updating Libraries</h2>
+    <ul>
+        <li>JS projects often end up using lots of third party libraries compared to other languages, this is due to node's intentionally small standard library, the fact that libraries often have many dependencies themselves, and a habit of keeping libraries single-task focused in node.</li>
+        <li>Dependencies need to be kept up to date if you are using them in your project, so that you get the latest patches for security issues, bug fixes, performance improvements, etc.</li>
+        <li>It is best to update often so that changes stay more minor than if you have to update after a long time, which could force you to make more changes to your code, problems with other dependencies, having to learn and make updates at an inconvenient time</li>
+        <li>Library authors should be periodically updating the package.json of the library to include updated dependencies for that library, that way when you update the library you will get updated dependencies as well.</li>
+        <li>All that said, there is a school of thought that you should only update dependencies if you have a specific reason to do so, because updates can introduce new bugs, regressions, and take time away from working on your own code and features.</li>
+        <li>Semantic versioning (semver) is followed for node libraries, but authors may not always use it perfectly.  This is MAJOR.MINOR.PATCH versioning.  Major is when there is a breaking change to your code, meaning your API changes and people may need to change their code to keep using your project.  Minor is new functionality that is still backwards-compatible. Patches are bug-fixes that are backwards-compatible.</li>
+        <li>Your package.json will by default include a ^ in front of the version number to indicate you will accept minor and patch updates, but not major updates.  e.g. in your dependencies property you may see <code>"lodash": "^3.1.0"</code></li>
+        <li>You can run <code>npm outdated</code> to check what dependencies are out of date.</li>
+        <li>You can run <code>npm update</code> to update all packages to the highest version that is indicated to be okay in your package.json (following the ^ notation) or <code>npm update lodash</code> or whatever library to just update that library.</li>
+        <li>To update to the latest and ignore the "^" in your package.json, you will need to run <code>npm install lodash@latest</code> or whatever library name you want.</li>
+        <li>You can run <code>npm-check</code> or <code>npm-check-updates</code> to get an interactive updating interface, which is good for updating lots of dependencies at once.</li>
     </ul>
     
     <h2>Task Runners (Scripting)</h2>
