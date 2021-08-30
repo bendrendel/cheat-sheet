@@ -22,19 +22,19 @@
         <p><code>node -v</code>displays node version installed</p>
 
         <h2>Built-in objects</h2>
-        <p><strong>global object: </strong>an object called global created by Node when running javascript, that you can access for useful Node-specific properties and methods, </p>
-        <p><strong>process object: </strong>node provides a global process object with useful properties and methods about the current process</p>
+        <p><strong>global object: </strong>an object called global created by Node when running javascript, that you can access for useful Node-specific properties and methods, its properties can be accessed directly in the node environment, without specifying global. first.  It is equivalent to the window object in the browser environment which isn't available in node (though they have different functionality)</p>
+        <p><strong>process object: </strong>the process object is a property of the global object with useful properties and methods about the current process</p>
         <ul>
             <li><p>A process is the instance of a program that is being executed, can see all processes running in Task Manager (win) or Activity Monitor (mac)</p></li>
             <li><code>process.env </code>stores and controls info about environment in which the process is currently running</li>
             <ul>
                 <li><code>process.env.PWD </code>returns a string with the directory in which the current process is located</li>
-                <li><code>process.memoryUsage() </code>returns an object with info on CPU demands of current process, one property of the object is .heapUsed and shows how many bytes of memory the current process is using</li>
-                <li><code>process.argv </code>conatins an array of command line values provided when current process was intitiated, first element is absolute path to Node (which ran the process), second is path to the file running, and remaining elements are any arguments provided upon intiation</li>
                 <li><code>process.env.NODE_ENV </code>one convention is to add a property called NODE_ENV to the process object in the .js file you're running, and set it equal to either 'production' or 'development', then you can use conditional logic later in the code if you want to only run certain code if it is 'production' or 'development'</li>
             </ul>
-            <li><code>process.stdout.write() </code>In the node environment, console.log() is a thin wrapper on this method, which writes stdout to the console</li>
-            <li><code>process.stdin.on() </code>process.stdin is an event emitter, and when the user enters text into the terminal and hits enter it emits an event named 'data' with the user's input as data to pass to a callback, thus you can call the .on method for the 'data' event with some callback to run with the user's input</li>
+            <li><code>process.memoryUsage() </code>returns an object with info on CPU demands of current process, one property of the object is .heapUsed and shows how many bytes of memory the current process is using</li>
+            <li><code>process.argv </code>conatins an array of command line values provided when current process was intitiated, first element is absolute path to Node (which ran the process), second is path to the file running, and remaining elements are any arguments provided upon intiation</li>            
+            <li><code>process.stdout.write() </code>In the node environment, console.log() is a thin wrapper on this method, which writes stdout to the console, e.g. <code>process.stdout.write('This will output to the console');</code></li>
+            <li><code>process.stdin.on() </code>process.stdin is an event emitter, and when the user enters text into the terminal and hits enter it emits an event named 'data' with the user's input as data to pass to a callback, thus you can call the .on method for the 'data' event with some callback to run with the user's input. note the data passed in is an instance of the Node Buffer class and will have a newline character at the end, so you'll usually want to convert it to a string and trim it to get rid of the newline character.  e.g. <code>process.stdin.on('data', (userInput) => { const input = userInput.toString().trim(); do stuff with input});</code></li>
         </ul>
 
         <h2>Core Modules</h2>
@@ -48,16 +48,44 @@
                 <ul>
                     <li>.on() method takes the name of an event as the first arg, and a listener callback function second (which can have one argument itself for data provided at the time of the event occurs)</li>
                     <li>.emit() method takes the name of event as the first arg, and second is data to pass to the listener callback function</li>
+                    <li><code><pre>
+                        const events = require('events');
+                        const myEmitter = new events.EventEmitter();
+                        myEmitter.on('myevent', (data) => {do stuff}));
+                        myEmitter.emit('myevent', 'some data')
+                    </pre></code></li>
                 </ul>
-                <p><strong>Event Loop: </strong>Just like javascript in the browser, node uses a task queue and event loop, so when an event is emitted, it adds the callback function to the task queue</p>
+                <p><strong>Event Loop/Asynchronous Actions: </strong>Just like javascript in the browser, node uses a task queue and event loop, so when an event is emitted, it adds the callback function to the task queue.  This is how asynchrounous actions like setTimeout work, they are events under the hood.  Node version 8+ adds support for Promises and async/await syntax, which is generally perferred now not just in the browser but in node also.</p>
             </li>
             <li>
                 <h3>Filesystem Core Module</h3>
                 <p><strong>Sandboxing: </strong>js run in the node environment has less restricted access to the filesystem than js run in the browser.  sandboxing is the technique of isolating some applications from others to protect from malicious code</p>
                 <p><strong>fs: </strong>filesystem core module is an API for interacting with the file system, uses POSIX standard, each method available through fs has a synchronous version and an asynchronous version</p>
                 <ul>
-                    <li><p><code>fs.readFile(file, encoding, callback(err, data)) </code>used to get the contents of a file see example in nodejsbasics2.js</p></li>
-                    <li><p><code>fs.createWriteStream(fileName) </code>This allows you to write to a file one line at a time through an open writeable stream to the file.  provide the filename to write to, returns a file stream, can use the .write() method on the file stream to write a line, and .end() method to end the stream</p></li>
+                    <li><p><code>fs.readFile(file, encoding, callback(err, data)) </code>used to get the contents of a file e.g.
+                    <code><pre>
+                        const fs = require('fs');
+                        
+                        let readDataCallback = (err, data) => {
+                        if (err) {
+                            console.log(`Something went wrong: ${err}`);
+                        } else {
+                            console.log(`Provided file contained: ${data}`);
+                        }
+                        };
+                        
+                        fs.readFile('./file.txt', 'utf-8', readDataCallback);
+                    </pre></code></p></li>
+                    <li><p><code>fs.createWriteStream(fileName) </code>This allows you to write to a file one line at a time through an open writeable stream to the file.  provide the filename to write to, returns a file stream, can use the .write() method on the file stream to write a line, and .end() method to end the stream. e.g.
+                    <code><pre>
+                        const fs = require('fs')
+                        
+                        const fileStream = fs.createWriteStream('output.txt');
+                        
+                        fileStream.write('This is the first line!'); 
+                        fileStream.write('This is the second line!');
+                        fileStream.end();
+                    </pre></code></p></li>
                     <li><p><code>fs.appendFileSync(path, str)</code> This will append a string, str, to the file at the give path (in quotes, and can be relative path like './myFile.txt'), if the file doesn't exist it will be created.</p></li>
                     <li><p><code>fs.readFileSync(path)</code> will return the contents of the file at path as a string, could be saved to a variable for instance.</p></li>
                     <li><p><code>fs.unlinkSync(path);</code> will delete file at give path, used in conjuction with appendFileSync, readFileSync</p></li>
@@ -66,7 +94,19 @@
             <li>
                 <h3>Readline Core Module</h3>
                 <p><strong>Stream: </strong>some kind of thing where data is processed in sequential pieces, rather than all at once, often preferable since it doesn't require enough RAM to process all data at once, and you can begin processing data sooner as it arrives, readable streams with readline core module and writable streams with fs core module</p>
-                <p><code>readline.createInterface(stream) </code>for reading a file one line at a time from a stream, it returns an event emitter, and you set the event handler for the 'line' event which will fire for each line of the file and run the handler with that line.  seems like setting the handler also begins the emitting of events, like how setting stdin.on() also seems to start the input mode in the terminal. see example nodejsbasics3.js </p>
+                <p><code>readline.createInterface(stream) </code>for reading a file one line at a time from a stream, it returns an event emitter, and you set the event handler for the 'line' event which will fire for each line of the file and run the handler with that line. The stream input is an object with an input property using the filesystem core module, set to <code>fs.createReadStream('./myfile.txt');</code> seems like setting the handler also begins the emitting of events, like how setting stdin.on() also seems to start the input mode in the terminal. e.g.
+                <code><pre>
+                    const readline = require('readline');
+                    const fs = require('fs');
+                    
+                    const myInterface = readline.createInterface({
+                        input: fs.createReadStream('text.txt')
+                    });
+                    
+                    myInterface.on('line', (fileLine) => {
+                        console.log(`The line read: ${fileLine}`);
+                    });
+                </pre></code> </p>
             </li>
             <li>
                 <h3>HTTP Core Module</h3>
@@ -75,6 +115,72 @@
                 <ul>
                     <li><p>the requestListener callback function should have two arguments, the request object and the response object; the received request is passed in as the request object so you can access things about the request in the function; the response object you use to set the response header and body in the function; the requestListener must call response.end() to signal the interaction is complete</p></li>
                 </ul>
+                <p>When you call server.listen(), it starts a Node process that doesn't end unless you terminate the program (Ctrl+C in the terminal).  So it is a running program, waiting for requests on the specified port.  If you run this on your machine, then you can send it a request and recieve a response in your browser by going to <code>http://localhost:3000/</code>, localhost is used to refer to the same computer that is running the current node process. listen() can also take a second argument that is a callback function to run when the server starts, e.g. <code>() => {console.log('Now listening on port 3000')</code></p>
+                <code><pre>
+                    const http = require('http');
+ 
+                    let requestListener = (request, response) => {
+                        response.writeHead(200, {'Content-Type': 'text/plain' });
+                        response.write('Hello World!\n');
+                        response.end();
+                    };
+                    
+                    const server = http.createServer(requestListener);
+                    
+                    server.listen(3000);
+                </pre></code>
+
+                A more advanced request listener that could serve an html file named myWebsite.html, using the filesystem core module:
+                <code><pre>
+                    const fs = require('fs');
+
+                    const requestListener = (req, res) => {
+                        fs.readFile('./myWebsite.html',  'utf-8', (err, data) => {
+                            if (err){
+                                res.writeHead(200, {'Content-Type': 'text/html'});
+                                res.write(`${err}`);
+                                res.end();
+                            } else {
+                                res.writeHead(200, {'Content-Type': 'text/html'});
+                                res.write(data);
+                                res.end(); 
+                            }
+                        })
+                    }
+                </pre></code>
+            </li>
+            <li>
+                <h3>URL core module</h3>
+                <p>Useful for parsing urls, getting just the protocol, or path, or whatever.  Could in theory  be used to help with writing a server that responds to different paths, but you would normally use a framework like express to do this:</p>
+                <code><pre>
+                    const http = require('http'),
+                    const url = require('url'),
+                
+                    const requestListener = function (request,response){
+                        let path = url.parse(request.url).pathname;
+
+                        if(path === '/'){
+                            response.writeHead(200,{'Content-Type':'text/plain'});
+                            response.write('Hello world');
+                        } else if(path === '/about'){
+                            response.writeHead(200,{'Content-Type':'text/plain'});
+                            response.write('About page');
+                        } else if(path === '/blog'){
+                            response.writeHead(200,{'Content-Type':'text/plain'});
+                            response.write('Blog page');
+                        } else{
+                            response.writeHead(404,{'Content-Type':'text/plain'});
+                            response.write('Error page');
+                        }
+                        response.end();
+                    };
+                    
+                    const server = http.createServer(makeServer);
+                    
+                    server.listen(3000,()=>{
+                        console.log('Node server created at port 3000');
+                    });
+                </pre></code>
             </li>
         </ul>
         
@@ -151,8 +257,21 @@
         </ul>
 
         <h2>Asynchronous Actions</h2>
+        <p>Node is a single threaded environment just like the browser, and uses an event loop and asynchronous actions.  This actually makes it very good for making servers, because a lot of what a server has to do is wait on other systems to do something and return a result.  For example, reading a file and returning its contents is done by the file system, or writing information to a file or database is done by another system.  Node-made servers can kick off these actions asynchronously, thus clearing the stack and allowing the server to respond to other incoming requests.  When the asyn actions are done, they throw their callbacks into the event loop and get processed.  Node can respond to lots of incoming requests this way.  Compare this to a multi-threaded language like ruby, where every request opens up a new thread, and each thread is spending a lot of time waiting doing nothing while other systems do things.  Eventually too many threads bogs the system down.  This can be good however, if there is a lot of computation needing to be done by Ruby itself.  If node is doing a lot of synchronous tasks to respond, then that blocks the stack and a multi-threaded language would be better.</p>
         <p><strong>Asynchronous Node APIs: </strong>node provides a number of APIs for performing asynchronous tasks that all use callback functions, such as setTimeout(callback, delayInMS), these APIs trigger subscribing to a completion event with the given callback function, and then emit the completion event perhaps with data upon completion thus adding the callback function to the task queue</p>
-        <p><strong>Error-first Callback: </strong>Many asynchronous node APIs accept a callback function with two arguments: first an error, and second the data.  If the action results in an error, then the error will get passed in as the the first argument, and if not then the first argument will be undefined</p>
+        <p><strong>Error-first Callback: </strong>Node can use standard try-catch statements for error handling, but async code errors cannot be caught in these (because the async action upon completion is added to the task queue and always added to the stack after the try-catch statement is done). Thus to deal with errors, many asynchronous node APIs accept a callback function with two arguments: first an error, and second the data.  If the action results in an error, then the error will get passed in as the the first argument, and if not then the first argument will be undefined.  Thus no error handling is needed when running the async action, instead the error handling is built into your callback function and the async will return an error to it if there is one.  Many apis will take some data as the first argument, and then the callback function to run once the async action is completed.  The callback is where you account for receiving an error back, or valid data with the error-first format  e.g.
+        <code><pre>
+            const errorFirstCallback = (err, data)  => {
+                if (err) {
+                    console.log(`There WAS an error: ${err}`);
+                } else {
+                    // err was falsy
+                    console.log(`There was NO error. Event data: ${data}`);
+                }
+            }
+
+            someAPI('some data to send to api', errorFirstCallback);
+        </pre></code></p>
         <p><strong>Promises: </strong>Newer versions of Node v8.0.0+, provide the asynchronous APIs formatted for promises, found on util.promisify and is becoming favored over traditional callbacks</p>
 
     </body>
