@@ -19,7 +19,7 @@
             <li>They provide an Object-Relational Mapper (ORM) that is used for workign with a database. THis abstracts CRUD oeprations on the database, making data validation in the code easier, and decoupling the database from the web app, so the database could be replaced independently of the code.</li>
             <li>They provide templating features, to make it easy to insert data retrieved from a database into an html template, or a json template, xml template, etc.</li>            
         </ul>
-        <li>Different frameworks have different effort to learn, some are best for certain purposes (e.g. Django was made with newspaper/blogs in mind), some are more opinionated (less flexible, but lead you in the right direction if you're solving a particular problem), some are lightweight and require you to use lots of other libraries where others are "batteries included" having lots of builtin functionality, some have better performance or horizontal scalability, some better support caching which may be needed as you scale, and some better support security</li>
+        <li>Different frameworks have different effort to learn, some are best for certain purposes (e.g. Django was made with newspaper/blogs in mind), some are more opinionated (meaning they force you to use it in a particular way which can make for quality fast code, but it will be focused in a particular domain or problem and comes at the cost of flexibility and general purpose nature of less opinonated frameworks), some are lightweight and require you to use lots of other libraries where others are "batteries included" having lots of builtin functionality, some have better performance or horizontal scalability, some better support caching which may be needed as you scale, and some better support security</li>
         <ul>
             <li>Django/Python: This provides lots of built-in functionality (batteries included), is fast, secure and scalable, and promotes consistent good design practices, used by Instagram, Disqus</li>
             <li>Flask/Python: This is lightweight and good for small, resource-constrained systems like a Rasberry Pi</li>
@@ -31,7 +31,16 @@
             <li>Mojolicious/Perl: not much to say</li>
             <li>Spring Boot/Java: Easy to use, opinionated, stong at building large, cloud based apps, </li>
         </ul>
+    </ul>
 
+    <h2>Express Basics</h2>
+    <ul>
+        <li>Express is the most popular web framework for node, it is minimalistic and unopinionated.  This means there is no one right way to use it and it is used with lots of other libraries.</li>
+        <li><strong>Built in features:</strong> Express itself allows you to handle different HTTP verbs, handle different paths, add settings like the port and location of templates, add middleware anywhere in the request handling pipeline, serve static files, and use templates to dynamically generate response.  All of this can be done with just Node.js but you'd have to write a lot on your own to accomplish it all.</li>
+        <li><strong>Middleware:</strong> Being minimalistic, express is generally used with lots of third party libraries, which work as 'middleware', performing various functions in the middle of receiving a request and returning a response.  To use third-party middleware, you'll need to first install it in the root of the project with <code>npm install mymiddleware</code> and then require it into your express application.  Express actually provides one piece of middleware itself, which is static for serving static files like images, css, etc.  Middleware can be chained together and order may or may not be important, depending on if later middleware depends on the results of previous middleware, and is generally declared before routes are set so that the routes have access to the middleware.  You can also write your own middleware and will at least for error handling.  Middleware is used to work with cookies, sessions, user logins, URL parameters, POST data, security headers and much more</li>
+        <li><code>Databases:</code> Express can work with any database mechanism supported by node, generally you'll install a node package driver for the database (e.g. mondodb, mysql, etc), and require it in to your express app.  The driver allows you to interact with a database.  You can alternatively use an ORM.</li>
+        <li><code>Templates: </code>Template engines, called view engines in express allow you to define the structure of an output, and insert data, could be html but also other file types.  This would require the use of template engine.</li>
+        <li><code>Directory Structure: </code>An express app could all be written in one file, but will often be split up accordign to function or domain (model, view or controller)</li>
     </ul>
 </body>
 </html>

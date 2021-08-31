@@ -8,13 +8,11 @@
         <a href="./index.html">Home</a>
 
         <h2>Node Basics</h2>
-        <p><strong>Node.js: </strong>a JavaScript runtime (compiles high-level code to low-level code) that allows Javascript to execute outside of the browser, originally designed for web servers and applications, but can also create command-line and desktop applications</p>
+        <p><strong>Node.js: </strong>an open-source, cross-platform (Windows, MacOS, Linux, Solaris, FreeBSD, more) JavaScript runtime environment (compiles high-level code to low-level code) that allows Javascript to execute outside of the browser, originally designed for web servers and applications, but can also create command-line and desktop applications</p>
         <ul>
             <li>Download from Node website and install.  Recommended to download the LTS (long term support) version instead of the current feature, it doesn't contain the latest features/javascript syntax but is less likely to cause errors and is guaranteed support by node for at least 18months</li>
         </ul>
-        <p><strong>Runtime Environment </strong>For a long time javascript was only run in browsers, or the browser runtime environment.  This gives javascript access to built in methods like window.alert(),
-        that the browser provides.  Apps made for the browser runtime environement are front-end apps.  node
-        allows you to build back end apps with javascript by providing a runtime environment outside the browser.  the window object isn't available in the node runtime environment, and other objects are available like process and access to the filesystem and databases and networks attached to the server</p>
+        <p><strong>Runtime Environment </strong>For a long time javascript was only run in browsers, or the browser runtime environment.  This gives javascript access to built in methods like window.alert(), that the browser provides.  Apps made for the browser runtime environement are known as front-end apps.  node allows you to build back end apps with javascript by providing a runtime environment outside the browser.  the window object and browser specific APIs aren't available in the node runtime environment, and instead more traditional OS APIs, are available like process, http servers, and access to the filesystem and databases and networks attached to the server</p>
 
         <h2>Terminal commands </h2>
         <p><code>node </code>Starts Node REPL to evaluate javascript input, type .editor while in REPL to type multiple lines of JS for evaluation, ctrl-d to exit editor, you can access variables/functions defined earlier in REPL session.  Read-Eval-Print Loop, a program that loops through a read state to accept input, an eval state to evaluate input, print state outputing results</p>
@@ -115,7 +113,7 @@
                 <ul>
                     <li><p>the requestListener callback function should have two arguments, the request object and the response object; the received request is passed in as the request object so you can access things about the request in the function; the response object you use to set the response header and body in the function; the requestListener must call response.end() to signal the interaction is complete</p></li>
                 </ul>
-                <p>When you call server.listen(), it starts a Node process that doesn't end unless you terminate the program (Ctrl+C in the terminal).  So it is a running program, waiting for requests on the specified port.  If you run this on your machine, then you can send it a request and recieve a response in your browser by going to <code>http://localhost:3000/</code>, localhost is used to refer to the same computer that is running the current node process. listen() can also take a second argument that is a callback function to run when the server starts, e.g. <code>() => {console.log('Now listening on port 3000')</code></p>
+                <p>When you call server.listen(), it starts a Node process that doesn't end unless you terminate the program (Ctrl+C in the terminal).  So it is a running program, waiting for requests on the specified port.  If you run this on your machine, then you can send it a request and recieve a response in your browser by going to <code>http://localhost:3000/</code>, localhost is used to refer to the same computer that is running the current node process. listen() can also take a second argument that is a callback function to run when the server starts, e.g. <code>() => {console.log('Now listening on port 3000')</code> or this callback can be a third argument, and instead the second argument can be a hostname.  For local development the hostname would be "127.0.0.1" which is the same as localhost.  It is the loopback IP address used to establish an IP connection to the same machine used by the end-user</p>
                 <code><pre>
                     const http = require('http');
  
@@ -186,8 +184,7 @@
         
         <h2>Node Package Manager</h2>
         <p><strong>Third-party modules: </strong>modules created by third-parties (as opposed to core modules or local modules you made), that provide functionality you can reuse</p>
-        <p><strong>NPM: </strong>Node Package Manager is an online registry of hundreds of thousands of software packages such as express, react, and nodemon, containing third-party modules you can download or upload your own to share, also set of command line commands to interact with the registry, which should be automatically installed along with node.  npm can be updated on the command line with <code>sudo npm install -g npm@latest
-        </code></p>
+        <p><strong>NPM: </strong>Node Package Manager is an online registry of hundreds of thousands of software packages such as express, react, and nodemon, containing third-party modules you can download or upload your own to share, also set of command line commands to interact with the registry, which should be automatically installed along with node. NPM offers best-in-class dependency resolution and can automate most of the build toolchain. npm can be updated on the command line with <code>sudo npm install -g npm@latest</code></p>
             <ul>
                 <li><p><strong>Node Package: </strong>directories that contain JavaScript code, npm is used to access and manage these packages, if you want to use a package in a project then you will use npm to download and save it in the project's root directory</p></li>
                 <li><code>npm init </code>run this command in the root directory of a project to begin using node packages in the project, this will create a package.json file in the root directory and prompt you for metadata which you can skip to leave blank or at default values</li>
