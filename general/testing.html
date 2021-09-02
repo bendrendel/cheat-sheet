@@ -70,22 +70,15 @@
     </ol>
 
     <h2>Testing Heirarchy</h2>
-    <p>Testing generally breaks down to Unit Testing, Integration Testing, and UI Testing.  Unit/Component Testing is the fastest and cheapest testing and is done often.  You move up the heirarchy only as previous tests are exhuasted, as higher up tests are slower and more resource expensive.</p>
-    <h3>Unit/Component Testing</h3>
+    <p>Testing generally breaks down to Unit Testing, Integration Testing, Component Testing, UI Testing, and End to End Testing.  Unit/Component Testing is the fastest and cheapest testing and is done often.  You move up the heirarchy only as previous tests are exhuasted, as higher up tests are slower and more resource expensive. Balance should be more unit tests and less and less tests as you get to E2E tests.  E2E tests provide lots of confidence but are slow expensive to write and run.</p>
+    <h3>Unit Testing</h3>
     <ul>
         <li>Automated tests written and run by developers, testing small units of code, such as a single class, a function, a module, a method, etc.</li>
         <li>Needs to be used in conjuntion with integration testing, and other tests that test functionality of units working together</li>
         <li>Expect Unit Tests to evolve as the implementation code evolves and implementation details change, unit test code is not as static as higher level tests that test overall functionality that doesn't change as much.</li>
-        <li>Can be used as a design-specification, essentially they define what needs to be built and how it should work and can simultaneously be
-            used to test if requirements are met.
-        </li>
+        <li>Can be used as a design-specification, essentially they define what needs to be built and how it should work and can simultaneously be used to test if requirements are met.</li>
         <li>Unit Testing is fast and cheap, and you should rely heavily on these in your test suite</li>
-    </ul>
-
-    <h3>Contract Testing</h3>
-    <ul>
-        <li>When two services integrate with each other they have expectations about what is received and returned, which can be thought of as a contract between integrated endpoints.</li>
-        <li>You can test internal services (microservices architecture) this way also, and use mocks and stubs for the expected returned values from the other system.</li>
+        <li>Unit testing done in the node environment (not in browser), everything outside the unit is mocked.</li>
     </ul>
 
     <h3>Integration Testing</h3>
@@ -99,10 +92,30 @@
         <li>Integration Testing is slower and more expensive on resources than unit testing, and should only be done once unit tests have been exhuasted.</li>
     </ul>
 
+    <h3>Component Testing</h3>
+    <ul>
+        <li>Testing the UI and possibly its integration with business logic from inside</li>
+        <li>Still running in node usually (not in browser), with outside services mocked</li>
+    </ul>
+
     <h3>UI Layer Testing</h3>
     <ul>
-        <li></li>
+        <li>Testing major modules of the app from the outside</li>
+        <li>Running in actual browser with mock servers</li>
     </ul>
+
+    <h3>End to End (E2E) Testing</h3>
+    <ul>
+        <li>Testing entire app from outside</li>
+        <li>Running in actual browser, with real servers usually on production</li>
+    </ul>
+
+    <h3>Contract Testing</h3>
+    <ul>
+        <li>When two services integrate with each other they have expectations about what is received and returned, which can be thought of as a contract between integrated endpoints.</li>
+        <li>You can test internal services (microservices architecture) this way also, and use mocks and stubs for the expected returned values from the other system.</li>
+    </ul>
+
 
     <h2>Mocha</h2>
     <ul>
@@ -205,8 +218,8 @@
 
     <h2>Jest</h2>
     <ul>
-        <li>Jest is another javascript test framework and the default one used for React applications.  It needs to be installed for a project by initiliazing the project with npm (npm init) if it isn't already, and then running <code>npm install jest -D</code> to install to dev dependencies.  Then in your package.json file, under scripts, make sure you have <code>"scripts" : { "test": "jest" }</code> so that jest runs when you use the command <code>npm test</code>.  If you made a react project with create-react-app then jest should already be installed, and <code>npm test</code> should already be configured to run jest tests</li>
-        <li>By default, jest expects all tests to be saved in a folder in your root directory called <code>__tests__</code>.  By some conventions, you name each test file as <code>functionalityToTest.spec.js</code> where functionalityToTest is any descriptive name of the functionality to be tested in the file and .spec is included as an old Ruby convention indicating the file is a specification of functionality.</li>
+        <li>Jest is another javascript test framework and the default one used for React applications.  It needs to be installed for a project by initiliazing the project with npm (npm init) if it isn't already, and then running <code>npm install jest -D</code> to install to dev dependencies.  Then in your package.json file, under scripts, make sure you have <code>"scripts" : { "test": "jest" }</code> so that jest runs when you use the command <code>npm test</code>.  If your project uses babel, you will need to configure jest to work with babel, first by installing <code>npm install babel-jest -D</code>.  Now in your <code>.babelrc</code> file, you need to add <code>"presets": ["@babel/preset-env"]</code> and in your scripts in your package.json file, you can add <code>"test:watch": "npm test -- --watch"</code>, allowing you to run the command <code>npm run test:watch</code> to run tests on every file change.  All that said, if you made a react project with create-react-app then jest should already be installed, and <code>npm test</code> should already be configured to run jest tests</li>
+        <li>By default, jest expects all tests to be saved in a folder in your root directory called <code>__tests__</code>.  By some conventions, you name each test file as <code>functionalityToTest.spec.js</code> where functionalityToTest is any descriptive name of the functionality to be tested in the file and .spec is included as an old Ruby convention indicating the file is a specification of functionality.  Some recommending colocating test files with what they're testing, so if you have a component file, next to that component file have a folder named __tests__ that contains tests for that component.</li>
         <li>As with Mocha, the typical usage is that you would import the functionality with <code>myFunction = require('../myFile/myCode.js')</code> to test from some javascript file in your project (and export the functionality in that file using module.exports = myFunction), and then you can use that funcitonality in your test file to exercise/test it. You shouldn't need to import Jest in your test files in any way if you've installed it for the project as described above</li>
         <li>Basic test syntax is similar to Mocha.  Instead of it() you may see test(), but both can be used in Jest and they mean the exact same thing, test() is the official method and it() is an alias for it. Also, Jest provides a special syntax for exercising and verifying, namely <code>expect().toEqual()</code>, where expect() wraps what you want to test, accepting an argument like a call to a function being tested that gives some output, and toEqual() is the matcher function that accepts an argument that that output should be equal to.  There are other 'matcher' functions besides .toEqual() like .toThrowError(Error('expected error msg here')) depending on the nature of the verification</li>
         <li>With react, each component will have its own test file.  Within each test file, use the describe function at the top level to separate out various contexts, e.g. describe('rendering') to hold all testing related to rendered output, describe('callbacks') to hold all tests related to callbacks and interactions, describe('lifecycle') to hold all tests related to lifecycle methods, etc. Under each top level describe block, don't be afraid of nesting describe blocks for specific conditions. E.g. you could have three levels like so: describe('rendering') > describe('initial state') > describe('when there is an initial value') / describe('when there is no initial value').  For each it block, use only one assertion </li>
@@ -293,6 +306,15 @@
 
             export default MyMockComponent;
         </pre></code></li>
+        <li>For redux, it is recommended to follow an integration test approach instead of testing each unit.  
+        <ul>
+            <li><strong>Action Creators/Thunks: </strong>For action creators, it is recommended to use createSlice, and createAsyncThunk, meaning the action creators will be automatically created and you don't need to test them individually. You can use jest-fetch-mock to mock up fetch requests that your Thunk action creators make, with this you don't have to change the thunk logic, instead their fetch request gets intercepted and a mock is used.</li>
+            <li><strong>Reducers: </strong>In most cases, reducers are implementation details that do not need to be tested individually.  If you have a particularly complex reducer, you could choose to test it.  To do this, you would want to test on the slice level.  So in your test file for the reducer, you would import a slice reducer, and the slice actions that you want to test.  In your test file, you can run the slice reducer with an action for the first argument, and a state for the second argument.  You would feed it an initial state that you manually define, and then assert that it returns a new state that you manually define as the expected new state.  You feed it the action, potentially with a payload that you manually define.  You can test it with <code>undefined</code> for the action and state of <code>{}</code> to test if it returns the initial state defined in the slice when it is run with an undefined action (i.e. what should happen when the reducer first runs)</li>
+            <li><strong>Components: </strong>To test components that use redux methods, you should test at an integrated level, testing that the component behaves the way it should perhaps upon first rendering, and upon user interactions.  For instance you might have a component that first renders saying 'no user', so you write a test if that occurs, then when the user clicks a button, an action is dispatched that is asynchronous so now the component displays 'is loading', so you write a second test that this should occur, then finally the data comes back and a user name is displayed, so you write a third test to make sure that occurs.</li>
+            <li><strong>Middleware: </strong>To test middleware, you need to mock the behavior of the dispatch call</li>
+
+        </ul>
+        </li>
     </ul>
 
     <h2>Enzyme</h2>
@@ -425,6 +447,11 @@
                 });
             </pre></code>
         </li>
+    </ul>
+
+    <h2>Redux</h2>
+    <ul>
+        <li></li>
     </ul>
 </body>
 </html>
