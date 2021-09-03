@@ -445,9 +445,60 @@
     <ul>
         <li>For redux, it is recommended to follow an integration test approach instead of testing each unit.  If you do unit test, redux often uses pure functions (reducers, selectors) which are easy to test due to not having side effects, so you don't have to mock anything. </li>
         <ul>
-            <li><strong>Action Creators/Thunks: </strong>For action creators, it is recommended to use createSlice, and createAsyncThunk, meaning the action creators will be automatically created and you don't need to test them individually. You can use jest-fetch-mock to mock up fetch requests that your Thunk action creators make, with this you don't have to change the thunk logic, instead their fetch request gets intercepted and a mock is used.</li>
+            <li><strong>Action Creators/Thunks: </strong>For action creators, it is recommended to use createSlice, and createAsyncThunk, meaning the action creators will be automatically created and you don't need to test them individually. They are just implementation details and you shouldn't test them 99% of the time, the only time you would test them if for some reason you were exposing it to people so they could plug in their own middleware or something.  You can use jest-fetch-mock to mock up fetch requests that your Thunk action creators make, with this you don't have to change the thunk logic, instead their fetch request gets intercepted and a mock is used.</li>
+            <li><strong>Selectors: </strong>Really not neccessary to unit test these.</li>
             <li><strong>Reducers: </strong>In most cases, reducers are implementation details that do not need to be tested individually.  If you have a particularly complex reducer, you could choose to test it.  To do this, you would want to test on the slice level.  So in your test file for the reducer, you would import a slice reducer, and the slice actions that you want to test.  In your test file, you can run the slice reducer with an action for the first argument, and a state for the second argument.  You would feed it an initial state that you manually define, and then assert that it returns a new state that you manually define as the expected new state.  You feed it the action, potentially with a payload that you manually define.  You can test it with <code>undefined</code> for the action and state of <code>{}</code> to test if it returns the initial state defined in the slice when it is run with an undefined action (i.e. what should happen when the reducer first runs)</li>
-            <li><strong>Components: </strong>To test components that use redux methods, you should test at an integrated level, testing that the component behaves the way it should perhaps upon first rendering, and upon user interactions.  For instance you might have a component that first renders saying 'no user', so you write a test if that occurs, then when the user clicks a button, an action is dispatched that is asynchronous so now the component displays 'is loading', so you write a second test that this should occur, then finally the data comes back and a user name is displayed, so you write a third test to make sure that occurs.</li>
+            <li><strong>Components: </strong>Most of the time you really don't need to test if actions are working in every possible edge case.  Just a handful of tests to make sure actions are dispatching correctly are what matter.  Consider components in redux get info from the store that should be displayed properly (so you want to test that)  and the component should dispatch actions possibly (so you want to test that it is dispatching actions correctly).  To test components that use redux methods, you should test at an integrated level, testing that the component behaves the way it should perhaps upon first rendering, and upon user interactions.  For instance you might have a component that first renders saying 'no user', so you write a test if that occurs, then when the user clicks a button, an action is dispatched that is asynchronous so now the component displays 'is loading', so you write a second test that this should occur, then finally the data comes back and a user name is displayed, so you write a third test to make sure that occurs.  The basic  sequence for testing components is create mock store/initial state, render the component, test the initial rendered output, perform a ui action, test that the correct redux action was dispatched.  You can use configureStore from redux-mock-store as shown below to set up a mock store to use in tests, it is called with an empty array outside the tests to return a mock store, and then before each test, you give the mock store the desired initial state. You can use renderer from react-test-renderer to render the component, and do so inside a real Provider component from react-redux, passing in your mock store.  It is useful to use snapshote testing for testing the initial state.  You can then also use renderer.act to perform ui actions like clicking buttons or filling out forms, then import the action you expect to be dispatched and check that it is dispatched with the correct payload. e.g. <code>
+                <pre>
+                    import React from 'react';
+                    import { Provider } from 'react-redux';
+                    import renderer from 'react-test-renderer';
+                    import configureStore from 'redux-mock-store';
+                    
+                    import MyConnectedComponent from '.';
+                    import { myAction } from './actions';
+
+                    const mockStore = configureStore([]);
+
+                    describe('My Connected React-Redux Component', () => {
+                        let store;
+                        let component;
+                        
+                        beforeEach(() => {
+                            store = mockStore({
+                                myState: 'sample text',
+                            });
+                        
+                            store.dispatch = jest.fn();
+                        
+                            component = renderer.create(
+                                &ltProvider store={store}>
+                                    &ltMyConnectedComponent />
+                                &lt/Provider>
+                            );
+                        });
+                        
+                        it('should render with given state from Redux store', () => {
+                            expect(component.toJSON()).toMatchSnapshot();
+                            });
+    
+                        it('should dispatch an action on button click', () => {
+                            renderer.act(() => {
+                                component.root.findByType('button').props.onClick();
+                            });
+                        
+                            renderer.act(() => {
+                                component.root.findByType('input').props.onChange({ target: { value: 'some other text' } });
+                            });
+                        
+                            expect(store.dispatch).toHaveBeenCalledTimes(1);
+                            expect(store.dispatch).toHaveBeenCalledWith(
+                                myAction({ payload: 'some other text' })
+                            );
+                        });
+                    });
+                </pre>
+            </code> </li>
             <li><strong>Middleware: </strong>To test middleware, you need to mock the behavior of the dispatch call</li>
         </ul>
         <li><strong>File structure</strong> You might consider colocating redux tests next to the components they test, and separating different redux functionalities into different files, e.g. you might have a reducer defined in <code>src/store/topics/reducer.js</code>, and you could store tests for this reducer at <code>src/store/topics/__tests__/reducer.spec.js</code>, and even though selectors are defined in reducer.js, you might keep the selector tests in their own file at <code>src/store/topics/__tests__/selectors.spec.js</code>, and again even if actions (including thunks) are defined in reducer.js, you might have the action tests in their own file at <code>src/store/topics/__tests__/actions.spec.js</code></li>
