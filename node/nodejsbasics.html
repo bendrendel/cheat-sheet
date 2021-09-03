@@ -197,7 +197,7 @@
                 <ul>
                     <li>import with <code>const util = require('util');</code></li>
                     <li>util.types.isDate(_myvar_) will return true or false depending on fi _myvar_ is of the date type, similar methods for other types</li>
-                    <li>util.promisify(_myFunction_) will turn funcitons that accept an error first callback function into an async function that returns a promise.  Thus you </li>
+                    <li>util.promisify(_myFunction_) returns a function that returns a promise, by converting an old-school asynchronous function (_myfunction_) that expect an error-first callback function into a modern asynchronous function that returns a promise.  So, instead of giving _myFunction_ a callback, you feed it to util.promisify (don't invoke it), and this will return a more modern function that you could save to a variable.  Then you can call your new function and it will return a promise that you can handle with .then .catch, or with async/await.  e.g you might have an old async function to get user info from a database, like <code>getUser(id, callback)</code> where you give it an error first callback function that runs once the user is fetched or there is an error.  Well, you just need to run <code>const getUserPromise = util.promisify(getUser)</code> to get a promise-returning version of getUser, which can be used like <code>getUserPromise(id).then(resVal => console.log(resVal)).catch(rejVal => console.log(rejVal))</code></li>
                 </ul>
             </li>
         </ul>
