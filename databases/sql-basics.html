@@ -13,10 +13,9 @@
     <h2>Basic info</h2>
     <ul>
         <li>Language designed to manage data stored in relational databases, implemented in slightly different ways depending on the RDBMS vendor.  Officially pronounced S-Q-L according to original ANSI/ISO standards definition.  But originally the language was named SEQUEL (Structured english query language) and pronounced sequel and only changed to SQL due to a copyright issue of the name SEQUEL.  Now SQL stands for Structured Query Language.</li>
-        <li>Data is stored in one or more tables, which is data organized into rows and columns.  Tables and columns are traditionally name in all lowercase with underscores between words</li>
-        <li>Columns hold data of a specified type, commonly INTEGER (positive or negative whole numbers), TEXT (strings), DATE (format YYYY-MM-DD), REAL (decimals)</li>
-        <li>There is a special value NULL, that represents missing or unknown data.  The null value is tested in conditions with <code>column_name IS NULL</code> (instead of an equal sign)</li>
+        <li>Data is stored in one or more tables, which is data organized into rows and columns of specified dat atypes.  Tables and columns are traditionally name in all lowercase with underscores between words. Some prefer table names be plural and column names be singular.</li>
         <li>Rows store a single record of the data</li>
+        <li>There is a special value NULL, that represents missing or unknown data.  The null value is tested in conditions with <code>column_name IS NULL</code> (instead of an equal sign)</li>
     </ul>
 
     <h2>Statements</h2>
@@ -29,23 +28,29 @@
 
     <h2>CREATE Statements</h2>
     <ul>
-        <li>The CREATE TABLE clause can make statements telling the database to make a new table and is given a table name, and parameters of the column names for the new table along with their data type and optionally any contraints on the column. e.g. 
+        <li>The CREATE TABLE clause can make statements telling the database to make a new table and is given a table name, and parameters of the column names for the new table along with their data type and optionally any contraints on the column.  The UNIQUE clause can be added at the end if you need to specify that some combination of columns is unique e.g. 
             <code><pre>
                 CREATE TABLE celebs (
                     id INTEGER PRIMARY KEY, 
                     name TEXT UNIQUE, 
-                    age INTEGER,
+                    age INTEGER CHECK (age > 0),
+                    city_id INTEGER
                     date_of_birth NOT NULL,
-                    date_of_death DEFAULT 'Not Applicable'
+                    date_of_death DEFAULT 'Not Applicable',
+                    UNIQUE (name, age),
+                    FOREIGN KEY (city_id) REFERENCES cities (id) ON DELETE RESTRICT ON UPDATE CASCADE
                 );
             </pre></code>
         </li>
+        <li>Data Types: Columns hold data of a specified type, these vary based on the RDBMS, for many the common ones are INTEGER (positive or negative whole numbers literals written like <code>1</code>), TEXT (strings literals written in single quotes like <code>'my string'</code>), DATE (format YYYY-MM-DD, literals written in single quotes like <code>'1940-05-30'</code>), REAL (decimals, literals written like <code>1.432</code>)</li>
         <li>Constraints make restrictions on column values, and if you attempt to execute a statement that breaks one of the constraints, you will get a constrain violation error and the statement will not be executed. These include:
             <ul>
-                <li>PRIMARY KEY: each value in column must be unique</li>
-                <li>UNIQUE: each value in column must be unique</li>
+                <li>PRIMARY KEY: each value in column must be unique and cannot be null, can be a single column or set of columns, that uniquely identifies each row, similar to implementing UNIQUE NOT NULL except only one primary key allowed per table, whereas as many columns may be UNIQUE NOT NULL</li>
+                <li>UNIQUE: each value in column must be unique, or can specify the combined value of two or more columns has to be unique</li>
                 <li>NOT NULL: each value in column cannot be NULL</li>
                 <li>DEFAULT 'value': each value in column is given a specified default value if value is not specified otherwise</li>
+                <li>CHECK (...): check constraints are provided a boolean condition that must be fulfilled by values in the column, e.g. CHECK (my_column > 0).  You can use SQL inside the condition, it can be anything you would include in a WHERE clause, like AND/OR/LIKE, e.g. CHECK (my_column > 0 AND my_column &lt 100) or CHECK (my_column LIKE "some text")</li>
+                <li>FOREIGN KEY: enforces referential integrity, meaning the value in a column with a foreign key constrain must be among the value in a specified column in another table (generally the primary key of that table). This is added after the column definitions, may be many Foreign Key columns and constraints. FOREIGN KEY (foreign_key_column_name) REFERENCES table_name (primary_key_column_name). You can specify ON DELETE RESTRICT or ON UPDATE RESTRICT, to ensure that if the referenced primary key row is attempted to be deleted or changed, it won't be allowed if there is a row referencing it as a foreign key.  This is the default behaviour in most RDBMSs so doesn't need to be included.  YOU can also specify ON DELETE CASCADE or ON UPDATE CASCADE, which means if the primary key row is deleted all rows referencing it will be deleted, or if the primary key is updated then all foreign keys will automatically update to the new primary key value.  You can also combine these like ON DELETE RESTRICT ON UPDATE CASCADE</li>
             </ul>
         </li>
     </ul>
@@ -56,6 +61,42 @@
             <code><pre>
                 ALTER TABLE celebs 
                 ADD COLUMN twitter_handle TEXT;
+            </pre></code>
+        </li>
+        <li>The ALTER TABLE...ALTER COLUMN...SET/DROP clause can alter column constraints for existing columns in existing tables. Adding a constraint using SET, and removing a constraint using DROP.  If adding the constraint will cause constraint violations to existing rows in the table then the statement will not execute.  For instance, if there are null values in a column and you try to add a not null constraint, the statement will be rejected, and if you want to do this, you need to first run an UPDATE statement to change all null values in the column to something that isn't null like 'N/A'.  e.g.
+            <code><pre>
+                ALTER TABLE talks
+                ALTER COLUMN session_timeslot SET NOT NULL;
+            </pre></code>
+        or
+            <code><pre>
+                ALTER TABLE talks
+                ALTER COLUMN session_timeslot DROP NOT NULL
+            </pre></code>
+        </li>
+        <li>The ALTER TABLE...ADD CHECK clause is used to add check constraints to existing columns in existing tables.  Note adding multiple check restraints or other constrainsts to a column requires multiple alter table statements. The condition can use AND/OR/LIKE, and can use multiple column names and add their values, compare their values, etc. e.g. 
+            <code><pre>
+                ALTER TABLE talks 
+                ADD CHECK (estimate_length &lt available_time);
+            </pre></code>
+        </li>
+        <li>The ALTER TABLE...ADD UNIQUE clause is an alternative way of adding a UNIQUE constrain to an existing column of an exisiting table, you give it the name of a table and a column, or you can give it two or more columns to specify the combination of those columns must be unique e.g. 
+            <code><pre>
+                ALTER TABLE attendees 
+                ADD UNIQUE (name, city);
+            </pre></code>
+        </li>
+        <li>The ALTER TABLE...ADD PRIMARY KEY clause is an alternative way of adding a PRIMARY KEY contraint to an existing column of an existing table, e.g. 
+            <code><pre>
+                ALTER TABLE attendees
+                ADD PRIMARY KEY (id);
+            </pre></code>
+        </li>
+        <li>The ALTER TABLE...ADD FOREIGN KEY...REFERENCES clause lets you add foreign key constraints to an existing table and column, include ON DELETE/ON UPDATE Specifications e.g. 
+            <code><pre>
+                ALTER TABLE registrations
+                ADD FOREIGN KEY (talk_id)
+                REFERENCES talks (id) ON DELETE CASCADE;
             </pre></code>
         </li>
     </ul>
