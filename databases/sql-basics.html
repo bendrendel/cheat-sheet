@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Basics</title>
+</head>
+<body>
+    <a href="../index.html">Home</a>
+    <h1>SQL Basics</h1>
+
+    <h2>Basic info</h2>
+    <ul>
+        <li>Language designed to manage data stored in relational databases, implemented in slightly different ways depending on the RDBMS vendor.  Officially pronounced S-Q-L according to original ANSI/ISO standards definition.  But originally the language was named SEQUEL (Structured english query language) and pronounced sequel and only changed to SQL due to a copyright issue of the name SEQUEL.  Now SQL stands for Structured Query Language.</li>
+        <li>Data is stored in one or more tables, which is data organized into rows and columns.  Tables and columns are traditionally name in all lowercase with underscores between words</li>
+        <li>Columns hold data of a specified type, commonly INTEGER (positive or negative whole numbers), TEXT (strings), DATE (format YYYY-MM-DD), REAL (decimals)</li>
+        <li>There is a special value NULL, that represents missing or unknown data.  The null value is tested in conditions with <code>column_name IS NULL</code> (instead of an equal sign)</li>
+        <li>Rows store a single record of the data</li>
+    </ul>
+
+    <h2>Statements</h2>
+    <ul>
+        <li>SQL statements are commands sent to an RDBMS, always ending in a semicolon. Can be written all in one line or broken across multiple lines for readability</li>
+        <li>Clauses (sometimes called commands) start a SQL statement, and are written in all caps, like SELECT or CREATE TABLE</li>
+        <li>Following a clause is the name of a table, </li>
+        <li>Parameters follow the table name and varies depending on the clause, but generally is a lost of column names, data types, values</li>
+    </ul>
+
+    <h2>CREATE Statements</h2>
+    <ul>
+        <li>The CREATE TABLE clause can make statements telling the database to make a new table and is given a table name, and parameters of the column names for the new table along with their data type and optionally any contraints on the column. e.g. 
+            <code><pre>
+                CREATE TABLE celebs (
+                    id INTEGER PRIMARY KEY, 
+                    name TEXT UNIQUE, 
+                    age INTEGER,
+                    date_of_birth NOT NULL,
+                    date_of_death DEFAULT 'Not Applicable'
+                );
+            </pre></code>
+        </li>
+        <li>Constraints make restrictions on column values, and if you attempt to execute a statement that breaks one of the constraints, you will get a constrain violation error and the statement will not be executed. These include:
+            <ul>
+                <li>PRIMARY KEY: each value in column must be unique</li>
+                <li>UNIQUE: each value in column must be unique</li>
+                <li>NOT NULL: each value in column cannot be NULL</li>
+                <li>DEFAULT 'value': each value in column is given a specified default value if value is not specified otherwise</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>ALTER Statements</h2>
+    <ul>
+        <li>The ALTER TABLE...ADD COLUMN clause adds columns to a specified table.  It is given the name of the table to add the column to, and then the name of the new column and its data type an doptionally any constraints.  Note existing rows will be given a NULL value for the new column.
+            <code><pre>
+                ALTER TABLE celebs 
+                ADD COLUMN twitter_handle TEXT;
+            </pre></code>
+        </li>
+    </ul>
+
+    <h2>INSERT Statements</h2>
+    <ul>
+        <li>The INSERT INTO...VALUES clause is used to add rows to a table.  It is given a table name and list of columns to insert data into, then a list of values to insert into those columns. e.g.
+            <code><pre>
+                INSERT INTO celebs (id, name, age) 
+                VALUES (1, 'Justin Bieber', 22);
+            </pre></code>
+        </li>
+    </ul>
+
+    <h2>UPDATE Statements</h2>
+    <ul>
+        <li>The UPDATE...SET...WHERE clause will edit an existing row or rows in an existing table.  It takes the table name where the row(s) exists.  A column name to edit with the new value for that column, and finally a condition that determines which row(s) will be edited (all rows that meet the condition)e.g.
+            <code><pre>
+                UPDATE celebs 
+                SET twitter_handle = '@taylorswift13' 
+                WHERE id = 4; 
+            </pre></code>
+        </li>
+    </ul>
+
+    <h2>DELETE Statements</h2>
+    <ul>
+        <li>The DELETE FROM...WHERE clause will delete existing rows from an existing table.  It takes the name of a table from where rows will be delete, and then a condition that determines which rows to delete (all rows that meet the condition) e.g.
+            <code><pre>
+                DELETE FROM celebs 
+                WHERE twitter_handle IS NULL;
+            </pre></code>
+        </li>
+    </ul>
+
+    <h2>SELECT statement</h2>
+    <ul>
+        <li>The SELECT ... FROM clause is used to retrieve data from the database, called a query.  This statement actual returns data in the form of a table, called the result set. It is given one or more columns to get data from (or * to select all columns from a table), and then a table name that those columns appear in. e.g.
+            <code><pre>
+                SELECT name, age FROM celebs;
+            </pre></code>
+        </li>
+    </ul>
+</body>
+</html>
