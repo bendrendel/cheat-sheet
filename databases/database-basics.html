@@ -8,12 +8,65 @@
 </head>
 <body>
     <h1>Database Basics</h1>
+    <h2>Basics</h2>
+    <ul>
+        <li>Database refers to the actual dataset, Database Management System (DBMS) is the software that allows you to interact with and access databases. Database System generally refers as a whole to a particular Database, the DBMS, and the theoretical model of data used to organize the data.  DBMSs generally use the relational model to organize data and are called Relational DBMSs (RDBMSs) and use an implementation of the SQL language to manage the data.  Programmers often map database records into objects, e.g. a Person record would be an object representing that person with their attributes as keys.  Object-relational databases and Object-Relational Mappings attempt to make this translation easy. In the late 2000s, non-relational models have become more common and are sometimes called NoSQL databases.</li>
+        <li>DBMSs generally provide four main functions: Data definition (defining the organization of data in the database, using a Data Definition Language or DDL), Update (Inserting, modifying, deleting data, using a Data Manipulation Language or DML), Retrieval (getting data out of the database in useful forms, using a Data Query Langauge or DQL), Administration (user management, security, performance, integrity, concurrency, recovery, using a Data Control Language or DCL)</li>
+        <li>Database servers are machines dedicated to just storing a database and running a DBMS and related software</li>
+    </ul>
+
+    <h2>CRUD</h2>
+    <ul>
+        <li>APIs for managing a persistent data storage system (generally a database) should fundamentally provide distinct Create, Read, Update, and Delete (CRUD) mechanisms for that data - nothing more, nothing less.</li>
+        <li>In a REST environment, CRUD usually corresponds to the HTTP methods POST, GET, PUT, and DELETE.</li>
+        <ul>
+            <li><strong>CREATE/POST:</strong> POST is used to create a new resource in a resource collection.  Generally, you send a POST request to a specific a collection like <code>http://www.myrestaurant.com/dishes/</code> with a body containing an object representing the new resources.  The server should send back a 201 (CREATED) code along with a link to the newly created resource. e.g. The request body would contain the object below, and the response would send this object back but with an id property as well:
+            <code><pre>
+                {
+                    "dish": {
+                        "name": “Avocado Toast”,
+                        "price": 8
+                    }
+                }
+            </pre></code></li>
+            <li><strong>READ/GET:</strong> GET is used to read a whole collection of resources or a single resource, e.g. either <code>http://www.myrestaurant.com/dishes</code> or <code>http://www.myrestaurant.com/dishes/1223</code>.  The response should send back a 200 (OK) code along with either an array of objects representing each resource in a collection, or a single object representing a single resource. 404 (NOT FOUND) should be sent on error. e.g. response body of requesting a collection: 
+            <code><pre>
+                {
+                    "dishes": [
+                        {
+                            "id": 1,
+                            "name": “Spring Rolls”,
+                            "price": 6
+                        },
+                        {
+                            "id": 2,
+                            "name": “Mozzarella Sticks”,
+                            "price": 7
+                        },
+                        ...
+                        {
+                            "id": 1223,
+                            "name": “Avocado Toast”,
+                            "price": 8
+                        },
+                        {
+                            "id": 1224,
+                            "name": “Muesli and Yogurt”,
+                            "price": 5
+                        }
+                    ]
+                }
+            </pre></code></li>
+            <li><strong>UPDATE/PUT:</strong> PUT is used to update a specific resource. So it would be sent to a specific resource e.g. <code>http://www.myrestaurant.com/dishes/1223</code>. It would contain a body like the one used for the POST request, with the new values for that resource.  The response should return status code 200 (OK), with a body of the updated object, just like the POST request.  You might return 204 (NO CONTENT) depending on circumstances</li>
+            <li><strong>DELETE/DELETE:</strong> DELETE is used to remove a specific resource. So it would be sent to a specific resource e.g. <code>http://www.myrestaurant.com/dishes/1223</code>. The response should send back the 204 (NO CONTENT) code, with no body.  If you try to delete something that doesn't exist you should get a 404 (NOT FOUND) error code returned.</li>
+        </ul>
+    </ul>
 
     <h2>Popular RDBMSs</h2>
     <ul>
         <li>RDBMSs can differ, though they use a mostly standard SQL syntax to access data.  Data types may differ, and accessing built-in tables like the list of indexes will differ.</li>
         <li><strong>MySQL</strong> Most popular open source RDBMS, typically used for web development and accessed using PHP.  Been around a long time, good community, reliable, but not good for scaling up, and not as many advanced features.  Less open source development since Oracle took control of it</li>
-        <li><strong>PostgreSQL</strong> Open source RDBMS typically used for web development. Easy to use, reliable, has some more advanced features than MySQL, but can be slower performance than MySQL and not as popular. Files extension is .sql</li>
+        <li><strong>PostgreSQL</strong> AKA Postgres (pronunce post-grehs). Powerful, open source ORDBMS (Object-relational) typically used for web development. Easy to use, reliable, has some more advanced features than MySQL, but can be slower performance than MySQL and not as popular. 30 years of active development (came from INGRES one of the original RDBMSs). Files extension is .sql</li>
         <li><strong>Oracle DB</strong> Owned by Oracle, not open source, made for large applications, especially in banking industry where it has many built in applications for that.</li>
         <li><strong>SQL Server</strong> Owned by Microsoft, used for enterprise applications mostly, there is a free version called Express, but gets expensive as you scale up</li>
         <li><strong>SQLite</strong> Open source, can store whole database in one file and can store locally instead of using a server.  Often used in cellphones, PDAs, set top boxes, MP3 Players, things like that. File extension is .sqlite</li>
