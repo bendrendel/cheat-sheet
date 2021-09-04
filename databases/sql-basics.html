@@ -28,11 +28,11 @@
 
     <h2>CREATE Statements</h2>
     <ul>
-        <li>The CREATE TABLE clause can make statements telling the database to make a new table and is given a table name, and parameters of the column names for the new table along with their data type and optionally any contraints on the column.  The UNIQUE clause can be added at the end if you need to specify that some combination of columns is unique e.g. 
+        <li>The CREATE TABLE clause can make statements telling the database to make a new table and is given a table name, and parameters of the column names for the new table along with their data type and optionally one or more contraints on the column.  The UNIQUE clause can be added at the end if you need to specify that some combination of columns is unique, and FOREIGN KEY constraints are added at the end also e.g. 
             <code><pre>
                 CREATE TABLE celebs (
                     id INTEGER PRIMARY KEY, 
-                    name TEXT UNIQUE, 
+                    name TEXT UNIQUE NOT NULL, 
                     age INTEGER CHECK (age > 0),
                     city_id INTEGER
                     date_of_birth NOT NULL,
@@ -74,7 +74,7 @@
                 ALTER COLUMN session_timeslot DROP NOT NULL
             </pre></code>
         </li>
-        <li>The ALTER TABLE...ADD CHECK clause is used to add check constraints to existing columns in existing tables.  Note adding multiple check restraints or other constrainsts to a column requires multiple alter table statements. The condition can use AND/OR/LIKE, and can use multiple column names and add their values, compare their values, etc. e.g. 
+        <li>The ALTER TABLE...ADD CHECK clause is used to add check constraints to existing columns in existing tables.  Note adding multiple check restraints or other constrainsts to a column requires multiple alter table statements. The condition can use AND/OR/LIKE "example value"/IN(value1, value2, value3), and can use multiple column names and add their values, compare their values, etc. e.g. 
             <code><pre>
                 ALTER TABLE talks 
                 ADD CHECK (estimate_length &lt available_time);
@@ -134,9 +134,10 @@
 
     <h2>SELECT statement</h2>
     <ul>
-        <li>The SELECT ... FROM clause is used to retrieve data from the database, called a query.  This statement actual returns data in the form of a table, called the result set. It is given one or more columns to get data from (or * to select all columns from a table), and then a table name that those columns appear in. e.g.
+        <li>The SELECT ... FROM clause is used to retrieve data from the database, called a query.  This statement actual returns data in the form of a table, called the result set. It is given one or more columns to get data from (or * to select all columns from a table), and then a table name that those columns appear in. Can add LIMIT clause optionally to show only first so many rows returned.  e.g.
             <code><pre>
-                SELECT name, age FROM celebs;
+                SELECT name, age FROM celebs
+                LIMIT 10;
             </pre></code>
         </li>
     </ul>
