@@ -134,10 +134,75 @@
 
     <h2>SELECT statement</h2>
     <ul>
-        <li>The SELECT ... FROM clause is used to retrieve data from the database, called a query.  This statement actual returns data in the form of a table, called the result set. It is given one or more columns to get data from (or * to select all columns from a table), and then a table name that those columns appear in. Can add LIMIT clause optionally to show only first so many rows returned.  e.g.
+        <li>The SELECT ... FROM clause is used to retrieve data from the database, called a query.  This statement actual returns data in the form of a table, called the result set. It is given one or more columns separated by commas to get data from (or * to select all columns from a table), and then a table name that those columns appear in. e.g.
             <code><pre>
-                SELECT name, age FROM celebs
-                LIMIT 10;
+                SELECT name, age 
+                FROM celebs;
+            </pre></code>
+        </li>
+        <li>SELECT queries support many different additional clauses (below).  You add clauses in a specific order to your code but that is not necessarily the order in which they are executed.  The RDBMS will optimize your code before running for performance, but logically, the clauses are executed in this order by the RDBMS:
+            <ol>
+                <li>FROM/JOIN and all the ON conditions</li>
+                <li>WHERE</li>
+                <li>GROUP BY</li>
+                <li>HAVING</li>
+                <li>SELECT (including window functions)</li>
+                <li>ORDER BY</li>
+                <li>LIMIT</li>
+            </ol>
+        </li>
+        <li>The DISTINCT clause can be used to remove duplicate rows from the output.
+            <code><pre>
+                SELECT DISTINCT tools 
+                FROM inventory;
+            </pre></code>
+        </li>        
+        <li>The AS clause can be used to rename a column or table in the output.
+            <code><pre>
+                SELECT name AS 'Titles'
+                FROM movies;
+            </pre></code>
+        </li>
+        <li>The CASE WHEN...THEN...ELSE...END clause can be used to make custom columns within the query. The ELSE is optional.  You can optionally add the AS clause as well to name your custom column. e.g.
+            <code><pre>
+                SELECT name,
+                    CASE
+                        WHEN imdb_rating > 8 THEN 'Fantastic'
+                        WHEN imdb_rating > 6 THEN 'Poorly Received'
+                        ELSE 'Avoid at All Costs'
+                    END AS 'Review'
+                FROM movies;
+            </pre></code>
+        </li>
+        <li>The WHERE clause can be used to add conditions that rows must meet in order to be included in the output set.  The WHERE clause is given a boolean condition which can use things SQL calls operators.
+        <ul>
+            <li>These include =, !=, >, &lt, >=, and &lt=. </li>
+            <li>You can also use <code>column_name LIKE 'somestring'</code>, which will only return rows where column_name matches the pattern in single quotes (not case-sensitive).  You can include an underscore as a wildcard for a single character, or a percent sign as a wildcard for 0 or more characters. </li>
+            <li>To test for nulls you can't use =/!= but rather use column_name IS NULL or column_name IS NOT NULL.</li>
+            <li>BETWEEN...AND can be used for an inclusive between (includes values matching both ends) like <code>column_name BETWEEN 1990 AND 2000</code> or <code>column_name BETWEEN 'A' AND 'J'</code>, note when using text like this, all values starting with A are included, but values starting with 'J' are not unless the value is just 'J', because 'Ja' for instance comes after 'J'</li>
+            <li>AND can be used to combine multiple conditions that must all be met, and OR can be used to combine multiple conditions where any one must be met.</li>
+        </ul>      
+            <code><pre>
+                SELECT name AS title
+                FROM movies
+                WHERE director LIKE '%spielberg'
+                    AND genre = 'horror'
+                    AND year BETWEEN 1980 AND 1989
+            </pre></code>
+        </li>
+        <li>The ORDER BY...ASC/DESC clause can be added (always after the WHERE clause if present) to order the results by a given column (which doesn't have to be among columns returned).  The ASC keyword sorts results ascending (alphabetically or numerically) and DESC sorts them descending, ASC is defualt if not included, e.g.
+            <code><pre>
+                SELECT *
+                FROM movies
+                WHERE imdb_rating > 8
+                ORDER BY year DESC;
+            </pre></code>
+        </li>
+        <li>The LIMIT clause can be added to only show a given number of rows in the output, and always goes at the end of the query (after WHERE and ORDER BY) e.g.
+            <code><pre>
+                SELECT name, age 
+                FROM celebs
+                LIMIT 10;                
             </pre></code>
         </li>
     </ul>
