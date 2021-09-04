@@ -10,6 +10,20 @@
     <a href="../index.html">Home</a>
     <h1>Database Design</h1>
 
-    
+    <h2>Basics</h2>
+    <ul>
+        <li>Relational Databases model data by storing it in relations (tables), which contain tuples (rows), and tuples have attributes (columns).  Relations are usually visualized as tables.</li>
+        <li>Each tuple should have a unique, non null primary key that identifies that tuple, a compound or composite key uses more than one column, and a simple key uses one column only. </li>
+        <li>Referential Integrity is enforced through primary key/foreign key pairings in different relations.  The relations can be one-to-one which is often used for optional data about an entity, or one-to-many which is a parent-child relationship.  There is also many-to-many but this is always implemented as two one-to-many relationships and an intersection table.</li>
+    </ul>
+
+    <h2>Normalization</h2>
+    <ul>
+        <li>To get to third normal form: Every attribute depends on the key, the whole key, and nothing but the key, so help me Codd.</li>
+        <li><strong>First Normal Form (1NF): </strong> Simply means for each attribute of each tuple, the attribute is single-valued, not a list of values (unless the list is considered a single value). Generally a list means you need another relation that has a one-to-many relationship with the first. AKA atomic rule.</li>
+        <li><strong>Second Normal Form (2NF): </strong>You've achieved 1NF, and every attribute value of every tuple is determined by the whole primary key.  Automatically achieved if you primary key is one column, but if it is multiple columns, you have to make sure the whole combination of primary key columns is needed to determine the attribute.  Not that some subset of the primary key is enough to determine the attribute.</li>
+        <li><strong>Third Normal Form (3NF): </strong>You have 2NF, and each attribute cannot be determined by another attribute or combination of attributes that is not the primary key.</li>
+    </ul>
+
 </body>
 </html>

@@ -16,6 +16,7 @@
         <li>Data is stored in one or more tables, which is data organized into rows and columns of specified dat atypes.  Tables and columns are traditionally name in all lowercase with underscores between words. Some prefer table names be plural and column names be singular.</li>
         <li>Rows store a single record of the data</li>
         <li>There is a special value NULL, that represents missing or unknown data.  The null value is tested in conditions with <code>column_name IS NULL</code> (instead of an equal sign)</li>
+        <li>Stored Procedures are saved SQL statements to make them easy to re-run.</li>
     </ul>
 
     <h2>Statements</h2>
@@ -174,6 +175,45 @@
                 FROM movies;
             </pre></code>
         </li>
+        <li>Aggregate Functions can be used instead of column names or custom case columns, allowing you to perform calculations on the returned results instead of displaying the results themselves.</li>
+        <ul>
+            <li>COUNT(column or columns) will return the total number of records in the result set, e.g. 
+                <code><pre>
+                    SELECT COUNT(*)
+                    FROM fake_apps
+                    WHERE price = 0;
+                </pre></code>
+            </li>
+            <li>SUM(column) will return the sum of all values in the provided column, e.g. 
+                <code><pre>
+                    SELECT SUM(downloads)
+                    FROM fake_apps;
+                </pre></code>
+            </li>
+            <li>MAX(column)/MIN(column) will return the highest or lowest value in the provided column, e.g. 
+                <code><pre>
+                    SELECT MAX(downloads)
+                    FROM fake_apps;
+                </pre></code>
+            </li>
+            <li>AVG(column) will return the average of the values in the provided column, e.g. 
+                <code><pre>
+                    SELECT AVG(price)
+                    FROM fake_apps;
+                </pre></code>
+            </li>
+        </ul>
+        <li>ROUND(column or aggregate expression, #) isn't will round all values in a column to the given # of decimal places (no aggregation), or it can be given an aggregate expression and it will round the result of it e.g. 
+            <code><pre>
+                SELECT name, ROUND(price, 0)
+                FROM fake_apps;
+            </pre></code>
+            or
+            <code><pre>
+                SELECT ROUND(AVG(price), 2)
+                FROM fake_apps;
+            </pre></code>
+        </li>
         <li>The WHERE clause can be used to add conditions that rows must meet in order to be included in the output set.  The WHERE clause is given a boolean condition which can use things SQL calls operators.
         <ul>
             <li>These include =, !=, >, &lt, >=, and &lt=. </li>
@@ -190,7 +230,34 @@
                     AND year BETWEEN 1980 AND 1989
             </pre></code>
         </li>
-        <li>The ORDER BY...ASC/DESC clause can be added (always after the WHERE clause if present) to order the results by a given column (which doesn't have to be among columns returned).  The ASC keyword sorts results ascending (alphabetically or numerically) and DESC sorts them descending, ASC is defualt if not included, e.g.
+        <li>The GROUP BY clause comes after any WHERE statements, and before any ORDER BY or LIMIT statements. It can be used to collapse the results into groups based on the values in a particular column or set of columns.  Can group on multiple columns, separated by commas. All columns that are not being grouped must be an aggregate function. GROUP BY can be given column names, alias names, or numbers referring to the column number to group on (in order of how they are written in the select statement).  You can group on e.g. 
+            <code><pre>
+                SELECT year,
+                    AVG(imdb_rating)
+                FROM movies
+                GROUP BY year
+                ORDER BY year;
+            </pre></code>
+            or
+            <code><pre>
+                SELECT category,
+                    price,
+                    AVG(downloads)
+                FROM fake_apps
+                GROUP BY 1, 2;
+            </pre></code>
+        </li>
+        <li>The HAVING clause comes after GROUP BY and before ORDER BY.  It is used to filter results after grouping takes place, and can take all the same types of conditions a WHERE clause can.  e.g. 
+            <code><pre>
+                SELECT price,
+                    ROUND(AVG(downloads)),
+                    COUNT(*)
+                FROM fake_apps
+                GROUP BY price
+                HAVING COUNT(*) > 10;
+            </pre></code>
+        </li>
+        <li>The ORDER BY...ASC/DESC clause can be added (always after the WHERE clause if present) to order the results by a given column (which doesn't have to be among columns returned).  The ASC keyword sorts results ascending (alphabetically or numerically) and DESC sorts them descending, ASC is defualt if not included, ORDER BY like GROUP BY also accepts column numbers to refer to the column number to order on based on the order in which the are written after the SELECT clause, e.g.
             <code><pre>
                 SELECT *
                 FROM movies
