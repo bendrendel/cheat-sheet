@@ -214,6 +214,32 @@
                 FROM fake_apps;
             </pre></code>
         </li>
+        <li>The JOIN...ON clause allows us to combine information from multiple tables in the result set, based on primarykey/foreign key relationships. JOIN performs an inner join, that is any rows in either table that don't have a matching row in the other based on the ON condition are excluded.  You can use the clause LEFT JOIN to keep any unmatched rows in the table listed after the FROM clause.  This is useful for finding all unmatched pairs in the left table by performing a left join and then filtering to just rows that had a null value for the right table id.  The CROSS JOIN clause will combine each row from one table with each row from another, and doesn't take an ON condition. e.g. 
+            <code><pre>
+                SELECT orders.order_id,
+                    customers.customer_name
+                FROM orders
+                JOIN customers
+                    ON orders.customer_id = customers.id;
+            </pre></code>
+            or
+            <code><pre>
+                SELECT *
+                FROM newspaper
+                LEFT JOIN online
+                    ON newspaper.id = online.id
+                WHERE online.id IS NULL;
+            </pre></code>
+            or
+            <code><pre>
+                SELECT month, COUNT(*)
+                FROM newspaper
+                CROSS JOIN months
+                WHERE start_month &lt= month
+                    AND end_month >= month
+                GROUP BY month;
+            </pre></code>
+        </li>
         <li>The WHERE clause can be used to add conditions that rows must meet in order to be included in the output set.  The WHERE clause is given a boolean condition which can use things SQL calls operators.
         <ul>
             <li>These include =, !=, >, &lt, >=, and &lt=. </li>
@@ -270,6 +296,29 @@
                 SELECT name, age 
                 FROM celebs
                 LIMIT 10;                
+            </pre></code>
+        </li>
+        <li>The UNION clause can stack the results of two separate SELECT statements on top of each other, the two statements must have the same number of columns and same data type in each respective column, e.g. 
+            <code><pre>
+                SELECT *
+                FROM table1
+                UNION
+                SELECT *
+                FROM table2;
+            </pre></code>
+        </li>
+        <li>The WITH...AS clause can be used with SELECT statements to give the results of a SELECT statement an alias that can be used in later code, no semicolon until the very end, e.g. 
+            <code><pre>
+                WITH previous_results AS (
+                    SELECT ...
+                    ...
+                    ...
+                    ...
+                )
+                SELECT *
+                FROM previous_results
+                JOIN customers
+                ON _____ = _____;
             </pre></code>
         </li>
     </ul>
