@@ -13,6 +13,7 @@
     <h2>Basic info</h2>
     <ul>
         <li>Language designed to manage data stored in relational databases, implemented in slightly different ways depending on the RDBMS vendor.  Officially pronounced S-Q-L according to original ANSI/ISO standards definition.  But originally the language was named SEQUEL (Structured english query language, and a pun on a previous query language it sought to surpass named QUEL) and pronounced sequel and only changed to SQL due to a copyright issue of the name SEQUEL.  In Oracle documentation they say it is pronounced sequel, and microsoft's SQL Server is usually pronounced sequel server so you hear sequel more in those worlds, but in others like MySQL is pronounced my ess que ell.  Now SQL stands for Structured Query Language.</li>
+        <li>ANSI/ISO/IEC jointly maintain offical SQL standards, or official standard SQL language, most RDBMSs do not implement the full SQL standard and vary from it in different ways.</li>
         <li>Data is stored in one or more tables, which is data organized into rows and columns of specified dat atypes.  Tables and columns are traditionally name in all lowercase with underscores between words. Some prefer table names be plural and column names be singular.</li>
         <li>Rows store a single record of the data</li>
         <li>There is a special value NULL, that represents missing or unknown data.  The null value is tested in conditions with <code>column_name IS NULL</code> (instead of an equal sign)</li>
@@ -44,7 +45,7 @@
                 );
             </pre></code>
         </li>
-        <li>Data Types: Columns hold data of a specified type, these vary based on the RDBMS, for many the common ones are INTEGER (positive or negative whole numbers literals written like <code>1</code>), TEXT (strings literals written in single quotes like <code>'my string'</code>), DATE (format YYYY-MM-DD, literals written in single quotes like <code>'1940-05-30'</code>), REAL (decimals, literals written like <code>1.432</code>)</li>
+        <li>Data Types: Columns hold data of a specified type, these vary based on the RDBMS and aren't always interchangeable between RDBMSs.  Common ones are dates, strings, integers, and booleans.  Numeric values can either be signed or unsigned.</li>
         <li>Constraints make restrictions on column values, and if you attempt to execute a statement that breaks one of the constraints, you will get a constrain violation error and the statement will not be executed. These include:
             <ul>
                 <li>PRIMARY KEY: each value in column must be unique and cannot be null, can be a single column or set of columns, that uniquely identifies each row, similar to implementing UNIQUE NOT NULL except only one primary key allowed per table, whereas as many columns may be UNIQUE NOT NULL</li>
