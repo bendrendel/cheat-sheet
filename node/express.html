@@ -45,7 +45,9 @@
     
     <h2>Installation</h2>
     <ul>
-        <li>The Express development environment includes an installation of Node.js, NPM Package Manager, and optionally the Express Application Generator</li>
+        <li>The Express development environment includes an installation of Node.js, NPM Package Manager, and optionally the Express Application Generator.  Express is then installed as a dependency using NPM along with any other dependendencies like third party libraries that extend express.  Can run on any OS that runs node (Windows, MacOS, Linux).  Should always install the latest version of express.</li>
+        <li>express can be installed in a project by first running <code>npm init</code> in the project's root folder, and then running <code>npm install express</code> to install to production dependencies. Now you can require in express in your js files and use it!  To run your app you can run <code>node my-app.js</code></li>
+        <li>Alernatively you can use the express application generator to create an express app with a skeleton that follows MVC.  First install it globally with <code>npm install express-generator -g</code> (you may need to prefix it with sudo on mac and linux). Now you can navigate to the directory you want to create your project in, and run <code>express my-project-name</code> to create a project folder named my-project-name with express already installed.  Or with Node 8.2.0 or great you can run <code>npx express-generator my-project-name</code> which doesn't install it globally.  Now you need to go into your new project directory and run <code>npm install</code> to install all the dependencies that express-generator added to you new package.json file.  Now to run your app use <code>DEBUG=helloworld:* npm start</code>, as express-generator comes with a debugger tool. You can see your locally served app at <code>http://127.0.0.1:3000/</code></li>
     </ul>
 </body>
 </html>
