@@ -14,7 +14,7 @@
     <ul>
         <li>Language designed to manage data stored in relational databases, implemented in slightly different ways depending on the RDBMS vendor.  Officially pronounced S-Q-L according to original ANSI/ISO standards definition.  But originally the language was named SEQUEL (Structured english query language, and a pun on a previous query language it sought to surpass named QUEL) and pronounced sequel and only changed to SQL due to a copyright issue of the name SEQUEL.  In Oracle documentation they say it is pronounced sequel, and microsoft's SQL Server is usually pronounced sequel server so you hear sequel more in those worlds, but in others like MySQL is pronounced my ess que ell.  Now SQL stands for Structured Query Language.</li>
         <li>ANSI/ISO/IEC jointly maintain offical SQL standards, or official standard SQL language, most RDBMSs do not implement the full SQL standard and vary from it in different ways.</li>
-        <li>Data is stored in one or more tables, which is data organized into rows and columns of specified dat atypes.  Tables and columns are traditionally name in all lowercase with underscores between words. Some prefer table names be plural and column names be singular.</li>
+        <li>Data is stored in one or more tables, which is data organized into rows and columns of specified dat atypes.  Tables and columns are traditionally named in snake case - i.e. in all lowercase with underscores between words. Some prefer table names be plural and column names be singular.</li>
         <li>Rows store a single record of the data</li>
         <li>There is a special value NULL, that represents missing or unknown data.  The null value is tested in conditions with <code>column_name IS NULL</code> (instead of an equal sign)</li>
         <li>Stored Procedures are saved SQL statements to make them easy to re-run.</li>
@@ -37,7 +37,8 @@
                     id INTEGER PRIMARY KEY, 
                     name TEXT UNIQUE NOT NULL, 
                     age INTEGER CHECK (age > 0),
-                    city_id INTEGER
+                    city_id INTEGER,
+                    gender_id INTEGER REFERENCES gender(id),
                     date_of_birth NOT NULL,
                     date_of_death DEFAULT 'Not Applicable',
                     UNIQUE (name, age),
@@ -48,19 +49,19 @@
         <li>Data Types: Columns hold data of a specified type, these vary based on the RDBMS and aren't always interchangeable between RDBMSs.  Common ones are dates, strings, integers, and booleans.  Numeric values can either be signed or unsigned.</li>
         <li>Constraints make restrictions on column values, and if you attempt to execute a statement that breaks one of the constraints, you will get a constrain violation error and the statement will not be executed. These include:
             <ul>
-                <li>PRIMARY KEY: each value in column must be unique and cannot be null, can be a single column or set of columns, that uniquely identifies each row, similar to implementing UNIQUE NOT NULL except only one primary key allowed per table, whereas as many columns may be UNIQUE NOT NULL</li>
-                <li>UNIQUE: each value in column must be unique, or can specify the combined value of two or more columns has to be unique</li>
+                <li>PRIMARY KEY: each value in column must be unique and cannot be null, can be a single column or set of columns, that uniquely identifies each row, similar to implementing UNIQUE NOT NULL except only one primary key allowed per table, whereas as many columns may be UNIQUE NOT NULL, for single-column primary keys you put PRIMARY KEY after the column definition.  For multi-column composite primary keys, you should put a separate PRIMARY KEY entry after you define all the columns (similar to how UNIQUE is used in the example above), the entry would be PRIMARY KEY (column_name_1, column_name_2, ....)</li>
+                <li>UNIQUE: each value in column must be unique, or can specify the combined value of two or more columns has to be unique by including a separate clause after the column definitions.  To implement a one-to-one foreign key relationship you should use UNIQUE on the foreign key column, like <code>foreign_id REFERENCES table_name(id) UNIQUE</code></li>
                 <li>NOT NULL: each value in column cannot be NULL</li>
                 <li>DEFAULT 'value': each value in column is given a specified default value if value is not specified otherwise</li>
                 <li>CHECK (...): check constraints are provided a boolean condition that must be fulfilled by values in the column, e.g. CHECK (my_column > 0).  You can use SQL inside the condition, it can be anything you would include in a WHERE clause, like AND/OR/LIKE, e.g. CHECK (my_column > 0 AND my_column &lt 100) or CHECK (my_column LIKE "some text")</li>
-                <li>FOREIGN KEY: enforces referential integrity, meaning the value in a column with a foreign key constrain must be among the value in a specified column in another table (generally the primary key of that table). This is added after the column definitions, may be many Foreign Key columns and constraints. FOREIGN KEY (foreign_key_column_name) REFERENCES table_name (primary_key_column_name). You can specify ON DELETE RESTRICT or ON UPDATE RESTRICT, to ensure that if the referenced primary key row is attempted to be deleted or changed, it won't be allowed if there is a row referencing it as a foreign key.  This is the default behaviour in most RDBMSs so doesn't need to be included.  YOU can also specify ON DELETE CASCADE or ON UPDATE CASCADE, which means if the primary key row is deleted all rows referencing it will be deleted, or if the primary key is updated then all foreign keys will automatically update to the new primary key value.  You can also combine these like ON DELETE RESTRICT ON UPDATE CASCADE</li>
+                <li>FOREIGN KEY / REFERENCES: enforces referential integrity, meaning the value in a column with a foreign key constrain must be among the value in a specified column in another table (generally the primary key of that table). The foreign key column data type should be the same as the primary key it references. This can be added directly after the column definition using the REFERENCES keyword, as shown for the gender_id column above.  This can also be added after the column definitions, may be many Foreign Key columns and constraints. FOREIGN KEY (foreign_key_column_name) REFERENCES table_name (primary_key_column_name). You can specify ON DELETE RESTRICT or ON UPDATE RESTRICT, to ensure that if the referenced primary key row is attempted to be deleted or changed, it won't be allowed if there is a row referencing it as a foreign key.  This is the default behaviour in most RDBMSs so doesn't need to be included.  YOU can also specify ON DELETE CASCADE or ON UPDATE CASCADE, which means if the primary key row is deleted all rows referencing it will be deleted, or if the primary key is updated then all foreign keys will automatically update to the new primary key value.  You can also combine these like ON DELETE RESTRICT ON UPDATE CASCADE</li>
             </ul>
         </li>
     </ul>
 
     <h2>ALTER Statements</h2>
     <ul>
-        <li>The ALTER TABLE...ADD COLUMN clause adds columns to a specified table.  It is given the name of the table to add the column to, and then the name of the new column and its data type an doptionally any constraints.  Note existing rows will be given a NULL value for the new column.
+        <li>The ALTER TABLE...ADD/DROP COLUMN clause adds/drops columns to a specified table.  It is given the name of the table to add/drop the column to/from, and if adding, then the name of the new column and its data type an doptionally any constraints, or if dropping just the name of the column to drop.  Note if adding, existing rows will be given a NULL value for the new column.
             <code><pre>
                 ALTER TABLE celebs 
                 ADD COLUMN twitter_handle TEXT;
@@ -106,7 +107,7 @@
 
     <h2>INSERT Statements</h2>
     <ul>
-        <li>The INSERT INTO...VALUES clause is used to add rows to a table.  It is given a table name and list of columns to insert data into, then a list of values to insert into those columns. e.g.
+        <li>The INSERT INTO...VALUES clause is used to add rows to a table.  It is given a table name and list of columns to insert data into, then a list of values to insert into those columns.  If you're inserting into all the columns, then you can leave out the column names to insert into and just have the table name.  This will insert the provided values starting at the first column and inserting sequentially after that e.g.
             <code><pre>
                 INSERT INTO celebs (id, name, age) 
                 VALUES (1, 'Justin Bieber', 22);
@@ -216,7 +217,7 @@
                 FROM fake_apps;
             </pre></code>
         </li>
-        <li>The JOIN...ON clause allows us to combine information from multiple tables in the result set, based on primarykey/foreign key relationships. JOIN performs an inner join (you can equivalently use the clause INNER JOIN for the same thing as JOIN), that is any rows in either table that don't have a matching row in the other based on the ON condition are excluded.  You can use the clause LEFT JOIN to keep any unmatched rows in the table listed after the FROM clause.  This is useful for finding all unmatched pairs in the left table by performing a left join and then filtering to just rows that had a null value for the right table id.  The CROSS JOIN clause will combine each row from one table with each row from another, and doesn't take an ON condition. e.g. 
+        <li>The JOIN...ON clause allows us to combine information from multiple tables in the result set, based on primarykey/foreign key relationships. JOIN performs an inner join (you can equivalently use the clause INNER JOIN for the same thing as JOIN), that is any rows in either table that don't have a matching row in the other based on the ON condition are excluded.  You can use the clause LEFT JOIN to keep any unmatched rows in the table listed after the FROM clause.  This is useful for finding all unmatched pairs in the left table by performing a left join and then filtering to just rows that had a null value for the right table id.  The CROSS JOIN clause will combine each row from one table with each row from another, and doesn't take an ON condition. You can also put multiple JOIN statements one after the other to join multiple tables together.  e.g. 
             <code><pre>
                 SELECT orders.order_id,
                     customers.customer_name
@@ -240,6 +241,14 @@
                 WHERE start_month &lt= month
                     AND end_month >= month
                 GROUP BY month;
+            </pre></code>
+            <code><pre>
+                SELECT book.title AS book_title, chapter.title AS chapter_title, page.content AS page_content
+                FROM book
+                INNER JOIN chapter
+                    ON book.isbn = chapter.book_isbn
+                INNER JOIN page
+                    ON chapter.id = page.chapter_id;
             </pre></code>
         </li>
         <li>The WHERE clause can be used to add conditions that rows must meet in order to be included in the output set.  The WHERE clause is given a boolean condition which can use things SQL calls operators.

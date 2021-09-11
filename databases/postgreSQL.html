@@ -14,15 +14,20 @@
     <ul>
         <li>Common data types in PostgreSQL include those below (you would use these in your CREATE TABLE/ALTER TABLE statements to define column data types, instead of TEXT, INTEGER, etc., note these are lowercased):</li>
         <ul>
-            <li><code>boolean</code> true/false</li>
+            <li><code>boolean</code> literals are TRUE and FALSE (no quotes), or can use 't' and 'f' or 'true' and 'false' (with quotes)</li>
+            <li><code>char(n)</code> fixed-length string that removes trailing spaces</li>
             <li><code>varchar</code> or <code>varchar(n)</code> text with variable length, up to n characters (if specified), literals written in single quotes 'my string'</li>
+            <li><code>text</code> unlimited-length string</li>
+            <li><code>text[]</code> an array of unlimited-length strings</li>
             <li><code>date</code> calendar date, can use date_part('year', somedateValue) to return the year of a data as an integer (e.g. 2020).</li>
             <li><code>integer</code> whole number value between -2147483648 and +2147483647, literals written with no quotes or anything</li>
+            <li><code>decimal</code> floating point decimal number</li>
+            <li><code>money</code> fixed floating point number with 2 decimal places</li>
             <li><code>numeric(a, b)</code> decimal with total digits (a) and digits after the decimal point (b), literals written with no quotes or anything else</li>
             <li><code>time</code> time of day (no time zone) literals look like '2020-08-15 18:00'</li>
         </ul>
         <li>PostgreSQL uses automatic type-casting when inserting data, so if you insert a decimal value into an integer column it will round the decimal into an integer (e.g. insert 1.5 become 2), or if you nisert a number into a varchar column it will be cast to a string (e.g. insert 1.5 becomes '1.5').  However, strings will not be converted to numbers (e.g. insert '1.5' into a numeric field and you will get a type error instead of an uatomatic conversion to 1.5).</li>
-        
+
     </ul>
 
 </body>
