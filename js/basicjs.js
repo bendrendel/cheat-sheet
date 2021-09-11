@@ -51,7 +51,7 @@ built-in/global object methods: objects built into javascript with many useful m
 VARIABLES and ASSIGNMENT
 Variable declaration: binds a value to a variable name, var myName = 'Ben'
 variable names: use camelCase, cannot start with number, case sensitive (but bad practice to use multiple variables named the same except for casing), cannot be a js keyword
-var: keyword that declares a new variable, don't have to initialize when declared (will be initialized with undefined)
+var: keyword that declares a new variable, don't have to initialize when declared (will be initialized with undefined).  No real reason to use var in ES6 as let and const have more predictable behavior especially with hoisting.  Generally you should refactor old code using var to use let and const instead.
 let: ES6 alternative to var, variable allowed to be reassigned to different value, don't have to initialize when declared (will be initialized with undefined)
 const: ES6 alternative to var, variable cannot be reassigned will throw type error, can still reassign individual elements in an array variable and add or remove elements to array
     must be initialized with a value when declared or else throws a syntax error

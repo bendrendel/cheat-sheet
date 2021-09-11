@@ -72,5 +72,30 @@
                 </pre></code>
             </li>
         </ul>
+
+        <h2>Hoisting</h2>
+        <ul>
+            <li>Hoisting is a process that occurs during the compilation phase of javascript code execution, which allocates memory to all variable declarations and function declarations and hoists them to the top of their scope.  It does the following:
+                <ul>
+                    <li>Finds all of the variable and function declarations in the code</li>
+                    <li>‘Raises’ the variable names and function declarations to the top of their scope before code execution (this includes raising nested function declarations inside a function to the top of that function)</li>
+                    <li>Immediately initializes function declarations</li>
+                    <li>Postpones handling initialization, or assignment of values, until the code is executed</li>
+                </ul>
+            </li>
+            <li>This means function declarations can be called from anywhere within their scope, even if the declaration is written after it is called.</li>
+            <li><code>var</code> variables are a little weird, they only get hoisted to the top of function blocks but not other blocks.  Also, when they are hoisted, they are initialized to undefined. Thus, if you try to reference the var in your code before you initialize it yourself, the var will be recognized (since it was hoisted) but its value will be undefined. e.g.
+            <code><pre>
+                console.log(myVarVariable);  //prints undefined
+                var myVarVariable = 1;
+            </pre></code></li>
+            <li><code>let</code> and <code>const</code> variables are better behaved. They get hoisted to top of whatever scope they are in, not just function blocks.  Also, when they are hoisted, they are not initialized.  Thus, i fyou try to reference a let or const in your code before you initialize it yourself, although the name has been hoisted, since it hasn't been initialized it will return a reference error.  This is preferable to how var behaves because a reference error is easier to catch and debug than an undefined value. e.g.
+            <code><pre>
+                console.log(myLetVariable); 
+                // triggers a ReferenceError
+                let myLetVariable = 1;
+            </pre></code></li>
+            <li>The hoisting behavior for var, let, and const apply when they are assigned to a function expression as well, so be aware if you try to call your variables they will be undefined or throw a reference error if used before they are initialized in your code to a function expression.</li>
+        </ul>
     </body>
 </html>
