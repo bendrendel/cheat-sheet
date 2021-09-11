@@ -7,7 +7,17 @@
     <body>
         <a href="./index.html">Home</a>
 
-        <h1>Promises</h1>
+        <h2>The event loop and concurrency</h2>
+        <ul>
+            <li>JS is single-threaded meaning it can only run one statement at a time.  This can result in blocking code, e.g. a long-running for loop blocks the stack while runnign preventing any other code from running.</li>
+            <li>Concurrency means two or more procedures are executed at the same time by the same shared resource.  JS does not support concurrency, but it can emulate it through the event loop.</li>
+            <li>The heap is a block of memory set aside for javascript where variables are stored in an unordered manner</li>
+            <li>The stack is a stack data structure that keeps track of the current function running by adding a frame to the stack and connects its arguments with variables from the heap.  When you first initiate a js program, a global function is added to the bottom of the stack that doesn't go away until the program is over, it creates the global execution context that all other functions run within.  It contains the global variables and lexical environment.  Each frame added to the stack for a called function contains a function's execution context that includes the function's lexical and variable environment. So the stack is really keeping track of the current execution context with each frame.</li>
+            <li>The event queue is a list of messages waiting to be added to the stack, which is added to by Node and Web APIS - this is what enables concurrency emulation</li>
+            <li>The event loop adds the first waiting message in the event to the queue whenever the stack is empty</li>
+        </ul>
+
+        <h2>Promises</h2>
         <p><strong>Promises: </strong>native in ES6, objects that represent the eventual outcome of an asynchronous operation, create from the Promise class, has one of three states, initially pending but guaranteed to settle. This is the modern replacement of callback functions, which should no longer be used unless necessary, in favor of using promises.</p>
             <ul>
                 <li><p><strong>Pending: </strong>operation not yet complete</p></li>
