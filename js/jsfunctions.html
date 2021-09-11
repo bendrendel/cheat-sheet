@@ -12,7 +12,7 @@
         <p><strong>function declaration: </strong>binds a function to an identifier, consists of function keyword, identifier, parameters and function body in {}</p>
         <p><strong>hoisting: </strong>can use a declared function before its been declared, not considered good practice</p>
         <p><strong>function call: </strong>running the code in the function body</p>
-        <p><strong>parameters/arguments: </strong>parameters are part of declaration and treated like variables in the function, arguments are passed to the parameters when calling the function</p>
+        <p><strong>parameters/arguments: </strong>parameters are part of declaration and treated like variables in the function, arguments are passed to the parameters when calling the function. If an argument is missing when called, then it will be passed in as <code>undefined</code></p>
         <p><strong>default: </strong>provide default param value by setting param equal to default in declaration, will use default if no argument is passed or if argument is undefined</p>
         <p><strong>pass-by-reference: </strong>if you provide a variable as an argument to a function, then the parameter references the same location in memory that the variable references</p>
         <p>if you reassign the parameter to a different value in the function body, then the new value is assigned it's own location in memory, and the parameter changes to reference the new location, leaving the original memory location and variable unchanged</p>
@@ -26,6 +26,51 @@
         <p><strong>Higher-order functions: </strong>Functions that accept other functions as arguments or return functions as output</p>
         <p><strong>Callback functions: </strong>Functions that get passed in as parameters and invoked in another function</p>
         <p><strong>Abstraction: </strong>The function name is an abstract (as in concise summary) of the function body, allowing for more readable and modular code</p>
-        
+
+        <h2>Functional Programming</h2>
+        <ul>
+            <li>A paradigm that emphasizes immutability and pure functions.  Immutability means you don't mutate the provided arguments, and pure functions means there are no side-effects of the function and for a given input it always returns the same output.</li>
+        </ul>
+
+        <h2>Currying</h2>
+        <ul>
+            <li>Currying is a functional programming technique to convert a function that takes multiple argument into a series of nested functions that each take a single argument.  This makes each function more single-purpose and thus easier to read, maintain, test, and debug.</li>
+            <li>Currying is possible due to closure, which means if a function returns a function, then when you execute the returned function it will maintain its lexical scope.  Maintaining its lexical scope means the returned function's context will be the context it has in the written code, i.e. it will have access to variables in its outer scope as written in the code, and thus access to variables defined in the function that returned it.  This is true even though the outer function is done executing and off the stack.</li>
+            <li>A simple example is: 
+                <code><pre>
+                    function curried_add(a) {
+                        // has access to the argument for a
+                        return function nested_add(b) {
+                            // has access to the arguments for a and b
+                            return a + b;
+                        }
+                    }
+                    
+                    // creates a local variable a and assigns it the value 1
+                    let add_one = curried_add(1); 
+                    
+                    // add_one() still has access to the argument from curried_add()
+                    add_one(10); 
+                </pre></code>
+            </li>
+            <li>You can use arrow functions to make very concisely written curried function as so:
+                <code><pre>
+                    let curried_add = a => b => a + b;
+                </pre></code>
+            </li>
+            <li>A more complex example you could use on an array of object that represent players in a sports league:
+                <code><pre>
+                    const setFilter = array => key => value => array.filter(x => x[key] === value);
+                    const filterPlayers = setFilter(players);
+                    const filterPlayersByCity = filterPlayers('city');
+                    const filteredPlayersBySanFrancisco = filterPlayersByCity('San Francisco');
+                    const filterPlayersBySport = filterPlayers('sport');
+                    const filteredPlayersBySoccer = filterPlayersBySport('soccer');
+                    
+                    console.log(filteredPlayersBySanFrancisco); // Returns an array of players from San Francisco
+                    console.log(filteredPlayersBySoccer); // Returns an array of players that play soccer
+                </pre></code>
+            </li>
+        </ul>
     </body>
 </html>
