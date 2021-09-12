@@ -10,6 +10,39 @@
     <a href="../index.html">Miscellaneous Algorithms</a>
     <h1>Miscellaneous Algorithms</h1>
 
-    
+    <h2>Sieve of Eratosthenes</h2>
+    <ul>
+        <li>An algorithm for finding all primes up to a certain number</li>
+        <li>It starts by making a list of all integers from 2 up to the given number.  (2 is the smallest prime number so thats why we start there).  Starting with 2, you cross out all numbers in the list that are multiples of two (since they are divisible by 2 they are not prime).  Now you go to the next number in the list, 3, and eliminate all number that are multiples of three (since they are divisible by 3 they are not prime).  You continue this process until you get to the end of the list.  All numbers that remain </li>
+        <li>A basic javascript implementation is:
+            <code><pre>
+                const sieveOfEratosthenes = (limit) => {
+                    const testArray = new Array(limit + 1).fill(true);
+                    testArray[0] = false;
+                    testArray[1] = false;
+
+                    for ( let i = 2; i &lt= limit; i++) {
+                        if (testArray[i]) {
+                            for ( let j = 2 * i; j &lt= limit; j = j + i) {
+                                testArray[j] = false;
+                            }
+                        }
+                    }
+
+                    const trueIndices = [];
+
+                    testArray.forEach((val, idx) => {
+                        if (val) {
+                            trueIndices.push(idx);
+                        }
+                    });
+
+                    return trueIndices;
+                }
+            </pre></code>
+        </li>
+        <li>This can be optimized in a few ways.  First, the inner loop can start at i^2, because all multiples of i less than i will have already been tested.  For instance when you get to 4, you have already all multiple of 2 and 3, so you don't need to test 2*4 or 3*4.  Second, with this in mind the outer loop can stop when i exceeds the square root of the limit, because with the first optimization in place, the first value tested is i^2 and as soon as i^2 exceeds the limit there will be no more possible values in the list to test.  Finally, you can eliminate all even numbers after 2 from the intial array since you know these won't be prime.</li>
+        <li>With the optimizations, the runtime is O (n log (log n)).  n comes from creating the initial array (creating an element for each number up to n) and log(log n) comes from the iteration step</li>
+    </ul>
 </body>
 </html>
