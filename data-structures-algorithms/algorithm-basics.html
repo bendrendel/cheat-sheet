@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algorithm Basics</title>
+</head>
+<body>
+    <a href="../index.html">Home</a>
+    <h1>Algorithm Basics</h1>
+    
+    <h2>Asymptotic Notation</h2>
+    <ul>
+        <li>Runtime or time complexity is used to describe how efficient a program is. Since processor speeds vary or perhaps the efficiency of different programming languages, time is not is not usually used, but rather the number of operations the porgram has to perform based on the input.</li>
+        <li>Execution Count is a precise count of how many operations/instructions are performed by a function or program expressed as a function of the input size N.</li>
+        <li>Asymptotic Notation describes the asymptotic behavior of the execution count is generally an easier and just as useful way to describe runtime.  It eliminates all constants and all but the largest term from the execution count function. So, if a program has a complex polynomial execution count, only the largest power termm will be used with no constant factor.  Or, if a program has multiple sections with different runtimes, only the section with the slowest runtime will be counted since it will have the largest term, i.e. we only care about the part of the program that runs the slowest when using asympmtotic notation.  e.g. if a program prints all numbers from 1 to N (linear runtime N) and then divides N by 2 until 1 is reached (logarithmic runtime log N), the execution count would be N + log N, but the asymptotic runtime will be N only since that is the larger term.  There are three variations of asymptotic notation:</li>
+        <ul>
+            <li>Big Theta (Θ): Θ(N) is used when there is no variablity in the runtime for a given input size N.  For example looping through a list of N items and printing each one always takes N operations and the runtime would be described as Θ(N).  Or, taking an integer N and dividing it in half until you get to 1, will take log2(N) steps, and the runtime would be described as Θ(log N). (Consider the reverse direction, where you multiply 1 by 2, then by 2 again, by 2 again, etc until you hit the input N)</li>
+            <li>Big Omega (Ω): Ω(N) is used to describe the best case runtime for input size N, when there is potential variability in the runtime. Instead of Ω(N), sometimes a program will be described as "having a best-case runtime of Θ(N)". For example searcing for a value in a list one item at a time could have best case runtime of 1 (constant runtime) if the item is first in the list.</li>
+            <li>Big O (O): O(N) is used to describe the worst case runtime for input size N, when there is potential variability in the runtime. Instead of O(N), sometimes a program will be described as "having a worst-case runtime of Θ(N)". For example searcing for a value in a list one item at a time could have worst case runtime of N (linear runtime) if the item is last in the list.  Most of the time people will only discuss O(N) instead of Θ(N) or Ω(N), because if runtime is variable then the worst case is what matters most, and if runtime is constant then O(N) is the same as Θ(N)</li>
+        </ul>
+        <li>Common Runtimes from fastest to slowest</li>
+        <ul>
+            <li>Θ(1) is constant runtime when the number of operations is the same regardless of input size</li>
+            <li>Θ(log N) is logarithmic runtime common in good search algorithms</li>
+            <li>Θ(N) is linear runtime common when iterating through data</li>
+            <li>Θ(N*logN) is common in sorting algorithms</li>
+            <li>Θ(N^2) is quadratic or polynomial for higher powers runtime common when iterating multi-dimensional data sets and nested iterations</li>
+            <li>Θ(2^N) is exponential runtime common with recursive functions</li>
+            <li>Θ(N!) is factorial runtime common when generating all permutations of some input</li>
+        </ul>
+        <li>Space Complexity is used to describe how much memory is needed for a program or function and is also described using asymptotic notation.  It describes the amount of space needed in relation to input size, and generally does not include counting the input itself.  So if a function takes 10 arrays as input but simply prints "Hello world" in the body, it has a space complexity of O(1).  A function that takes an array as input and outputs a new array that doubles each value in the input array would have a space complexity of O(N) because the output array size grows linearly as the input size grows. However, if that same function mutated the input array instead of creating a new array it would have space complexity of O(1) because no new spaces is needed to perform the function.  Time complexity is generally more important to consider, but second to that it is important to optimize for space.  Space complexity might be considered when breaking a tie between two programs that have the same time complexity.</li>
+    </ul>
+
+    <h2>Recursion</h2>
+    <ul>
+        <li>A method of problem-solving that defines a problem in terms of itself.  A function definition that invokes itself in the body of the function.</li>
+        <li>A recursive function always has two parts, one that runs when the base case condition is statisfied, and on that runs when the recursive case condition is satisfied:</li>
+        <ul>
+            <li>Base Case Check: Checking if the input is simplified enough to take base case action.  There may be multiple conditions that make up the base case: Base Case 1, Base Case 2, etc.  E.g. if searching for something in a list, the base case could be that it is found, or that the end of the list was reached.</li>
+            <ul>
+                <li>Base Case Action: Some action taken, often returning a value. Could be multiple different actions if there are multiple base case conditions, e.g. returning a found value vs returning null if the end of the list is reached.</li>
+            </ul>
+            <li>Recursive Case Check: Checking if recursive case is met, may be done implicitly simply by the fact that none of the base cases were met.</li>
+            <ul>
+                <li>Recursive Case Action: The function is invoked with input that is closer to the base case.  Some action is taken often returning a value, which may depend on getting output from the recursively called function</li>
+            </ul>
+        </ul>
+        <li>Each recusive call adds to the call stack, calling the function with a different execution context that gets closer and closer to the base case.  When the base case is reached, the last function call returns, allowing earlier calls to return one by one.</li>
+    </ul>
+</body>
+</html>
