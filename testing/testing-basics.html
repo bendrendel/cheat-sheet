@@ -20,6 +20,7 @@
             This is faster and more reliable than manual testing and can be done more frequently, 
             often after every significant change to the software.  Developers use test frameworks to organize
             automated tests.</li>
+        <li><strong>Functional Testing</strong> This is testing from the user's persepctive and focuses that business requirements are met.  It is usually black box testing meaning no consideration is given to the internal code structure.  Only the functionality and behavior of modules as seen from the end user is tested to ensure they meet requirements. This is critical to ensure software is ready for release.</li>
         <li><strong>Test Code </strong>The code written to test software, in contrast to implementation
             code that is the code of the software itself.  Often stored along with implementation code.
             e.g. index.js is the implementation code and in the same folder is index-test.js with test code</li>
@@ -47,7 +48,7 @@
         </ul>
         <li><strong>Regression </strong>When previously tested functionality no longer passes the tests. Can
             happen when new features are implemented.</li>
-        <li><strong>Mock Testing </strong>This is when you use a fake version of an internal or external service (e.g. JSON from an API), for testing purposes. This is good to use when possible to save time when running the test.</li>
+        <li><strong>Mock Testing </strong>This is when you use a fake version of an internal or external service (e.g. JSON from an API), for testing purposes. This is good to use when possible to save time when running the test.  Hitting an actual API in your test makes the test slow and fragile, and so faking the call to the API and returning some fake data can be done using a mock.</li>
         <li><strong>Stub Testing </strong>Similar to mock testing, except you only fake some portion of the internal or external service that is specifically needed for the test.  Like mock testing, this is good to use to save time when running the test.  An example is instead of creating an actual error condition by e.g. creating a corrupt file programmatically and then testing what happens when your program tries to read it, you could stub the file system with some functionality that returns the error code for a corrupt file and feed that to your test, instead of actually creating the corrupt file.</li>
     </ul>
 
@@ -114,6 +115,77 @@
     <ul>
         <li>When two services integrate with each other they have expectations about what is received and returned, which can be thought of as a contract between integrated endpoints.</li>
         <li>You can test internal services (microservices architecture) this way also, and use mocks and stubs for the expected returned values from the other system.</li>
+    </ul>
+
+    <h2>Testing React Apps</h2>
+    <ul>
+        <li>Use jest and enzyme to test react apps.  Jest comes pre-installed if you use create-react app, so you don't need to do anything to get jest for your react app.  Enzyme needs to be installed and the setupTests.js file needs to be created to use with your react app.</li>
+        <li>You should do snapshot testing with just these two libraries</li>
+        <li>You should test component lifecycle methods with jest mocks and enzyme like so:
+            <code><pre>
+                it('calls componentDidMount', () => {
+                    jest.spyOn(App.prototype, 'componentDidMount')
+                    const wrapper = shallow(&ltApp />)
+                    expect(App.prototype.componentDidMount.mock.calls.length).toBe(1)
+                })
+            </pre></code>
+        </li>
+        <li>You should test that props get passed correctly using jest and enzyme like so:
+            <code><pre>
+                //mock prop
+                const user = {
+                    name: 'John Doe',
+                    email: 'johndoe@gmail.com',
+                    username: 'johndoe',
+                    image: null
+                }
+
+                //testing component called Profile with mock props
+                describe ('&ltProfile />', () => {
+                    it ('contains h4', () => {
+                        const wrapper = mount(&ltProfile user={user} />)
+                        const value = wrapper.find('h4').text()
+                        expect(value).toEqual('John Doe')
+                    })
+                    it ('accepts user props', () => {
+                        const wrapper = mount(&ltProfile user={user} />);
+                        expect(wrapper.props().user).toEqual(user)
+                    })
+                })
+            </pre></code>
+        </li>
+        <li>You should test API calls using jest and enzyme.  You should mock the API calls for the test, by creating a <code>__mock__</code> folder inside your <code>__test__</code> folder which should be under <code>src</code> where you are saving your jest tests.  In the __mock__ folder you will have mocks like so:
+        <code><pre>
+            module.exports = {
+                get: jest.fn(() => {
+                    return Promise.resolve({
+                        data: [
+                            {
+                                id: 1,
+                                name: 'Jane Doe',
+                                email: 'janedoe@gmail.com',
+                                username: 'jdoe'
+                            }
+                        ]
+                    })
+                })
+            }
+        </pre></code></li>
+        now in our test file for the component calling the API we can have:
+        <code><pre>
+            import axios from 'axios';
+
+            //replace axios with a mock
+            jest.mock('axios')
+
+            it('fetches a list of users', () => {
+                const getSpy = jest.spyOn(axios, 'get')
+                const wrapper = shallow(
+                    &ltApp />
+                )
+                expect(getSpy).toBeCalled()
+            })
+        </pre></code>
     </ul>
 
     <h2>Testing Redux Apps</h2>

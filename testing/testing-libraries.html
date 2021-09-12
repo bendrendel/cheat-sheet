@@ -110,6 +110,7 @@
     </ul>
 
     <h2>Jest</h2>
+    <h3>Basics</h3>
     <ul>
         <li>Jest is another javascript test framework and the default one used for React applications.  It needs to be installed for a project by initiliazing the project with npm (npm init) if it isn't already, and then running <code>npm install jest -D</code> to install to dev dependencies.  Then in your package.json file, under scripts, make sure you have <code>"scripts" : { "test": "jest" }</code> so that jest runs when you use the command <code>npm test</code>.  If your project uses babel, you will need to configure jest to work with babel, first by installing <code>npm install babel-jest -D</code>.  Now in your <code>.babelrc</code> file, you need to add <code>"presets": ["@babel/preset-env"]</code> and in your scripts in your package.json file, you can add <code>"test:watch": "npm test -- --watch"</code>, allowing you to run the command <code>npm run test:watch</code> to run tests on every file change.  All that said, if you made a react project with create-react-app then jest should already be installed, and <code>npm test</code> should already be configured to run jest tests</li>
         <li>By default, jest expects all tests to be saved in a folder in your root directory called <code>__tests__</code>.  By some conventions, you name each test file as <code>functionalityToTest.spec.js</code> where functionalityToTest is any descriptive name of the functionality to be tested in the file and .spec is included as an old Ruby convention indicating the file is a specification of functionality.  Some recommending colocating test files with what they're testing, so if you have a component file, next to that component file have a folder named __tests__ that contains tests for that component.</li>
@@ -136,8 +137,19 @@
                 });
             </pre></code>
         </li>
-        <li><strong>Code Coverage: </strong>Jest provides a code coverage analysis feature.  This provides a report of how well your test files covers the file that is imported and tested.  If there are lines in the file that are never tested by your test file, then the report will indicate those lines and give percentage of lines covered, and some other info.  This coverage analysis can be run in a few ways.  You can run <code>npm test -- --coverage</code> to get a report in the command line after the test runs.  You can change your package.json scripts.test property from <code>"jest"</code> to <code>"jest --coverage</code> to always run the coverage report when you run <code>npm test</code>.  You can also instead add a separate new property to your package.json file outside of the scripts property that is <code>"jest": { "collectCoverage": true, "coverageReporters": ["html"] }</code> which will also always run the coverage report when you run <code>npm test</code> and the coverageReporters property can be left out to simply run reports in the command line, or included to instead print the reports to html files in a folder called 'coverage' in your root directory and which contain even more info than the command line report.</li>
-        <li><strong>Snapshot Testing: </strong>You can install an additional library called react test renderer to use with jest to perform snapshot testing, which allows your tests to create snapshots of the rendered component throughout the test.  Each time you run the test, it will compare to the previous snapshot and let you know if there are any changes, which you can confirm are intentional or not.  If you used create-react-app to set up your app, then all you need to do is run <code>npm install react-test-renderer -D</code> in your root to install to dev dependencies. If you didn't use create-react-app there are additional steps.  You then import renderer from react-test-renderer in your test file to use it.  Snapshot testing is great to validate the rendered structure of a component, but should be used in conjustion with regular testing.  A basic use of snapshot testing would be to compare your component's rendered HTML to a stored snapshot of the rendered HTML from a previous render, so you can detect if anything has changed an decide if that was intentional or not.  The snapshot of the HTML will be stored in e.g. src/__snapshots__/App.test.js.snapshot, if you are creating the snapshots in your tests in the App.test.js file.  The snapshot is simply the HTML produced, and it shoudl be converted to JSON for making comparisons in the test. The first time you run the test in App.test.js the snapshot will not exist and it will automatically be created by renderer.create().  Future runs of the test will compare to this stored snapshot.  The test will fail if they don't match.  However, if you intended for the snapshot to change, then you simply press u in the terminal window where tests are being run to update the stored snapshot.
+    </ul>
+
+    <h3>Code Coverage</h3>
+    <ul>
+        <li>Jest provides a code coverage analysis feature.  This provides a report of how well your test files covers the file that is imported and tested.  If there are lines in the file that are never tested by your test file, then the report will indicate those lines and give percentage of lines covered, and some other info.  This coverage analysis can be run in a few ways.  You can run <code>npm test -- --coverage</code> to get a report in the command line after the test runs.  You can change your package.json scripts.test property from <code>"jest"</code> to <code>"jest --coverage</code> to always run the coverage report when you run <code>npm test</code>.  You can also instead add a separate new property to your package.json file outside of the scripts property that is <code>"jest": { "collectCoverage": true, "coverageReporters": ["html"] }</code> which will also always run the coverage report when you run <code>npm test</code> and the coverageReporters property can be left out to simply run reports in the command line, or included to instead print the reports to html files in a folder called 'coverage' in your root directory and which contain even more info than the command line report.</li>
+    </ul>
+
+    <h3>Snapshot Testing</h3>
+    <ul>
+        <li>You can install an additional library called react test renderer to use with jest to perform snapshot testing, which allows your tests to create snapshots of the rendered component throughout the test.  Alternatively, you can use enzyme to render your components instead of react test renderer.  Each time you run the test with <code>npm run test</code>, it will compare to the previous snapshot and let you know if there are any changes, which you can confirm are intentional or not.</li>
+        <li>If you used create-react-app to set up your app, then all you need to do is run <code>npm install react-test-renderer -D</code> in your root to install to dev dependencies. If you didn't use create-react-app there are additional steps.  You then import renderer from react-test-renderer in your test file to use it.</li>
+        <li>Snapshot testing is great to validate the rendered structure of a component, but should be used in conjunction with regular testing.  A basic use of snapshot testing would be to compare your component's rendered HTML to a stored snapshot of the rendered HTML from a previous render, so you can detect if anything has changed an decide if that was intentional or not.  The snapshot of the HTML will be stored in e.g. src/__snapshots__/App.test.js.snapshot, if you are creating the snapshots in your tests in the App.test.js file.  The snapshot is simply the HTML produced, and it shoudl be converted to JSON for making comparisons in the test. The first time you run the test in App.test.js the snapshot will not exist and it will automatically be created by renderer.create().  Future runs of the test will compare to this stored snapshot.  The test will fail if they don't match.  However, if you intended for the snapshot to change, then you simply press u in the terminal window where tests are being run to update the stored snapshot.</li>
+        <li>A basic example using react-test-render:
         <code><pre>
                 // src/App.test.js
                 import React from 'react';
@@ -149,8 +161,23 @@
                     expect(tree).toMatchSnapshot();
                 });
         </pre></code>
-            
-        Now, imagine you had e.g. a component called Link that lets you create custom links and that has methods called onMouseEnter and onMouseLeave that change a 'status' state variable indicating if the link is hovered over or not. You could have a test that calls those methods and takes a snapshot of the component after the method is called as so:
+        </li>
+        <li>A basic example using enzyme instead:
+            <code><pre>
+                // src/App.test.js
+                import React from 'react';
+                import { shallow } from 'enzyme';
+                import App from './App';
+
+                it("renders correctly", () => {
+                    const wrapper = shallow(
+                        &ltApp />
+                    );
+                    expect(wrapper).toMatchSnapshot();
+                });
+            </pre></code>
+        </li>  
+        <li>Now, imagine you had e.g. a component called Link that lets you create custom links and that has methods called onMouseEnter and onMouseLeave that change a 'status' state variable indicating if the link is hovered over or not. You could have a test that calls those methods and takes a snapshot of the component after the method is called as so:
         <code><pre>
             // Link.react.test.js
             import React from 'react';
@@ -177,7 +204,120 @@
                 expect(tree).toMatchSnapshot();
             });
         </pre></code> This will create a snapshot file in your test folder called Link.react.test.js.snapshot and will include a snapshot of the HTML that the component rendered each time you call .toMatchSnapshot().  Next time you test, if the snapshots don't match you'll get an error.  You can override the error by running <code>jest -u</code> which will overwrite the existing snapshot.</li>
-        <li>Jest Mocks: To test components that render complex child components (maybe they make API calls or access local storage) you can use jest.mock to create mocks of these components that replace the real thing when testing.  For example. suppose you had an App component that imports a component <code>import MyComponent from './MyComponent';</code> and renders MyComponent.  Suppose you want to test your App component, and MyComponent makes an API call that you don't need to test.  Your test could use jest.mock as follows:
+    </ul>
+
+    <h3>Mocks</h3>
+    <ul>
+        <li>Mock functions can be made with Jest to replace real functions in the implementation code.  They provide lots of useful properties through their .mock property that you can run assertions on to make sure they are called the correct number of times, with the correct arguments, and return the correct values.  e.g. if we were testing the following function:
+            <code><pre>
+                function forEach(items, callback) {
+                    for (let index = 0; index &lt items.length; index++) {
+                        callback(items[index]);
+                    }
+                }
+            </pre></code>
+            then we could use the following mock and assertions to help test it
+            <code><pre>
+                const mockCallback = jest.fn(x => 42 + x);
+                forEach([0, 1], mockCallback);
+
+                // The mock function is called twice
+                expect(mockCallback.mock.calls.length).toBe(2);
+
+                // The first argument of the first call to the function was 0
+                expect(mockCallback.mock.calls[0][0]).toBe(0);
+
+                // The first argument of the second call to the function was 1
+                expect(mockCallback.mock.calls[1][0]).toBe(1);
+
+                // The return value of the first call to the function was 42
+                expect(mockCallback.mock.results[0].value).toBe(42);
+            </pre></code>
+        </li>
+        <li>Mock functions can also be made that don't contain any actual logic, but are just made to return a specified value.  You can chain together as many .mockReturnValueOnce calls as you want, and every time the mock function is called it will move down the chain an return the next specified value. e.g. 
+            <code><pre>
+                const filterTestFn = jest.fn();
+
+                // Make the mock return `true` for the first call,
+                // and `false` for the second call
+                filterTestFn.mockReturnValueOnce(true).mockReturnValueOnce(false);
+
+                const result = [11, 12].filter(num => filterTestFn(num));
+
+                console.log(result);
+                // > [11]
+                console.log(filterTestFn.mock.calls[0][0]); // 11
+                console.log(filterTestFn.mock.calls[1][0]); // 12
+            </pre></code>
+        </li>
+        <li>Mock function can be used to mock modules that are coded to hit an API to replace making an actual call to the API.  e.g if we were testing this module:
+            <code><pre>
+                // users.js
+                import axios from 'axios';
+
+                class Users {
+                static all() {
+                    return axios.get('/users.json').then(resp => resp.data);
+                }
+                }
+
+                export default Users;
+            </pre></code>
+            our test code could use a mock for the get request as so:
+            <code><pre>
+                // users.test.js
+                import axios from 'axios';
+                import Users from './users';
+
+                jest.mock('axios');
+
+                test('should fetch users', () => {
+                    const users = [{name: 'Bob'}];
+                    const resp = {data: users};
+                    axios.get.mockResolvedValue(resp);
+
+                    // or you could use the following depending on your use case:
+                    // axios.get.mockImplementation(() => Promise.resolve(resp))
+
+                    return Users.all().then(data => expect(data).toEqual(users));
+                });
+            </pre></code>
+        </li>
+        <li>Mocks can be used to replace only certain parts of an imported module, leaving the implementation code intact for other parts.  If we were testing:
+            <code><pre>
+                // foo-bar-baz.js
+                export const foo = 'foo';
+                export const bar = () => 'bar';
+                export default () => 'baz';
+            </pre></code>
+            then certain parts of it could be replace with a mock like so:
+            <code><pre>
+                //test.js
+                import defaultExport, {bar, foo} from '../foo-bar-baz';
+
+                jest.mock('../foo-bar-baz', () => {
+                    const originalModule = jest.requireActual('../foo-bar-baz');
+
+                    //Mock the default export and named export 'foo'
+                    return {
+                        __esModule: true,
+                        ...originalModule,
+                        default: jest.fn(() => 'mocked baz'),
+                        foo: 'mocked foo',
+                    };
+                });
+
+                test('should do a partial mock', () => {
+                    const defaultExportResult = defaultExport();
+                    expect(defaultExportResult).toBe('mocked baz');
+                    expect(defaultExport).toHaveBeenCalled();
+
+                    expect(foo).toBe('mocked foo');
+                    expect(bar()).toBe('bar');
+                });
+            </pre></code>
+        </li>
+        <li>To test components that render complex child components (maybe they make API calls or access local storage) you can use jest.mock to create mocks of these components that replace the real thing when testing.  For example. suppose you had an App component that imports a component <code>import MyComponent from './MyComponent';</code> and renders MyComponent.  Suppose you want to test your App component, and MyComponent makes an API call that you don't need to test.  Your test could use jest.mock as follows:
         <code><pre>
             import React from 'react';
             import { render } from '@testing-library/react';
@@ -202,9 +342,10 @@
         </li>
     </ul>
 
+
     <h2>Enzyme</h2>
     <ul>
-        <li>Enzyme is a testing library to help test the output of React components.  It needs to be installed in the project's root with <code>npm install enzyme enzyme-adapter-react-16 -D</code>, which actually is to install both the enzyme library and the adapater library that makes enzyme work with react v16.  You will install a different adapter library depending on the version of react you are using.  Using enzyme with react also depends on having react and react-dom installed which should be already for your react app.</li>
+        <li>Enzyme is a testing library to help test the output of React components.  It needs to be installed in the project's root with <code>npm install enzyme enzyme-adapter-react-16 -D</code>, which actually is to install both the enzyme library and the adapater library that makes enzyme work with react v16.  You will install a different adapter library depending on the version of react you are using.  Using enzyme with react also depends on having react and react-dom installed which should be already for your react app if you used create-react-app.</li>
         <li>To use enzyme in tests, you need a setupTests.js file in your src/ folder, that tells enzyme what adapter to use.  create-react-app is configured to automatically run this file before running tests.  The file should include the following code:
             <code><pre>
                 import Enzyme from 'enzyme';
@@ -213,7 +354,12 @@
                 Enzyme.configure({ adapter: new Adapter() });
             </pre></code>
         </li>
-        <li>Enzyme works in tandem with test frameworks such as Mocha and Jest and assertion libraries, to handle the actual organization, running of tests.  Enzyme simply allows you to render React components in the test so that you can check various things about the render.  Full DOM rendering mounts the component in the DOM and is meant for when components interact with the DOM or for components wrapped in higher order components.  You should very rarely have a need to use full DOM (Mount) rendering because it runs your whole component tree and usually with tests you just should test one isolated component, and it also slows your tests down a lot due to the DOM rendering. Shallow rendering is a little less intensive and is what you should use 99% of the time, it is a simulated rendering of a component tree that doesn't require the DOM and only goes one level of components deep, allowing for testing of the component's rendered contents, and simulation of user interaction.  Static rendering seems to be least intensive and generates an HTML tree you can inspect.</li>
+        <li>Enzyme works in tandem with test frameworks such as Mocha and Jest and assertion libraries, to handle the actual organization, running of tests.  Enzyme simply allows you to render React components in the test so that you can check various things about the render.  It provides several methods to do the rendering to different extents:
+            <ul>
+                <li>The <code>.shallow</code> method is the least intensive rendering and only renders a single component, no child components are rendered.  Shallow rendering is a little less intensive and is what you should use 99% of the time, it is a simulated rendering of a component tree that doesn't require the DOM and only goes one level of components deep, allowing for testing of the component's rendered contents, and simulation of user interaction.</li>
+                <li>The <code>.render</code> method is a little more intensive because it also renders the child components to static html. </li>
+                <li>The <code>.mount</code> method does the most in-depth rendering because it fully renders the component like shallow, fully renders the component children like render, and also puts them in the DOM. This allows for testing of interaction with DOM APIs and any props passed in.  You should always call <code>.unmount</code> on the component after the test is done for cleanup.  Full DOM rendering mounts the component in the DOM and is meant for when components interact with the DOM or for components wrapped in higher order components.  You should very rarely have a need to use full DOM (Mount) rendering because it runs your whole component tree and usually with tests you just should test one isolated component, and it also slows your tests down a lot due to the DOM rendering. </li>
+            </ul>
         <li>A basic content and user interaction test using enzyme for the App component would be stored at src/App.test.js.  It could first test the initial state of the component by making a shallow render of the App comoponent, saving it to the variable wrapper.  Shallow renders then have method you can use, e.g. to find a paragraph element in the component and get the innerHTML text of it.  Finally it can test that text is equal to an expected value. Next, it could test user interaction, say there is a button element rendered by App, and it has a className of 'increment'.  Enzyme can simulate a click of that button, and then you can again test the paragraph element to test it has the correct value after the click.  The code might look like this, being used here with Jest:
             <code><pre>
                     import React from 'react';
@@ -330,6 +476,34 @@
                     expect(wrapper.text()).to.contain('unique');
                 });
                 });
+            </pre></code>
+        </li>
+    </ul>
+
+    <h2>Selenium</h2>
+    <ul>
+        <li>Selenium is a browser automation tool, meaning it can emulate browser interactions as an end user would to perform functional testing, can replace manual testing</li>
+        <li>The core of selenium is its web driver, which works across multiple web browsers, an example use is:
+            <code><pre>
+                const {Builder, By, Key, until} = require('selenium-webdriver');
+
+                (async function example() {
+                    let driver = await new Builder().forBrowser('firefox').build();
+                    try {
+                        // Navigate to Url
+                        await driver.get('https://www.google.com');
+
+                        // Enter text "cheese" and perform keyboard action "Enter"
+                        await driver.findElement(By.name('q')).sendKeys('cheese', Key.ENTER);
+
+                        let firstResult = await driver.wait(until.elementLocated(By.css('h3')), 10000);
+
+                        console.log(await firstResult.getAttribute('textContent'));
+                    }
+                    finally{
+                        driver.quit();
+                    }
+                })();
             </pre></code>
         </li>
     </ul>
