@@ -44,5 +44,59 @@
         <li>This can be optimized in a few ways.  First, the inner loop can start at i^2, because all multiples of i less than i will have already been tested.  For instance when you get to 4, you have already all multiple of 2 and 3, so you don't need to test 2*4 or 3*4.  Second, with this in mind the outer loop can stop when i exceeds the square root of the limit, because with the first optimization in place, the first value tested is i^2 and as soon as i^2 exceeds the limit there will be no more possible values in the list to test.  Finally, you can eliminate all even numbers after 2 from the intial array since you know these won't be prime.</li>
         <li>With the optimizations, the runtime is O (n log (log n)).  n comes from creating the initial array (creating an element for each number up to n) and log(log n) comes from the iteration step</li>
     </ul>
+
+    <h2>Catching Rainwater</h2>
+    <ul>
+        <li>Imagine a histogram, with multiple bars of different heights.  Image water filling the empty space above the histogram, but only as much as will not overflow the heights of the histogram bars, something like: </li>
+        <img src="./histogram v2.svg" alt="">
+        <li>The algorithm takes in the heights of the histogram bars as an array of heights (as shown on the horizontal axis), and returns an integer that adds together the height of water that can be held altogether by the histogram.  So the above diagram would give the algorithm an array of [4, 2, 1, 3, 0, 1, 2] and return the value of 6.</li>
+        <li>A naive approach would look like below, running in O(n^2) due to the nested loops</li>
+        <li><code>
+            <pre>
+                function naiveSolution(heights) {
+                    let totalWater = 0;
+                    for (let i = 1; i &lt heights.length - 1; i++) {
+                        let leftBound = 0;
+                        let rightBound = 0;
+                        // We only want to look at the elements to the left of i, which are the elements at the lower indices
+                        for (let j = 0; j &lt= i; j++) { 
+                            leftBound = Math.max(leftBound, heights[j]);
+                        }
+                        // Likewise, we only want the elements to the right of i, which are the elements at the higher indices
+                        for (let j = i; j &lt heights.length; j++) {
+                            rightBound = Math.max(rightBound, heights[j]);
+                        }
+                        totalWater += Math.min(leftBound, rightBound) - heights[i];
+                    }
+                    return totalWater;
+                }
+            </pre>
+        </code></li>
+        <li>A better solution with O(n) runtime and O(1) space complexity is below, it uses two pointers which is a good approach for many problems to avoid nested loops, it can solve the problem of finding two numbers in an array that add to a specified number, or reversing characters in a string 
+            <code><pre>
+            function efficientSolution(heights) {
+                let totalWater = 0;
+                let leftPointer = 0;
+                let rightPointer = heights.length - 1;
+                let leftBound = 0;
+                let rightBound = 0;
+                
+                while (leftPointer &lt rightPointer) {
+                    if (heights[leftPointer] &lt= heights[rightPointer]) {
+                        leftBound = Math.max(heights[leftPointer], leftBound);
+                        totalWater += leftBound - heights[leftPointer];
+                        leftPointer++;
+                    } else {
+                        rightBound = Math.max(heights[rightPointer], rightBound);
+                        totalWater += rightBound - heights[rightPointer];
+                        rightPointer--;
+                    }
+                }
+                return totalWater;
+            }
+            </pre></code>
+        </li>
+
+    </ul>
 </body>
 </html>
