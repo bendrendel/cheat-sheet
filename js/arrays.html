@@ -54,6 +54,57 @@
             element can be found in the array</p>
         <p><strong>.includes('element'): </strong>returns true if the array contains the provided
             element, otherwise returns false</p>
+        <p><strong>.sort(comparatorFunction)</strong>Returns the same array, but sorted according to the comparator function.  It is mutative, meaning it sorts the original array in place and doesn't return a copy.  The comparator function is optional and if left out, sort's default will be to treat each element in the array as a string and compare them lexically, sorting from A to Z.  This behaves as expected if you have an array of strings but, if you have an array of numbers like [10, 43, 5, 0, 4, 3, 2, 1, 11], it would return [0, 1, 10, 11, 2, 3, 4, 43, 5].  This treats the numbers like strings in determining the sort, but it doesn't return strings in the output, they are still numbers.  With the default comparator function, if the array is 10 elements or less then javascript will use insertion sort with runtime O(n^2) and space complexity O(1).  Otherwise it will use quicksort, with runtime O(n log n) and space complexity O(log n).</p>
+        <ul>
+            <li>To use .sort with a custom comparator function, you should provide a function that takes two arguments, usually named a and b, and returns an integer.  a and b represent elements in the array to compare, and the return value determines how they will be ordered.  If the return value is negative then a comes before b, and if it is positive then b comes before a.  If it is zero then the elements have the same sort position and will not be moved.  The runtime and space complexity of sort will depend on the comparator function you provide.</li>
+            <li>For instance to sort an array of numbers ascending, you could use <code>.sort((a, b) => (a - b))</code> or to sort in descending order you could use <code>.sort((a, b) => (b - a))</code>.  You could alternatively use the function below, which also works for strings since you can compare strings with greater than and less than for alphabetical ordering
+            <code><pre>
+                const ascendingOrder = (a, b) => {
+                    if (a &lt b) {
+                        return -1;
+                    } else if (a > b) {
+                        return 1;
+                    } else {
+                        return 0;
+                    }
+                };
+            </pre></code></li>
+            <li>To sort an array of strings by length from shortest to longest, and sort alphabetically if they are the same length, you could use the following (which calls the ascendingOrder function as defined above):
+                <code><pre>
+                    const sortByLength = (a, b) => {
+                        if (a.length - b.length > 0) {
+                            return 1;
+                        } else if (a.length - b.length &lt 0) {
+                            return -1;
+                        } else {
+                            return ascendingOrder(a, b);
+                        }
+                    };
+                </pre></code>
+            </li>
+            <li>A more complex example creates a custom function that sorts an array, using the .sort method internally.  The idea is given an input array, and a separate order array, the input array will be sorted according to the order array, with any values not in the order array put at the end of the input array.  So, given an input array of ['a', 'b', 'c', 'd', 'e', 'f', 'n', 'y', 'g'] and an order array of ['a', 'n', 'd', 'y'], the returned sorted array would be ['a', 'n', 'd', 'y', 'b', 'c', 'e', 'f', 'g'].  This could be implemented with:
+                <code><pre>
+                    const explicitSortWithComparator = (inputArray, order) => {
+  
+                        const explicitComparator = (a, b) => {
+                            indexA = order.length;
+                            indexB = order.length;
+
+                            if (order.includes(a)) {
+                                indexA = order.indexOf(a);
+                            }
+                            if (order.includes(b)) {
+                                indexB = order.indexOf(b);
+                            }
+
+                            return indexA - indexB;
+                        }
+                        
+                        return inputArray.sort(explicitComparator).slice();
+                    }
+                </pre></code> </li>
+        </ul>
+
 
         <h2>ARRAY ITERATION METHODS (ITERATORS)</h2>
         <p>Special array methods that iterate through the array, passing each element to a callback function 
