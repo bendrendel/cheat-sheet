@@ -36,7 +36,7 @@
     <h2>Recursion</h2>
     <ul>
         <li>A method of problem-solving that defines a problem in terms of itself.  A function definition that invokes itself in the body of the function.</li>
-        <li>A recursive function always has two parts, one that runs when the base case condition is statisfied, and on that runs when the recursive case condition is satisfied:</li>
+        <li>A recursive function always has two parts, one that runs when the base case condition is statisfied, and one that runs when the recursive case condition is satisfied:</li>
         <ul>
             <li>Base Case Check: Checking if the input is simplified enough to take base case action.  There may be multiple conditions that make up the base case: Base Case 1, Base Case 2, etc.  E.g. if searching for something in a list, the base case could be that it is found, or that the end of the list was reached.</li>
             <ul>
@@ -48,6 +48,42 @@
             </ul>
         </ul>
         <li>Each recusive call adds to the call stack, calling the function with a different execution context that gets closer and closer to the base case.  When the base case is reached, the last function call returns, allowing earlier calls to return one by one.</li>
+    </ul>
+
+    <h2>Memoization</h2>
+    <ul>
+        <li>Memoization is a technique used with recursion to store the returned values of calls of the recursive function.  This means if the recursive function is called with the same value multiple times during the recursion process, it can use the stored value instead of calling the recursive function again.  This can save lots of operations because calling the recursive function can mean going down a whole recursive tree, calling the recursive function many times.  So, if you've already done that and saved the result you can use the saved result instead to save time.</li>
+        <li>For instance, a recursive implementation of finding the nth fibonacci number is shown below.  The 0th fibonacci number is 0, the 1st is 1, the 2nd is 1, and so on, as in 0, 1, 1, 2, 3, 5, 8, 13, 21, ... 
+            <code><pre>
+                const fibRec = n => {
+                    if (n === 0 || n===1) {
+                        return n;
+                    } else {
+                        return fibRec(n - 1) + fibRec(n - 2);
+                    }
+                };
+            </pre></code>
+        </li>
+        <li>The above will be very slow for larger values of n, because the recursive function is called twice within itself.  The function will call fibRec(n-1) and fibRec(n-2), but evaluating fibRec(n-1) will also call fibRec(n-2).  These calls with the same argument will happen many many time for large n.</li>
+        <li>To avoid this we can use memoization, which is storing the result of each call to the function to a memo object, and before each call checking if the result is already stored in memo and using that instead of making the call if it is.  This can be done with:
+            <code><pre>
+                memo = {};
+
+                const fibMem = n => {
+                    if (memo[n]) {
+                        return memo[n];
+                    } else if (n === 0 || n === 1) {
+                        memo[n] = n;
+                        return memo[n];
+                    } else {
+                        memo[n] = fibMem(n - 1) + fibMem(n - 2);
+                        return memo[n];
+                    }
+                };
+            </pre></code>
+        </li>
+
+
     </ul>
 </body>
 </html>
