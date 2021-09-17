@@ -96,7 +96,57 @@
             }
             </pre></code>
         </li>
+    </ul>
 
+    <h2>Knapsack Problem</h2>
+    <ul>
+        <li>The problem is that you have a knapsack of limited weight capacity and a number of items you can fill it with that each have a given weight and value.  You want to maximize the value of the items placed in the knapsack while staying under the weight capacity.</li>
+        <li>The recursive solution has O(2^n) runtime.  Starting from the last item, it goes through each item one at a time and decides the max value possible from either including it or excluding it.  If included, then the value will be the value of the item plus the max value possible from the remaining items within the remaining weight capacity.  If excluded, then the value will be the max value of the remaining items within the remaining weight capacity.
+            <code><pre>
+                const weightCap = 5;
+                const weights = [1, 3, 5];
+                const values = [250, 300, 500];
+
+                const recursiveKnapsack = function (weightCap, weights, values, i) { //i starts with number of items
+                    if (weightCap === 0 || i === 0) {
+                        return 0;
+                    } else if (weights[i - 1] > weightCap) {
+                        return recursiveKnapsack(weightCap, weights, values, i - 1);
+                    } else {
+                        const includeItem = values[i - 1] + recursiveKnapsack(weightCap - weights[i - 1], weights, values, i - 1);
+                        const excludeItem = recursiveKnapsack(weightCap, weights, values, i - 1);
+                        return Math.max(includeItem, excludeItem);
+                    }
+                };
+
+                recursiveKnapsack(weightCap, weights, values, 3);
+            </pre></code>
+        </li>
+        <li>A better solution is the dynamic programming/memoization solution.  This has a runtime of O(numOfItems * weightCap). It creates a matrix of height equal to numItems + 1, and width equal to weightCap + 1.  The upper left corner of the matrix represents the maxValue possible if you have 0 items to choose from and a weight capacity of 0.  The bottom right corner represents the maxValue possible if you have numItems items to choose from and a weightCapacity of weightCap.  The algorithm starts by solving the upper left corner value, then the next value in that row (0 items to choos from and a weight capcity of 1), until it gets to the end of the row.  Then it goes to the next row (1 item to choose from, 0 weight capacity, 1 weight capacity, 2 weight capacity, etc), until it eventually solve the bottom right corner.  Each value can be found by using previous values solved for in the matrix, so things don't get recalculated and this is more efficient.
+            <code><pre>
+                const dynamicKnapsack = function(weightCap, weights, values) {
+                    const numItem = weights.length;
+                    const matrix = new Array(numItem + 1);
+                    
+                    for (let index = 0; index &lt= numItem; index++) {
+                        matrix[index] = new Array(weightCap + 1);
+                        for (let weight = 0; weight &lt= weightCap; weight++) {
+                            if (index === 0 || weight === 0) {
+                                matrix[index][weight] = 0;
+                            } else if (weights[index - 1] &lt= weight) {
+                                const includeItem = values[index - 1] + matrix[index - 1][weight - weights[index - 1]];
+                                const excludeItem = matrix[index - 1][weight];
+                                matrix[index][weight] = Math.max(includeItem, excludeItem);
+                            } else {
+                                matrix[index][weight] = matrix[index - 1][weight];
+                            }
+                        }
+                    }
+
+                    return matrix[numItem][weightCap]; 
+                };
+            </pre></code>
+        </li>
     </ul>
 </body>
 </html>
