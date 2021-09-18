@@ -67,7 +67,7 @@
             });
         </pre></code></li>
         <li><code>app.use(express.static('public'));</code> can be used to serve up a static website in a specified directory 'public' in this case</li>
-        <li><strong>Routes</strong> are registered on your express app to direct the server how to handle requests based on the request's path and http method. The path is the part of a url after the hostname (or hostname and port number, e.g. with a local server the url localhost:4001/monsters has a path of /monsters). Different http methods have their own route making method in express, and these methods usually take two arguments: the path to match (a string), and a callback that handles the request/response and takes three arguments - the request received, the response to send, and next. When a request is received, express checks through your registered routes in the order they are written in your code.  It must match the path exactly or else it will move on (e.g. a request with path /monsters/23 will not match a route with '/monsters'). Once it matches a route based on the path and http method, it will run the callback for that route.  If no routes are registered that match a request sent to the server or if no response was sent by routes that were matched, then express will automatically send back a 404 NOT FOUND response.</li>
+        <li><strong>Routes</strong> are registered on your express app to direct the server how to handle requests based on the request's path and http method. These path and method combinations define the endpoints at which requests can be made. The path is the part of a url after the hostname (or hostname and port number, e.g. with a local server the url localhost:4001/monsters has a path of /monsters). Different http methods have their own route making method in express, and these methods usually take two arguments: the path to match (a string), and a callback that handles the request/response and takes three arguments - the request received, the response to send, and next. When a request is received, express checks through your registered routes in the order they are written in your code.  It must match the path exactly or else it will move on (e.g. a request with path /monsters/23 will not match a route with '/monsters'). Once it matches a route based on the path and http method, it will run the callback for that route.  If no routes are registered that match a request sent to the server or if no response was sent by routes that were matched, then express will automatically send back a 404 NOT FOUND response.</li>
         <li><code>.send()</code> and <code>.json()</code> In the route's callback, these methods can be used on the response object passed into the callback.  These methods will send a response back to the client, and they take an argument of what should be sent in the body.  For instance, res.send(someObject) or res.json(someObject),  the <code>.json()</code> version just explicitly sends a json object and can be provided any javascript object/array as its argument, it will convert to json and send. You don't have to include anything as an argument and it will still send a response, for instance you may send an error code response back and not have anything for send's argument.</li>
         <li><strong>Route Parameters</strong> Routes paths can include parameters that are like wildcards in the matching process, which are given a name in the path to match and preceded by a colon, like <code>monsters/:id</code> contains a parameter called id.  Any request with a route such as <code>monsters/4</code> or <code>monsters/23</code> will be matched by this route.  Any parameters will be available in a object called params as a property of the request object passed to the route's callback.  Each parameter name will be a key and it's actual value will be a value. e.g. 
         <code><pre>
@@ -91,6 +91,14 @@
                 res.send(monsters[req.params.id]);
             });
         </pre></code></li>
+        <li><strong>String Patterns and Regular Expressions</strong> Special characters can be used in path strings as wildcards, and you can also use regular expressions.
+        <ul>
+            <li>A ? means the preceding character is optional, e.g. '/ab?cd' will match both '/abcd' and '/acd'</li>
+            <li>A + means the preceding character can appear one or more times.  e.g. '/ab+cd' will match '/abcd', '/abbcd', '/abbbcd', etc.</li>
+            <li>A * means zero or more characters can appear in its place.  e.g. '/ab*cd' will match '/abcd', '/abxcd', '/abRANDOMcd', '/ab123cd', etc.</li>
+            <li>() can be used to group characters to use in combination with above, e.g. '/ab(cd)?e' will match '/abe' and '/abcde'</li>
+            <li>You can also use regular expressions in place of a string route.  So, you would not have single quotes around it, but rather backslashes to indicate a regular expression.  e.g. a path of /a/ would match any path with an a in it.  a path of /.*fly$/ would match butterfly and dragonfly, but not butterflyman or dragonflyman.</li>
+        </ul></li>
         <li><strong>Status Codes</strong> By default, .send() will use status code 200 OK for the response it sends.  You can specify the status code using the .status() method on the response object before chaining .send() to it.  .status takes a numerical argument for the status code. e.g.
         <code><pre>
             const monsterStoreInventory = { fenrirs: 4, banshees: 1, jerseyDevils: 4, krakens: 3 };
@@ -117,6 +125,48 @@
         <li><code>.put()</code> This is used to match put requests, taking a string path as the first argument and a callback for the second argument with (request, response, next) parameters.  Put requests are used to update a resource and the path should generally contain a parameter because you will be matching the id or name of a specific resource to update.  Normally you should use res.send() to send back a copy of the updated resource with a 200 status code (default), and you should send back a 404 not found if the resource being asked to be updated is not found.</li>
         <li><code>.post()</code> This is used to match post requests that create new resources.  It takes a path as the first argument, and the normal callback with request, response, and next parameters.  The path will just be the path to some collection of resources that the client wants to add a resource to.  The information for the new resource could be contained in a query string, or it could come in the request body.  If the resource was succesfully created, then normally you should send back a 201 CREATED code along with a copy of the new resource.  If it wasn't successfully created, then normally you should send back a 400 status code.</li>
         <li><code>.delete()</code> This is used to match delete requests, again taking a path as the first argument and callback for the second argument with request, response and next parameters.  The path generally should contain a parameter for the id or name of the specific resource to be deleted.  If the resource is found and successfully deleted, you'll often want to send back a 204 NO CONTENT status, with no argument provided to .send().  If the resource being requested to be deleted can't be found it should usually send back a 404 status code.</li>
+    </ul>
+
+    <h2>Routers</h2>
+    <ul>
+        <li>Routers are like mini express applications that provide all the route functionality but without starting their own server or listening on their own ports.  They are used to group routes that begin with the same path.  They are a method of the imported express library (as opposed to a method on the express app you've made).  They are "mounted" at a particular path to your main app using app.use().  The router itself can use all the same route methods as your app like .get, .put, .post, and .delete.</li>
+        <li>Routers can be defined in the same file as app, but usually you will put each router in it's own file, export it, and import it into your app file. e.g.
+            <code><pre>
+                // monsters.js
+                const express = require('express');
+                const monstersRouter = express.Router();
+                
+                const monsters = {
+                    '1': {
+                        name: 'godzilla',
+                        age: 250000000
+                    },
+                    '2': {
+                        Name: 'manticore',
+                        age: 21
+                    }
+                }
+                
+                monstersRouter.get('/:id', (req, res, next) => {
+                    const monster = monsters[req.params.id];
+                    if (monster) {
+                        res.send(monster);
+                    } else {
+                        res.status(404).send();
+                    }
+                });
+                
+                module.exports = monstersRouter;
+
+                // main.js
+                const express = require('express');
+                const app = express();
+                const monstersRouter = require('./monsters.js');
+                
+                app.use('/monsters', monstersRouter);
+            </pre></code>
+        </li>
+        <li>To match the path of a request, the path will be matched against each app.use in app.js in the order they are written in your code.  Only the beginning of the request's path needs to match (e.g. both a request to '/monsters' and '/monsters/3' will be matched by a router to '/monsters'.  Once mathced, the request will be sent to the router, but only the remaining unmatched part of the path will be used to match routes in the router.  e.g. in the router '/' is used to match the request to '/monsters' and '/:id' will match a request to '/monsters/3'.  Routers can be nested and only the remaining unmatched segment of the path will be used to match within each nested router.</li>
     </ul>
 </body>
 </html>
