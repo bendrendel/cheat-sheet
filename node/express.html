@@ -49,5 +49,74 @@
         <li>express can be installed in a project by first running <code>npm init</code> in the project's root folder, and then running <code>npm install express</code> to install to production dependencies. Now you can require in express in your js files and use it!  To run your app you can run <code>node my-app.js</code></li>
         <li>Alernatively you can use the express application generator to create an express app with a skeleton that follows MVC.  First install it globally with <code>npm install express-generator -g</code> (you may need to prefix it with sudo on mac and linux). Now you can navigate to the directory you want to create your project in, and run <code>express my-project-name</code> to create a project folder named my-project-name with express already installed.  Or with Node 8.2.0 or great you can run <code>npx express-generator my-project-name</code> which doesn't install it globally.  Now you need to go into your new project directory and run <code>npm install</code> to install all the dependencies that express-generator added to you new package.json file.  Now to run your app use <code>DEBUG=helloworld:* npm start</code>, as express-generator comes with a debugger tool. You can see your locally served app at <code>http://127.0.0.1:3000/</code></li>
     </ul>
+
+    <h2>Routes</h2>
+    <ul>
+        <li><strong>Server</strong> Creating the most basic server is done by requiring in express, then using it to create an instance of an express application saved to the app variable.  This instance can be used to start a server and specify the server's behavior. The .listen method is called on the instance to start the server process, which will listen on a specified port for any requests and respond to them, and takes a second argument callback function that runs when the server starts.  You would save this in a file like app.js, and you can start the server by running <code>node app.js</code>
+        <code><pre>
+            // Import the express library here
+            const express = require('express');
+            // Instantiate the app here
+            const app = express();
+
+            const PORT = process.env.PORT || 4001;
+
+            // Invoke the app's `.listen()` method below:
+            app.listen(PORT, () => {
+                console.log(`Server is listening on port ${PORT}`);
+            });
+        </pre></code></li>
+        <li><code>app.use(express.static('public'));</code> can be used to serve up a static website in a specified directory 'public' in this case</li>
+        <li><strong>Routes</strong> are registered on your express app to direct the server how to handle requests based on the request's path and http method. The path is the part of a url after the hostname (or hostname and port number, e.g. with a local server the url localhost:4001/monsters has a path of /monsters). Different http methods have their own route making method in express, and these methods usually take two arguments: the path to match (a string), and a callback that handles the request/response and takes three arguments - the request received, the response to send, and next. When a request is received, express checks through your registered routes in the order they are written in your code.  It must match the path exactly or else it will move on (e.g. a request with path /monsters/23 will not match a route with '/monsters'). Once it matches a route based on the path and http method, it will run the callback for that route.  If no routes are registered that match a request sent to the server or if no response was sent by routes that were matched, then express will automatically send back a 404 NOT FOUND response.</li>
+        <li><code>.send()</code> and <code>.json()</code> In the route's callback, these methods can be used on the response object passed into the callback.  These methods will send a response back to the client, and they take an argument of what should be sent in the body.  For instance, res.send(someObject) or res.json(someObject),  the <code>.json()</code> version just explicitly sends a json object and can be provided any javascript object/array as its argument, it will convert to json and send. You don't have to include anything as an argument and it will still send a response, for instance you may send an error code response back and not have anything for send's argument.</li>
+        <li><strong>Route Parameters</strong> Routes paths can include parameters that are like wildcards in the matching process, which are given a name in the path to match and preceded by a colon, like <code>monsters/:id</code> contains a parameter called id.  Any request with a route such as <code>monsters/4</code> or <code>monsters/23</code> will be matched by this route.  Any parameters will be available in a object called params as a property of the request object passed to the route's callback.  Each parameter name will be a key and it's actual value will be a value. e.g. 
+        <code><pre>
+            const monsters = { 
+                hydra: { height: 3, age: 4 }, 
+                dragon: { height: 200, age: 350 } 
+            };
+            // GET /monsters/hydra
+            app.get('/monsters/:name', (req, res, next) => {
+                console.log(req.params)' // { name: 'hydra' }
+                res.send(monsters[req.params.name]);
+            });
+        </pre></code></li>
+        <li><strong>Query Strings</strong> Query strings in a request appearing after the path are not included in the path matching of routes.  Instead they are extracted from the request and placed in an object called query as a property of the request object passed to a route's callback.  Each query key becomes a key of the object and the query values become the corresponding values in the object. e.g. 
+        <code><pre>
+            const monsters = { '1': { name: 'cerberus', age: '4'  } };
+            // PUT /monsters/1?name=chimera&age=1
+            app.put('/monsters/:id', (req, res, next) => {
+                const monsterUpdates = req.query;
+                monsters[req.params.id] = monsterUpdates;
+                res.send(monsters[req.params.id]);
+            });
+        </pre></code></li>
+        <li><strong>Status Codes</strong> By default, .send() will use status code 200 OK for the response it sends.  You can specify the status code using the .status() method on the response object before chaining .send() to it.  .status takes a numerical argument for the status code. e.g.
+        <code><pre>
+            const monsterStoreInventory = { fenrirs: 4, banshees: 1, jerseyDevils: 4, krakens: 3 };
+            app.get('/monsters-inventory/:name', (req, res, next) => {
+                const monsterInventory = monsterStoreInventory[req.params.name];
+                if (monsterInventory) {
+                    res.send(monsterInventory);
+                } else {
+                    res.status(404).send('Monster not found');
+                }
+            });
+        </pre></code></li>
+        <li><code>.get()</code> is a method of an express application instance used to register GET routes. It takes a path for the first argument and a callback to run for the second.  The below would come after you instantiate app and define the PORT, but before you call app.listen().  The path may have a parameter if it is getting a specific resource by id or name, or it may not have a parameter if it is meant to return a whole collection of resources.  Best practice is to send back a 404 error code as shown above if the resource is not found and 200 (default) if found along with the resource.
+        <code><pre>
+            const monsters = [
+                { type: 'werewolf' }, 
+                { type: 'hydra' }, 
+                { type: 'chupacabra' }
+            ];
+            app.get('/monsters', (req, res, next) => {
+                res.send(monsters);
+            });
+        </pre></code></li>
+        <li><code>.put()</code> This is used to match put requests, taking a string path as the first argument and a callback for the second argument with (request, response, next) parameters.  Put requests are used to update a resource and the path should generally contain a parameter because you will be matching the id or name of a specific resource to update.  Normally you should use res.send() to send back a copy of the updated resource with a 200 status code (default), and you should send back a 404 not found if the resource being asked to be updated is not found.</li>
+        <li><code>.post()</code> This is used to match post requests that create new resources.  It takes a path as the first argument, and the normal callback with request, response, and next parameters.  The path will just be the path to some collection of resources that the client wants to add a resource to.  The information for the new resource could be contained in a query string, or it could come in the request body.  If the resource was succesfully created, then normally you should send back a 201 CREATED code along with a copy of the new resource.  If it wasn't successfully created, then normally you should send back a 400 status code.</li>
+        <li><code>.delete()</code> This is used to match delete requests, again taking a path as the first argument and callback for the second argument with request, response and next parameters.  The path generally should contain a parameter for the id or name of the specific resource to be deleted.  If the resource is found and successfully deleted, you'll often want to send back a 204 NO CONTENT status, with no argument provided to .send().  If the resource being requested to be deleted can't be found it should usually send back a 404 status code.</li>
+    </ul>
 </body>
 </html>
