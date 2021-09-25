@@ -10,6 +10,14 @@
     <a href="../index.html">Home</a>
     <h1>PostgreSQL</h1>
 
+    <h2>Installation</h2>
+    <ul>
+        <li>Postgres is a database server and must be connected to via a postgres client that allows for interaction with SQL.  Clients include GUI clients like Postbird, PgAdmin4, and Postico, CLI Clients like psql, and Programming Language Clients like an ORM.  To use postgres locally you must set up both the postgres server and a client. You can have only one postgres database server running per port (typically 5432), but many different open interfaces (clients) per server</li>
+        <li><strong>Server</strong> On MacOS there are several ways to download and manage Postgres.  <strong>postgres.app</strong> is an easy way to get started and can be downloaded at <a href="https://postgresapp.com/">postgresapp.com</a>. Windows and Linux have their own installation steps. </li>
+        <li><strong>GUI Client</strong> Postbird is a good graphical interface for a postgres server and can be downloded at <a href="https://www.electronjs.org/apps/postbird">electronjs.org/apps/postbird</a> There will be a dropdown for you to select a postgres server to connect to</li>
+        <li><strong>CLI Client</strong> psql is the standard CLI interface for postgres.  To use it, simply double click on the database within the postgres.app application.  It should open up a terminal that you can begin issuing sql commands on. When using psql use the <code>\q</code> command to quit.</li>
+    </ul>
+
     <h2>Data Types</h2>
     <ul>
         <li>Common data types in PostgreSQL include those below (you would use these in your CREATE TABLE/ALTER TABLE statements to define column data types, instead of TEXT, INTEGER, etc., note these are lowercased):</li>
@@ -27,8 +35,9 @@
             <li><code>time</code> time of day (no time zone) literals look like '2020-08-15 18:00'</li>
         </ul>
         <li>PostgreSQL uses automatic type-casting when inserting data, so if you insert a decimal value into an integer column it will round the decimal into an integer (e.g. insert 1.5 become 2), or if you nisert a number into a varchar column it will be cast to a string (e.g. insert 1.5 becomes '1.5').  However, strings will not be converted to numbers (e.g. insert '1.5' into a numeric field and you will get a type error instead of an uatomatic conversion to 1.5).</li>
-
     </ul>
+
+
 
 </body>
 </html>
