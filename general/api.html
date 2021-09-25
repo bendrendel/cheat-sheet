@@ -70,5 +70,51 @@
 </code></li>
             </ul>
         </ul>
+
+        <h2>Testing APIs</h2>
+        <ul>
+            <li>Postman is a popular GUI API testing environment</li>
+            <ul>
+                <li>Make get requests by selecting GET, typing in the url and hitting send</li>
+                <li>Make post requests by selecting POST, typiing in the url, providing a body and hitting send.  You can provide the body either by choosing raw under the body and selecting json, and typing in json directly which will give a header to your request of Content-Type: application/json.  Or you can provide the body by choosing x-www-form-urlencoded under the body tab and typing in each key-value pair, which will give a header to your request of Content-Type: application/x-www-form-urlencoded.  This mimics what an html form would send.</li>
+                <li>Make put requests in the same way you make POST requests, but obviously selecting PUT instead of POST.  Provide the updated resource in the body.</li>
+                <li>Make patch requests in the same way as POST and PUT requests, but select PATCH.  PATCH is different than POST in that it similarly updates a resource but you don't have to provide all the values of the resource in the request, you can just provide the value you want to change.  In a POST request if you don't provide all the values, then that data will assumed to be blank and the resource will be updated to be blank for the missing values (exception is values that are auto-incrementing IDs, or timestamps or similar)</li>
+                <li>Make delete requests by selecting DELETE, typing in the url to the specific resource and hitting send.</li>
+                <li>You can add headers if needed for e.g. authorization to the headers tab.  e.g. key = Authorization, value = Bearer SECRET_VALUE</li>
+            </ul>
+            <li><a href="https://jsonplaceholder.typicode.com/">JSON Placeholder</a> is a handy fake API service that is useful for testing API calls if you need some fake data.  It is used in the cURL examples below.</li>
+            <li>cURL is a CLI tool for transferring data via URLs that can be used to test APIs. To use cURL, type <code>curl</code> in the command line followed by the following arguments and data as needed:</li>
+            <ul>
+                <li><code>-X --request</code> Custom request method</li>
+                <li><code>-d --data</code> Sends the specified data</li>
+                <li><code>-H --header</code> Sends headers</li>
+                <li><code>-i --include</code> Display response headers</li>
+                <li><code>\</code> you can put this at the end of a line to keep adding more lines to your request</li>
+            </ul>
+            <li>Example cURL requests:
+                <ul>
+                    <li>Get request (this is the default request method if not specified): <code>curl https://jsonplaceholder.typicode.com/posts</code></li>
+                    <li>Get request but display info about headers: <code>curl -i https://jsonplaceholder.typicode.com/posts</code></li>
+                    <li>Post request using query string <code>curl -X POST -d "userId=5&title=Stuff and Things&body=An amazing blog post about both stuff and things." https://jsonplaceholder.typicode.com/posts</code></li>
+                    <li>Post request with json <code>curl -X POST -H "Content-Type: application/json" -d '{"userId": 5, "title": "Stuff and Things", "body": "An amazing blog post about both stuff and things."}' https://jsonplaceholder.typicode.com/posts</code></li>
+                    <li>Put request with query string <code>curl -X PUT -d "userId=1&title=Something else&body=A new body" https://jsonplaceholder.typicode.com/posts/1</code></li>
+                    <li>Put request with json <code>curl -X PUT -H "Content-Type: application/json" -d '{"userId": 1, "title": "Something else", "body": "A new body"}' https://jsonplaceholder.typicode.com/posts/1</code></li>
+                    <li>Patch request with query string: <code>curl -X PATCH -d "title='Only change the title'" https://jsonplaceholder.typicode.com/posts/1</code></li>
+                    <li>Patch request with json: <code>curl -X PATCH -H "Content-Type: application/json" -d '{"title": "Only change the title"}' https://jsonplaceholder.typicode.com/posts/1</code></li>
+                    <li>Delete request: <code>curl -X DELETE https://jsonplaceholder.typicode.com/posts/1</code></li>
+                    <li>Send additional headers for authentication:
+                        <code><pre>
+                            curl \
+                            -H "Content-Type: application/json" \
+                            -H "Authorization: Bearer &ltJWT_TOKEN>" \
+                            -H "x-jwt-assertion: &ltJWT_TOKEN>" \
+                            -X POST \
+                            -d  '{"key1" : "value1", "key2" : "value2"}' \
+                            https://example.com/
+                        </pre></code>
+                    </li>
+                </ul>
+            </li>
+        </ul>
     </body>
 </html>
