@@ -14,11 +14,12 @@
     <ul>
         <li>Middleware generally refers to code that runs on a server between receiving a request and sending a response.  Express applications are essentially a series of middleware function calls.</li>
         <li>Part of the motivation for middleware is to improve code quality.  Quality code means code that is easier to read, update, and maintain because in general code will be read many more times than it is written.  A cornerstone of code quality is finding ways to not repeat code that does similar tasks, so that maintenance is reduced to a single section of code instead of many sections of similar code.  This is referred to as Don't Repeat Yourself (DRY) or DRY code.</li>
+        <li><strong>express middleware</strong> An Express middleware function is a function with three arguments: req, res, and next.  Routes are simply a type of middleware.  All middleware can run any code, make changes to the request and response object, has the option of sending a response back and ending the request-response cycle, or passing control along to the next middleware in the order written in the code by calling <code>next()</code>.  If the middleware does not end the request-response cycle, then it must call next(), otherwise controll will not pass to the next middleware and the request will be left hanging.  If a middleware sends back a response and doesn't call next, then no middleware written after it will run.  Express has four types of middleware: application and router-level middleware, error-handling middleware, built-in middleware, and third-party middleware.</li>
     </ul>
 
-    <h2>Basic Implementation of Middleware with Express</h2>
+    <h2>Application and Router-Level Middleware</h2>
     <ul>
-        <li><code>express middleware</code> An Express middleware is a function with three arguments: req, res, and next.  Routes are simply a type of middleware.  All middleware has the option of sending a response back using the response argument, or passing control along to the next middleware in the order written in the code by calling <code>next()</code>.  If next() is not called, control will not pass ot the next middleware.</li>
+        <li>Express applications and express routers can load middleware with app.use()/router.use() and app.METHOD()/router.METHOD(), where method is one of the http methods in lower case.  These can be loaded with an optional path argument.</li>
         <li><code>app.use()</code> is a general-purpose middleware method in express.  It takes a callback function argument just like routes do with req, res, and next arguments. Optionally it can take a path argument as the first argument to specify on which paths the middleware should run. (Without a path argument, the path defaults to '/' so it runs for every request).  Unlike with routes where the path has to be an exact match, the path in app.use() will be treated as a prefix and any request paths that begin with the path will be a match.  e.g. '/monsters' in app.use() will match requests to '/monsters/4', '/monsters/3/traits', etc.  Instead of a string, the path argument can also be a path pattern or regex (similar to routes) or an array of any combination of path strings, patterns, or regexs.</li>
         <ul>
             <li>Logging middleware that would run for every request: 
@@ -29,7 +30,7 @@
                     });
                 </pre></code>
             </li>
-            <li>Matching a particular path.  Helpful if, e.g. you have a get, put, delete route all with the same path, that uses a parameter to match some particular resource to either retrieve it, update it, or delete it.  For each route you may need to check whether the requested resource exists, so that code can go in the app.use() middleware for that path. (This example uses return as a way to exit the callback so that the rest of the callback doesn't run, but you could just as well use an else block.) Additionally, you can attach information to the request object which will get passed on to the next middleware and can be used in your routes. 
+            <li><strong>Paths</strong> App.use() can take an optional path argument in its first argument, to match a particular path. Helpful if, e.g. you have a get, put, delete route all with the same path, that uses a parameter to match some particular resource to either retrieve it, update it, or delete it.  For each route you may need to check whether the requested resource exists, so that code can go in the app.use() middleware for that path. (This example uses return as a way to exit the callback so that the rest of the callback doesn't run, but you could just as well use an else block.) Additionally, you can attach information to the request object which will get passed on to the next middleware and can be used in your routes. 
                 <code><pre>
                     app.use('/beans/:beanName', (req, res, next) => {
                         const beanName = req.params.beanName;
@@ -43,7 +44,7 @@
                     });
                 </pre></code>
             </li>
-            <li>Middleware that waits to download the body data of a request and then attaches it to the request, so it can be used in any later middleware/routes.
+            <li>Middleware that waits to download the body data of a request and then attaches it to the request, so it can be used in any later middleware/routes.  Middleware could do all sorts of things and attach results as a property of the request that will be available in later middleware, e.g. you could have a middleware that get the current time and attaches it as a property called timestamp to the request.
                 <code><pre>
                     app.use(['/beans/', '/beans/:beanName'], (req, res, next) => {
                         let bodyData = '';
@@ -60,8 +61,40 @@
                     });
                 </pre></code>
             </li>
+            <li><strong>Async/await</strong> Using async functions for middleware.  Any middleware functions that returns a promise will call next(value) if the promise settles to rejected or if the promise throws an error.  The value given to next will be the rejected value or the thrown error.
+                <code><pre>
+                    var express = require('express')
+                    var cookieParser = require('cookie-parser')
+                    var app = express()
+
+                    async function cookieValidator (cookies) {
+                        try {
+                            await externallyValidateCookie(cookies.testCookie)
+                        } catch {
+                            throw new Error('Invalid cookies')
+                        }
+                    }
+
+                    async function validateCookies (req, res, next) {
+                        await cookieValidator(req.cookies)
+                        next()
+                    }
+
+                    app.use(cookieParser())
+
+                    app.use(validateCookies)
+
+                    // error handler
+                    app.use(function (err, req, res, next) {
+                        res.status(400).send(err.message)
+                    })
+
+                    app.listen(3000)
+                </pre></code>
+            </li>
+            <li><strong>Custom configurable middleware</strong> It may be helpful to define a function that returns a middleware function, and the outer function can accept a configuration object as an argument or other arguments which customizes the behavior of the returned middleware function.</li>
         </ul>
-        <li><strong>Middleware Stack</strong> app.use() and all the route methods like app.get() can actually accept one or more middleware callback functions which run one after the other. You can define these middleware functions as independent functions which have (res, req, next) arguments, and then include them in different app.use(), app.get(), etc as needed. Each middleware in the sequence needs to call next() to go to the next middleware argument, and can call res.send() to send responses. e.g. you might have something like below that uses middleware functions defined previously like authenticate, getSpell, validateData, etc, each of which takes (res, req, next) arguments and can inspect the res, attach things to it, send requests, call next, just like anonymously defined middleware functions.
+        <li><strong>Middleware Substacks</strong> app.use() and all the route methods like app.get() can actually accept one or more middleware callback functions which run one after the other. It may be helpful to define these middleware functions as independent functions which have (res, req, next) arguments, and then include them in different app.use(), app.get(), etc as needed. Each middleware in the sequence needs to call next() to go to the next middleware argument, and can call res.send() to send responses. e.g. you might have something like below that uses middleware functions defined previously like authenticate, getSpell, validateData, etc, each of which takes (res, req, next) arguments and can inspect the res, attach things to it, send requests, call next, just like anonymously defined middleware functions.  Additionally, for reusability you can group together middleware functions in an array and pass that array into your route or app.use() to call the functions in order.  You can still include other middleware function arguments before or after the array as well.  Special note: for middleware stacks in an app.METHOD() or router.METHOD() route, you can call <code>next('route')</code> to skip the rest of the middleware functions in the substack, and thus pass control on to the next route or app.use() call.
         <code><pre>
             app.get('/spells/:id', authenticate, getSpell);
             
@@ -69,7 +102,11 @@
             
             app.put('/spells/:id', authenticate, validateData, updateSpell);
         </pre></code></li>
-        <li><strong>Error-Handling</strong> Express has its own error-handler built in that catches errors you don't explicitly handle.  But if you are doing an operation that may be error-prone (perhaps calling an API), you can add explicity error-handling in your middleware.  To do your own error handling, you call next() in your middleware but give it an argument that is an error object, in the example below be sure to use the return statement with the next() call with the error to break out of the middleware. e.g.
+    </ul>
+
+    <h2>Error Handling Middleware</h2>
+    <ul>
+        <li><strong>Throwing errors</strong> Express has its own error-handler built in that catches errors you don't explicitly handle.  But if you are doing an operation that may be error-prone (perhaps calling an API), you can add explicity error-handling in your middleware.  To do your own error handling, you call next() in your middleware but give it an argument that is an error object, in the example below be sure to use the return statement with the next() call with the error to break out of the middleware. If you pass anything into the next() function besides the strings 'route' and 'router', express will regard it as an error occuring and skip all middleware until it gets to an error-handling middleware.  e.g.
         <code><pre>
             app.use((req, res, next) => {
                 const newValue = possiblyProblematicOperation();
@@ -80,6 +117,8 @@
                 next();
             });
         </pre></code>
+        </li>
+        <li>
         Then you can write an error handling middleware, which is like regular middleware but has an additional argument (written as the first argument) that accepts an error. Error handling middleware should always be written last in your code so that errors thrown in other middleware will always get passed to the error handler.  Your error handling middleware might log errors, send responses with error message, send an email to the developer, re-attempt the failed operation, etc. e.g.
         <code><pre>
             app.use((err, req, res, next) => {
@@ -88,13 +127,28 @@
             });
         </pre></code>
         </li>
-        <li><strong>Third-Party Middleware</strong> There is lots of middleware you can get from npm to perform common functions like logging so you don't have to reinvent the wheel.
+    </ul>
+
+    <h2>Built-in Middleware</h2>
+    <ul>
+        <li>Express used to have more built-in middleware but this has mostly been moved to separate modules now.  Express still has the following:
+            <ul>
+                <li>express.static serves static assets such as HTML files, images, and so on.</li>
+                <li>express.json parses incoming requests with JSON payloads. NOTE: Available with Express 4.16.0+</li>
+                <li>express.urlencoded parses incoming requests with URL-encoded payloads. NOTE: Available with Express 4.16.0+</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>Third Party Middleware</h2>
+    <ul>
+       <li><strong>Third-Party Middleware</strong> There is lots of middleware you can get from npm to perform common functions like logging so you don't have to reinvent the wheel.  In general, for third-party middleware you first need to install the package from npm with <code>npm install mymiddleware</code> unless it is a node core module, and then require it into your file.  Popular middleware can be found here: <a href="https://expressjs.com/en/resources/middleware.html">Express middleware</a>
         <ul>
             <li><strong>morgan</strong> this is middleware in node core modules for logging information on each request received and each response sent.  It needs to be required in with <code>const morgan = require('morgan');</code>.  Calling morgan() will return a middleware function (that accepts req, res, and next arguments). Thus, morgan can simply be called inside app.use() to run logging for every request received and response sent, e.g. <code>app.use(morgan('tiny'));</code> morgan accepts an argument to define the type of logging it will do, e.g. <code>morgan('tiny')</code> logs a minimal amount of information about each request received and response sent. morgan('dev') logs a bit more.</li>
             <li><strong>body-parser</strong> this is middleware in node core modules for parsing the body of a request (instead of the custom parsing shown in an example above).  It needs to be imported with <code>const bodyParser = require('body-parser');</code> It has multiple methods for defining how to parse the body, for instance bodyParser.json() will return the body in json format.  It will parse the body of every request that has a body and save the parsed results to req.body, so that in later middleware you can access the body with req.body.  You would use it near the beginning of your middleware stack with e.g. <code>app.use(bodyParser.json());</code></li>
             <li><strong>errorhandler</strong> You can require in <code>const errorHandler = require('errorhandler')</code> and then use <code>app.use(errorHandler());</code> To get some basic error handling right away.  You don't have to put the error Handler at the bottom of the file.</li>
         </ul>
-        </li>
+        </li>        
     </ul>
 </body>
 </html>
