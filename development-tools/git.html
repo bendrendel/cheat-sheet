@@ -100,7 +100,7 @@
                     <li><strong>git diff --stat </strong>will only show filenames that have changes, won't show line by line changes</li>
                 </ul>
             <p><strong>git commit -m "message": </strong>permanently stores changes in staging area to repository, 
-                creates a "commit" with unique 40-character hexadecimal value SHA or git ref.  Typically requires creating of at least one new blob for a new file added or a new version of an existing file.  Also typically involves creating a new tree to represent the working directory that references the new blobs, and then a commit is created pointing to that tree. The new commit points to the parent commit (the one that the HEAD branch was pointing to when commit is made), and finally this updates the branch HEAD is pointing to, to now point at the new commit.</p>
+                creates a "commit" with unique 40-character hexadecimal value SHA or git ref.  Typically involves creating at least one new blob for a new file added or a new version of an existing file.  Also typically involves creating at least one new tree to represent the working directory that references the new blobs, and then a commit is created pointing to that new tree. (Only rare circumstances will not require a new tree representing the working directory - if your working directory just so happens to exactly match a prior committed version of your working directory with exactly the same files, contents, names, etc. then the new tree will hash to the exact same SHA as one that already exists and thus your commit will point to the already existing tree instead of creating a new one.  This happens if you make a commit for some reason with absolutely no changes).  The new commit points to the parent commit (the one that the HEAD branch was pointing to when commit is made), and finally this updates the branch HEAD is pointing to, to now point at the new commit.</p>
             <ul>
                 <li>message should be in present tense and less than 50 characters, start with capitol letter</li>
                 <li>Often will group changes to multiple files under a single commit, should craft commits to tell an easy to understand story of changes</li>
@@ -185,7 +185,7 @@
                 <ul>
                     <li>This takes the current version of branchname, and "replays" the commits in your checked out branch starting from the latest commit of branchname</li>
                     <li>This changes the SHAs on all of the commits you've made in your checked out branch, so be careful if others are working on this branch as well
-                        as it could mess them up</li>
+                        as it could mess them up, this is generally meant to be used on branches where its primarily just you working on the branch.</li>
                     <li>Rebase is good if clarity of history on the master branch is desired, because it creates an easy to follow linear history on the master
                         branch.  However, for projects where speed of delivery is more important, rebase may not be preferred, and instead merge will be used
                     </li>
@@ -193,7 +193,7 @@
                 </ul>
 
             <h2>Merging Commands</h2>
-            <p><strong>git merge branch_name: </strong>brings all commits from branch_name (giver branch) into the currently checked out branch (receiver branch)</p>
+            <p><strong>git merge branch_name: </strong>brings all commits from branch_name (giver branch) into the currently checked out branch (receiver branch).  If the receiver branch has uncommitted changes in the staging area or working directory merge will not proceed and instead warn you that you could lose these changes since merge creates a new commit and these changes would be lost.</p>
             <ul>
                 <li>typically you checkout the master branch, then run this command to merge branch_name into master</li>
                 <li><strong>git merge ff-only branch_name </strong>this will do a fast forward merge.  This is when the branch you want to merge into your current branch, has the current branch's current commit in its history.  If the receiver branch has had its own independent commits since the giver branch branched off, then the reciever branch will point to a commit that is not in the giver branch's history, and a fast forward merge is not possible.  If a fast forward merge is possible, then all it does is moves the receiver branch to point at the same commit as the giver branch.</li>
@@ -203,16 +203,16 @@
             </ul>
             <p><strong>Resolving merge conflicts: </strong></p>
             <ul>
-                <li>any line of a file with conflicting changes between the branches will show an error msg, and the file will not be committed
-                    and a special version of the file in the working directory will show the two conflicting alternatives for the line</li>
+                <li>If any file has lines with conflicting changes between the branches, git will show an error msg in the command line after you run the merge command and the file will not be committed.
+                    Instead, git will automatically modify the file in the working directory with special markup that shows the two conflicting alternatives for the line.  Running git status will output that you are in a merge conflict state on your reciever branch.  Running git log --merge will list out the commits that conflict between the two branches.</li>
                 <li>The receiver branch version of the line(s) will be between &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD and ======= 
                     while the giver branch version will be between the ======= and &gt;&gt;&gt;&gt;&gt;&gt;&gt; branchname</li>
-                <li>to resolve, delete all of the special markup added by Git and keep only the version of the line you want or otherwise edit</li>
-                <li>now you should stage the file, fix and stage any other conflicting files, and finally make a commit 
-                    with the message "Resolve merge conflict" or similar</li>
+                <li>to resolve, delete all of the special markup added by Git and keep only the version of the line you want or keep everything or otherwise edit to your liking</li>
+                <li>now you should stage the file with git add, fix and stage any other conflicting files, and finally make a commit 
+                    with the message "Resolve merge conflict" or similar.  This will create a new commit that finalizes the merge.</li>
             </ul>
             <p><strong>git merge --abort: </strong>After merging, if there are merge conflicts you don't want to deal with right now,
-                then you can run this command to abort the merge, and it will return the working directory and staging area back to
+                then you can run this command to abort the merge returning the reciever branch to the state it was in before the merge, returning the working directory and staging area back to
                 the last commit of the receiver branch</p>
             <p><strong>git merge --squash branchname: </strong>The --squash option will show the merge as a single commit on the receiver branch
                 instead of adding all of the commits from the giver branch</p>
@@ -274,8 +274,8 @@
                 </ul>
             </p>
 
-            <p><strong>Forking: </strong>To contribute to an open project on Github, you should use the fork feature in that project's repository to create a copy of the repository in your own Github account.  This allows you to safely work on the project on your own. Commonly you will fork the project, then clone the project onto your machine to get a local copy, then make a feature branch, commit changes to the feature branch, then push the feature branch up to the remote using --set-upstream since it is a new branch, then you would submit a pull request for the branch in your forked repo, with description, etc. and this would push the pull request up to the original repo for review.</p>
-            <p><strong>Pull request: </strong>Within Github, when you are working on a branch of a repository, whether you're a core contributor with ability to push to the repository or you forked the project and worked on a branch on your own, you should make a pull request for the branch when its ready for review.  With a fork this is requesting from the owner to review your branch and is the route for getting your branch merged into the main branch of the original repository.  With a repository that you have contribution rights to you could merge your branch directly but a pull request gives the whole team a chance to review it first and is often how teams always do changes.  Pull requests have feedback functionality built in and code testing abilities built in. You can keep making commits to your branch in response to feedback in the pull request. When finished, it may be first deployed to a test environment, or it could be deployed directly to the production environment.  If there are no issues, it can then be merged into the master branch and then delete your branch to keep your repo clean with no unneccessary branches, as your commits and the pull request discussion become part of the destination branch.  You can open a pull request at any time during your development, maybe if you want some feedback on the code you are working on. Pull requests can be requesting to merge any branch into any other branch (not just master), and you select these two branches when creating the pull request and the differences between these two branches are shown in the pull request.  Generally pull requests should be relatively small and people should be able to perform a code review in about 10 mins, something they can quickly squeeze in, not have to set a dedicated big block of time to.  Include gifs of the functionality, lists of what was completed and what remains to be done, etc. to help describe what you did.</p>
+            <p><strong>Forking: </strong>To contribute to an open project on Github, you should use the fork feature in that project's repository to create a copy of the repository in your own Github account.  This allows you to safely work on the project on your own. Commonly you will fork the project, then clone the project onto your machine to get a local copy, then make a feature branch, commit changes to the feature branch, then push the feature branch up to the remote using --set-upstream since it is a new branch, then you would submit a pull request for the branch in your forked repo, with description, etc. and this would push the pull request up to the original repo for review.  Keep your fork up to date with changes in the upstream repo using the Github UI or running <code>git fetch upstream</code> which will pull changes into your local from the original repo under <code>upstream/branchname</code>.  Once you fetch them you should go to the branch you want to update in your local, e.g. checkout master in your local, and then merge the upstream branch with <code>git merge upstream/master</code>.  Usually you just need to do this with master so you have the latest master that you can rebase your feature branch to.  Keep in mind this is only updating your local repo, and you will need to push the changes to your remote repo (the repo under your account that was forked from the original) to get the changes up to your remote repo.</p>
+            <p><strong>Pull request: </strong>Within Github, when you are working on a branch of a repository, whether you're a core contributor with ability to push to the repository or you forked the project and worked on a branch on your own, you should make a pull request for the branch when its ready for review.  With a fork this is requesting from the owner to review your branch and is the route for getting your branch merged into the main branch of the original repository.  With a repository that you have contribution rights to you could merge your branch directly but a pull request gives the whole team a chance to review it first and is often how teams always do changes.  Pull requests have feedback functionality built in and continuous integration/testing abilities built in that perform a predictive merge with the destination branch and run your tests and check for syntax errors and warn you if there are problems. You can keep making commits to your branch in response to feedback in the pull request. When finished, it may be first deployed to a test environment, or it could be deployed directly to the production environment.  If there are no issues, it can then be merged into the master branch and then delete your branch to keep your repo clean with no unneccessary branches, as your commits and the pull request discussion become part of the destination branch.  You can open a pull request at any time during your development, maybe if you want some feedback on the code you are working on. Pull requests can be requesting to merge any branch into any other branch (not just master), and you select these two branches when creating the pull request and the differences between these two branches are shown in the pull request.  Generally pull requests should be relatively small and people should be able to perform a code review in about 10 mins, something they can quickly squeeze in, not have to set a dedicated big block of time to.  Include gifs of the functionality, lists of what was completed and what remains to be done, etc. to help describe what you did.</p>
 
             <h2>Collaborative Github Workflow</h2>
             <ol>
@@ -302,6 +302,38 @@
                     issue number in the commit message, then it will autamotically close the issue when you commit.</li>
                 <li><strong>Wikis</strong> For more detailed info on the project besides what a Readme provides, you can make a wiki for a project, supports markdown. this is all done on
                     github's website under your project, has a home page as the entrance to the wiki and can have many other pages, and sidebard navigation.</li>
+            </ul>
+
+            <h2>Contributing to Open Source Projects</h2>
+            <ul>
+                <li>There are lots of ways to contribute.  The first big one is opening an issue to discuss an error that isn't so trivial that you can't solve yourself by directly creating a pull request, start a high-level discussion about the project's vision or somethign, or propose a new feature or idea.  You might also comment on an existing issue to say you'll work on it or to check if its still active.  The other big one is opening a pull request to fix a trivial issue like a typo or broken link, or to work on a bigger problem or idea that has already been discussed in an issue.  Its usually good to start your pull request early on before your work is finished, just label it WIP (Work in progress) in the subject line, and also be sure to reference the issue number you are working on (e.g. Closes #32).  Include before and after screenshots of the rendered page if you changed html/css. Be sure to run tests if they exist, and be sure to try and conform to the style of the project (indents, comments etc.).  Examples of how you can contribute are by fixing a typo you see, writing documentation or fixing typos/editing documentation, reviewing code, reviewing issues and commenting, cleaning up issue names and suggesting closing old ones, etc.  Projects should have a contribute page like https://github.com/facebook/react/contribute, that highlights beginner-friendly issues you could work on.</li>
+                <li>Before contributing to make sure you don't waste your time, check that the project has an open-source license, that there is an recent commit history with different contributors, that there are active issues and pull requests with people responding promptly, if the tone of discussion is welcoming and thankful for contributions.  Do some background research and reading to get up to speed, and if you have a new idea, do a search to see if it has come up before.  Turn on watching for the project for a while to get a sense of how things go in the project.  </li>
+                <li>Projects usually have the following players:
+                    <ul>
+                        <li><strong>Author:</strong> The person/s or organization that created the project</li>
+                        <li><strong>Owner:</strong> The person/s who has administrative ownership over the organization or repository (not always the same as the original author)</li>
+                        <li><strong>Maintainers:</strong> Contributors who are responsible for driving the vision and managing the organizational aspects of the project (They may also be authors or owners of the project.)</li>
+                        <li><strong>Contributors:</strong> Everyone who has contributed something back to the project</li>
+                        <li><strong>Community Members:</strong> People who use the project. They might be active in conversations or express their opinion on the project’s direction</li>
+                    </ul>
+                </li>
+                <li>Projects will also usually have the following documentation:
+                    <ul>
+                        <li><strong>LICENSE:</strong> By definition, every open source project must have an <a href="https://choosealicense.com">open source license</a>. If the project does not have a license, it is not open source.</li>
+                        <li><strong>README:</strong> The README is the instruction manual that welcomes new community members to the project. It explains why the project is useful and how to get started.</li>
+                        <li><strong>CONTRIBUTING:</strong> Whereas READMEs help people <em>use</em> the project, contributing docs help people <em>contribute</em> to the project. It explains what types of contributions are needed and how the process works. While not every project has a CONTRIBUTING file, its presence signals that this is a welcoming project to contribute to.</li>
+                        <li><strong>CODE_OF_CONDUCT:</strong> The code of conduct sets ground rules for participants’ behavior associated and helps to facilitate a friendly, welcoming environment. While not every project has a CODE_OF_CONDUCT file, its presence signals that this is a welcoming project to contribute to.</li>
+                        <li><strong>Other documentation:</strong> There might be additional documentation, such as tutorials, walkthroughs, or governance policies, especially on bigger projects.</li>
+                    </ul>
+                </li>
+                <li>Finally they usually organize discussions in the following places which is helpful to read through to get a feel for it:
+                    <ul>
+                        <li><strong>Issue tracker:</strong> Where people discuss issues related to the project.</li>
+                        <li><strong>Pull requests:</strong> Where people discuss and review changes that are in progress.</li>
+                        <li><strong>Discussion forums or mailing lists:</strong> Some projects may use these channels for conversational topics (for example, <em>“How do I…“</em> or <em>“What do you think about…“</em> instead of bug reports or feature requests). Others use the issue tracker for all conversations.</li>
+                        <li><strong>Synchronous chat channel:</strong> Some projects use chat channels (such as Slack or IRC) for casual conversation, collaboration, and quick exchanges.</li>
+                    </ul>
+                </li>
             </ul>
 
         </main>
