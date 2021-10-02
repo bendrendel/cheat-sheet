@@ -12,9 +12,18 @@
 
     <h2>Installation</h2>
     <ul>
-        <li>Postgres is a database server and must be connected to via a postgres client that allows for interaction with SQL.  Clients include GUI clients like Postbird, PgAdmin4, and Postico, CLI Clients like psql, and Programming Language Clients like an ORM.  To use postgres locally you must set up both the postgres server and a client. You can have only one postgres database server running per port (typically 5432), but many different open interfaces (clients) per server</li>
+        <li>Postgres is a database server and must be connected to via a postgres client that allows for interaction with SQL.  Clients include GUI clients like Postbird, PgAdmin4, and Postico, CLI Clients like psql, and Programming Language Clients like an ORM.  To use postgres locally you must set up both the postgres server and a client. You can have only one postgres database server running per port (typically 5432), but many different open interfaces (clients) per server.  There is a supervisor server process that will continually run to listen for new client connections and create new processes for every new client connect - these processes end as client connections end.  A single server process can manage multiple databases (called a database cluster), typically every project or user would have their own database.</li>
         <li><strong>Server</strong> On MacOS there are several ways to download and manage Postgres.  <strong>postgres.app</strong> is an easy way to get started and can be downloaded at <a href="https://postgresapp.com/">postgresapp.com</a>. Windows and Linux have their own installation steps. </li>
-        <li><strong>GUI Client</strong> Postbird is a good graphical interface for a postgres server and can be downloded at <a href="https://www.electronjs.org/apps/postbird">electronjs.org/apps/postbird</a> There will be a dropdown for you to select a postgres server to connect to</li>
+        <ul>
+            <li>To start a new database, add a new server and click start, this will by default start a database server with Host: localhost, Port: 5432, User: <i>your system username</i>, Database: <i>same as user</i>, Password: <i>none</i>, and Connection URL: postgresql://localhost</li>
+        </ul>
+        <li><strong>GUI Client</strong> Postbird is a good graphical interface for a postgres server and can be downloded at <a href="https://www.electronjs.org/apps/postbird">electronjs.org/apps/postbird</a></li>
+        <ul>
+            <li>Once your database server is runnign with postgres.app, you can connect to it in postbird</li>
+            <li>Any SQL commands can be run in the query tab (not just SELECT statements), to add tables, add data, alter, etc.</li>
+            <li>There are also GUI commands to do a lot of SQL commands that are fairly intuitive to find and use.</li>
+            <li>You can import .sql files if you have saved sql you want to run.</li>
+        </ul>
         <li><strong>CLI Client</strong> psql is the standard CLI interface for postgres.  To use it, simply double click on the database within the postgres.app application.  It should open up a terminal that you can begin issuing sql commands on. When using psql use the <code>\q</code> command to quit.</li>
     </ul>
 

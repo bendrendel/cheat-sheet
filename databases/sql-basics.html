@@ -78,6 +78,12 @@
                 ALTER COLUMN session_timeslot DROP NOT NULL
             </pre></code>
         </li>
+        <li>The ALTER TABLE...ADD CONSTRAINT clause seems to be what you need to use for Postgres instead of the SET/DROP and ADD CHECK/ADD UNIQUE/etc statements below.  For example:
+            <code><pre>
+                ALTER TABLE films
+                ADD CONSTRAINT unique_release UNIQUE (release_year);
+            </pre></code>
+        </li>
         <li>The ALTER TABLE...ADD CHECK clause is used to add check constraints to existing columns in existing tables.  Note adding multiple check restraints or other constrainsts to a column requires multiple alter table statements. The condition can use AND/OR/LIKE "example value"/IN(value1, value2, value3), and can use multiple column names and add their values, compare their values, etc. e.g. 
             <code><pre>
                 ALTER TABLE talks 
@@ -111,6 +117,11 @@
             <code><pre>
                 INSERT INTO celebs (id, name, age) 
                 VALUES (1, 'Justin Bieber', 22);
+            </pre></code>
+        </li>
+        <li>There is also a COPY statement that allows you to copy data from a flat file into a table (named weather below) like so:
+            <code><pre>
+                COPY weather FROM '/home/user/weather.txt';
             </pre></code>
         </li>
     </ul>
@@ -161,10 +172,17 @@
                 FROM inventory;
             </pre></code>
         </li>        
-        <li>The AS clause can be used to rename a column or table in the output.
+        <li>The AS clause can be used to rename a column or table in the output.  For tables at least, you can also include an alias immediately after the table with no AS clause.
             <code><pre>
                 SELECT name AS 'Titles'
                 FROM movies;
+            </pre></code>
+            or
+            <code><pre>
+                SELECT m.name, s.starttime
+                FROM movies m
+                JOIN showtimes s
+                 ON m.id = s.movie_id;
             </pre></code>
         </li>
         <li>The CASE WHEN...THEN...ELSE...END clause can be used to make custom columns within the query. The ELSE is optional.  You can optionally add the AS clause as well to name your custom column. e.g.
@@ -253,7 +271,7 @@
         </li>
         <li>The WHERE clause can be used to add conditions that rows must meet in order to be included in the output set.  The WHERE clause is given a boolean condition which can use things SQL calls operators.
         <ul>
-            <li>These include =, !=, >, &lt, >=, and &lt=. </li>
+            <li>These include =, !=, >, &lt, >=, and &lt=. These compare numbers but can also be used intuitively with dates, e.g. <code>timestamp > '2020-09-01'</code> would select all timestamp values after Sept 1, 2020.</li>
             <li>You can also use <code>column_name LIKE 'somestring'</code>, which will only return rows where column_name matches the pattern in single quotes (not case-sensitive).  You can include an underscore as a wildcard for a single character, or a percent sign as a wildcard for 0 or more characters. </li>
             <li>The IN clause can be used to test if a value is in a list of provided values, e.g. <code>column_name IN (value1, value2, value3)</code></li>
             <li>To test for nulls you can't use =/!= but rather use column_name IS NULL or column_name IS NOT NULL.</li>
@@ -382,5 +400,40 @@
             </pre></code>
         </li>
     </ul>
+
+    <h2>The CREATE VIEW Statement</h2>
+    <ul>
+        <li>The CREATE VIEW statement is a way to save a query to a persistent name that can then be referenced in other queries.  Views should be used liberally to create persistent helpful views of the data even as the database design changes. Views can be built upon other views, and can be used almost anywhere a real table can. e.g. 
+            <code><pre>
+                CREATE VIEW myview AS
+                    SELECT name, temp_lo, temp_hi, prcp, date, location
+                        FROM weather, cities
+                        WHERE city = name;
+
+                SELECT * FROM myview;
+            </pre></code>
+        </li>
+    </ul>
+
+    <h2>Transaction Statements</h2>
+    <ul>
+        <li>Transactions allow you to group multiple SQL statements which will run together.  They are opened with BEGIN and closed with COMMIT and between contain a series of statements called the transaction block.  No one else using the database will be able to see the intermediate states of running each line in the transaction.  The end result of running all of the statements will become visible at the completion of the transaction.  If there is an error at any statement, then no changes will be made to the database even for statements in the transaction prior to the error.  You can use ROLLBACK to cancel the transaction manually, and you can use SAVEPOINTS if you want ROLLBACK to cancel just a certain part of the transaction.  Many databases implicity wrap every statement inside a transaction.
+            <code><pre>
+                BEGIN;
+                UPDATE accounts SET balance = balance - 100.00
+                    WHERE name = 'Alice';
+                SAVEPOINT my_savepoint;
+                UPDATE accounts SET balance = balance + 100.00
+                    WHERE name = 'Bob';
+                -- oops ... forget that and use Wally's account
+                ROLLBACK TO my_savepoint;
+                UPDATE accounts SET balance = balance + 100.00
+                    WHERE name = 'Wally';
+                COMMIT;
+            </pre></code>
+        </li>
+    </ul>
 </body>
 </html>
+
+
