@@ -309,7 +309,7 @@
                     AND year BETWEEN 1980 AND 1989
             </pre></code>
         </li>
-        <li>The GROUP BY clause comes after any WHERE statements, and before any ORDER BY or LIMIT statements. It can be used to collapse the results into groups based on the values in a particular column or set of columns.  Can group on multiple columns, separated by commas. All columns that are not being grouped must be an aggregate function. GROUP BY can be given column names, alias names, or numbers referring to the column number to group on (in order of how they are written in the select statement).  You can group on e.g. 
+        <li>The GROUP BY clause comes after any WHERE statements, and before any ORDER BY or LIMIT statements. It can be used to collapse the results into groups based on the values in a particular column or set of columns.  Can group on multiple columns, separated by commas. All columns that are not being grouped must be an aggregate function. GROUP BY can be given column names, alias names, or numbers referring to the column number to group on (in order of how they are written in the select statement).  GROUP BY can also be used with the ROLLUP clause which will provide subtotals in the output, it assumes a heirarchical relationship where the first item in the rollup is at the top of the heirarchy and it moves down.  You can group on e.g. 
             <code><pre>
                 SELECT year,
                     AVG(imdb_rating)
@@ -324,6 +324,14 @@
                     AVG(downloads)
                 FROM fake_apps
                 GROUP BY 1, 2;
+            </pre></code>
+            or the following will output a list of facids repeated for each month they had slots, with subtotals for each facid after each facid, and a grand total row of all facids across all months at the bottom of the table.  If you reversed the rollup order (i.e. 2, 1) then you would get subtotals for each month across all facids, and still a grand total at the bottom.  Alternatively you could use CUBE() instead of ROLLUP() and this will produce subtotals for all permutations, i.e. subtotals for each facid across all months, subtotals for each month across all facids, and grand total for all facids and months as well as the aggregation for each facids/month combination.  Another alternative is GROUPING SETS, of which CUBE and ROLLUP are special cases of.  GROUPING SETS allow you to specify exactly which levels you want aggregated, for instance you could specify each combination of facid and month, and each facid.  Thus this would not output subtotals for each month nor a grandtotal.
+            <code><pre>
+                SELECT facid, EXTRACT(month FROM starttime) AS month, SUM(slots) AS slots
+                FROM bookings
+                WHERE starttime BETWEEN '2012-01-01' AND '2013-01-01'
+                GROUP BY ROLLUP(1, 2)
+                ORDER BY 1, 2;
             </pre></code>
         </li>
         <li>The HAVING clause comes after GROUP BY and before ORDER BY.  It is used to filter results after grouping takes place, and can take all the same types of conditions a WHERE clause can.  e.g. 
