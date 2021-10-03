@@ -113,10 +113,18 @@
 
     <h2>INSERT Statements</h2>
     <ul>
-        <li>The INSERT INTO...VALUES clause is used to add rows to a table.  It is given a table name and list of columns to insert data into, then a list of values to insert into those columns.  If you're inserting into all the columns, then you can leave out the column names to insert into and just have the table name.  This will insert the provided values starting at the first column and inserting sequentially after that e.g.
+        <li>The INSERT INTO...VALUES clause is used to add rows to a table.  It is given a table name and list of columns to insert data into, then a list of values to insert into those columns.  If you're inserting into all the columns, then you can leave out the column names to insert into and just have the table name.  This will insert the provided values starting at the first column and inserting sequentially after that.  You can insert multiple rows by separating them with commas.   e.g.
             <code><pre>
                 INSERT INTO celebs (id, name, age) 
-                VALUES (1, 'Justin Bieber', 22);
+                VALUES (1, 'Justin Bieber', 22),
+                    (2, 'Selena Gomez', 21);
+            </pre></code>
+        </li>
+        <li>VALUES returns a table, made up of the row(s) you specify.  SELECT also returns a table.  So, the two are actually interchangeable.  You could replace VALUES... above with a SELECT statement.  Or, in SELECT Statements you could use a VALUES clause.  VALUES is more handy when you need some constant values in a table on the spot, which might be handy for joining or unioning with a select statement.  However, SELECT can also be used to supply constant values, by simply putting the values in the SELECT clause and not having a from clause.  E.g. below inserts into a table and provides an auto-incremented id value with select: 
+            <code><pre>
+                INSERT INTO facilities
+                    (facid, name, membercost, guestcost, initialoutlay, monthlymaintenance)
+                SELECT (SELECT max(facid) from facilities)+1, 'Spa', 20, 30, 100000, 800;   
             </pre></code>
         </li>
         <li>There is also a COPY statement that allows you to copy data from a flat file into a table (named weather below) like so:
@@ -128,21 +136,35 @@
 
     <h2>UPDATE Statements</h2>
     <ul>
-        <li>The UPDATE...SET...WHERE clause will edit an existing row or rows in an existing table.  It takes the table name where the row(s) exists.  A column name to edit with the new value for that column, and finally a condition that determines which row(s) will be edited (all rows that meet the condition)e.g.
+        <li>The UPDATE...SET...WHERE clause will edit an existing row or rows in an existing table.  It takes the table name where the row(s) exists.  A column name to edit with the new value for that column, and finally a condition that determines which row(s) will be edited (all rows that meet the condition), multiple columns can be updates at once by separating them with commas, e.g.
             <code><pre>
-                UPDATE celebs 
-                SET twitter_handle = '@taylorswift13' 
-                WHERE id = 4; 
+                UPDATE facilities
+                SET membercost = 6, guestcost = 30
+                WHERE facid IN (0, 1);
+            </pre></code>
+        </li>
+        <li>You can use subqueries if needed in your update statement, e.g. below updates values in one record based on values in another
+            <code><pre>
+                UPDATE facilities
+                SET membercost = 1.1 * (SELECT membercost FROM facilities WHERE facid = 0),
+                    guestcost = 1.1 * (SELECT guestcost FROM facilities WHERE facid = 0)
+                WHERE facid = 1;
             </pre></code>
         </li>
     </ul>
 
     <h2>DELETE Statements</h2>
     <ul>
-        <li>The DELETE FROM...WHERE clause will delete existing rows from an existing table.  It takes the name of a table from where rows will be delete, and then a condition that determines which rows to delete (all rows that meet the condition) e.g.
+        <li>The DELETE FROM...WHERE clause will delete existing rows from an existing table.  It takes the name of a table from where rows will be delete, and then a condition that determines which rows to delete (all rows that meet the condition).  Leave out the WHERE clause entirely to delete all rows. e.g.
             <code><pre>
                 DELETE FROM celebs 
-                WHERE twitter_handle IS NULL;
+                WHERE twitter_handle IS NOT NULL;
+            </pre></code>
+        </li>
+        <li>You can use subqueries to specify what to delete, e.g. 
+            <code><pre>
+                DELETE FROM cd.members
+                WHERE NOT memid IN (SELECT memid FROM cd.bookings);
             </pre></code>
         </li>
     </ul>
@@ -172,9 +194,9 @@
                 FROM inventory;
             </pre></code>
         </li>        
-        <li>The AS clause can be used to rename a column or table in the output.  For tables at least, you can also include an alias immediately after the table with no AS clause.
+        <li>The AS clause can be used to rename a column or table in the output.  For tables you can also include an alias immediately after the table with no AS clause.  Note in postgres at least, if the alias has a space in it, then it should be surrounded by double quotes - single word alias don't need the double quotes.  This is different from text literals used in where conditions or as outputs in case statements, or as values in a VALUES statement, which should be in single quotes.
             <code><pre>
-                SELECT name AS 'Titles'
+                SELECT name AS "Titles"
                 FROM movies;
             </pre></code>
             or
@@ -198,7 +220,7 @@
         </li>
         <li>Aggregate Functions can be used instead of column names or custom case columns, allowing you to perform calculations on the returned results instead of displaying the results themselves.</li>
         <ul>
-            <li>COUNT(column or columns) will return the total number of records in the result set.  You can nest DISTINCT inside COUNT to only count number of unique values in column like COUNT(DISTINCT column name), e.g. 
+            <li>COUNT(*) will return the total number of records in the result set.  COUNT(column) will return a count of all non-null values in a column.  You can nest DISTINCT inside COUNT to only count number of unique values in column like COUNT(DISTINCT column name), e.g. 
                 <code><pre>
                     SELECT COUNT(*)
                     FROM fake_apps
@@ -271,12 +293,13 @@
         </li>
         <li>The WHERE clause can be used to add conditions that rows must meet in order to be included in the output set.  The WHERE clause is given a boolean condition which can use things SQL calls operators.
         <ul>
-            <li>These include =, !=, >, &lt, >=, and &lt=. These compare numbers but can also be used intuitively with dates, e.g. <code>timestamp > '2020-09-01'</code> would select all timestamp values after Sept 1, 2020.</li>
+            <li>These include =, !=, >, &lt, >=, and &lt=. These compare numbers but can also be used intuitively with dates, e.g. <code>timestamp > '2020-09-01'</code> would select all timestamp values after Sept 1, 2020. When you provide a date with no time after it, then the time is assumed to be 00:00:00.</li>
             <li>You can also use <code>column_name LIKE 'somestring'</code>, which will only return rows where column_name matches the pattern in single quotes (not case-sensitive).  You can include an underscore as a wildcard for a single character, or a percent sign as a wildcard for 0 or more characters. </li>
             <li>The IN clause can be used to test if a value is in a list of provided values, e.g. <code>column_name IN (value1, value2, value3)</code></li>
             <li>To test for nulls you can't use =/!= but rather use column_name IS NULL or column_name IS NOT NULL.</li>
-            <li>BETWEEN...AND can be used for an inclusive between (includes values matching both ends) like <code>column_name BETWEEN 1990 AND 2000</code> or <code>column_name BETWEEN 'A' AND 'J'</code>, note when using text like this, all values starting with A are included, but values starting with 'J' are not unless the value is just 'J', because 'Ja' for instance comes after 'J'</li>
+            <li>BETWEEN...AND can be used for an inclusive between (includes values matching both ends) like <code>column_name BETWEEN 1990 AND 2000</code> or <code>column_name BETWEEN 'A' AND 'J'</code>, note when using text like this, all values starting with A are included, but values starting with 'J' are not unless the value is just 'J', because 'Ja' for instance comes after 'J'.  This can be used with datetime values like <code>WHERE starttime BETWEEN '2012-09-01' AND '2012-10-01'</code> to get all starttimes in the month of september 2012 (starttimes in the data set also include time but you don't need that in the condition as it will assume the time is 00:00:00 which works for this purpose).</li>
             <li>AND can be used to combine multiple conditions that must all be met, and OR can be used to combine multiple conditions where any one must be met.</li>
+            <li>Parts of a date can be extract with <code>EXTRACT(month FROM mydatetimecolumn)</code></li>
         </ul>      
             <code><pre>
                 SELECT name AS title
