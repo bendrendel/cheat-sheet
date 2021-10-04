@@ -18,7 +18,7 @@
         <li>Rows store a single record of the data</li>
         <li>There is a special value NULL, that represents missing or unknown data.  The null value is tested in conditions with <code>column_name IS NULL</code> (instead of an equal sign)</li>
         <li>Stored Procedures are saved SQL statements to make them easy to re-run.</li>
-        <li>Check out <a href="https://sqlzoo.net">SQL Zoo</a> for SQL practice</li>
+        <li>Check out <a href="https://sqlzoo.net">SQL Zoo</a> for SQL practice, or <a href="https://pgexercises.com/">PostgreSQL Exercises</a> is also excellent for postgre sql specifically.</li>
     </ul>
 
     <h2>Statements</h2>
@@ -284,6 +284,36 @@
             FROM cd.members
             ORDER BY 1;
         </pre></code>
+        There is a RANK() window function that adds a ranking from 1 to whatever for each row in the result set, based on the ORDER BY clause included in the RANK function.  Tied results will get the same rank, and ties will cause the ranking to be non-sequential because e.g. if there are two rows ranked 1, then the 2 ranking will be skipped and the next ranked row will be 3.  Alternatively you could use DENSE_RANK() to avoid skipping rankings when there are ties.
+        <code><pre>
+            SELECT rnk.facid, rnk.total
+            FROM
+                (SELECT bks.facid facid, SUM(bks.slots) total, RANK() OVER(ORDER BY SUM(bks.slots) DESC) rank
+                FROM bookings bks
+                GROUP BY bks.facid) rnk
+            WHERE rnk.rank = 1;
+        </pre></code>
+        There is also an NTILE() window function that provides a ranking, but based on the number of groupings given as an argument, e.g. if you want to break up your result set into 3 groups ranked 1, 2, or 3, you would do NTILE(3) OVER(...) e.g.
+        <code><pre>
+            SELECT rnk.name AS name,
+                CASE
+                    WHEN rnk.revenue = 1 THEN 'high'
+                    WHEN rnk.revenue = 2 THEN 'average'
+                    WHEN rnk.revenue = 3 THEN 'low'
+                END AS revenue
+            FROM
+                (SELECT facs.name AS name,
+                    NTILE(3) OVER(ORDER BY SUM(
+                        CASE
+                            WHEN bks.memid = 0 THEN bks.slots * facs.guestcost
+                            ELSE bks.slots * facs.membercost
+                        END) DESC) AS revenue
+                FROM facilities facs
+                JOIN bookings bks
+                    ON facs.facid = bks.facid
+                GROUP BY 1) rnk
+            ORDER BY rnk.revenue, rnk.name;
+        </pre></code>
         </li>
         <li>The JOIN...ON clause allows us to combine information from multiple tables in the result set, based on primarykey/foreign key relationships. JOIN performs an inner join (you can equivalently use the clause INNER JOIN for the same thing as JOIN), that is any rows in either table that don't have a matching row in the other based on the ON condition are excluded.  You can use the clause LEFT JOIN to keep any unmatched rows in the table listed after the FROM clause.  This is useful for finding all unmatched pairs in the left table by performing a left join and then filtering to just rows that had a null value for the right table id.  The CROSS JOIN clause will combine each row from one table with each row from another, and doesn't take an ON condition. You can also put multiple JOIN statements one after the other to join multiple tables together.  e.g. 
             <code><pre>
@@ -421,7 +451,7 @@
                 ON _____ = _____;
             </pre></code>
         </li>
-        <li>Nested SELECT statements can be used, called subqueries, in different places of a SELECT statement, always contained within parentheses.  They can be used in the FROM clause to define a table that the SELECT query operates on, using another SELECT query and in this case you can and generally should name the sub query by putting a name directly after it.  They can also be used in the WHERE clause to define conditions, if the subquery returns a single value, you can test if something is equal to that value, if the subquery returns a single column with multiple values, you can test if something is IN that list of values. You can also include a subquery in a JOIN clause, again with the option to give that subquery a name directly after it.  e.g. 
+        <li>Nested SELECT statements can be used, called subqueries, in different places of a SELECT statement, always contained within parentheses.  They can be used in the FROM clause to define a table that the SELECT query operates on, using another SELECT query and in this case you can and generally should name the sub query by putting a name directly after it.  This usage can be particularly helpful to avoid repeating complex aggregate, window, or other functions in the SELECT clause and the WHERE clause, you can do the calc in the SELECT clause and then make that a subquery, then you can do your WHERE clause by simply naming the column instead of repeating the calculation.  This is necessary because the WHERE clause is evaluated before the aliases in the SELECT statement.  It's also useful in general to break up complex calculations and make it more readable.  Subqueries can also be used in the WHERE clause to define conditions, if the subquery returns a single value, you can test if something is equal to that value, if the subquery returns a single column with multiple values, you can test if something is IN that list of values. You can also include a subquery in a JOIN clause, again with the option to give that subquery a name directly after it.  e.g. 
             <code><pre>
                 SELECT LEFT(sub.date, 2) AS cleaned_month,
                     sub.day_of_week,
