@@ -304,7 +304,7 @@
                     github's website under your project, has a home page as the entrance to the wiki and can have many other pages, and sidebard navigation.</li>
             </ul>
 
-            <h2>Contributing to Open Source Projects</h2>
+            <h2>Contributing to Open Source Projects on Github</h2>
             <ul>
                 <li>There are lots of ways to contribute.  The first big one is opening an issue to discuss an error that isn't so trivial that you can't solve yourself by directly creating a pull request, start a high-level discussion about the project's vision or somethign, or propose a new feature or idea.  You might also comment on an existing issue to say you'll work on it or to check if its still active.  The other big one is opening a pull request to fix a trivial issue like a typo or broken link, or to work on a bigger problem or idea that has already been discussed in an issue.  Its usually good to start your pull request early on before your work is finished, just label it WIP (Work in progress) in the subject line, and also be sure to reference the issue number you are working on (e.g. Closes #32).  Include before and after screenshots of the rendered page if you changed html/css. Be sure to run tests if they exist, and be sure to try and conform to the style of the project (indents, comments etc.).  Examples of how you can contribute are by fixing a typo you see, writing documentation or fixing typos/editing documentation, reviewing code, reviewing issues and commenting, cleaning up issue names and suggesting closing old ones, etc.  Projects should have a contribute page like https://github.com/facebook/react/contribute, that highlights beginner-friendly issues you could work on.</li>
                 <li>Before contributing to make sure you don't waste your time, check that the project has an open-source license, that there is an recent commit history with different contributors, that there are active issues and pull requests with people responding promptly, if the tone of discussion is welcoming and thankful for contributions.  Do some background research and reading to get up to speed, and if you have a new idea, do a search to see if it has come up before.  Turn on watching for the project for a while to get a sense of how things go in the project.  </li>
@@ -336,6 +336,22 @@
                 </li>
             </ul>
 
+            <h2>Project Management within Github</h2>
+            <h3>Agile</h3>
+            <ul>
+                <li><strong>Agile</strong> is a methodology for managing projects, and can work well with github, especially with additional tools like <a href="https://www.zenhub.com/">ZenHub</a> which is an add on app to Github that provides built-in project management tools that help with all the components below.</li>
+                <li><strong>Sprints</strong> Sprints are fixed lengths of time (e.g. every two weeks) during which an agreed-upon chunk of work is completed and ready to ship. Unfinished issues generally carry over to the next sprint. Once a sprint begins, the agreed issues in the sprint should remain fixed to avoid scope creep in the sprint.  ZenHub provides a way of helping you lay out the tasks in each sprint.</li>
+                <li><strong>User Stories</strong> User stories are a way of defining tasks in the development process that follow the format: As a {user type}, I want{a goal} so that {benefit}. These can be implemented in github as each being its own Issue.  You should name the issue per the format above, and add details and acceptance criteria in the body.</li>
+                <li><strong>Epics</strong> Epics are essentially big user stories (e.g. Dashboard Redesign), that may be composed of dozens of issues (e.g. Change CTA color). Epics should be flexibile in scope adding/editing/removing issues as needed.  It probably will take more than one sprint to finish all the issues in an epic, and you might work on multiple epics concurrently in the same sprint. ZenHub provides an easy way to create epics within github.</li>
+                <li><strong>Product Backlog</strong> The product backlog is a list of open issues that aren't assigned to a sprint (at least not yet) and can be user stories, half-baked feature ideas, things you might do in the future, technical issues, anything else with the idea that you should get ideas out and written down.  They are generally ordered by value to the business.</li>
+                <li><strong>Sprint Backlog</strong> These are the issues to tackle within a sprint, they should have estimates and details, and ordered by priority.</li>
+            </ul>
+
+            <h3>Continuous Integration</h3>
+            <ul>
+                <li>CI is a workflow strategy to avoid conflicts in the codebase with multiple developers working together, and continous testing of changes to ensure errors don't sneak in to the code.  This is accomplished on github with the forking/pull request process with each developer encouraged to update their master branch frequently.  In the pull request, Github can simulate merging in the code to master, build and test the code, and alert you if the proposed changes will cause tests to fail.</li>
+                <li>Continuous Delivery is a method of development where the software is always ready to be released at any time.  Continuous Deployment is an extension of this concept, for releasing code into production with confidence. Github actions allow you to automate build, test, and deploy processes to help imiplement continuous deployment.</li>
+            </ul>
         </main>
     </body>
 </html>
