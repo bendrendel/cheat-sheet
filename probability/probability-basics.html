@@ -21,9 +21,9 @@
 
     <h2>Basic Terms</h2>
     <ul>
-        <li><strong>Experiment/Trial</strong> An Experiment is something that produces observations with some degree of uncertainty. A single run of an experiment is a Trial.</li>
-        <li><strong>Sample Point/Sample Space</strong> A Sample Point is a single possible outcome of an experiment, and the Sample Space of an experiment is the set of all possible sample points of the experiment.</li>
-        <li><strong>Event</strong> An event is set of outcomes or a single outcome and is a subset of the Sample Space.</li>
+        <li><strong>Experiment/Trial</strong> An Experiment is any procedure that can be repeated infinitely and has a well-defined set of possible outcomes. e.g. flipping a coin once is an experiment.  Often, an experiment is repeated many times to be subjected to statistical analysis.  In this case, there is still just a single experiment but it can be thought of as an experiment composed of other experiments which we call trials.  Mathematically an experiment consists of 1) a Sample Space S of all possible outcomes, 2) a set of events F where each event is a set containing 0 or more outcomes, and 3) A probability measure function P that maps events to probabilities.</li>
+        <li><strong>Sample Point/Sample Space</strong> A Sample Point or Outcome of an Experiment is the result of a single execution of the experiment.  The Sample Space of an Experiment is the set of all possible sample points or outcomes of the experiment.</li>
+        <li><strong>Event</strong> An event is a set of outcomes and is a subset of the sample space.  It is often more convenient to consider events than every possible outcome.  An event can consistent of a single outcome which is called an elementary or atomic event.</li>
         <ul>
             <li><strong>Dependence/Independence</strong> Independent events means the outcome of one event does not effect the probability of the other event.  e.g. flipping a coin twice, the outcome of the first flip does not effect the outcome of the second flip.  Dependent events means one event does effect the probability of the other, e.g. pulling marbles out of a bag that are either blue or red, the first time you pull a marble out is going to change the probability of what you pull out after that.</li>
             <li><strong>Mutually Exclusive</strong> Two events are mutually exclusive if their intersection is empty.  e.g. flipping a coin the event of getting heads is mutually exclusive from the even of getting tails.  But rolling a die the event of getting an even number is not mutually exclusive frmo the event of getting a number greater than three. An event and its complement are always mutually exclusive.</li>
@@ -49,6 +49,22 @@
             <li>You might run 1000 trials of the experiment, and notice that {HH} occurred 252 times. Thus you could estimate the probability of getting two heads with two coin flips is P({HH}) = 252/1000 = .252 = 25.2%</li>
         </ul>
         </li>
+    </ul>
+
+    <h2>Probability Distributions</h2>
+    <ul>
+        <li><strong>Random Variable</strong> A random variable X is a function from a sample space to generally the real numbers.  It divides the sample space up into a series of mutually exclusive events that cover the entire sample space, assigning each event a numeric value.  It is useful because it allows you to forget the particular sample space you are using, and focus on just the value of the random variable and probabilities associated with it.  Many different sample spaces can be assigned to useful random variables in a way that ends up having the same probability distributions, so by studying one probability distribution you can understand many different sample spaces.  These common probability distributions are given names and often parameters that influence the exact distribution.</li>
+        <ul>
+            <li><strong>Discrete Random Variable</strong> A discrete random variable has a countable range often the integers.  E.g. you could flip a coin four times, creating a sample space of {HHHH, HHHT, HHTH, HHTT, HTHH, HTHT, HTTH, HTTT, THHH, THHT, THTH, THTT, TTHH, TTHT, TTTH, TTTT}.  You could create a random variable that maps this sample space onto the number of heads in each outcome, which will have a range of {0, 1, 2, 3, 4}</li>
+            <li><strong>Continous Random Variable</strong> A continuous random variable has an uncountably infinite range, e.g. the temperature measured at a given time is a continuous random variable, or the time it takes a person to run a mile.</li>
+            <li>Python's numpy library has a convenient method for simulating a random event a given number of times random.choice(list to choose from, number of times to choose, replace after choosing), where the first arg could be a list 1-6 for a die, the second arg is 5 for rolling it 5 times, and the third arg is TRUE because you can roll the same value again.  It outputs a list of the results of its random choices.</li>
+        </ul>
+        <li><strong>Probabiltiy Distribution</strong> Once a random variable is defined, you can ask what the probabiltiy of a given output value of the random variable.  Mapping all possible values of the random variable to their probability is the probability distribution of the random variable.</li>
+        <ul>
+            <li><strong>Probability Mass Function (PMF)</strong> This is a type of probability distribution that defines the probability of observing a particular value of a discrete random variables.  In the discrete case, each value of the random variable is a mutually exclusive event and the entire sample space is covered, so the sum of all probabilities in the distribution is 1.  e.g. for the flip a coin four times example, you would map the output range {0, 1, 2, 3, 4} to their probabilities, which are 1/16, 4/16, 6/16, 4/16, 1/16 respectively.</li>
+            <li><strong>Binomial Distribution</strong> This is a common type of PMF that has parameters of the number of trials, and the probability of success in each trial.  e.g. for the flip a coin four times example, the number of trials is four and the probability of success (getting heads) in each trial is 0.5.  </li>
+        </ul>
+
     </ul>
 </body>
 </html>
