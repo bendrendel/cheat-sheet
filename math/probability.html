@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Probability Basics</title>
+    <title>Probability</title>
 </head>
 <body>
     <a href="../index.html">Home</a>
-    <h1>Probability Basics</h1>
+    <h1>Probability</h1>
 
     <h2>Set Theory</h2>
     <ul>
@@ -86,7 +86,7 @@
     <ul>
         <li>We often cannot calculate statistics for an entire population, and thus calculate a statistic from a randomly selected sample of the population, and want to know how certain we can be that we know the true statistic for the entire population.</li>
         <li><strong>Sampling Distribution</strong> If you take a statistic like the mean, median, the min or max value, variance, etc. for a sample of the population, across many samples, you will create a probability distbution for that value which is called a sampling distribution.</li>
-        <li><strong>Unbiased and Biased Estimators</strong> If the mean of a sampling distribution for some statistic is equal (approximately) to the actual value of that statistic for the whole population, then the sample statistic is an unbiased estimator.  This is true for the mean of a sample/population.  If the mean of a sampling distribution for some statistic is not centered around the actual value fo that statistic for the whole population, then it is a biased estimator.  This is true for the max value of a sample/population.</li>
+        <li><strong>Unbiased and Biased Estimators</strong> If the mean of a sampling distribution for some statistic is equal (approximately) to the actual value of that statistic for the whole population, then the sample statistic is an unbiased estimator.  This is true for the mean of a sample/population.  If the mean of a sampling distribution for some statistic is not centered around the actual value fo that statistic for the whole population, then it is a biased estimator.  This is true for the max and min value of a sample/population.</li>
         <li><strong>Central Limit Theorem</strong> This states that the sampling distribution of the mean for a population will be normally distributed as long as the population is not too skewed, or the sample size is large enough (at least 30 is a good rule of thumb).  You can have a smaller sample size if the population is normally distributed and the central limit theorem will still hold.  CLT says 1) The sampling distribution of the mean will have a mean x that will be close to the true population mean μ. And 2) The sampling distribution of the mean will have standard deviation equal to the population standard deviation over the square root of the sample size σ / sqrt(n). The standard deviation of a sampling distribution is called the standard error of the estimate of the mean. We may not know the population's standard deviation so we often use the standard deviation of a sample in its place.</li>
         <li><strong>Confidence Intervals</strong> Usually we only have one sample, not many that we can make a sampling distribution with.  We want to say how sure we are that the statistic for that sample that we're interested in is close to the actual population statistic.  We can use the standard deviation of the sample as an estimate for the standard deviation of that population.  Then per CLT, we can calculate the standard error of our sample, using the estimate of the standard deviation divided by the square root of the sample size.  Also using CLT, we know that the sampling distribution is normally distributed and centered on the actual population mean. Since a normal distribution has 95% of its values fall with 1.96 standard deviations of the mean, we know that 95% of sample statistics will thus be less than 1.96 * standard error away from the actual mean.  Thus using our standard error estimate and the mean of our one sample, we can say that the mean of our sample is within 1.96 * standard error of the actual population mean.  This interval is called a 95% confidence interval.</li>
         <li>Python's numpy library has a convenient function for creating a random sample from a population.  It is random.choice(population array, sample size, replace), where pop array is an array to choose from, sample size is an integer, and replace should be FALSE because once an item is added to the sample it should not be able to be picked again.  It returns a list of the sample.</li>
