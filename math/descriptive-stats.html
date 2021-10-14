@@ -24,5 +24,12 @@
             <li><strong>Nominal Categorical Variables</strong> These variables are qualitative and have no instrinsic order like states in the U.S., brands, colors, favorite food, etc.  These often have a unique value for every observation like a name or email address. A Binary Variable is a special kind of nominal variable that has exactly two possible values, such as Is On? or Day or Night? and often take on True or False as the value.</li>
         </ul>
     </ul>
+
+    <h2>Central Tendency</h2>
+    <ul>
+        <li><strong>Mean</strong> Also often referred to as the average, and represented by x with a bar over it.  It is the sum of all the observations x1 + x2 + ... + xn, divided by the number n of observations. The python numpy library (include <code>import numpy as np</code> ) has .average() and .mean() methods that accept a list of values as input and returns the mean.  The .average() method can optionally accept a weights parameter to calculate a weighted mean.</li>
+        <li><strong>Median</strong> The median tells you the value for which half the values in a data set are larger and half are smaller.  The data set must first be sorted, then the value in the middle of the sorted data set is the median.  If there are an even number of values in the data set, then it is reported as both of the middle two values or their average.  Numpy's .median() method takes a list of values and outputs the median, it will average the two middle values if the data set has an even number of values.</li>
+        <li><strong>Mode</strong> The mode tells you the most frequently occuring value found in a dataset, and there can be multiple modes if the data set has more than one value with the same max frequency.  The python SciPy library (include <code>from scipy import stats</code> at the top of the file) has a stats.mode() method that takes a list of values and returns an object that contains the mode value and the number of values that equals the mode.  If there are multiple modes, then it always returns the lowest valued mode. </li>
+    </ul>
 </body>
 </html>
