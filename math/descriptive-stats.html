@@ -31,5 +31,11 @@
         <li><strong>Median</strong> The median tells you the value for which half the values in a data set are larger and half are smaller.  The data set must first be sorted, then the value in the middle of the sorted data set is the median.  If there are an even number of values in the data set, then it is reported as both of the middle two values or their average.  Numpy's .median() method takes a list of values and outputs the median, it will average the two middle values if the data set has an even number of values.</li>
         <li><strong>Mode</strong> The mode tells you the most frequently occuring value found in a dataset, and there can be multiple modes if the data set has more than one value with the same max frequency.  The python SciPy library (include <code>from scipy import stats</code> at the top of the file) has a stats.mode() method that takes a list of values and returns an object that contains the mode value and the number of values that equals the mode.  If there are multiple modes, then it always returns the lowest valued mode. </li>
     </ul>
+
+    <h2>Spread</h2>
+    <ul>
+        <li><strong>Variance</strong> The variance is a measure of how spread out a data set is, and is calculated as the average of the squared difference between each data point and the mean. It is usually notated as σ<sup>2</sup>.  The Numpy python library (<code>import numpy as np</code>) has a .var() method that takes a list of values and returns the variance.</li>
+        <li><strong>Standard Deviation</strong> The standard deviation is simply the square root of the variance, and is representd by σ.  This is generally easier to interpret than variance because variance will have a squared unit, whereas standard deviation will have the same unit as the mean and the data itself.  The numpy python library has a .std() method that takes a list of values and returns the standard deviation. For normally distributed data, 68.3% of the values are within 1 standard deviation of the mean, 95.5% are with two, and 99.7% are within three.</li>
+    </ul>
 </body>
 </html>
