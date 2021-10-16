@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Basics</title>
+</head>
+<body>
+    <h1>Python Basics</h1>
+
+    <h2>Basics</h2>
+    <ul>
+        <li><strong>Comments: </strong>Comments are made by starting a line with <code>#</code></li>
+        <li><strong>Basic Output: </strong>You can output to the console using <code>print("Hello world!")</code>.  The argument doesn't have to be a string, it can be a numeric data type as well.  You can provide multiple arguments and they will all be concatenated together, you can mix data types with multiple arguments.</li>
+        <li><strong>Basic Input: </strong>The input() function will display a provided prompt in the terminal, wait for user input, and then return the input.  e.g <code>user_age = input("How old are you? ")</code></li>
+        <li><strong>Statement terminator: </strong>No semicolon or other terminator is used at the end of statements</li>
+        <li><strong>Variables: </strong>You can define a variable by simply writing the variable's name (no spaces or special characters except underscore and can't start with a number), followed by the equal sign, followed by it's value. <code>my_variable = "Hello world!"</code>.  If the variable was previously defined, this will update its value.</li>
+        <li><strong>Variable assignment: </strong><code>+=</code> can be used to add a numeric value to a numeric variable, or to concatenate a string value to a string variable, e.g. <code>total_count += 5</code></li>
+        <li><strong>Basic Numeric Operations: </strong>Use +, -, *, /, **, % for addition, subtraction, multiplication, division, exponentiation, modulo (remainder after division)</li>
+        <li><strong>String Concatenation: </strong>Use + to concatenate string literals and/or variables together, must convert non-string data to strings to concatenate.</li>
+    </ul>
+
+    <h2>Data Types</h2>
+    <ul>
+        <li><strong>Strings: </strong>String literals can either be in double or single quotes, either is okay just be consistent. <code>"My text string"</code>. You can create multi-line strings by enclosing the string in triple quotes, either """, or ''', keeping any line breaks in your code as part of the string.</li>
+        <li><strong>Integer: </strong>Or <code>int</code>, is all integers negative, 0 and positive.  In modern Python (v3), Ints will be coerced to floats if you perform division on them.</li>
+        <li><strong>Floating-Point Number: </strong>Or <code>float</code>, is for decimal numbers</li>
+        <li><strong>Type conversions: </strong>Use <code>str(not_a_string)</code> to convert a non-string literal or variable to a string.</li>
+    </ul>
+
+    <h2>Errors</h2>
+    <ul>
+        <li><strong>SyntaxError: </strong>You'll see this in the console if something is wrong with your syntax, along with a copy of the line and a ^ pointing to the problem.</li>
+        <li><strong>NameError: </strong>You'll see this in the console if you use a variable name that is not defined.</li>
+        <li><strong>ZeroDivisionError: </strong>If you divide by 0.</li>
+    </ul>
+</body>
+</html>
