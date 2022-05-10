@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My great general example page</title>
+        <link rel="stylesheet" href="./generalexample.css">
+    </head>
+    <body>
+        <header>
+            <h1 id="top">Main Heading</h1>
+            <!--Some interesting commentary-->
+            <nav>
+                <ul>
+                    <li><a href="../index.html">Home</a></li>
+                    <li><a href="https://www.wikipedia.org/" target="_blank">This Is A Link To Wikipedia that opens in a new tab</a></li>
+                </ul>                
+            </nav>
+        </header>
+        <main>
+            <section>
+                <h2>Subheading</h2>
+                <a href="../index.html"><img src="./bearface.jpeg" alt="Bear looking at the camera" /></a>             
+            </section>
+            <section>
+                <article>
+                    <h2>Facts About Dogs</h2>
+                    <section>
+                        <h3>Useful Facts</h3>
+                        <ol>
+                            <li>Dogs have a sense of time. It's been proven that they know the difference between a hour and five. </li>
+                            <li>Dogs are cute.</li>
+                        </ol>
+                    </section>
+                    <section>
+                        <h3>Not Useful Facts</h3>
+                        <p>There are no facts about dogs that are not useful.  Every fact turns out to be a useful one.</p>
+                    </section>
+                </article>
+                <aside>
+                    <p>A study was conducted on dogs being away from their owners for varying hours and the studies show that dogs who were away from their owners the longest showed the greatest amount of affection!</p> 
+                </aside>
+            </section>
+            <section>
+                <h2>Table Area</h2>
+                <a href="#top">Go to top of page</a>
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col"></th>
+                            <th scope="col">Saturday</th>
+                            <th scope="col">Sunday</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Morning</th>
+                            <td colspan="2">Eat Breakfast</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Afternoon</th>
+                            <td rowspan="2">Chill</td>
+                            <td>Workout</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Evening</th>
+                            <td>Chill</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th scope="row">Total Chill:</th>
+                            <td>2 units</td>
+                            <td>1 unit</td>
+                        </tr>
+                    </tfoot>
+                </table>                
+            </section>
+            <section>
+                <h2>Strange Section</h2>
+                <figure>
+                    <img src="https://content.codecademy.com/courses/Semantic%20HTML/dogimage.jpeg"/>
+                    <figcaption>A cute dog.</figcaption>
+                </figure>  
+                <audio controls>
+                    <source src="https://content.codecademy.com/courses/Semantic%20HTML/dogBarking.mp3" type="audio/mp3">
+                </audio> 
+                <video src="./bearvid.mp4" width="320" height="240" controls>This video is not supported</video>
+            </section>
+        </main>
+        <footer>
+            <p><strong>Contact Me</strong> at <em>333-333-3333</em></p>
+        </footer>
+    </body>
+</html>
