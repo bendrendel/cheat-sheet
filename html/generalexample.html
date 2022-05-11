@@ -1,13 +1,18 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>My great general example page</title>
+        <title>Everything I Know</title>
         <link rel="stylesheet" href="./generalexample.css">
+        <style>
+            h2 {
+                color: green;
+            }
+        </style>        
     </head>
     <body>
         <header>
-            <h1 id="top">Main Heading</h1>
-            <!--Some interesting commentary-->
+            <h1 id="top" class="page-heading">Welcome to everything I know.</h1>
+            <!--This page is meant to have examples of all the html and css things I know-->
             <nav>
                 <ul>
                     <li><a href="../index.html">Home</a></li>
@@ -18,29 +23,41 @@
         <main>
             <section>
                 <h2>Subheading</h2>
-                <a href="../index.html"><img src="./bearface.jpeg" alt="Bear looking at the camera" /></a>             
+                <a href="../index.html#databases"><img src="./bearface.jpeg" alt="Bear looking at the camera" /></a>
+                <p id="bear-caption">My great caption</p>  
+                <hr/>        
             </section>
             <section>
                 <article>
-                    <h2>Facts About Dogs</h2>
+                    <h2 style="color:purple;">Facts About Dogs</h2>
                     <section>
                         <h3>Useful Facts</h3>
-                        <ol>
-                            <li>Dogs have a sense of time. It's been proven that they know the difference between a hour and five. </li>
-                            <li>Dogs are cute.</li>
+                        <ol class="useful-list">
+                            <li class="bold">Dogs have a sense of time. It's been proven that they know the difference between a hour and five. </li>
+                            <li>Dogs are cute.
+                                <ul>
+                                    <li>This is due to their face.</li>
+                                    <li>It is also due to their behavior.</li>
+                                </ul>
+                            </li>
+                            <li>Dogs know how that 2<sup>2</sup>=4 and that H<sub>2</sub>O is water.</li>
                         </ol>
                     </section>
                     <section>
-                        <h3>Not Useful Facts</h3>
+                        <h3 class="bold uppercase">Not Useful Facts</h3>
                         <p>There are no facts about dogs that are not useful.  Every fact turns out to be a useful one.</p>
+                        <blockquote cite="https://www.brainyquote.com/authors/elon-musk-quotes">
+                            <p>If something's important enough, you should try. Even if - the probable outcome is failure.</p>
+                        </blockquote>
                     </section>
                 </article>
+                <br/>
                 <aside>
-                    <p>A study was conducted on dogs being away from their owners for varying hours and the studies show that dogs who were away from their owners the longest showed the greatest amount of affection!</p> 
+                    <p>A study was conducted on dogs being away from their owners and one dog said <q>This is a great study</q> to the researcher.</p> 
                 </aside>
             </section>
             <section>
-                <h2>Table Area</h2>
+                <h2>Tables</h2>
                 <a href="#top">Go to top of page</a>
                 <table>
                     <thead>
@@ -87,7 +104,11 @@
             </section>
         </main>
         <footer>
-            <p><strong>Contact Me</strong> at <em>333-333-3333</em></p>
+            <address>
+                <p><a href="mailto:bfdrendel@gmail.com">bfdrendel@gmail.com</a></p>
+                <p>333-333-3333</p>
+            </address>
+            <p>&copy all rights reserved</p>
         </footer>
     </body>
 </html>

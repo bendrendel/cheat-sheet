@@ -1,3 +1,76 @@
+* {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+h1,
+h2 {
+    font-family:'Times New Roman', Times, serif;
+}
+
+.page-heading {
+    color: red;
+    text-decoration: underline !important;
+}
+
+#top {
+    color: blue;
+    text-align: center;
+    text-decoration: none;
+}
+
+a:hover {
+    color: darkmagenta;
+}
+
+a:focus {
+    border: 11pt solid red;
+}
+
+[href] {
+    text-decoration:overline;
+}
+
+a[href*='index.html'] {
+    background-color: yellow;
+}
+
+#bear-caption {
+    position:relative;
+    display: block;
+    height: 20px;
+    width: 120px;
+    left: 50px;
+    bottom: 50px;
+    background-color: white;
+    opacity: .5;
+}
+
+blockquote {
+    background-image: url(./bearface.jpeg);
+}
+
+li {
+    color: brown;
+}
+
+.useful-list li {
+    text-transform:capitalize;
+    color: purple;
+}
+
+.bold {
+    font-weight: 900;
+}
+
+li.bold {
+    font-weight: 600;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
 table, th, td {
     border: 1pt black solid;
 }
+
