@@ -45,6 +45,39 @@ a[href*='index.html'] {
     opacity: .5;
 }
 
+#box-section {
+    position: static;
+    height: 800px;
+}
+
+#box-section span {
+    margin: 0;
+    padding: 0;
+}
+
+#box-one {
+    display: block;
+    height: 300px;
+    width: 300px;
+    background-color: green;
+    float: right;
+    clear: right;
+}
+
+#box-two {
+    display: inline;
+    background-color: blue;
+    float: left;
+}
+
+#box-three {
+    display: block;
+    height: 300px;
+    background-color: red;
+    float: left;
+    clear: left;
+}
+
 blockquote {
     background-image: url(./bearface.jpeg);
 }
