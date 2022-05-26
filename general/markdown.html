@@ -7,42 +7,53 @@
         <a href="./index.html">Home</a>
         <h2>Overview</h2>
         <ul>
-            <li>Markdown is a text-formatting language designed for the web with PERL</li>
+            <li>Markdown is a text-formatting language designed for the web, with the
+                original parser written in PERL but now parsers are written in many
+                languages.
+            </li>
             <li>Widely used in software/technical documentation, 
                 many communication applications like skype, major websites like wordpress, 
                 writing blogs posts for a website, to take notes, implemented in emails, 
                 and multiple places in GitHub (Gists, comments in issues and pull requests,
                 and files with markdown extension)</li>
             <li>It is designed to be lighter weight than HTML to be more accessible, 
-                but can't do nearly as much as HTML.  It is designed as a subset of HTML.</li>
+                but can't do nearly as much as HTML.  It is designed as a subset of HTML.
+                It is designed to be easy to read in its source code form, even without
+                rendering.</li>
             <li>The original markdown was designed in 2004, but more flavors have been 
                 created since then that incorporate more features from HTML. CommonMark is
                 a major one.  Github flavored markdown (GFM) is another one that expands upon
                 commonmark.  Trello is another big one that has its own implementation of
                 markdown.
             </li>
-            <li>Markdown processors or parsers are included in certain software that can read
-                markdown, it converts markdown to HTML</li>
+            <li>Markdown processors or parsers convert markdown to HTML, so the HTML
+                can then be read by a web browser or something that reads HTML.  They convert
+                the markdown syntax into a subset of HTML tags, and you can include actual
+                HTML in your markdown file and that will just pass through the parser and
+                be included as HTML in its output.  Different parsers might convert markdown
+                to slightly different HTML tags and/or have different default CSS styles.
+            </li>
             <li>File extension is .markdown or .md</li>
         </ul>
 
         <h2>Readme Files</h2>
         <p>Every programming project should include a README.md file, GitHub automatically
-            displays it on the landing page of the repository. It should contain:</p>
+            displays it on the landing page of the repository. Github will automatically create a 
+            table of contents based on your heading heirarchy.  Logos, diagrams, other media are fair
+            game and can be linked to if they live in the repository.  It should contain:</p>
         <ul>
-            <li>Title (h1) usually the project name and possibly brief description 
+            <li><strong>Title</strong> (h1) usually the project name and possibly brief description or tagline
                 and good section titles (h2), possibly subsections (h3-h6)</li>
-            <li>Introduction in a few sentences explaining the point of the project,
+            <li><strong>Description/Features</strong> Introduction in a few sentences explaining the point of the project,
                 what problems it solves or incentive for creating it. For coding interview projects,
                 explain how requirements have been met.</li>
-            <li>The technologies used in the project, including libraries and versions</li>
-            <li>How to run the project, if there are minimum hardware requirements, how to
+            <li><strong>Technology</strong> The technologies used in the project, including libraries and versions, maybe what they're used to do</li>
+            <li><strong>Usage/Installation</strong> How to run the project, if there are minimum hardware requirements, how to
                 run in local environment or install it, for web projects it may jsut be a link to the deployed project. For installing, provide step by step instructions like clone from 
-                github, install things, etc.</li>
-            <li>Usage, how to use the project maybe with screenshots</li>
-            <li>How to contribute if applicable, possibly would go in its own file</li>
-            <li>credits, authors</li>
-            <li>license</li>
+                github, install things, etc. how to use the project maybe with screenshots</li>
+            <li><strong>Contribution Guidelines</strong> How to contribute if applicable, possibly would go in its own file</li>
+            <li><strong>Collaborators</strong> credits, authors</li>
+            <li><strong>License</strong> e.g. <a href="https://choosealicense.com/">Choose a License</a></li>
         </ul>
         <p>Optionally, include:</p>
         <ul>
@@ -63,6 +74,9 @@
         <ul>
             <li># This will make an h1 tag</li>
             <li>###### You can go up to an h6 tag with multiple # signs</li>
+            <li>Alternatively you can add a row of one or more equal signs (===) or dashes (---) to make
+                the row above it an h1 or h2 respectively.
+            </li>
         </ul>
 
         <h3>Emphasis</h3>
