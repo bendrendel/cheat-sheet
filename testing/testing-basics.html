@@ -38,12 +38,16 @@
             both readable by humans and computers to confirm it works as described.</li>
         <li><strong>Coverage </strong>Refers to the scope of what is tested. Often testing only covers functionality - i.e. meeting the requirements.  But testing could expand coverage to security, ease of use, and speed</li>
         <ul>
-            <li>Code Coverage: This refers to automated tests, and the extent to which they test every area of code</li>
-            <li>Test Coverage: This refers to the QA team testing that the software meets the requirements, and the extent to which it tests all the requirements</li>
-            <ul>
-                <li>Product Coverage: The extent to which all areas of the product are tested</li>
-                <li>Risk Coverage: The extent to which possible risks have been tested for</li>
-                <li>Requirements Coverage: The extent to which all requirements have been tested</li>
+            <li>Code Coverage: This refers to the percentage of the implementation code that is executed in test code.  There are different criteria/ways to measure if implementation code was 'executed' in a test.  Regardless of the criteria used, 100% code coverage is never a guarantee that the program contains no bugs, it is just a concept to help you hopefully catch more bugs.
+                <ul>
+                    <li>Function coverage would measure code coverage by the percentage of functions defined in your implementation code that are called in your test code, so if you call 90% of your functions in the test code that would be 90% function coverage. </li>
+                    <li>Statement coverage would measure the percentage of statements that are executed in tests...you might never test statements that are in a conditional block for example if you are not being mindful to test them.</li>
+                    <li>Path coverage measures if every path in a a graph of control flow for your program is tested...so in conditional control flow, you are making sure to test every possible branch of the condition.</li>
+                    <li>Condition coverage measures if every boolean sub condition in your program is tested with both true and false, so if you have a condition like (expr1) && (expr2) you actually test for every possible combination of true/false values for expr1 and expr2 - i.e. what if they're both true, both false, expr 1 is only true, or expr 2 is only true.</li>
+                </ul>
+            </li>
+            <li>Test Coverage: This refers to the percentage of features/specifications listed in the project's requirements that are tested.  Again, 100% coverage doesn't guarantee the program runs as expected.</li>
+            <li>Risk Coverage: The extent to which possible risks have been tested for</li>
             </ul>
         </ul>
         <li><strong>Regression </strong>When previously tested functionality no longer passes the tests. Can
