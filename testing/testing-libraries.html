@@ -42,7 +42,7 @@
         <ul>
             <li><code>assert.ok()</code> accepts a single conditional statement such as <code>assert.ok(myVar === 3)</code> and throws an AssertionError if condition is false.  This communciates to mocha that a test has failed and mocha then logs it to the console.</li>
             <li><code>assert.equal()</code> and <code>assert.strictEqual()</code> can and should (for a more expressive, easier to read test) be used instead of .ok() when you just want to test if two items are equal, .equal does a loose == comparison and .strictEqual does a strict === comparison. e.g. <code>assert.strictEqual(result, expected)</code> where typically the result/actual is put first and the expected second</li>
-            <li><code>assert.deepEqual()</code> should be used when comparing equality between two objects or two arrays. Comparing distinct but identical objects or arrays with == or === will result in false, because the objects/arrays are not in the same location in memory.</li>
+            <li><code>assert.deepEqual()</code> should be used when comparing equality between two objects or two arrays.  It will compare each object prop/value or eacy array item using loose == comparison. Comparing distinct but identical objects or arrays with == or === will result in false, because the objects/arrays are not in the same location in memory.</li>
             <li>There are other assert methods for specific circumstances that should generally be used instead of the more generic ok() method for more expressive tests that are easier to read</li>     
             <li>Example Code:
                 <code><pre>
