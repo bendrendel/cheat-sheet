@@ -109,6 +109,32 @@
         </ul>
     </ul>
 
+    <h2>Sinon</h2>
+    <ul>
+        <li>Sinon is a javascript library you can import into your tests to get spying functionality</li>
+        <li>It allows you to get information about a function that you want to test such as the number of calls of that function, the arguments, return values, etc.</li>
+        <li>
+            For example, in the code below we are testing the greet method of the robot object.  Sinon spies on the greet method, we run the method, we test certain things about the method's call, and then we use restore to remove the spy from the method.
+            <code><pre>
+                const robot = {
+                    greet(name){  
+                        // Unit being tested
+                        return 'Hello ' + name;
+                    }
+                };
+                    
+                test('greet should return hello codey', () => {
+                    sinon.spy(robot, 'greet'); // Initialize the spy
+                    robot.greet('codey'); // Call the method
+                    expect(robot.greet.called).to.be.true;
+                    expect(robot.greet.calledWith('codey')).to.be.true;
+                    expect(robot.greet.returned('Hello codey')).to.be.true;
+                    robot.greet.restore(); // Remove spy from wrapped method
+                });
+            </pre></code>
+        </li>
+    </ul>
+
     <h2>Jest</h2>
     <h3>Basics</h3>
     <ul>
