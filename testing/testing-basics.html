@@ -53,7 +53,8 @@
     </ul>
 
     <h2>Test Driven Development (TDD)</h2>
-    <p>A development method that writes test code to define program behavior before implementation code, and only writes implementation code in response to failed tests, addressing one failure at a time.</p>
+    <p>A development method that writes test code to define program behavior before implementation code, and only writes implementation code in response to failed tests, addressing one failure at a time.  Tests define use-cases of what action is to be supported by new code, and test components of code like functions and classes as the smallest unit to test.  Helps to produce minimum necessary implementation code.</p>
+    <p>Similar strategies: There are other testing strategies similar to TDD in that the idea is to define tests first, then implement minimum code to pass tests.  One strategy is Behavior-Driven Development (BDD) which works at a higher level than TDD, where the unit of testing is a feature instead of more technical details like functions and classes in TDD.  Test cases in BDD test whether a particular feature of the application works how it should for a user, as opposed to more technical implementation details as in in TDD.</p>
     <p>Phases of test-drive development:</p>
     <ol>
         <li><strong>Add a test</strong> Convert requirements to tests, before code is written</li>
@@ -71,22 +72,23 @@
     </ol>
 
     <h2>Testing Heirarchy</h2>
-    <p>Testing generally breaks down to Unit Testing, Integration Testing, Component Testing, UI Testing, and End to End Testing.  Unit/Component Testing is the fastest and cheapest testing and is done often.  You move up the heirarchy only as previous tests are exhuasted, as higher up tests are slower and more resource expensive. Balance should be more unit tests and less and less tests as you get to E2E tests.  E2E tests provide lots of confidence but are slow expensive to write and run.</p>
+    <p>Testing generally breaks down to Unit Testing, Integration Testing, Component Testing, End to End (AKA UI Layer) Testing.  Unit/Component Testing is the fastest and cheapest testing and is done often.  You move up the heirarchy only as previous tests are exhuasted, as higher up tests require more time, computation resources, money.  Higher up tests have a larger scope/amount of code being tested.  Balance should be more unit tests and less and less tests as you get to E2E tests.  E2E tests provide lots of confidence but are slow expensive to write and run.  Unit testing and integration testing will often be done on pull requests before a merge is allowed, and sometimes e2e tests.</p>
     <h3>Unit Testing</h3>
     <ul>
-        <li>Automated tests written and run by developers, testing small units of code, such as a single class, a function, a module, a method, etc.</li>
+        <li>Automated tests written and run by developers, testing smallest units of code possible, such as a single class, a function, a module, a method, etc. Everything external to the unit that it relies on, such as other functions, API data, etc, should be replaced with fake data or behavior (mocked) to ensure you are isolating the test to just the unit being tested.</li>
         <li>Needs to be used in conjuntion with integration testing, and other tests that test functionality of units working together</li>
         <li>Expect Unit Tests to evolve as the implementation code evolves and implementation details change, unit test code is not as static as higher level tests that test overall functionality that doesn't change as much.</li>
         <li>Can be used as a design-specification, essentially they define what needs to be built and how it should work and can simultaneously be used to test if requirements are met.</li>
         <li>Unit Testing is fast and cheap, and you should rely heavily on these in your test suite</li>
-        <li>Unit testing done in the node environment (not in browser), everything outside the unit is mocked.</li>
+        <li>Unit testing done in the node environment (not in browser)</li>
     </ul>
 
     <h3>Integration Testing</h3>
     <ul>
-        <li>This tests modules which have been unit tested, and aggregates them to test as a group.  Happens after unit testing,
+        <li>This tests modules which have been unit tested, and aggregates them to test as a group to test the interaction between internal services of the application.  Happens after unit testing,
             but before validation and system testing.
         </li>
+        <li>Uses mocked data, for example, if you are getting data from an API, you could use mocked API data to simulate different responses you might get from the API, like the expected response, an error response, or unexpected data, and then test that your application properly handles receiving that mocked data, processing, formatting, displaying it correctly.</li>
         <li>Different methods can be used such as big-bang testing which combines large aggregates of modules, or can systematically
             test smaller aggregates first, building up to larger aggregates.
         </li>
@@ -99,15 +101,9 @@
         <li>Still running in node usually (not in browser), with outside services mocked</li>
     </ul>
 
-    <h3>UI Layer Testing</h3>
+    <h3>End to End (E2E) Testing (AKA UI Layer Testing)</h3>
     <ul>
-        <li>Testing major modules of the app from the outside</li>
-        <li>Running in actual browser with mock servers</li>
-    </ul>
-
-    <h3>End to End (E2E) Testing</h3>
-    <ul>
-        <li>Testing entire app from outside</li>
+        <li>Testing entire app including external services, automates user flows, automating the user clicking around the UI, and making real calls to external resources like APIs and databases</li>
         <li>Running in actual browser, with real servers usually on production</li>
     </ul>
 
