@@ -52,8 +52,9 @@
         </ul>
         <li><strong>Regression </strong>When previously tested functionality no longer passes the tests. Can
             happen when new features are implemented.</li>
-        <li><strong>Mock Testing </strong>This is when you use a fake version of an internal or external service (e.g. JSON from an API), for testing purposes. This is good to use when possible to save time when running the test.  Hitting an actual API in your test makes the test slow and fragile, and so faking the call to the API and returning some fake data can be done using a mock.</li>
-        <li><strong>Stub Testing </strong>Similar to mock testing, except you only fake some portion of the internal or external service that is specifically needed for the test.  Like mock testing, this is good to use to save time when running the test.  An example is instead of creating an actual error condition by e.g. creating a corrupt file programmatically and then testing what happens when your program tries to read it, you could stub the file system with some functionality that returns the error code for a corrupt file and feed that to your test, instead of actually creating the corrupt file.</li>
+        <li><strong>Contract Testing </strong>When two services integrate with each other they have expectations about what is received and returned, which can be thought of as a contract between integrated endpoints. You can test internal services (microservices architecture) this way also, and use mocks and stubs for the expected returned values from the other system.</li>
+        <li><strong>Mocking </strong>This is when you use a fake version of an internal or external service (e.g. JSON from an API), for testing purposes.  It is often used in unit and integration tests to remove any dependency on external resources to ensure your test is just focused on the unit or integrated units being tested, and won't fail because an external service isn't working.  This is also good to use when possible to save time when running the test.  Hitting an actual API in your test makes the test slow and fragile, and so faking the call to the API and returning some fake data can be done using a mock.</li>
+        <li><strong>Stubbing </strong>Similar to mock testing, except you only fake some portion of the internal or external service that is specifically needed for the test.  Like mock testing, this is good to isolate the code tested and to save time when running the test.  An example is instead of creating an actual error condition by e.g. creating a corrupt file programmatically and then testing what happens when your program tries to read it, you could stub the file system with some functionality that returns the error code for a corrupt file and feed that to your test, instead of actually creating the corrupt file.</li>
     </ul>
 
     <h2>Test Driven Development (TDD)</h2>
@@ -76,15 +77,16 @@
     </ol>
 
     <h2>Testing Heirarchy</h2>
-    <p>Testing generally breaks down to Unit Testing, Integration Testing, Component Testing, End to End (AKA UI Layer) Testing.  Unit/Component Testing is the fastest and cheapest testing and is done often.  You move up the heirarchy only as previous tests are exhuasted, as higher up tests require more time, computation resources, money.  Higher up tests have a larger scope/amount of code being tested.  Balance should be more unit tests and less and less tests as you get to E2E tests.  E2E tests provide lots of confidence but are slow expensive to write and run.  Unit testing and integration testing will often be done on pull requests before a merge is allowed, and sometimes e2e tests.</p>
+    <p>Testing generally breaks down to Unit Testing, Integration Testing, End to End (AKA UI Layer) Testing.  Unit Testing is the fastest and cheapest testing and is done often.  You move up the heirarchy only as previous tests are exhuasted, as higher up tests require more time, computation resources, money.  Higher up tests have a larger scope/amount of code being tested.  Balance should be more unit tests and less and less tests as you get to E2E tests.  E2E tests provide lots of confidence but are slow expensive to write and run.  Unit testing and integration testing will often be done on pull requests before a merge is allowed, and sometimes e2e tests.</p>
     <h3>Unit Testing</h3>
     <ul>
-        <li>Automated tests written and run by developers, testing smallest units of code possible, such as a single class, a function, a module, a method, etc. Everything external to the unit that it relies on, such as other functions, API data, etc, should be replaced with fake data or behavior (mocked) to ensure you are isolating the test to just the unit being tested.</li>
+        <li>Automated tests written and run by developers, testing smallest units of code possible, such as a single class, a function, a module, a method, etc. Everything external to the unit that it relies on, such as other functions, API data, etc, should be replaced with fake data or behavior (mocked) to ensure you are isolating the test to just the unit being tested.  For example, if you have three functions, one that gets data from an API, one that formats the data, and one that displays the data, then when you are testing the function that displays the data you should give it mock formatted data to try to display.  That way you are just testing the display functionality with data as it expects to receive it, and you are not relying on the formatting function or the function that calls the API.</li>
         <li>Needs to be used in conjuntion with integration testing, and other tests that test functionality of units working together</li>
         <li>Expect Unit Tests to evolve as the implementation code evolves and implementation details change, unit test code is not as static as higher level tests that test overall functionality that doesn't change as much.</li>
         <li>Can be used as a design-specification, essentially they define what needs to be built and how it should work and can simultaneously be used to test if requirements are met.</li>
         <li>Unit Testing is fast and cheap, and you should rely heavily on these in your test suite</li>
         <li>Unit testing done in the node environment (not in browser)</li>
+        <li>Component testing generally refers to a higher-level unit, an entire component that you are testing which may be like integration testing in that there are many smaller units within that component working together, and then your integration testing would be multiple components tested together.</li>
     </ul>
 
     <h3>Integration Testing</h3>
@@ -92,29 +94,17 @@
         <li>This tests modules which have been unit tested, and aggregates them to test as a group to test the interaction between internal services of the application.  Happens after unit testing,
             but before validation and system testing.
         </li>
-        <li>Uses mocked data, for example, if you are getting data from an API, you could use mocked API data to simulate different responses you might get from the API, like the expected response, an error response, or unexpected data, and then test that your application properly handles receiving that mocked data, processing, formatting, displaying it correctly.</li>
+        <li>Like unit testing uses mocked data, but only for services external to the application, not for internal services since the point is to test if internal services are all integrated properly.  For example again if you have the three functions for getting data from an API, formatting the data, and displaying the data, then your integration test will mock the data coming from the API and feed it the formatting function.  However, teh formatted data will not be mocked to feed to the display function, rather the display function should rely on the output of the formatting function, to ensure the two functions are working together.  To mock the API data, you could mock multiple different responses you might get from the API, like the expected response, an error response, or unexpected data, and then test that your application properly handles the different responses from the API, with your formatting and display functions doing what you want in those cases.</li>
         <li>Different methods can be used such as big-bang testing which combines large aggregates of modules, or can systematically
             test smaller aggregates first, building up to larger aggregates.
         </li>
         <li>Integration Testing is slower and more expensive on resources than unit testing, and should only be done once unit tests have been exhuasted.</li>
     </ul>
 
-    <h3>Component Testing</h3>
-    <ul>
-        <li>Testing the UI and possibly its integration with business logic from inside</li>
-        <li>Still running in node usually (not in browser), with outside services mocked</li>
-    </ul>
-
     <h3>End to End (E2E) Testing (AKA UI Layer Testing)</h3>
     <ul>
         <li>Testing entire app including external services, automates user flows, automating the user clicking around the UI, and making real calls to external resources like APIs and databases</li>
         <li>Running in actual browser, with real servers usually on production</li>
-    </ul>
-
-    <h3>Contract Testing</h3>
-    <ul>
-        <li>When two services integrate with each other they have expectations about what is received and returned, which can be thought of as a contract between integrated endpoints.</li>
-        <li>You can test internal services (microservices architecture) this way also, and use mocks and stubs for the expected returned values from the other system.</li>
     </ul>
 
     <h2>Testing React Apps</h2>
