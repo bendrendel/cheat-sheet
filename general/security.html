@@ -20,6 +20,7 @@
             HTTPS and CORS.
         </li>
         <li>Authentication: Process used by applications to confirm identities of users.</li>
+        <li>CIA: Confidentiality, Integrity, Availability, a good set of categories to consider when thinking about web security. Confidentiality is about enforcing who is and is not allowed to see certain data using things like user authentication and encryption, Integrity is about ensuring data is not changed and changes are reversible using things like database security and backups, and Availability is about data being available to users using things like hardware maintenance and disaster recovery plans.</li>
     </ul>
 
     <h2>CORS</h2>
@@ -94,40 +95,71 @@
     <a href="https://owasp.org/www-project-top-ten/">owasp.org</a>
     <ul>
         <li>Injection: An attacker using SQL, noSQL, or other injection to send code in a
-            command or query that tricks the interpreter into doing something unintended or
-            give access to data without proper authorization
+            command or query that tricks an interpreter (of SQL or something else) into doing something unintended or
+            give access to data without proper authorization.  E.g. in an entry field where you
+            put in say a product name you could add in 'UNION SELECT username, password FROM user_table;'
+            so the SQL query on the server runs "SELECT name, price, decription FROM products WHERE name="
+            concatenated with the injected SQL.  OR the injected SQL could be a product name followed by 
+            "; DROP TABLE users;" which would run a second sql statement to delete a table.  Or a password
+            entry could inject 'dummypassword OR TRUE' which could trick a password checking condition to always be true.
         </li>
         <li>Broken Authentication: Functions related to authentication and session management
-            are often implemented incorrectly allowing attackers to assume other users identities
+            are often implemented incorrectly allowing attackers to assume other users identities, This
+            could be something like having an 'admin' user account that still has the default password 'admin',
+            or a lack of rate-limiting for login attempts
         </li>
         <li>Sensitive Data Exposure: Many web apps and APIS don't properly protect Sensitive
-            data, or offer extra protection like encryption while at rest or in transit
+            data, or offer extra protection like encryption while at rest or in transit.  This can be things like
+            insecure storage, transmitting sensitive data, showing sensitive data to unauthorized parties, etc,
         </li>
         <li>
             XML External Entities: Older or poorly configured XML processors evaluate external entity
-            references in XML documents, which can be used to disclose internal files and other attacks
+            references in XML documents, which can be used to disclose internal files and other attacks, or
+            possibly just run any code they want to in the back end.  Its like an injection attack except injeciton
+            usually comes from input fields, whereas this comes from XML documents that can be sent, for example in
+            the body of a post request.  Can be entirely avoided by not using XML.
         </li>
         <li>
             Broken Access Control: Restrictions on what authenticated users can access and do are often
-            not properly enforced.
+            not properly enforced. This isn't as much about bypassing access controls, but vulnerabilities in
+            the access controls themselves.  For example, being able to simply type in the username of someone at
+            the end of a url to access their account page.
         </li>
         <li>
             Security Misconfiguration: the most common issue.  insecure default configurations, misconfigured
-            HTTP headers, error messages containing sensitive info, OS/framework/library not patched and updated regularly
+            HTTP headers, error messages containing sensitive info, OS/framework/library not patched and updated regularly,
+            basically all security measures need to be configured correclty, not just left at defaults, and they need to be
+            constantly  checked and updated as needed as the environment changes, not just set once and forget.
         </li>
         <li>
-            Cross-site scripting XSS: when apps include untrusted data in a new web page or updates a page with user-supplied info without proper validation, can be used to redirect users, add malicious code, deface website
+            Cross-site scripting XSS: when apps include untrusted data in a new web page or updates a page with user-supplied 
+            info without proper validation, can be used to redirect users, add malicious code, deface website.  This is about
+            client-side code being exploited.  For example
+            a user could make a post on a social media website that other people can see.  But in their post the could write something like
+            "&ltscript>alert('Uh-oh')&lt/script>" and put code in between teh script tags that gets added to the html of the displayed page,
+            and is not treated like text, but treated like actual html tags with javascript in between it that will run when other
+            users load the page.  This could also be done through faking iframe tags, or faking anchor tags that have an href that can
+            run javascript.
         </li>
         <li>
-            Insecure Deserialization: Can result in remote code execution
+            Insecure Deserialization: Can result in remote code execution.  This is about a common process where you take some actual code
+            like an object or a function and you "serialize" it, usually meaning turning it into plain text, to perhaps send across the
+            interwebs, and then you "deserialize" the incoming text to turn it back into an object or function or whatever.  This is when
+            attackers alter the serialized data, so that when the data is deserialized it now contains something that will be converted into
+            a malicious piece of code that will run.  Can be prevented by never deserializing external incoming data.
         </li>
         <li>
             Using Components with known vulnerabilities: Libraries, frameworks, other modules that have known
-            vulnerabilities used in the app
+            vulnerabilities used in the app.  Usually updates and patches to software will fix all newly found
+            vulnerabilites, but attackers will purposefully look out for announcements of known vulnerabilities and attack to get people
+            who are out-of-date with their updates.  You can usually prevent this by keepign everything up to date, and abandoning the use of
+            any software that is no longer maintained since they are no longer sending out patches for vulnerabilities.
         </li>
         <li>
             Insufficient Logging and Monitoring: insufficient monitoring coupled with non existant or poorly
-            integrated incident response allows attacks to go unnoticed for months, and worsening of attack
+            integrated incident response allows attacks to go unnoticed for months, and worsening of attack.  Good logging with detailed information 
+            can quickly reveal e.g. that teh same ip address tried to log in to the admin account 20 times in a matter of 5 seconds and then logged in.
+            This would alert you to a likely breach.
         </li>
     </ul>
 </body>
