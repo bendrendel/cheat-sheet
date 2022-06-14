@@ -32,9 +32,10 @@
             <p>One option to quickly set up a site is to use Jekyll themes found on the Github Pages settings page, you can customize the content</p>
         </li>
         <li>
-            <p>Netlify: Like github pages, good for simple hosting of static web pages. But has
+            <p>Netlify: Like github pages, good for simple hosting of static web pages (i.e. those without a backend) But has
                 a number of features that github pages doesn't have, like automated builds and server-side
-                functions, and form controls.</p>
+                functions, and form controls. So, something like a React App which isn't technically static since it has to go through
+                a build phase to generate static assets, can be hosted on Netlify by providing a build command to netlify and publish directory (npm run build and build/)</p>
             <ul>
                 <li>Free starter plan offers automated builds from Git, so that sites auto deploy when you push commits to github (continuous deployment)</li>
                 <li>Can deploy to global edge network to handle complex tasks and custom logic</li>
