@@ -88,7 +88,8 @@
         </ul>
         <li>Hooks are generally a better way to write setup and teardown code instead of including it directly in your it callback code.  Hooks are included inside the describe callback function along with the
             it function calls.  Hooks include <code>beforeEach(), afterEach(), before(), after()</code> and accept a single callback function as an argument.  For example, the provided callback function for afterEach() will
-            run after every time an it callback runs in the same describe callback.  This is especially important to use for teardown code because it ensures the teardown code will run even if the it callback ends early
+            run after every time an it callback runs in the same describe callback.  before() will run only once, before the first test in the describe block, and after() will run only once, after the last test in the describe block.
+            This is especially important to use for teardown code because it ensures the teardown code will run even if the it callback ends early
             due to an assertError or other error being thrown.  The teardown code would not run after the error if it was included in the it callback directly.
         </li>
         <ul>
@@ -125,7 +126,7 @@
                     
                 test('greet should return hello codey', () => {
                     sinon.spy(robot, 'greet'); // Initialize the spy
-                    robot.greet('codey'); // Call the method
+                    robot.greet('codey'); / / Call the method
                     expect(robot.greet.called).to.be.true;
                     expect(robot.greet.calledWith('codey')).to.be.true;
                     expect(robot.greet.returned('Hello codey')).to.be.true;
