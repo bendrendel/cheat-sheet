@@ -185,7 +185,8 @@
                 <ul>
                     <li>This takes the current version of branchname, and "replays" the commits in your checked out branch starting from the latest commit of branchname</li>
                     <li>This changes the SHAs on all of the commits you've made in your checked out branch, so be careful if others are working on this branch as well
-                        as it could mess them up, this is generally meant to be used on branches where its primarily just you working on the branch.</li>
+                        as it could mess them up, this is generally meant to be used on branches where its primarily just you working on the branch.  Generally you should not ever use rebase if you have pushed your feature branch to a remote repository where 
+                        other people may have pulled it and are working on it.  If they have worked on your branch then the commit history will change with rebase and that'll mess them up.  Try to only use rebase on local branches that haven't been pushed to the remote.</li>
                     <li>Rebase is good if clarity of history on the master branch is desired, because it creates an easy to follow linear history on the master
                         branch.  However, for projects where speed of delivery is more important, rebase may not be preferred, and instead merge will be used
                     </li>
