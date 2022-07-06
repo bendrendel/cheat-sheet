@@ -35,7 +35,7 @@
             <p><strong>readme </strong>documentation of project, good idea in general to document your projects</p>
             <p><strong>.gitignore: </strong>this file can be included in the root folder of a git project's working directory to list all files and directories in 
                 the working directory that git should ignore, simply list each file name or directory to ignore on its own line.
-                All files and subdirectories in an ignored directory are ignored</p>
+                All files and subdirectories in an ignored directory are ignored.  Files to ignore include configuration files with API or secret keys such as .env, compiled binary files or directories such as build or dist, log files, dependencies downloaded from npm, system files such as thumbs.db on windows or .DS_Store on mac.</p>
                 <ul>
                     <li><stong>comments: </stong>comment a line by starting it with #</li>
                     <li><strong>.gitignore not in root: </strong>can create additional gitignore files in subdirectories,
@@ -44,9 +44,9 @@
                         all directories with that name in subdirectories, e.g. /ignorethisdirectory</li>
                     <li>end directory names with / to only match directories, otherwise will match files that happen to
                         have the same name as the directory</li>
-                    <li><strong>Wildcard: </strong>Use the * symbol as a wildcard, e.g. *.log will ignore all .log files</li>
+                    <li><strong>Wildcards: </strong>Use the * symbol as a wildcard for any type and number of characters, e.g. *.log will ignore all .log files.  You can use brackets like [a-i], or [A-M], or [1-7] as placeholders for a single character in a certain range of leters or numbers, so e.g. index.[a-i]* would ignore index.html and index.css but not index.js.  Finally, use ** to match zero, one, or more directories, e.g. if you wanted to ignore all .log files in the folders v1, v2, v3 and any .log files in any of the subdirectories of those folders, (assuming v1, v2, v3 are in src folder), you could do that with /src/v[1-3]/**/.log</li>
                     <li><strong>Negation: </strong>Use the ! to negate patterns.  e.g. !audit.log in a subdirectory's .gitignore
-                        file, will override the *.log in the root .gitignore file and make it so audit.log is not ignored</li>
+                        file, will override the *.log in the root .gitignore file and make it so audit.log is not ignored.  However, you cannot negate files in ignored directories - the whole directory will be ignored even if you try to negate a file in that directory.</li>
                     <li><strong>git ls-files --others --ignored --exclude-standard </strong>run this in the root of a project to
                         get a list of all the files git is ignoring based on your .gitignore file(s)</li>
                 </ul>
