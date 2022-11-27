@@ -52,58 +52,63 @@
                         }
                     </pre></code></li>
                     <li><strong>CSS-in-CSS with Modules: </strong>The status quo in modern React for CSS-in-CSS is to use an extension like Sass, with modules.  Again if you used <code>create-react-app</code> then you can begin using modules right away, otherwise you need to configure webpack for it.  It is similar to the prior CSS-in-CSS stragies, but now you should rename your css file to <code>style.module.css</code> or <code>style.module.scss</code> if using Sass in the file.  Importing it into your component js file is a little different because you want to create an explicit object now, so it should be <code>import styles from './style.module.css';</code> (or .scss if using Sass).  The styles are not automatically applied, rather to apply them to an element, you set the className attribute of the element equal to injected js like so: <code>&ltbutton className={styles.button}></code> will apply styles from the <code>.button{...}</code> ruleset with the .button class selector to the button element. If the name of the class has a dash in it, like css class names often do, then you cannot use the dot syntax and instead need to use the bracket syntax like so: <code>&ltbutton className={styles['submit-button']}></code></li>
-                    <li><strong>CSS-in-JS with Styled Components: </strong> CSS in JS means there are no css files and all styles are defined in JS files.  This is often done using the styled components library, which to use needs to be installed in the root of your project with <code>npm install styled-components</code>. Then, in the js file of the component you want to make styles for, include <code>import styled from 'styled-components';</code> The basic usage is at the top of your Component file before the component definition, you define const variables for each of the html elements you want to render in the component. (However, you can also define the styled components in a separate file and import them into other components where needed). The variables are generally named for the element type in UpperCamelCase and are set equal to <code>styled.elementType`...`</code>, with css or Sass-like syntax between the backticks (which can also be left empty if no styles are needed).  e.g. <code>const Button = styled.button`color: red;`;</code> The styled object comes with a method for each HTML tag and you feed it styles between the backticks, and it actually returns a regular react component saved to your variable name that acts just like the regular html element but is styled.  Now, in your jsx, instead of regular html tags, you use the names of the variables to render a styled version of the tag.  You can also reference a styled element variable that was defined previously in the code with injection, use a psuedo selector with it, and then define styles for the current element with &.  E.g when you hover over a previously defined MyButton element, maybe you want the input to change color.  This would look like <code>${MyButton}:hover & {background-color: red;}</code>.  Also, you can extend the styles of a previously defined styled component, e.g. say you defined <code>const Button = style.button`...`;</code>, well you can create <code>const GreenButton = styled(Button)`...`;</code> to use the Button styles and add any additional styles on top of that.  Also, you can reference props passed to the component in the style definition, e.g <code>color: ${props => (props.primary ? 'violet' : 'palevioletred')};</code>.  Here is an example of a styled component, which you would use in your JSX by including e.g. <code>&ltInput type="text" placeholder="Search" /></code>:
-                    <code><pre>
-                        const Input = styled.input`
-                            font-size: 16px;
-                            border: solid 1px #dbdbdb;
-                            border-radius: 3px;
-                            color: #262626;
-                            
-                            padding: 7px 33px;
-                            border-radius: 3px;
-                            color: #999;
-                            cursor: text;
-                            font-size: 14px;
-                            font-weight: 300;
-                            text-align: center;
-                            background: #fafafa;
-                            
-                            &:active,
-                            &:focus {
-                                text-align: left;
-                            }
-                        `
-                    </pre></code></li>
+
+                    <li><strong>CSS-in-JSS: </strong>This is a strategy that puts all styling in javascript and there are no css files.  It seems the goal is that you actually create pre-styled react components that you use in place of normal HTML-like JSX elements.  E.g. instead of a regular paragraph p element in the jsx of a component, you define a component beforehand maybe called pText (in the component file or perhaps imported from another file) that acts as a substitute for p elements that has styling already applied, and render instance of that component in your jsx instead of a normal p element.  There are different libraries like styled components and emotion, that allow you to accomplish this and often they produce a normal css file when your code is compiled, to send to the client.  Benefits include not having to switch between syntaxes (everything is js), automatic inlining of critical path css, no class name/id name collisions, easier and safer refactoring (no weird selector cascading in css to try and understand), automatic vendor prefixing, reduces code and file size because the compiled css will only include necessary declarations.  However, css-in-js is not necessarily always the right choice and is controversial to some developers because having separate css files is a nice way to centralize css and can be easier to understand, it is less easily shared between web apps, and depending on the library may have a runtime cost because the client has to download, parse, and execute javascript in order to apply styles. </li>
                     <ul>
-                        <li><strong>Global styles with styled components: </strong>You can create a global style with styled components by creating a globalStyle.js file under src/theme/globalStyle.js.  This file has <code>import { createGlobalStyle } from 'styled-components';</code> and then defines and exports a const variable like <code>const GlobalStyle = createGlobalStyle``;</code> where inside the backticks you define your css that should apply globally, e.g. styling to the body element, to all code elements, etc.  Now you import and include that GlobalStyle component at the top of the React tree to apply it, for some reason using the fragment component. Like so:
+                        <li><strong>CSS-in-JS with Styled Components: </strong> CSS in JS means there are no css files and all styles are defined in JS files.  This is often done using the styled components library, which to use needs to be installed in the root of your project with <code>npm install styled-components</code>. Then, in the js file of the component you want to make styles for, include <code>import styled from 'styled-components';</code> The basic usage is at the top of your Component file before the component definition, you define const variables for each of the html elements you want to render in the component. (However, you can also define the styled components in a separate file and import them into other components where needed). The variables are generally named for the element type in UpperCamelCase and are set equal to <code>styled.elementType`...`</code>, with css or Sass-like syntax between the backticks (which can also be left empty if no styles are needed).  e.g. <code>const Button = styled.button`color: red;`;</code> The styled object comes with a method for each HTML tag and you feed it styles between the backticks, and it actually returns a regular react component saved to your variable name that acts just like the regular html element but is styled.  Now, in your jsx, instead of regular html tags, you use the names of the variables to render a styled version of the tag.  You can also reference a styled element variable that was defined previously in the code with injection, use a psuedo selector with it, and then define styles for the current element with &.  E.g when you hover over a previously defined MyButton element, maybe you want the input to change color.  This would look like <code>${MyButton}:hover & {background-color: red;}</code>.  Also, you can extend the styles of a previously defined styled component, e.g. say you defined <code>const Button = style.button`...`;</code>, well you can create <code>const GreenButton = styled(Button)`...`;</code> to use the Button styles and add any additional styles on top of that.  Also, you can reference props passed to the component in the style definition, e.g <code>color: ${props => (props.primary ? 'violet' : 'palevioletred')};</code>.  Here is an example of a styled component, which you would use in your JSX by including e.g. <code>&ltInput type="text" placeholder="Search" /></code>:
                         <code><pre>
-                            import React, { Fragment } from 'react';
-                            import styled from 'styled-components';
-                            import Header from './components/Header.js';
-                            import Profile from './components/Profile.js';
-                            import GlobalStyle from './theme/globalStyle';
-                            
-                            const AppWrapper = styled.div`
-                                background-color: #fafafa;
-                            `;
-                            
-                            function App() {
-                            return (
-                                &ltFragment>
-                                &ltGlobalStyle />
-                                &ltAppWrapper>
-                                    &ltHeader />
-                            
-                                    &ltProfile />
-                                &lt/AppWrapper>
-                                &lt/Fragment>
-                            );
-                            }
-                            
-                            export default App;
+                            const Input = styled.input`
+                                font-size: 16px;
+                                border: solid 1px #dbdbdb;
+                                border-radius: 3px;
+                                color: #262626;
+                                
+                                padding: 7px 33px;
+                                border-radius: 3px;
+                                color: #999;
+                                cursor: text;
+                                font-size: 14px;
+                                font-weight: 300;
+                                text-align: center;
+                                background: #fafafa;
+                                
+                                &:active,
+                                &:focus {
+                                    text-align: left;
+                                }
+                            `
                         </pre></code></li>
+                        <ul>
+                            <li><strong>Global styles with styled components: </strong>You can create a global style with styled components by creating a globalStyle.js file under src/theme/globalStyle.js.  This file has <code>import { createGlobalStyle } from 'styled-components';</code> and then defines and exports a const variable like <code>const GlobalStyle = createGlobalStyle``;</code> where inside the backticks you define your css that should apply globally, e.g. styling to the body element, to all code elements, etc.  Now you import and include that GlobalStyle component at the top of the React tree to apply it, for some reason using the fragment component. Like so:
+                            <code><pre>
+                                import React, { Fragment } from 'react';
+                                import styled from 'styled-components';
+                                import Header from './components/Header.js';
+                                import Profile from './components/Profile.js';
+                                import GlobalStyle from './theme/globalStyle';
+                                
+                                const AppWrapper = styled.div`
+                                    background-color: #fafafa;
+                                `;
+                                
+                                function App() {
+                                return (
+                                    &ltFragment>
+                                    &ltGlobalStyle />
+                                    &ltAppWrapper>
+                                        &ltHeader />
+                                
+                                        &ltProfile />
+                                    &lt/AppWrapper>
+                                    &lt/Fragment>
+                                );
+                                }
+                                
+                                export default App;
+                            </pre></code></li>
+                        </ul>
                     </ul>
+
                     <li><strong>Utility-first-CSS: </strong>This means using a framework like Tailwind for your React app styling.  There are no css files, and no css syntax in your js.  To use tailwind with React requires a little bit of set up, see the tailwind docs.  Once it is set up, you import tailwind into the component's js file as so: <code>import '../tailwind.generated.css';</code>. Now you can style elements by including a string of tailwind properties in their className attribute.  e.g. <code>className="p-2 w-16 border border-solid border-gray-900 transition duration-100 ease-in hover:bg-gray-900 hover:text-white"</code>.  This applies all of the preconfigured classes in tailwind to this element.</li>
                     <li><strong>Inline CSS: </strong> Inline styles shouldn't generally be used as the primary styling strategy but is useful if you need to do dynamic styling based on javascript conditions, or for quick prototyping.  HTML-like jsx can have a <code>style</code> attribute to apply css styles, but it works a little differently than normal HTML.  The style attribute's value should be an injected javascript object.  The object contains key value pairs where the key is the name of the css style property, but is in camelCase instead of hyphenated lowercase like in css (e.g. backgroundColor instead of background-color).  This is the same as when you use the style property in regular JS on a DOM element, e.g. myElem.style.backgroundColor. The value should almost always be a string wrapped in single quotes, again like regular JS (e.g. myElem.style.backgroundColor = 'red'), and unlike in CSS where quotes generally aren't used.  The exception to this is for most styles, if you give them a numerical value, React will assume the unit is pixels, so <code>fontSize: 30</code> is interpreted as <code>fontSize: '30px'</code>.  
                     <ul>
