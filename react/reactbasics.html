@@ -55,7 +55,181 @@
 
                     <li><strong>CSS-in-JSS: </strong>This is a strategy that puts all styling in javascript and there are no css files.  It seems the goal is that you actually create pre-styled react components that you use in place of normal HTML-like JSX elements.  E.g. instead of a regular paragraph p element in the jsx of a component, you define a component beforehand maybe called pText (in the component file or perhaps imported from another file) that acts as a substitute for p elements that has styling already applied, and render instance of that component in your jsx instead of a normal p element.  There are different libraries like styled components and emotion, that allow you to accomplish this and often they produce a normal css file when your code is compiled, to send to the client.  Benefits include not having to switch between syntaxes (everything is js), automatic inlining of critical path css, no class name/id name collisions, easier and safer refactoring (no weird selector cascading in css to try and understand), automatic vendor prefixing, reduces code and file size because the compiled css will only include necessary declarations.  However, css-in-js is not necessarily always the right choice and is controversial to some developers because having separate css files is a nice way to centralize css and can be easier to understand, it is less easily shared between web apps, and depending on the library may have a runtime cost because the client has to download, parse, and execute javascript in order to apply styles. </li>
                     <ul>
-                        <li><strong>CSS-in-JS with Styled Components: </strong> CSS in JS means there are no css files and all styles are defined in JS files.  This is often done using the styled components library, which to use needs to be installed in the root of your project with <code>npm install styled-components</code>. Then, in the js file of the component you want to make styles for, include <code>import styled from 'styled-components';</code> The basic usage is at the top of your Component file before the component definition, you define const variables for each of the html elements you want to render in the component. (However, you can also define the styled components in a separate file and import them into other components where needed). The variables are generally named for the element type in UpperCamelCase and are set equal to <code>styled.elementType`...`</code>, with css or Sass-like syntax between the backticks (which can also be left empty if no styles are needed).  e.g. <code>const Button = styled.button`color: red;`;</code> The styled object comes with a method for each HTML tag and you feed it styles between the backticks, and it actually returns a regular react component saved to your variable name that acts just like the regular html element but is styled.  Now, in your jsx, instead of regular html tags, you use the names of the variables to render a styled version of the tag.  You can also reference a styled element variable that was defined previously in the code with injection, use a psuedo selector with it, and then define styles for the current element with &.  E.g when you hover over a previously defined MyButton element, maybe you want the input to change color.  This would look like <code>${MyButton}:hover & {background-color: red;}</code>.  Also, you can extend the styles of a previously defined styled component, e.g. say you defined <code>const Button = style.button`...`;</code>, well you can create <code>const GreenButton = styled(Button)`...`;</code> to use the Button styles and add any additional styles on top of that.  Also, you can reference props passed to the component in the style definition, e.g <code>color: ${props => (props.primary ? 'violet' : 'palevioletred')};</code>.  Here is an example of a styled component, which you would use in your JSX by including e.g. <code>&ltInput type="text" placeholder="Search" /></code>:
+                        <li><strong>Emotion Library:</strong> A library to style with CSS-in-JS.  Comes in a framework-agnostic version @emotion/css that is simpler to use and recommended with non-React apps.  For React apps though it is best to use the @emotion/react package (at least if you are using React with a build environment that can be configured).  Run <code>npm install @emotion/react</code> in the root directory of your project.  </li>
+                        <ul>
+                            <li><strong>CSS Prop</strong> To use the css prop, import it into the file you want to use it in by including <code>import { css } from '@emotion/react'</code> at the top of the file.  Also, at the very top of the file, if you are using create react app 4 (maybe just always include it to be safe) include the line <code>/** @jsxImportSource @emotion/react */</code> to inform Babel to customize the automatic runtime import.  Once imported, this allows you to add a prop (equivalent to an attribute if it were real html) to any html-like jsx elements named css, and set equal to either an injected object of css declarations, or a tagged template literal.</li>
+                            <ul>
+                                <li>Object styles look like the following, with the css property names written in camel case instead of kebab case like regular css. 
+                                    <pre><code>
+                                        &ltmain
+                                            css={{
+                                                color: "#03045e",
+                                                background: "#caf0f8",
+                                                height: "1200px",
+                                                fontFamily: "helvetica",
+                                            }}
+                                        >
+                                    </code></pre>
+                                </li>
+                                <li>Tagged template literals (string styles) look like the following, wiht the css properties written in kebab-case like normal css.
+                                    <pre><code>
+                                        &ltimg
+                                            src={logo}
+                                            alt="logo"
+                                            css={css`
+                                                display: absolute;
+                                                margin-top: 15px;
+                                                margin-left: 15px;
+                                                height: 100px;
+                                                width: 100px;
+                                            `}
+                                        />
+                                    </code></pre>
+                                </li>
+                            </ul>
+                            <li><strong>Styled Components: </strong> This requires you to install another package in the root directory of your project (after installing the emotion/react package), run <code>npm install @emotion/styled</code>.  Then to use this in a file, import it at the top of the file with <code>import styled from '@emotion/styled';</code>.  This allows you to create React components that are prestyled replacements for standard html-like jsx elements.  Typically, you would define the styled components in a separate file, maybe for a small app all of them could be defined in a single styles.js file (I'm sure for more complex apps you might have these separated out for different features/components).  In that styles.js file you would import styled at the top, and then define and export multiple styled components, using syntax shown below.  Each styled component corresponds to an html element type (div, h2, p, etc), and might be named something descriptive in upper camel case like MainHeading that would be used in place of h1 elements, or TextWrapper that might be used in place of some divs, or CardImage that might be used in place of some img tags.  Then in the file you want to use them, you would import them all from your styles.js file <code>import { MainHeading, TextWrapper, CardImage } from './styles.js</code>, and then you can use them like regular components in the JSX in that file.  They can accept the same attributes and innerHTML as the normal html-like elements they replace, e.g. in your JSX, you might have <code>&ltCardImage src={hotel.src} alt={hotel.alt} /></code> in place of a normal img element.
+                            </li>
+                            <ul>
+                                <li> Example styled div definitions in styles.js:
+                                    <pre><code>
+                                        export const ImageWrapper = styled.img`
+                                            object-fit: cover;
+                                            width: 100%;
+                                            height: 60%;
+                                            border-radius: 15px 15px 0 0;
+                                        `;
+                                            
+                                        export const TextWrapper = styled.div`
+                                            padding: 10px;
+                                            height: 50px;
+                                        `;
+                                    </code></pre>
+                                </li>
+                            </ul>
+                            <li><strong>Composition with Styled Components: </strong>You can create variants of a styled component as shown below with a main styled button component, and a variant primary and secondary button that has the same style as the button with additional declarations.  These would all be defined in your styled component file (e.g. styles.js).  As shown below, you may not need to export your main component (Button) if all you are using are the variants.  You can import the variants and use them in JSX just like you would with the main styled component.</li>
+                            <ul>
+                                <li>
+                                    <pre><code>
+                                        ...
+                                        const Button = styled.button`
+                                            ...
+                                        `;
+                                        
+                                        export const PrimaryButton = styled(Button)`
+                                            background-color: #03045e;
+                                            color: #caf0f8;
+                                        `;
+                                        
+                                        export const SecondaryButton = styled(Button)`
+                                            background-color: #caf0f8;
+                                            color: #03045e;
+                                        `;
+                                    </code></pre>
+                                </li>
+                            </ul>
+                            <li><strong>Theming with styled components: </strong>This is a technique to centralize definition of colors, fonts, font size, etc. in your styles.  In your file where you define your styled components (e.g. styles.js), at the top you can define a variable called theme set equal to an object as shown below, that defines your main colors, fonts, etc.  Then in your styled components, you can use function expressions to get values from the theme as needed.  The function expression takes a prop argument in and returns the value from the theme, as shown below.  Then, at the top level of your whole app, probably in your app.js or maybe index.js file, you will want to include <code>import { ThemeProvider } from '@emotion/react'</code> (perhaps you will also include 'css' in the import object if you are defining any css props in the jsx as described earlier) and also include an import of the theme object you made from the styles.js file (probably also along with the import of the styled components in that file).  Then you will want to wrap the entire returned jsx of the App component in a component called ThemeProvider and give it a prop called theme, set equal to the theme object you imported, as shown below.  This will provide all styled components in the app (all children of the ThemeProvider) the theme object, and they will correctly use it to access the various theme properties as needed.  It also allows you to write similar function expressions for any elements that you are using the css prop, as shown below.</li>
+                            <ul>
+                                <li> Example theme object and using it in a styled component in e.g. your styles.js file:
+                                    <pre><code>
+                                        import styled from "@emotion/styled";
+ 
+                                        export const theme = {
+                                            colors: {
+                                                primary: "#03045e",
+                                                secondary: "#caf0f8",
+                                                tertiary: "#023e8a",
+                                                quaternary: "#fff",
+                                            },
+                                            fonts: {
+                                                primary: "helvetica",
+                                            },
+                                            fontSize: {
+                                                primary: "20px",
+                                                secondary: "14px",
+                                            },
+                                        };
+                                        
+                                        export const CardWrapper = styled.div`
+                                            ...
+                                            background: ${(props) => props.theme.colors.quaternary};
+                                            ...
+                                        `;
+                                        ...
+                                    </code></pre>
+                                </li>
+                                <li> Example using the ThemeProvider in your App.js file to make theme object available to your styled components (which aren't shown explicitly in the example), and also using the theme object in a css prop.
+                                    <pre><code>
+                                        import { css, ThemeProvider } from "@emotion/react";
+                                        import logo from "./logo.png";
+                                        import {
+                                            theme, 
+                                            ...
+                                        } from "./styles"
+                                        
+                                        ...
+                                        function App() {
+                                            {/* Wrap the entire content in a &ltThemeProvider> */}
+                                            return &ltThemeProvider theme={theme}>
+                                                &ltmain
+                                                    css={(theme) => ({
+                                                    color: theme.colors.primary,
+                                                    background: theme.colors.secondary,
+                                                    height: "1200px",
+                                                    fontFamily: theme.fonts.primary,
+                                                    })}
+                                                >
+                                                    ... (various styled components like CardWrapper imported from ./styles)
+                                                &lt/main>
+                                            &lt/ThemeProvider>
+                                        }
+                                    </code></pre>
+                                </li>
+                            </ul>
+                            <li><strong>Animation: </strong>In your file with styled components (e.g. styles.js) you can include at the top <code>import { keyframes } from '@emotion/react'</code> (probably will be underneath your import of styled from @emotion/styled that allows creation of styled elements).  Then you can define a variable set equal to a special tagged template literal, with the tak keyfrmaes, and then in the literal define a keyframes css value, similar to how you would in normal js, with example shown below.  This variable might be defined below your theme object but above the styled component definitions.  You could use this in styled components in the file, to use as the keyframes definition in an animation declaration you might give to one of your styled components.  Additionally, you can import that keyframe template literal into the file where you are actually making the components, and the use it in the value of an animation declaration used in an emotion css prop (as shown earlier) of one of your jsx elements.   Examples below:</li>
+                            <ul>
+                                <li>Example of defining a keyframes variable in your styled components file (e.g. styles.js):
+                                    <pre><code>
+                                        ...
+                                        import styled from "@emotion/styled";
+                                        import { keyframes } from "@emotion/react";
+                                        
+                                        export const theme = {
+                                            ...
+                                        };
+                                        
+                                        export const LogoSpin = keyframes`
+                                            from {
+                                                transform: rotate(0deg);
+                                            }
+                                            to {
+                                                transform: rotate(360deg);
+                                            }
+                                        `;
+                                        ...
+                                    </code></pre>
+                                </li>
+                                <li>Example of importing and using a keyframes definition in a css prop:
+                                    <pre><code>
+                                        ...
+                                        import {
+                                            LogoSpin,
+                                            ...
+                                        } from "./styles";
+                                        
+                                        ...
+                                        &ltimg
+                                            src={logo}
+                                            alt=""
+                                            css={css`
+                                                ...
+                                                animation: ${LogoSpin} 10s linear infinite;
+                                            `}
+                                        />
+                                    </code></pre>
+                                </li>
+                            </ul>
+                        </ul>
+                        <li><strong>Styled Components Library: </strong> The styled components library needs to be installed in the root of your project with <code>npm install styled-components</code>. Then, in the js file of the component you want to make styles for, include <code>import styled from 'styled-components';</code> The basic usage is at the top of your Component file before the component definition, you define const variables for each of the html elements you want to render in the component. (However, you can also define the styled components in a separate file and import them into other components where needed). The variables are generally named for the element type in UpperCamelCase and are set equal to <code>styled.elementType`...`</code>, with css or Sass-like syntax between the backticks (which can also be left empty if no styles are needed).  e.g. <code>const Button = styled.button`color: red;`;</code> The styled object comes with a method for each HTML tag and you feed it styles between the backticks, and it actually returns a regular react component saved to your variable name that acts just like the regular html element but is styled.  Now, in your jsx, instead of regular html tags, you use the names of the variables to render a styled version of the tag.  You can also reference a styled element variable that was defined previously in the code with injection, use a psuedo selector with it, and then define styles for the current element with &.  E.g when you hover over a previously defined MyButton element, maybe you want the input to change color.  This would look like <code>${MyButton}:hover & {background-color: red;}</code>.  Also, you can extend the styles of a previously defined styled component, e.g. say you defined <code>const Button = style.button`...`;</code>, well you can create <code>const GreenButton = styled(Button)`...`;</code> to use the Button styles and add any additional styles on top of that.  Also, you can reference props passed to the component in the style definition, e.g <code>color: ${props => (props.primary ? 'violet' : 'palevioletred')};</code>.  Here is an example of a styled component, which you would use in your JSX by including e.g. <code>&ltInput type="text" placeholder="Search" /></code>:
                         <code><pre>
                             const Input = styled.input`
                                 font-size: 16px;
