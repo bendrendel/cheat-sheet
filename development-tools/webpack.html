@@ -21,31 +21,50 @@
     <h2>Webpack Config</h2>
     <h3>Description</h3>
     <p>
-      Add a file to the project's root directory called
+      You don't have to use a config file, but you'll probably want to.  Without one,
+      webpack will assume the entry point is src/index.js and the output will go to
+      dist/main.js (bundled into a single file called main.js).  However you can configure 
+      webpack by adding a file to the project's root directory called
       <code>webpack.config.js</code> to add configurations for webpack.
     </p>
     <p>
       The file should contain an exported object with the configuration
-      settings, such as:
+      settings.  Below is a complex example, but a simpler example would be a file that 
+      simply contains <code>module.exports = { ... }</code> where the exported object 
+      contains various configuration property/values.
     </p>
     <ul>
       <li>
-        entry property with the relative path to the file to process/bundle,
-        which is the entry point to the app
+        entry property with the relative path (relative to the config file) 
+        to the file to process/bundle,
+        which is the entry point to the app.  Webpack requires what's called an entry
+        point, which is the main file to bundle.  The default entry point is 
+        index.js in a 'src' directory and is what will be used if there is no 
+        config file or no entry property in the config object.  So, if you want to go with the default
+        set up, you will want to have an index.js file in a src directory.  It is
+        not uncommon to use a different entry point like say ./application/home.js
       </li>
       <li>
         output property should be an object with a filename and path property,
         controlling output when webpack is run, default filename is main.js,
-        default path is dist created in the project's root directory.path must
+        default path is dist created in the project's root directory. path must
         be an absolute path, thus you'll need to use the path node core module
-        which generates the absolute path of the project. e.g.
-        path.resolve(__dirname, app) will save the file named filename to
-        ./app/filename.  This is why path is required in at the beginning of the file.
-        When using the devServer, this file doesn't actually get created, it is just
+        which can get the full path of the project's root folder.  In the path property 
+        of the output property, you would then put <code>path.resolve(__dirname, app)</code>
+        to save the output file to ./app/ where ./ is from the root of the project where the config
+        file is.  If the filename property was 'myoutput.js', then the output would be saved to
+        ./app/myoutput.js.  This is why the path module is usually required in at the top 
+        of webpack config files. When using the devServer, this file doesn't actually get created, it is just
         created virtually and served.  
       </li>
       <li>mode property webpack will use (development, production)</li>
       <li>
+        Without a config file, you will keep getting errors that the mode 
+        is not set and production will be the default mode used.  
+        You can should set the mode in the config file, either to development or
+        production.  Development bundles code that is still fairly readable and contains
+        lots of comments explaining what's happening in the file, whereas production 
+        produces bundled code that is fairly non readable and has no comments, but is more compact.  
         if not using the devServer, you can add a watch property, with a value of
         true.  Then when you run the webpack command (through a
         package.json script) it will stay running, and rebundle with every
@@ -237,9 +256,21 @@
 
     <h2>Running Webpack</h2>
     <p>
-      In your package.json file, add a script to run the 'webpack' command such
-      as
-      <code>"dev": "webpack"</code>
+      In your package.json file, you'll usually want to define a script to run
+      webpack.  Often you put it under the build command, so running npm run build
+      will always run your build command, and in this case will be running webpack,
+      but if you were using an alternative bundler, then you could have the build
+      command run that instead, and it is helpful that npm run build always builds 
+      the app regardless of the specific build tool being used.  However, you
+      don't have to use build and could use any word or phrase you want, sometimes 
+      people use 'dev' instead of 'build.  Additionally, for webpack you 
+      can add the watch option to automatically look for updates to the source code 
+      and rebuild if there are changes.  THe script in package.json would look like:
+      <code><pre>
+        "scripts": {
+          "build": "webpack --watch",
+        },
+      </pre></code>
     </p>
     <p>
       run the script that runs webpack with e.g. npm run build to bundle the
@@ -277,7 +308,10 @@
     </ul>
     <h3>Build output</h3>
     <ul>
-      <li>Build files should be output to a dist (distribution) folder</li>
+      <li>Generally the built files should be output to a dist (distribution) folder. 
+        By default webpack will output a single built file to dist/main.js, which will 
+        be minified, have all the modules bundled into one file, etc.
+      </li>
       <li>It will output your bundled js, with separate js for anything that is 
         code-split (i.e imported using import function upon some action), and
         package js if you use the optimization property in your webpack config file.
