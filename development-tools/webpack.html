@@ -88,23 +88,132 @@
         module property can take an object with a rules property set to an
         array, this array can hold objects that each define how webpack should
         handle different filetypes. the objects have a test property set to a
-        regex that matches the filetypes to handle, and a use property that is
-        set to an array of package names that should handle that filetype. the
-        example below has rules for using style-loader and css-loader, and also
-        a more complex one for using postCSS-loader.  However, these css rules are
-        put into their own variable outside the config object so that it can
-        be easily altered for build vs development.  They both use css-loader and
-        postcss-loader, thus that's part of the variable initialization.  But
-        dev uses style-loader to simply bundle all the css into bundled.js, while
-        build uses the MiniCSSExtractPlugin to save the css in its own file for
-        distribution.  This is accomplished by using the unshift method on the use
-        array within dev and build.  MiniCSSExtractPlugin is required in at top and
-        also added to the plugins array for the build process.
+        regex that matches the filetypes to handle, and a type or use property to tell
+        webpack what to do with those files.  Essentially it allows you to use ES6 import style 
+        commands in your js entry file (or other js modules), to import files of that type, 
+        and webpack will use the module property to figure out how to bundle them into your 
+        output file.
+        <ul>
+          <li>
+            Plain Text: The type property is simpler, and can be used for so called assets e.g. a plain .txt file.  For instance,
+            You could have a plain .txt file with some descriptive text in it or a blog article in your 
+            src folder called descriptiveText.txt.  You could import that text file into your entry js file 
+            in your src folder (index.js say), by including 
+            <code>import myText from './descriptiveText.txt</code> at the top of the js file.  
+            Then you would have a variable named myText in your index.js and you could, for instance 
+            set the innerHTML of a div equal to that variable to output the text contents into the rendered html.  
+            Now, when bundling with webpack, webpack will see that .txt is being imported into your entry file, 
+            and the module property will tell webpack what to do with that file.  For the text file, you want 
+            basically no processing, and you want webpack to just grab the text in the file and copy it into 
+            the bundled output file so it is there in the bundled file for use in the bundled javascript. 
+            In this case, you would want your module property to look like:
+            <pre><code>
+              module: {
+                rules: [
+                  {
+                    test: /\.txt$/i,
+                    type: 'asset/source'
+                  }
+                ]
+              }
+            </code></pre>
+          </li>
+          <li>
+            Images: As of Webpack 5, images no longer require a loader and can be included using Webpack's 
+            asset system like a .txt file as shown above.  So, this would allow you to have an image, 
+            say myImage.png in your src folder, and you could import this image into your entry point js file,
+            say index.js, by including <code>import imageFile from './myImage.png';</code> at the top 
+            of the file, and then you could use this image for example, to get an image element document reference 
+            in your js file, and set the src attribute for that element directly equal to the image variable of your 
+            import, i.e. <code>imgElem.src = imageFile</code>. For images the type is asset/resource instead of 
+            asset/source because resource creates a file in the build for the image and imports it into the code 
+            using a URL.  For your test regex, you could just look for .png files or .jpeg files or you could look for 
+            multiple image file extensions at once as shown below:
+            <pre><code>
+              module: {
+                rules: [
+                  {
+                    test: /\.(png|svg|jpg|jpeg|gif)$/i,
+                    type: 'asset/resource'
+                  }
+                ]
+              }
+            </code></pre>
+          </li>
+          <li>
+            Fonts: Again as of Webpack 5, fonts similar to images no longer require a loader.  They are added 
+            as a asset/resource, and you can test for one or multiple font file types similar to images.  Fonts however 
+            are not usually imported into your index.js entry file (or any other js module file in your project), rather
+            they are usually imported into a .css file, perhaps your styles.css file in your src folder, or another css file 
+            maybe in a subdirectory of the src folder.  To use it in your css file, you would use the standard syntax and include
+            something similar to the following in your css file: 
+            <code><pre>
+              @font-face {
+                font-family: 'Roboto-Black';
+                src: url('./Roboto-Black.ttf');
+              }
+              
+              h1 {
+                font-family: 'Roboto-Black';
+              }
+            </pre></code>
+            Now, in your config file, you would include something like below, and the font would get included in your build:
+            <code><pre>
+              module: {
+                rules: [
+                  {
+                    test: /\.(woff|woff2|eot|ttf|otf)$/i,
+                    type: 'asset/resource'
+                  }
+                ]
+              }
+            </pre></code>
+          </li>
+          <li>
+            CSS: The use property can be used instead of the type property for more complex file 
+            types that require something called a loader instead of a simple type declaration.
+            These files may require one or multiple loaders to be bundled correctly into the output 
+            file.    The use property is set to an array of package names that should handle 
+            that filetype.  CSS for example requires two loaders, css-loader takes the css out of 
+            a css file and adds it to the js code, and style-loader takes the output of css-loader
+            and adds it to a style tag in the html document.  The use property takes an array, and applies
+            the loaders in reverse order that they are listed in the array.  For css, css-loader runs 
+            first, then style-loader, so style-loader comes first in the array.  To use these loaders,
+            you first have to install the npm packages for them in the root directory by running 
+            <code>npm install style-loader css-loader --save-dev</code>.  Then you can have a .css file 
+            in your src folder, say myStyles.css and import it into your entry js file by putting 
+            <code>import './myStyles.css</code> at the top.  The config file module property would then 
+            include the following, and when you run the build command, the css will get applied to your
+            index.html.
+            <pre><code>
+              module: {
+                rules: [
+                  {
+                    test: /\.css$/i,
+                    use: ['style-loader', 'css-loader']
+                  }
+                ]
+              }
+            </code></pre>
+          </li>
+          <li>
+            The example below has rules for using style-loader and css-loader, 
+            and also a more complex one for using postCSS-loader.  However, these css rules are
+            put into their own variable outside the config object so that it can
+            be easily altered for build vs development.  They both use css-loader and
+            postcss-loader, thus that's part of the variable initialization.  But
+            dev uses style-loader to simply bundle all the css into bundled.js, while
+            build uses the MiniCSSExtractPlugin to save the css in its own file for
+            distribution.  This is accomplished by using the unshift method on the use
+            array within dev and build.  MiniCSSExtractPlugin is required in at top and
+            also added to the plugins array for the build process.
 
-        Finally, there is also the babel loader rule that is added to the modules
-        property for the build process only.  This use of babel will make the js
-        code added to your dist folder backwards-compatible with older web
-        browsers.
+            Finally, there is also the babel loader rule that is added to the modules
+            property for the build process only.  This use of babel will make the js
+            code added to your dist folder backwards-compatible with older web
+            browsers.
+          </li>
+        </ul>
       </li>
       <li>
         optimization property, takes an object, can have splitChunks property
@@ -265,7 +374,7 @@
       don't have to use build and could use any word or phrase you want, sometimes 
       people use 'dev' instead of 'build.  Additionally, for webpack you 
       can add the watch option to automatically look for updates to the source code 
-      and rebuild if there are changes.  THe script in package.json would look like:
+      and rebuild if there are changes.  Notice if you do this, then when you run the build command, it becomes a continuously running process in your terminal, looking for updates and rebuilding (replacing the output files) with every update.  This may or may not be what you want, without the watch option, it just runs once and is done.  However, the watch option is a good workflow option for use with the dev server (more details in the dev server section).  The script in package.json would look like:
       <code><pre>
         "scripts": {
           "build": "webpack --watch",
@@ -275,23 +384,22 @@
     <p>
       run the script that runs webpack with e.g. npm run build to bundle the
       file in the entry property of the webpack config file to the output
-      property of the config file. run it whenever to rebundle any changes to
-      the entry file
+      property of the config file. run it whenever you want to rebundle any changes to
+      the entry file (unless you are using watch will constantly do this)
     </p>
-    <p>The output file can be linked to the index.html through a script tag, but
+    <p>The output file can be linked to the index.html through a script tag. Your index.html 
+      can be served and the javascript output file will link in seamlessly if you are serving 
+      index.html with the devSever or serving index.html in production.  However
       this should be omitted if using the HtmlWebpackPlugin, which handles linking for
       you both on the devServer and for the build process.
-    </p>
-    <p>If you are using the webpack dev server package, then instead of
-      the webpack command, use webpack server, i.e. <code>"dev": "webpack serve"</code>
     </p>
 
     <h2>Build Process</h2>
     <p>Often, you'll use the dev server (below) for doing development, and include
-      a script in package.json called dev that runs webpack serve.  Webpack serve will
-      bundle your app.js entry file but it will only bundle it to temporary memory, instead
-      of outputting it to a file.  This can be accessed in your browser at the correct
-      local host port.
+      a script in package.json that runs webpack serve called start or dev or something like that.  There are different ways to configure dev server, described in the dev server section.  You may have the build process running continuously with the watch option, and then linking the 
+      output file into your index.html and serving index.html with your dev server.  Or, you 
+      may have webpack serve bundle your app.js entry file itself (instead of separately relying on
+      a continuously running build --watch comand) but it will only bundle it to temporary memory, instead of outputting it to a file.
     </p>
     <p>The build process is what actually creates files that can be consumed by a client.</p>
     <ul>
@@ -316,7 +424,7 @@
         code-split (i.e imported using import function upon some action), and
         package js if you use the optimization property in your webpack config file.
       </li>
-      <li>should install a package <code>npm install clean-webpack-plugin -D</code>
+      <li>Can install a package <code>npm install clean-webpack-plugin -D</code>
         and add to the config file, by requiring it in at top, and then adding
         it to the plugins property for the build config only.  Once you do this,
         every time you run the build script, all files in the dist folder will be
@@ -332,7 +440,7 @@
         bundle the css in with bundled.js for simplicity, but for build you want the css
         to be in its own file.  This is accomplished with the MiniCSSExtractPlugin.
       </li>
-      <li>Use the HTML Webpack Plugin to handle linking the html file to the css
+      <li>Can use the HTML Webpack Plugin to handle linking the html file to the css
         file and the js files.  Since you are including the chunk hash on the file names,
         you will not be able to include links to the css file that is output or the js
         files that are output in your main index.html file in the app folder, because
@@ -349,15 +457,26 @@
     </ul>
 
     <h2>Webpack Dev Server</h2>
+    <p>Webpack can create a local server for development purposes, there are multiple 
+      ways to configure it.
+    </p>
     <p>
-      Install in root of project with
+      First, you will need to install it in the root of your project with
       <code>npm install webpack-dev-server --save-dev</code>
     </p>
-    <p>In package.json set your webpack script to run 'webpack serve' instead
-      of webpack (see details above in running webpack)
+    <p>Then, in package.json, you'll probably want to add a script to run the 
+      dev server.  You will probably already have a script to build like 
+      <code>"build": "webpack --watch"</code>.  You can add a second script for the 
+      webpack serve command which will start the dev server, a good option is to add 
+      <code>"start": "webpack serve"</code>.  You could also replace your build command 
+      to run 'webpack serve' instead of webpack (more details above in running webpack).
     </p>
-    <p>In your entry js file, add the following logic that will allow the js
-      to accept hot updates from the dev server:
+    <p>If you are using the watch option with your build command, then one good workflow 
+      option is to use the build process and serve process together.  By default, the serve process
+      will be looking for an index.html file in your root directory to serve.  To make this work, you need to add a script tag to your index.html that links to the build output file, e.g.
+      <code>&ltscript src="./dist/main.js">&lt/script></code>.  You don't want to link your index.html to the source code entry point file.  Once you've done this, now run <code>npm run build</code> in one terminal to start the continually running build process which will produce the output file (main.js) continuously as changes are made.  Then in a second terminal, you can run <code>npm run start</code> to start your development server, which will serve your index.html file, which will also be a continually running process and respond to the updates made as main.js is updated by the build process.
+    </p>
+    <p>As an alternative to the workflow above, you can configure the dev server in a different way.  In your entry js file, add the following logic that will allow the js to accept hot updates from the dev server:
     </p>
     <pre><code>
       if (module.hot) {
@@ -365,8 +484,11 @@
       }
     </code></pre>
     <p>
-      Add a property to the webpack config file (see example above) called
-      devServer, which is set to an object with the following properties.
+      With this workflow, you'll also need to add a property to the webpack 
+      config file (included in the example above) called devServer, which is set to an 
+      object with the following properties.  For the build/start joint processes workflow described
+      earlier you don't need to add this to the config file, though some options might be relevant 
+      if you need them like contentBase to change where your index.html is if needed.
     </p>
     <ul>
       <li>before is set to an anonymous function that will make the devServer
