@@ -23,9 +23,11 @@
     <p>
       You don't have to use a config file, but you'll probably want to.  Without one,
       webpack will assume the entry point is src/index.js and the output will go to
-      dist/main.js (bundled into a single file called main.js).  However you can configure 
+      dist/main.js (bundled into a single file called main.js). So you will need to have 
+      a src/index.js file for webpack to work in this case. However, you can configure 
       webpack by adding a file to the project's root directory called
-      <code>webpack.config.js</code> to add configurations for webpack.
+      <code>webpack.config.js</code> to add configurations for webpack such as different 
+      entry and output points.
     </p>
     <p>
       The file should contain an exported object with the configuration
@@ -92,7 +94,8 @@
         webpack what to do with those files.  Essentially it allows you to use ES6 import style 
         commands in your js entry file (or other js modules), to import files of that type, 
         and webpack will use the module property to figure out how to bundle them into your 
-        output file.
+        output file. You may only need one file type rule, or you may have many - one for images, one 
+        for css, one for fonts, etc, all in the rules array.
         <ul>
           <li>
             Plain Text: The type property is simpler, and can be used for so called assets e.g. a plain .txt file.  For instance,
@@ -182,7 +185,12 @@
             you first have to install the npm packages for them in the root directory by running 
             <code>npm install style-loader css-loader --save-dev</code>.  Then you can have a .css file 
             in your src folder, say myStyles.css and import it into your entry js file by putting 
-            <code>import './myStyles.css</code> at the top.  The config file module property would then 
+            <code>import './myStyles.css'</code> at the top.  Typically with webpack, you don't want to use 
+            the link tag in your html document head like you normally would to import a css stylesheet into 
+            your html.  So, your index.html for example would not have a link element to its css.  Instead,
+            you want to import the css into your javascript like the example above, and webpack will take care 
+            of bundling the css in your build and the css styles will be applied and work like normal.  
+            The config file module property would then 
             include the following, and when you run the build command, the css will get applied to your
             index.html.
             <pre><code>
@@ -389,8 +397,19 @@
     </p>
     <p>The output file can be linked to the index.html through a script tag. Your index.html 
       can be served and the javascript output file will link in seamlessly if you are serving 
-      index.html with the devSever or serving index.html in production.  However
-      this should be omitted if using the HtmlWebpackPlugin, which handles linking for
+      index.html with the devSever or serving index.html in production.  Typically, you don't want 
+      to link any of your source javascript files to your html through a script tag.  Instead, you 
+      just want to include one link element that links to the output file of the build process.  The build 
+      process starts with your entry point file, and will pull in all other js files that are imported 
+      into your entry point file (or imported further down the chain of files).  So webpack really enables 
+      the import/export syntax, and what that syntax is really doing is just providing guideposts for webpack 
+      when it bundles all your files into one output file that can go to the client.  Otherwise you have to import 
+      each js file in its own script element in your html, so this replaces that mess and simply requires one 
+      link in the html, to the output file.   You html (e.g index.html) 
+      will link to that output file only, and even if you have lots of files/modules in your source code, all 
+      of that code will be neatly bundled into the output file, so it has all the logic it needs contained in it and
+      can be link to say index.html to give index.html all of the functionality originall specified in the source code. 
+      However the link to the output file should be omitted if using the HtmlWebpackPlugin, which handles linking for
       you both on the devServer and for the build process.
     </p>
 
@@ -468,7 +487,9 @@
       dev server.  You will probably already have a script to build like 
       <code>"build": "webpack --watch"</code>.  You can add a second script for the 
       webpack serve command which will start the dev server, a good option is to add 
-      <code>"start": "webpack serve"</code>.  You could also replace your build command 
+      <code>"start": "webpack serve"</code>.  You could also include the --open option as in
+      webpack serve --open, to have your browser open automatically to the local hosted site 
+      when you run the command.  You could also replace your build command 
       to run 'webpack serve' instead of webpack (more details above in running webpack).
     </p>
     <p>If you are using the watch option with your build command, then one good workflow 
