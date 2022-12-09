@@ -494,8 +494,24 @@
     </p>
     <p>If you are using the watch option with your build command, then one good workflow 
       option is to use the build process and serve process together.  By default, the serve process
-      will be looking for an index.html file in your root directory to serve.  To make this work, you need to add a script tag to your index.html that links to the build output file, e.g.
-      <code>&ltscript src="./dist/main.js">&lt/script></code>.  You don't want to link your index.html to the source code entry point file.  Once you've done this, now run <code>npm run build</code> in one terminal to start the continually running build process which will produce the output file (main.js) continuously as changes are made.  Then in a second terminal, you can run <code>npm run start</code> to start your development server, which will serve your index.html file, which will also be a continually running process and respond to the updates made as main.js is updated by the build process.
+      will be looking for an index.html file in your root directory to serve.  To make this work, you'll
+      need to add a script tag to your index.html that links to the build output file, e.g.
+      <code>&ltscript src="./dist/main.js">&lt/script></code>.  You don't want to link your index.html to the source code entry point file.  
+      You could also consider moving your index.html into your dist directory next to your output file.
+      If you do this, just make sure to update the script tag to have src="./main.js".  Regardless, you'll then need to add the following property to your 
+      config file.  The static property should be set equal to the directory where index.html lives.  So if it is in the root of the project, you would use 
+      './' but if it was in the dist folder you would use './dist'.  This tells the dev server which folder it should serve up, and if there is a file named 
+      index.html in that folder then it is going to be sent to the client and displayed just like any web project.
+      <code><pre>
+      module.exports = {
+        devServer: {
+          static: './',
+        },        
+      }
+      </pre></code>
+      Once you've done this, now run <code>npm run build</code> in one terminal to start the continually running build process which will produce the output
+      file (main.js) continuously as changes are made.  Then in a second terminal, you can run <code>npm run start</code> to start your development server, 
+      which will serve your index.html file, which will also be a continually running process and respond to the updates made as main.js is updated by the build process.
     </p>
     <p>As an alternative to the workflow above, you can configure the dev server in a different way.  In your entry js file, add the following logic that will allow the js to accept hot updates from the dev server:
     </p>
