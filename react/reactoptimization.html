@@ -11,6 +11,30 @@
 
     <h1>React Optimization</h1>
 
+    <h2>Basics</h2>
+    <ul>
+        <li>Load times are a critical part of user experience and for major websites, small decreases in load time can make a signficant impact on users staying on the site/user conversion and revenue</li>
+        <li>Load time isn't really just a single number - there is an API called DOMContentLoaded that tells you when everything is loaded, but there are benchmarks up until that point that matter.  E.g. you can break it down by "first paint" (time until anything appears so users know it's actually working), "first meaningful paint" (time until meaningful content appears so users can determine if the page is useful to them), "above the fold load time", "time to interactive" (everything is available and running smoothly), or custom benchmarks depending on the site and what content and interactions you know is going to impact user experience as it loads.  All these benchmarks can impact user conversion.  Also, you have to consider high speed wired internet users vs mobile users, slow wifi, faster vs slower CPUs, user caching settings and availability.  </li>
+        <li><strong>Performance Budgets</strong> are a definition of maximum desired load times for different stages of the load perhaps in different conditions (e.g. first contentful paint on slow 3G - 5 seconds, time to interactive on wifi - 2 seconds, etc).  It can also include things like a minimum lighthouse score (80 is common) and maximum file sizes for javascript (170 kb is common for critical path resources), max size of images (2MB total on one page for desktop), maximum number of http requests sent, etc.  The Budget can then be checked regularly as part of continuous integration/deployment. Generally you want to hit performance budgets for real world mid-level devices on 3G, and likely every other scenario will also hit the budget.</li>
+    </ul>
+
+    <h2>Tools</h2>
+    <ul>
+        <li><a href="https://developer.chrome.com/docs/lighthouse/overview/">Lighthouse</a> runs a series of audits on a page accessible within chrome devtools</li>
+        <li><a href="https://developer.chrome.com/docs/crux/">CrUX</a> shows metrics on how real world chrome users are experiencing the page</li>
+        <li><a href="https://pagespeed.web.dev/">PageSpeed Insight</a> bundling of information based on lighthouse and CrUX</li>
+        <li><strong>Chrome Devtools</strong> also has runtime profiling and helps in debugging performance issues, such as throttling your CPU to simulate a less powerful device, throttling the network to simulate slow connections, view main thread activity to watch what is being processed while you record, analyze frames per second, use the performance monitor to examine CPU usage/heap size/more, watch network requests, capture screenshots to see what the screen looks like when loaded/when an animation fires/etc, watch user interactions like clicks, find scroll performance issues by highlighting troublesome sections, view paint events in real time to identify costly ones.</li>
+    </ul>
+
+    <h2>RAIL</h2>
+    <p>This is a simple framework for thinking about performance budgets</p>
+    <ul>
+        <li><strong>Response</strong> Responding to user inputs like button clicks, toggling checkboxes, etc should happen within 100ms or else the response will not feel immediate and seem broken.  In reality the budget should be 50ms in case there are tasks ahead of it in the event queue, so that the response can be queued for up to 50ms and then take up to 50ms to process.</li>
+        <li><strong>Animation</strong> This includes UI effects, loading indicators, scrolling, panning, zooming, etc. needs to happen at 60 frames per second, or 16ms per frame.  In reality, browsers take about 6ms to paint a new frame on the screen, so your budget is about 10ms to produce each new frame of animation.</li>
+        <li><strong>Idle</strong> This refers to time available for deferred work, when you load as little as possible initially (e.g. only above-the-fold content) and then load the rest later, like larger images, or additional bundles. These tasks should be done in less than 50ms so that they don't clog up the queue and risk making a user response taking more than 100ms.</li>
+        <li><strong>Load</strong> Deliver content and become in interactive in less than 5s - this would be for the worst case situation like slow 3G on mobile.  </li>
+    </ul>
+
     <h2>Production vs Development Build</h2>
     <p>When examining performance issues, you want to examine the production build because that's what you should be publishing to the world, and the develpment build is not the same.  Dev builds will have slower performance because they include warnings and extra stuff that you want to have during the dev process.  Dev builds will compile faster too because they do not go through all the same minification etc steps that you want for production, which is nice in the development process where you want to quickly see changes.</p>
     <ul>
