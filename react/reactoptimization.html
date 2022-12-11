@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React Optimization</title>
+</head>
+<body>
+    <a href="../index.html">Home</a>
+
+    <h1>React Optimization</h1>
+
+    <h2>Production vs Development Build</h2>
+    <p>When examining performance issues, you want to examine the production build because that's what you should be publishing to the world, and the develpment build is not the same.  Dev builds will have slower performance because they include warnings and extra stuff that you want to have during the dev process.  Dev builds will compile faster too because they do not go through all the same minification etc steps that you want for production, which is nice in the development process where you want to quickly see changes.</p>
+    <ul>
+        <li>React Dev Tools in Chrome quickly shows if you are looking at a production or dev build of a react site.  You can click on the button, or quickly see if the button is black it is a production build and if it is orange it is development.</li>
+        <li>To create a production build, if you used create-react-app then all you need to do is run <code>npm run build</code> and it will create a production build of your app in the build/ folder of your project.  This is only necessary to create a production build...for normal development purposes you want to run <code>npm start</code> for the dev server.</li>
+        <li>To create a production build if you did not use create-react-app (e.g. you configured webpack directly), then the steps will vary depending on what you are using.  There are instructions in the <a href="https://reactjs.org/docs/optimizing-performance.html">React Docs</a>.</li>
+    </ul>
+
+    <h2>React Profiler</h2>
+    <p>React DevTools has a Profiler that can be used in development mode (a separate package is needed to use it with a production build).</p>
+    <ul>
+        <li>To get started, open up the Profiler tab in dev tools, click the record button, navigate around your app, and then click stop</li>
+        <li>In the top right you'll see a histogram-style graph.  There will be one bar per commit made while you were recording, in the order the occured.  The height of each bar corresponds to how long the commit took.  Conceptually React works in two phases: first the render phase where the a new virtual dom is made and diffed with the previous virtual dom; and second the commit phase, where React actually updates/inserts/deletes nodes in the brower's dom (and also runs lifecycle methods like component did mount or component did update.)</li>
+        <li>When you select one of the commits, you'll get a bunch of bars representing components that were rendered in the commit.  The width of the bars represents the time required to render to the component in the previous commit.  The color of the bar and time in parentheses represents the time required to render the component in the current commit. The flamegraph option shows thes bars in the nested parent child component relationships of how they are rendered.  Whereas the ranked option will show you all the components ordered from slowest loading to fastest.  If you click on one of the components it zooms to that parent and its children.  Generally you are looking for what took the longest so you can try to speed that part up.</li>
+        <li>There is an option in the settings menu to record 'why each update happened', this will give you info like the props changed or a useEffect hook ran, etc.</li>
+    </ul>
+
+    <h2>Windowing</h2>
+    <p>If you are rendering long lists of data (hundreds or thousands of rows) you can use a technique called windowing that will only render a subset of the data at a given time, reducing load times and the number of DOM nodes created.  There are libraries designed to do this such as react-window and react-virtualized</p>
+
+    <h2>Avoiding Unnecessary Reconciliations</h2>
+    <ul>
+        <li>When a re-render occurs, React will go through the tree of components from parent to child, and rerender each component in the virtual dom.  It will compare the rerendered component with the previously rendered component and if they are not equal, it will then update the browser's dom with the changes.  Generally this saves time because updating the browser's dom is generally slower than the javascript operations involved with the virtual dom, so for a little invesment in javascript you may avoid a lot of unnecessary, time-consuming browser dom updates.</li>
+        <li>Rerending components in the virtual dom take time nonetheless, and if you know in advance that a component did not change and should not even be tested in the virtual dom to check for updates, then it is helpful to stop the virtual dom rerendering in its tracks and save the time.  To do this, you can call the shouldComponentUpdate lifecycle method and have it return false.  This method will run immediately before the virtual dom attempts to rerender the component.  By default the method returns true signalling React to proceed with the virtual dom rerender.  However, you manually have it return false, and this will stop React from rerendering in the virtual dom and thus also avoid the need to compare two virtual dom renders to determine if a browser update is needed.  This also stops react from rerendering any of the child components in the virtual dom, so the time-savings can multiply when a component has children.</li>
+        <li>An example of a component using shouldComponentUpdate to instruct React to only bother with a rerender in the virtual dom when either the prop or staten of the component changes.  Thus if a parent component rerenders, React will get to this component and run shouldComponentUpdate before it tries to rerender this component in the virutal dom to check for changes.  shouldCompnentUpdate will only return true if the prop or state changed, and otherwise return false and thus prevent the rerendering of this component and save a little time.
+            <pre><code>
+                class CounterButton extends React.Component {
+                    constructor(props) {
+                        super(props);
+                        this.state = {count: 1};
+                    }
+
+                    shouldComponentUpdate(nextProps, nextState) {
+                        if (this.props.color !== nextProps.color) {
+                            return true;
+                        }
+                        if (this.state.count !== nextState.count) {
+                            return true;
+                        }
+                        return false;
+                    }
+
+                    render() {
+                        return (
+                            &ltbutton
+                                color={this.props.color}
+                                onClick={() => this.setState(state => ({count: state.count + 1}))}>
+                                Count: {this.state.count}
+                            &lt/button>
+                        );
+                    }
+                }
+            </code></pre>
+        </li>
+        <li>A common scenario is that you only want to rerender if any of the props or state properties of the component change.  You could do a shallow comparison of every prop and state property to make this determination in shouldComponentUpdate.  However, it is common enough that react provides React.PureComponent to achieve this built-in.  Simply use React.PureComponent in place of React.Component as the super class you are extending to define your component.  If you do this, you do not need to include a shouldComponentUpdate lifecycle method of your own.  PureComponent will already have this build in, and will do a shallow compatison of every prop and state property and if there are any changes it will proceed with a rerender (return true from shouldComponentUpdate) and otherwise will stop a rerender (return false).  So, if the example above was written as a PureComponent, you could completely eliminate the shouldComponentUpdate method and the same effect would be achieved, and even automatically keep working with more properties of props and state if you were to add more.</li>
+        <li>Watch out for props and state that are more complex data structures.  PureComponent does a shallow comparison, so if you change the value of a property in an object or value of an element in an array, PureComponent will thik the old and new props or state are equal to each other.  Same goes for any use of shouldComponentUpdate like in the example above.  The problem is when you mutate a state variable or prop that is an object or array or other complex data structure.  This will change the value of the e.g. array in memory, but old and new variables will still point to that same memory location and thus comparisons of old and new will be equal.  This can cause shouldComponentUpdate to erroneously return false thinking no change occurred because both the old and new value of state or props point to the same memory location (that memory location has been mutated to the new value).  To avoid this type of bug, always try to change state and props in a non-mutative way.  e.g.
+            <code><pre>
+                handleClick() {
+                    this.setState(state => ({
+                        words: [...state.words, 'marklar'],
+                    }));
+                };
+            </pre></code> 
+        is good because it never changes the old state variable, it creates a new location in memory for the new value of state and returns it to update state to point to that new location in memory, leaving the old one untouched and available for accurate comparisons between old and new.  Same goes for an object, where you can use ... notation to return all key/value pairs of an object into a new object, and then add a new property at the end as needed or to update a property, like 
+        <pre><code>
+            function updateColorMap(colormap) {
+                return {...colormap, right: 'blue'};
+            }
+        </code></pre>
+        </li>
+    </ul>
+</body>
+</html>
